@@ -9,5 +9,6 @@ public class StudentController : ControllerBase
     public StudentController()
     {
         Console.WriteLine("test1");
+        Console.WriteLine("test");
     }
 }
