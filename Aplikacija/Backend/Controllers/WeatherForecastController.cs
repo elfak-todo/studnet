@@ -8,6 +8,6 @@ public class StudentController : ControllerBase
 {
     public StudentController()
     {
-
+        Console.WriteLine("test");
     }
 }
