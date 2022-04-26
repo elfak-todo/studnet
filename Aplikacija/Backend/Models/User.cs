@@ -3,7 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Backend.Models
 {
-    public enum Roles{
+    public enum Roles
+    {
         Student = 0,
         ParlamentMember = 1,
         AdminUni = 2,
