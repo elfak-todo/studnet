@@ -12,3 +12,4 @@ public class StudentController : ControllerBase
         Console.WriteLine("test");
     }
 }
+
