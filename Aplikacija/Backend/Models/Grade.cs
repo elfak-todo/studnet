@@ -1,13 +1,15 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Backend.Models{
+namespace Backend.Models
+{
     [Table("Grade")]
-    public class Grade{
+    public class Grade
+    {
         [Key]
         public int ID { get; set; }
         [Required]
-        [Range(1,5)]
+        [Range(1, 5)]
         public int Value { get; set; }
 
         //Relations

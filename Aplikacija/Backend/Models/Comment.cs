@@ -1,9 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Backend.Models{
+namespace Backend.Models
+{
     [Table("Comment")]
-    public class Comment{
+    public class Comment
+    {
         [Key]
         public int ID { get; set; }
         [Required]
