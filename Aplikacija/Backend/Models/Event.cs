@@ -13,11 +13,17 @@ namespace Backend.Models{
         public string? Description { get; set; }
         [Required]
         public DateTime DateTime { get; set; }
-        //LOKACIJA FALI
-        public string? ImageURL { get; set; }
-        
+        [Required]
+        [MaxLength(128)]
+        public string? Location { get; set; }
+        [Required]
+        public string? ImagePath { get; set; }
+
         //Relations
+        [Required]
+        public User? Author { get; set; }
         public List<Comment>? Comments { get; set; }
+        public List<User>? LikedBy { get; set; }
 
 
     }

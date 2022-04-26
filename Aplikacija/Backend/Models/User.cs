@@ -33,11 +33,18 @@ namespace Backend.Models
         public string? LastName { get; set; }
         [Required]
         public Roles Role { get; set; }
-        
+
         //Relations
-        public Parlament? Parlament { get; set; }
         [Required]
         public University? University { get; set; }
-        public List<Post>? Posts { get; set; }
+        public Parlament? Parlament { get; set; }
+        public List<Post>? PublishedPosts { get; set; }
+        public List<Event>? PublishedEvents { get; set; }
+        public List<Comment>? PublishedComments { get; set; }
+        public List<Post>? LikedPosts { get; set; }
+        public List<Event>? LikedEvents { get; set; }
+        public List<Comment>? LikedComments { get; set; }
+        public List<Grade>? Grade { get; set; }
+
     }
 }

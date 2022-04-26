@@ -16,5 +16,6 @@ namespace Backend.Models{
         [Required]
         public User? Author { get; set; }
         public List<Comment>? Comments { get; set; }
+        public List<User>? LikedBy { get; set; }
     }
 }

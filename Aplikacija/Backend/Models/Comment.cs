@@ -13,6 +13,7 @@ namespace Backend.Models{
         //Relations
         [Required]
         public User? Author { get; set; }
+        public List<User>? LikedBy { get; set; }
         public Post? CommentedPost { get; set; }
         public Event? CommentedEvent { get; set; }
     }
