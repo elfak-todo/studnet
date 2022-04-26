@@ -18,13 +18,19 @@ namespace Backend.Models{
         public string? Location { get; set; }
         [Required]
         public string? ImagePath { get; set; }
+        [Required]
+        public bool PaidEvent { get; set; }
+        [Range(0, 5000)]
+        public int NumberOfTickets { get; set; }
+        [Range(0, 10000)]
+        public float TicketPrice { get; set; }
 
         //Relations
         [Required]
-        public User? Author { get; set; }
+        public User? Organiser { get; set; }
         public List<Comment>? Comments { get; set; }
         public List<User>? LikedBy { get; set; }
-
+        public List<Reservation>? Reservations { get; set; }
 
     }
 }

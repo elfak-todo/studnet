@@ -45,6 +45,7 @@ namespace Backend.Models
         public List<Event>? LikedEvents { get; set; }
         public List<Comment>? LikedComments { get; set; }
         public List<Grade>? Grade { get; set; }
+        public List<Reservation>? Reservations { get; set; }
 
     }
 }
