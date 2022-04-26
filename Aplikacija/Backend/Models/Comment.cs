@@ -11,6 +11,8 @@ namespace Backend.Models
         [Required]
         [MaxLength(1024)]
         public string? Text { get; set; }
+        public bool Verified { get; set; }
+        public bool Pinned {get; set; }
 
         //Relations
         [Required]
