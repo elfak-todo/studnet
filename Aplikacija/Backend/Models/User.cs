@@ -46,7 +46,6 @@ namespace Backend.Models
         public List<Comment>? LikedComments { get; set; }
         public List<Location>? LikedLocations { get; set; }
         public List<Grade>? Grades { get; set; }
-        public List<Grade>? Grade { get; set; }
         public List<Reservation>? Reservations { get; set; }
 
     }
