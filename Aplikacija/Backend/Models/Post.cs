@@ -6,6 +6,8 @@ namespace Backend.Models{
     public class Post{
         [Key]
         public int ID { get; set; }
+        public bool Verified {get; set;}
+        public bool Pinned {get; set; }
         [Required]
         public DateTime DateTime { get; set; }
         [Required]

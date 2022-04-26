@@ -8,6 +8,9 @@ namespace Backend.Models{
         public int ID { get; set; }
         [Required]
         [MaxLength(128)]
+        public bool Verified { get; set; }
+        public bool Pinned {get; set; }
+
         public string? Title { get; set; }
         [MaxLength(2048)]
         public string? Description { get; set; }
