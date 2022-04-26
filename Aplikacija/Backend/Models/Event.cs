@@ -6,6 +6,9 @@ namespace Backend.Models{
     public class Event{
         [Key]
         public int ID { get; set; }
+        public bool Verified { get; set; }
+        public bool Pinned {get; set; }
+        
         [Required]
         [MaxLength(128)]
         public string? Title { get; set; }

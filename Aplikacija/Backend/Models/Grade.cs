@@ -10,6 +10,9 @@ namespace Backend.Models{
         [Range(1,5)]
         public int Value { get; set; }
 
+        [MaxLength(1024)]
+        public string? CommentText { get; set; }
+
         //Relations
         [Required]
         public User? GradedBy { get; set; }
