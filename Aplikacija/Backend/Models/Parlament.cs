@@ -9,6 +9,7 @@ namespace Backend.Models{
         [Required]
         [MaxLength(32)]
         public string? Name { get; set; }
+        
         //Relations
         public List<User>? Members { get; set; }
         public University? University { get; set; }

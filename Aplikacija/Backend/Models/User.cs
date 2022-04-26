@@ -32,9 +32,11 @@ namespace Backend.Models
         public string? LastName { get; set; }
         [Required]
         public Roles Role { get; set; }
+        
         //Relations
         public Parlament? Parlament { get; set; }
         [Required]
         public University? University { get; set; }
+        public List<Post>? Posts { get; set; }
     }
 }
