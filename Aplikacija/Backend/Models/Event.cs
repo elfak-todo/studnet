@@ -17,6 +17,9 @@ namespace Backend.Models{
         [Required]
         public DateTime DateTime { get; set; }
         [Required]
+        public DateTime TimeOfEvent { get; set; }
+        
+        [Required]
         [MaxLength(128)]
         public string? Location { get; set; }
         [Required]
