@@ -6,6 +6,14 @@ namespace Backend.Models
     public enum LocationType
     {
         //TODO Add location types
+        Cafe = 0,
+        Club,
+        Brewery,
+        Bar,
+        Restoraunt,
+        Tavern,
+        Gym,
+        Liberary
     }
 
     [Table("Location")]
