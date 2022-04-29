@@ -13,7 +13,7 @@ namespace Backend.Models
         Restoraunt,
         Tavern,
         Gym,
-        Liberary
+        Library
     }
 
     [Table("Location")]

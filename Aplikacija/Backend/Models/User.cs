@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Backend.Models
 {
-    public enum Roles
+    public enum Role
     {
         Student = 0,
         ParlamentMember = 1,
@@ -39,7 +39,7 @@ namespace Backend.Models
         public string? LastName { get; set; }
 
         [Required]
-        public Roles Role { get; set; }
+        public Role Role { get; set; }
 
 
         //Relations

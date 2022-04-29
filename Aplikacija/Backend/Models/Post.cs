@@ -9,9 +9,9 @@ namespace Backend.Models
         [Key]
         public int ID { get; set; }
 
-        public bool Verified {get; set;}
+        public bool Verified { get; set; }
 
-        public bool Pinned {get; set; }
+        public bool Pinned { get; set; }
 
         [Required]
         public DateTime DateTime { get; set; }

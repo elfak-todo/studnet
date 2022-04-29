@@ -17,8 +17,8 @@ namespace Backend.Models
         [Required]
         [MaxLength(32)]
         public string? City { get; set; }
-        
-        
+
+
         //Relations        
         public List<User>? Users { get; set; }
 
