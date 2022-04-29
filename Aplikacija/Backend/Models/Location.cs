@@ -56,7 +56,7 @@ namespace Backend.Models
 
         public string? ImagePath { get; set; }
 
-    //R E L A C I J E
+        //Relations
         public User? Author { get; set; }
     }
 }

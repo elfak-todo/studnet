@@ -20,9 +20,11 @@ namespace Backend.Models
         public DateTime PublicationTime { get; set; }
 
 
-        //Relations
+        //R E L A T I O N S    
         [Required]
         public User? GradedBy { get; set; }
+
+        public Location? GradedLocation { get; set; }
 
     }
 }
