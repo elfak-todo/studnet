@@ -3,7 +3,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Backend.Models
 {
+    public enum EventTypes
+    {
+        Party,
+        Field_trip,
+        Festival,
+        Sporting_event
+    }
+
     [Table("Event")]
+
     public class Event
     {
         [Key]
@@ -21,10 +30,13 @@ namespace Backend.Models
         public string? Description { get; set; }
 
         [Required]
-        public DateTime DateTime { get; set; }
+        public DateTime PublicationTime { get; set; }
 
         [Required]
         public DateTime TimeOfEvent { get; set; }
+
+        [Required]
+        public DateTime EventLength { get; set; }
         
         [Required]
         [MaxLength(128)]

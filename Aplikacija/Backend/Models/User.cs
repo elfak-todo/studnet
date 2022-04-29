@@ -42,7 +42,7 @@ namespace Backend.Models
         public Role Role { get; set; }
 
 
-        //Relations
+    //R E L A T I O N S
         [Required]
         public University? University { get; set; }
 
@@ -65,6 +65,8 @@ namespace Backend.Models
         public List<Grade>? Grades { get; set; }
 
         public List<Reservation>? Reservations { get; set; }
+        
+        public List<Location>? Locations { get; set; }
 
     }
 }

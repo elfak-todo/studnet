@@ -35,6 +35,9 @@ namespace Backend.Models
         //Geografska dužina
         [Required]
         public float Longitude { get; set; }
+        
+        [Required]
+        public DateTime PublicationTime { get; set; }
 
         public List<Grade>? Grades { get; set; }
 
@@ -53,5 +56,7 @@ namespace Backend.Models
 
         public string? ImagePath { get; set; }
 
+        //Relations
+        public User? Author { get; set; }
     }
 }

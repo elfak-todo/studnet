@@ -16,10 +16,15 @@ namespace Backend.Models
         [MaxLength(1024)]
         public string? CommentText { get; set; }
 
+        [Required]
+        public DateTime PublicationTime { get; set; }
 
-        //Relations
+
+        //R E L A T I O N S    
         [Required]
         public User? GradedBy { get; set; }
+
+        public Location? GradedLocation { get; set; }
 
     }
 }
