@@ -8,17 +8,24 @@ namespace Backend.Models
     {
         [Key]
         public int ID { get; set; }
+
         [Required]
         [MaxLength(1024)]
         public string? Text { get; set; }
+
         public bool Verified { get; set; }
+
         public bool Pinned {get; set; }
+
 
         //Relations
         [Required]
         public User? Author { get; set; }
+
         public List<User>? LikedBy { get; set; }
+
         public Post? CommentedPost { get; set; }
+
         public Event? CommentedEvent { get; set; }
     }
 }

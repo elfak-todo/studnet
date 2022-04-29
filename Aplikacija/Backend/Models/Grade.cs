@@ -8,12 +8,14 @@ namespace Backend.Models
     {
         [Key]
         public int ID { get; set; }
+
         [Required]
         [Range(1, 5)]
         public int Value { get; set; }
 
         [MaxLength(1024)]
         public string? CommentText { get; set; }
+
 
         //Relations
         [Required]
