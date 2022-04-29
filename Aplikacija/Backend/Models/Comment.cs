@@ -17,6 +17,9 @@ namespace Backend.Models
 
         public bool Pinned {get; set; }
 
+        [Required]
+        public DateTime PublicationTime { get; set; }
+
 
         //Relations
         [Required]

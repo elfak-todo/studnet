@@ -14,7 +14,7 @@ namespace Backend.Models
         public bool Pinned {get; set; }
 
         [Required]
-        public DateTime DateTime { get; set; }
+        public DateTime PublicationTime { get; set; }
 
         [Required]
         [MaxLength(2048)]

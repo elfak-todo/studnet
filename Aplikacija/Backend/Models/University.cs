@@ -19,7 +19,7 @@ namespace Backend.Models
         public string? City { get; set; }
         
         
-        //Relations        
+        //R E L A T I O N S        
         public List<User>? Users { get; set; }
 
     }

@@ -21,7 +21,7 @@ namespace Backend.Models
         public string? Description { get; set; }
 
         [Required]
-        public DateTime DateTime { get; set; }
+        public DateTime PublicationTime { get; set; }
 
         [Required]
         public DateTime TimeOfEvent { get; set; }

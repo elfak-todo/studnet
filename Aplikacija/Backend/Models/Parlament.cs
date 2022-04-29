@@ -14,7 +14,7 @@ namespace Backend.Models
         public string? Name { get; set; }
         
         
-        //Relations
+    //R E L A T I O N S
         public List<User>? Members { get; set; }
 
         public University? University { get; set; }

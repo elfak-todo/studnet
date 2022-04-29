@@ -16,6 +16,9 @@ namespace Backend.Models
         [MaxLength(1024)]
         public string? CommentText { get; set; }
 
+        [Required]
+        public DateTime PublicationTime { get; set; }
+
 
         //Relations
         [Required]
