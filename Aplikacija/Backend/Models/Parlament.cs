@@ -13,6 +13,9 @@ namespace Backend.Models
         [MaxLength(32)]
         public string? Name { get; set; }
         
+        [Required]
+        [MaxLength(256)]
+        public string? FacultyName { get; set; }
         
     //R E L A T I O N S
         public List<User>? Members { get; set; }
