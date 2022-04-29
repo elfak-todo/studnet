@@ -12,7 +12,7 @@ namespace Backend.Models
     }
 
     [Table("User")]
-    public class User
+    public class Student
     {
         [Key]
         public int ID { get; set; }
@@ -37,12 +37,19 @@ namespace Backend.Models
         [Required]
         [MaxLength(32)]
         public string? LastName { get; set; }
+        
+        [Required]
+        [MaxLength(1)]
+        public string? Gender { get; set; }
 
         [Required]
         public Role Role { get; set; }
 
+        [Required]
+        public bool IsExchange { get; set; }
 
-    //R E L A T I O N S
+
+        //R E L A T I O N S
         [Required]
         public University? University { get; set; }
 

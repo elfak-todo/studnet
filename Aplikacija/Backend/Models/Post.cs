@@ -9,9 +9,13 @@ namespace Backend.Models
         [Key]
         public int ID { get; set; }
 
+        [Required]
         public bool Verified { get; set; }
 
+        [Required]
         public bool Pinned { get; set; }
+
+        public int LikeCount { get; set; }
 
         [Required]
         public DateTime PublicationTime { get; set; }
@@ -21,13 +25,13 @@ namespace Backend.Models
         public string? Text { get; set; }
 
 
-        //Relations
+        //R E L A T I O N S
         [Required]
-        public User? Author { get; set; }
+        public Student? Author { get; set; }
 
         public List<Comment>? Comments { get; set; }
 
-        public List<User>? LikedBy { get; set; }
+        public List<Student>? LikedBy { get; set; }
 
     }
 }

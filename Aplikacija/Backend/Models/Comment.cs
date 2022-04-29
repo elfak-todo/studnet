@@ -21,11 +21,11 @@ namespace Backend.Models
         public DateTime PublicationTime { get; set; }
 
 
-        //Relations
+        //R E L A T I O N S
         [Required]
-        public User? Author { get; set; }
+        public Student? Author { get; set; }
 
-        public List<User>? LikedBy { get; set; }
+        public List<Student>? LikedBy { get; set; }
 
         public Post? CommentedPost { get; set; }
 

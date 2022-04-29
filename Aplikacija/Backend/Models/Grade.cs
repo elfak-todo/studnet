@@ -22,7 +22,7 @@ namespace Backend.Models
 
         //R E L A T I O N S    
         [Required]
-        public User? GradedBy { get; set; }
+        public Student? GradedBy { get; set; }
 
         public Location? GradedLocation { get; set; }
 

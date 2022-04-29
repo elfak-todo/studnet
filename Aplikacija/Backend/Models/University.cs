@@ -20,7 +20,7 @@ namespace Backend.Models
 
 
         //R E L A T I O N S        
-        public List<User>? Users { get; set; }
+        public List<Student>? Users { get; set; }
 
     }
 }

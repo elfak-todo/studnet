@@ -17,7 +17,7 @@ namespace Backend.Models
 
 
         //R E L A T I O N S
-        public User? ReservedBy { get; set; }
+        public Student? ReservedBy { get; set; }
 
         public Event? Event { get; set; }
     }

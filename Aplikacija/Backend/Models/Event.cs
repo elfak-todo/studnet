@@ -55,13 +55,13 @@ namespace Backend.Models
         public float TicketPrice { get; set; }
 
 
-        //Relations
+        //R E L A T I O N S
         [Required]
-        public User? Organiser { get; set; }
+        public Student? Organiser { get; set; }
 
         public List<Comment>? Comments { get; set; }
 
-        public List<User>? LikedBy { get; set; }
+        public List<Student>? LikedBy { get; set; }
 
         public List<Reservation>? Reservations { get; set; }
 
