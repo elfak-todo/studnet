@@ -29,6 +29,10 @@ namespace Backend.Models
         [MaxLength(64)]
         [RegularExpression("^\\S+@\\S+\\.\\S+$")]
         public string? Email { get; set; }
+        
+        [Required]  
+        [MaxLength(128)]
+        public string? ImagePath { get; set; }
 
         [Required]
         [MaxLength(32)]

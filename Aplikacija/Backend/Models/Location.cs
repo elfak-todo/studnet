@@ -26,6 +26,14 @@ namespace Backend.Models
         public string? Name { get; set; }
 
         [Required]
+        [MaxLength(2048)]
+        public string? Description { get; set; }
+
+        [Required]
+        [MaxLength(1024)]
+        public string? Address { get; set; }
+
+        [Required]
         public LocationType Type { get; set; }
 
         //Geografska širina
