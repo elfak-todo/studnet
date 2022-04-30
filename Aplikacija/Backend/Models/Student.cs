@@ -55,7 +55,6 @@ namespace Backend.Models
 
 
         //R E L A T I O N S
-        [Required]
         public University? University { get; set; }
 
         public Parlament? Parlament { get; set; }

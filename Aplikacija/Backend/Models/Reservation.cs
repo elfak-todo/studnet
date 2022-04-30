@@ -14,10 +14,8 @@ namespace Backend.Models
 
 
         //R E L A T I O N S
-        [Required]
         public Student? ReservedBy { get; set; }
 
-        [Required]
         public Event? Event { get; set; }
     }
 }

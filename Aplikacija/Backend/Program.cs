@@ -1,3 +1,6 @@
+using Backend.Models;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -8,7 +11,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: "CORS",
-                      policy  =>
+                      policy =>
                       {
                           policy.WithOrigins("http://localhost:8080",
                                               "https://localhost:8080",
@@ -23,6 +26,11 @@ builder.Services.AddCors(options =>
                                               .AllowAnyMethod();
                       });
 
+});
+
+builder.Services.AddDbContext<Context>(options =>
+{
+    options.UseSqlServer("name = ConnectionStrings:StudNetCS");
 });
 
 var app = builder.Build();

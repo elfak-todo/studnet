@@ -37,7 +37,6 @@ namespace Backend.Models
 
 
         //R E L A T I O N S
-        [Required]
         public Student? Author { get; set; }
 
         public List<Comment>? Comments { get; set; }

@@ -14,6 +14,11 @@ namespace Backend.Models
         public DbSet<Student>? Students { get; set; }
         public DbSet<University>? Universities { get; set; }
 
+        public Context(DbContextOptions<Context> options) : base(options)
+        {
+
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -41,6 +46,10 @@ namespace Backend.Models
             modelBuilder.Entity<Post>()
                                 .HasMany<Student>(p => p.LikedBy)
                                 .WithMany(s => s.LikedPosts);
+
+            modelBuilder.Entity<Location>()
+                                .HasOne<Student>(l => l.Author)
+                                .WithMany(s => s.Locations);
 
         }
 
