@@ -15,9 +15,21 @@ namespace Backend.Models
 
         public bool Verified { get; set; }
 
-        public bool Pinned {get; set; }
+        public bool Pinned { get; set; }
 
-        public int LikeCount { get; set; }
+        [NotMapped]
+        public int LikeCount
+        {
+            get
+            {
+                if (LikedBy != null)
+                {
+                    return LikedBy.Count();
+                }
+                else
+                    return 0;
+            }
+        }
 
         [Required]
         public DateTime PublicationTime { get; set; }

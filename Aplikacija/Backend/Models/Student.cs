@@ -22,6 +22,7 @@ namespace Backend.Models
         public string? Username { get; set; }
 
         [Required]
+        [MinLength(6)]
         [MaxLength(256)]
         public string? Password { get; set; }
 
@@ -29,8 +30,8 @@ namespace Backend.Models
         [MaxLength(64)]
         [RegularExpression("^\\S+@\\S+\\.\\S+$")]
         public string? Email { get; set; }
-        
-        [Required]  
+
+        [Required]
         [MaxLength(128)]
         public string? ImagePath { get; set; }
 
@@ -41,7 +42,7 @@ namespace Backend.Models
         [Required]
         [MaxLength(32)]
         public string? LastName { get; set; }
-        
+
         [Required]
         [MaxLength(1)]
         public string? Gender { get; set; }
@@ -76,7 +77,7 @@ namespace Backend.Models
         public List<Grade>? Grades { get; set; }
 
         public List<Reservation>? Reservations { get; set; }
-        
+
         public List<Location>? Locations { get; set; }
 
     }

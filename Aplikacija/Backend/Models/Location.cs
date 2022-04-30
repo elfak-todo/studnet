@@ -43,7 +43,7 @@ namespace Backend.Models
         //Geografska dužina
         [Required]
         public float Longitude { get; set; }
-        
+
         [Required]
         public DateTime PublicationTime { get; set; }
 
@@ -67,5 +67,7 @@ namespace Backend.Models
 
         //R E L A T I O N S
         public Student? Author { get; set; }
+
+        public List<Event>? Events { get; set; }
     }
 }

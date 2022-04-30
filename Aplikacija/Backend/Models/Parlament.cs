@@ -12,16 +12,17 @@ namespace Backend.Models
         [Required]
         [MaxLength(32)]
         public string? Name { get; set; }
-        
+
         [Required]
         [MaxLength(256)]
         public string? FacultyName { get; set; }
-        
-        
-        //R E L A T I O N S
-        public List<Student>? Members { get; set; }
 
+
+        //R E L A T I O N S
         public University? University { get; set; }
 
+        public List<Student>? Members { get; set; }
+
+        public List<Event>? Events { get; set; }
     }
 }

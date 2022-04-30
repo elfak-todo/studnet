@@ -8,17 +8,16 @@ namespace Backend.Models
     {
         [Key]
         public int ID { get; set; }
-        
+
         [Required]
         public int NumberOfTickets { get; set; }
 
-        [Required]
-        public int RemainingTickets { get; set; }
-
 
         //R E L A T I O N S
+        [Required]
         public Student? ReservedBy { get; set; }
 
+        [Required]
         public Event? Event { get; set; }
     }
 }
