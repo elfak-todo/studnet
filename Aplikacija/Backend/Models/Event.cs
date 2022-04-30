@@ -20,7 +20,10 @@ namespace Backend.Models
 
         public bool Verified { get; set; }
 
-        public bool Pinned {get; set; }
+        public bool Pinned { get; set; }
+
+        public int LikeCount { get; set; }
+
     
         [Required]
         [MaxLength(128)]
