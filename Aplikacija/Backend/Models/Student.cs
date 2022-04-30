@@ -11,7 +11,7 @@ namespace Backend.Models
         Admin = 3
     }
 
-    [Table("User")]
+    [Table("Student")]
     public class Student
     {
         [Key]

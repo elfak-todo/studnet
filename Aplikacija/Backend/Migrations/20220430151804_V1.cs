@@ -44,7 +44,7 @@ namespace Backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "User",
+                name: "Student",
                 columns: table => new
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
@@ -63,14 +63,14 @@ namespace Backend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_User", x => x.ID);
+                    table.PrimaryKey("PK_Student", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_User_Parlament_ParlamentID",
+                        name: "FK_Student_Parlament_ParlamentID",
                         column: x => x.ParlamentID,
                         principalTable: "Parlament",
                         principalColumn: "ID");
                     table.ForeignKey(
-                        name: "FK_User_University_UniversityID",
+                        name: "FK_Student_University_UniversityID",
                         column: x => x.UniversityID,
                         principalTable: "University",
                         principalColumn: "ID");
@@ -97,14 +97,14 @@ namespace Backend.Migrations
                 {
                     table.PrimaryKey("PK_Location", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Location_User_AuthorID",
+                        name: "FK_Location_Student_AuthorID",
                         column: x => x.AuthorID,
-                        principalTable: "User",
+                        principalTable: "Student",
                         principalColumn: "ID");
                     table.ForeignKey(
-                        name: "FK_Location_User_StudentID",
+                        name: "FK_Location_Student_StudentID",
                         column: x => x.StudentID,
-                        principalTable: "User",
+                        principalTable: "Student",
                         principalColumn: "ID");
                 });
 
@@ -124,9 +124,9 @@ namespace Backend.Migrations
                 {
                     table.PrimaryKey("PK_Post", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Post_User_AuthorID",
+                        name: "FK_Post_Student_AuthorID",
                         column: x => x.AuthorID,
-                        principalTable: "User",
+                        principalTable: "Student",
                         principalColumn: "ID");
                 });
 
@@ -166,9 +166,9 @@ namespace Backend.Migrations
                         principalTable: "Parlament",
                         principalColumn: "ID");
                     table.ForeignKey(
-                        name: "FK_Event_User_OrganiserID",
+                        name: "FK_Event_Student_OrganiserID",
                         column: x => x.OrganiserID,
-                        principalTable: "User",
+                        principalTable: "Student",
                         principalColumn: "ID");
                 });
 
@@ -193,9 +193,9 @@ namespace Backend.Migrations
                         principalTable: "Location",
                         principalColumn: "ID");
                     table.ForeignKey(
-                        name: "FK_Grade_User_GradedByID",
+                        name: "FK_Grade_Student_GradedByID",
                         column: x => x.GradedByID,
-                        principalTable: "User",
+                        principalTable: "Student",
                         principalColumn: "ID");
                 });
 
@@ -216,9 +216,9 @@ namespace Backend.Migrations
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PostStudent_User_LikedByID",
+                        name: "FK_PostStudent_Student_LikedByID",
                         column: x => x.LikedByID,
-                        principalTable: "User",
+                        principalTable: "Student",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -251,9 +251,9 @@ namespace Backend.Migrations
                         principalTable: "Post",
                         principalColumn: "ID");
                     table.ForeignKey(
-                        name: "FK_Comment_User_AuthorID",
+                        name: "FK_Comment_Student_AuthorID",
                         column: x => x.AuthorID,
-                        principalTable: "User",
+                        principalTable: "Student",
                         principalColumn: "ID");
                 });
 
@@ -274,9 +274,9 @@ namespace Backend.Migrations
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_EventStudent_User_LikedByID",
+                        name: "FK_EventStudent_Student_LikedByID",
                         column: x => x.LikedByID,
-                        principalTable: "User",
+                        principalTable: "Student",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -300,9 +300,9 @@ namespace Backend.Migrations
                         principalTable: "Event",
                         principalColumn: "ID");
                     table.ForeignKey(
-                        name: "FK_Reservation_User_ReservedByID",
+                        name: "FK_Reservation_Student_ReservedByID",
                         column: x => x.ReservedByID,
-                        principalTable: "User",
+                        principalTable: "Student",
                         principalColumn: "ID");
                 });
 
@@ -323,9 +323,9 @@ namespace Backend.Migrations
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CommentStudent_User_LikedByID",
+                        name: "FK_CommentStudent_Student_LikedByID",
                         column: x => x.LikedByID,
-                        principalTable: "User",
+                        principalTable: "Student",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -416,13 +416,13 @@ namespace Backend.Migrations
                 column: "ReservedByID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_User_ParlamentID",
-                table: "User",
+                name: "IX_Student_ParlamentID",
+                table: "Student",
                 column: "ParlamentID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_User_UniversityID",
-                table: "User",
+                name: "IX_Student_UniversityID",
+                table: "Student",
                 column: "UniversityID");
         }
 
@@ -456,7 +456,7 @@ namespace Backend.Migrations
                 name: "Location");
 
             migrationBuilder.DropTable(
-                name: "User");
+                name: "Student");
 
             migrationBuilder.DropTable(
                 name: "Parlament");

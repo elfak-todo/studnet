@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20220430145828_V1")]
+    [Migration("20220430151804_V1")]
     partial class V1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -366,7 +366,7 @@ namespace Backend.Migrations
 
                     b.HasIndex("UniversityID");
 
-                    b.ToTable("User");
+                    b.ToTable("Student");
                 });
 
             modelBuilder.Entity("Backend.Models.University", b =>

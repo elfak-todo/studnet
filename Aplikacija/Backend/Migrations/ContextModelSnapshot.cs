@@ -364,7 +364,7 @@ namespace Backend.Migrations
 
                     b.HasIndex("UniversityID");
 
-                    b.ToTable("User");
+                    b.ToTable("Student");
                 });
 
             modelBuilder.Entity("Backend.Models.University", b =>
