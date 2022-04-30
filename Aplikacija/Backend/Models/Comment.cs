@@ -17,6 +17,8 @@ namespace Backend.Models
 
         public bool Pinned {get; set; }
 
+        public int LikeCount { get; set; }
+
         [Required]
         public DateTime PublicationTime { get; set; }
 
