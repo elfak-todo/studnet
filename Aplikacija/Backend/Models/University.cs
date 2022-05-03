@@ -22,5 +22,9 @@ namespace Backend.Models
         //R E L A T I O N S        
         public List<Student>? Users { get; set; }
 
+        public List<Parlament>? Parlaments { get; set; }
+
+        public List<Location>? Locations { get; set; }
+
     }
 }

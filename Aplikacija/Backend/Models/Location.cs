@@ -47,8 +47,6 @@ namespace Backend.Models
         [Required]
         public DateTime PublicationTime { get; set; }
 
-        public List<Grade>? Grades { get; set; }
-
         [NotMapped]
         public double AverageGrade
         {
@@ -68,6 +66,10 @@ namespace Backend.Models
         //R E L A T I O N S
         public Student? Author { get; set; }
 
+        public University? University { get; set; }
+
         public List<Event>? Events { get; set; }
+
+        public List<Grade>? Grades { get; set; }
     }
 }

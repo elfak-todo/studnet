@@ -15,6 +15,9 @@ namespace Backend.Models
         [Required]
         public bool Pinned { get; set; }
 
+        [Required]
+        public bool Edited { get; set; }
+
         [NotMapped]
         public int LikeCount
         {

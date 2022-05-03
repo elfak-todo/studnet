@@ -51,8 +51,6 @@ namespace Backend.Models
         [Required]
         public DateTime EndTime { get; set; }
 
-        public Location? Location { get; set; }
-
         [MaxLength(128)]
         public string? LocationName { get; set; }
 
@@ -82,6 +80,8 @@ namespace Backend.Models
 
 
         //R E L A T I O N S
+        public Location? Location { get; set; }
+
         public Student? Organiser { get; set; }
 
         public Parlament? OrganisingParlament { get; set; }
