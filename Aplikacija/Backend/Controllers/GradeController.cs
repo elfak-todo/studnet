@@ -4,11 +4,10 @@ namespace Backend.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class StudentController : ControllerBase
+public class GradeController : ControllerBase
 {
-    public StudentController()
+    public GradeController()
     {
 
     }
 }
-
