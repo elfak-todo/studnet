@@ -6,7 +6,6 @@ namespace Backend.Models
     [Table("University")]
     public class University
     {
-
         [Key]
         public int ID { get; set; }
 
@@ -25,6 +24,5 @@ namespace Backend.Models
         public List<Parlament>? Parlaments { get; set; }
 
         public List<Location>? Locations { get; set; }
-
     }
 }

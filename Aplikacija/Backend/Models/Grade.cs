@@ -24,6 +24,5 @@ namespace Backend.Models
         public Student? GradedBy { get; set; }
 
         public Location? GradedLocation { get; set; }
-
     }
 }

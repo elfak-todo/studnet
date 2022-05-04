@@ -91,6 +91,5 @@ namespace Backend.Models
         public List<Student>? LikedBy { get; set; }
 
         public List<Reservation>? Reservations { get; set; }
-
     }
 }

@@ -1,16 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+using Backend.Services;
+
 namespace Backend.Models
 {
-    public enum Role
-    {
-        Student = 0,
-        ParlamentMember = 1,
-        AdminUni = 2,
-        Admin = 3
-    }
-
     [Table("Student")]
     public class Student
     {
@@ -78,6 +72,5 @@ namespace Backend.Models
         public List<Reservation>? Reservations { get; set; }
 
         public List<Location>? Locations { get; set; }
-
     }
 }

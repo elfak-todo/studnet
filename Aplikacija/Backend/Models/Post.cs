@@ -45,6 +45,5 @@ namespace Backend.Models
         public List<Comment>? Comments { get; set; }
 
         public List<Student>? LikedBy { get; set; }
-
     }
 }

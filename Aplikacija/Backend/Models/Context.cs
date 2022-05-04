@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Models
 {
-    internal class Context : DbContext
+    public class Context : DbContext
     {
         public DbSet<Comment>? Comments { get; set; }
         public DbSet<Event>? Events { get; set; }
@@ -50,8 +50,6 @@ namespace Backend.Models
             modelBuilder.Entity<Location>()
                                 .HasOne<Student>(l => l.Author)
                                 .WithMany(s => s.Locations);
-
         }
-
     }
 }
