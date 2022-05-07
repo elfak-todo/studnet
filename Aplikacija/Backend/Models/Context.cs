@@ -4,15 +4,15 @@ namespace Backend.Models
 {
     public class Context : DbContext
     {
-        public DbSet<Comment>? Comments { get; set; }
-        public DbSet<Event>? Events { get; set; }
-        public DbSet<Grade>? Grades { get; set; }
-        public DbSet<Location>? Locations { get; set; }
-        public DbSet<Parlament>? Parlaments { get; set; }
-        public DbSet<Post>? Posts { get; set; }
-        public DbSet<Reservation>? Reservations { get; set; }
-        public DbSet<Student>? Students { get; set; }
-        public DbSet<University>? Universities { get; set; }
+        public DbSet<Comment> Comments => Set<Comment>();
+        public DbSet<Event> Events => Set<Event>();
+        public DbSet<Grade> Grades => Set<Grade>();
+        public DbSet<Location> Locations => Set<Location>();
+        public DbSet<Parlament> Parlaments => Set<Parlament>();
+        public DbSet<Post> Posts => Set<Post>();
+        public DbSet<Reservation> Reservations => Set<Reservation>();
+        public DbSet<Student> Students => Set<Student>();
+        public DbSet<University> Universities => Set<University>();
 
         public Context(DbContextOptions<Context> options) : base(options)
         {

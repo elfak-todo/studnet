@@ -1,10 +1,15 @@
 using System.Text;
-using Backend.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
+using Backend.Models;
+using Backend.Services;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddScoped<IAccessTokenManager, AccessTokenManager>();
+builder.Services.AddScoped<IPasswordManager, PasswordManager>();
 
 builder.Services.AddControllers();
 

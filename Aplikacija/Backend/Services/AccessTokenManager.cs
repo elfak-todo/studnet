@@ -16,15 +16,24 @@ namespace Backend.Services
         Admin = 3
     }
 
-    public class AccessTokenManager
+    public interface IAccessTokenManager
+    {
+        public string? GenerateAccessToken(Student student);
+        public Task<Student?> GetStudent(ClaimsPrincipal user);
+        public UserDetails? GetUserDetails(ClaimsPrincipal user);
+    }
+
+    public class AccessTokenManager : IAccessTokenManager
     {
         public static readonly string[] Roles = { "Student", "ParlamentMember", "AdminUni", "Admin" };
 
-        private IConfiguration Config;
+        private IConfiguration _config;
+        private Context _context;
 
-        public AccessTokenManager(IConfiguration config)
+        public AccessTokenManager(IConfiguration config, Context context)
         {
-            Config = config;
+            _config = config;
+            _context = context;
         }
 
         public string? GenerateAccessToken(Student student)
@@ -35,7 +44,7 @@ namespace Backend.Services
             }
 
             var claims = new List<Claim>();
-            claims.Add(new Claim(JwtRegisteredClaimNames.Sub, Config["Jwt:Subject"]));
+            claims.Add(new Claim(JwtRegisteredClaimNames.Sub, _config["Jwt:Subject"]));
             claims.Add(new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()));
             claims.Add(new Claim("ID", student.ID.ToString()));
             claims.Add(new Claim("username", student.Username));
@@ -46,16 +55,26 @@ namespace Backend.Services
                 claims.Add(new Claim("role", Roles[i]));
             }
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Config["Jwt:Key"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var token = new JwtSecurityToken(
-                Config["Jwt:Issuer"],
-                Config["Jwt:Audience"],
+                _config["Jwt:Issuer"],
+                _config["Jwt:Audience"],
                 claims.ToArray(),
                 expires: DateTime.UtcNow.AddMinutes(60),
                 signingCredentials: signIn);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        public async Task<Student?> GetStudent(ClaimsPrincipal user)
+        {
+            UserDetails? userDetails = GetUserDetails(user);
+            if (userDetails == null)
+            {
+                return null;
+            }
+            return await _context.Students.FindAsync(userDetails.ID);
         }
 
         public UserDetails? GetUserDetails(ClaimsPrincipal user)

@@ -13,15 +13,16 @@ namespace Backend.Controllers;
 [Route("[controller]")]
 public class StudentController : ControllerBase
 {
-    public Context Context { get; set; }
-    private AccessTokenManager TokenManager;
-    private PasswordManager PasswordManager;
+    private Context _context;
+    private IAccessTokenManager _tokenManager;
+    private IPasswordManager _passwordManager;
 
-    public StudentController(Context context, IConfiguration config)
+    public StudentController(Context context, IConfiguration config,
+            IAccessTokenManager tokenManager, IPasswordManager passwordManager)
     {
-        Context = context;
-        TokenManager = new AccessTokenManager(config);
-        PasswordManager = new PasswordManager(config);
+        _context = context;
+        _tokenManager = tokenManager;
+        _passwordManager = passwordManager;
     }
 
     [Route("Login")]
@@ -29,7 +30,7 @@ public class StudentController : ControllerBase
     [HttpPost]
     public async Task<ActionResult> Login([FromBody] LoginCredentials creds)
     {
-        if (Context.Students == null)
+        if (_context.Students == null)
         {
             return StatusCode(500);
         }
@@ -39,14 +40,15 @@ public class StudentController : ControllerBase
             return BadRequest("FieldMissing");
         }
 
-        var student = await Context.Students.Where(s => s.Username == creds.Username || s.Email == creds.Username).FirstOrDefaultAsync();
+        var student = await _context.Students.Where(s => s.Username == creds.Username
+                        || s.Email == creds.Username).FirstOrDefaultAsync();
 
-        if (student == null || !PasswordManager.verifyPassword(creds.Password, student.Password))
+        if (student == null || !_passwordManager.verifyPassword(creds.Password, student.Password))
         {
             return Unauthorized("BadCredentials");
         }
 
-        string? token = TokenManager.GenerateAccessToken(student);
+        string? token = _tokenManager.GenerateAccessToken(student);
 
         return Ok(
             new
@@ -63,16 +65,36 @@ public class StudentController : ControllerBase
     [HttpPost]
     public async Task<ActionResult> Register([FromBody] Student student)
     {
-        //TODO data validation
-        if (student.Password == null)
+        if (student.Password == null || student.Parlament == null || student.University == null)
         {
             return BadRequest("FieldMissing");
         }
 
-        student.Password = PasswordManager.hashPassword(student.Password);
+        if ((await _context.Students.FirstOrDefaultAsync(s => s.Email == student.Email)) != null)
+        {
+            return BadRequest("EmailTaken");
+        }
 
-        await this.Context.AddAsync(student);
-        await Context.SaveChangesAsync();
+        if ((await _context.Students.FirstOrDefaultAsync(s => s.Username == student.Username)) != null)
+        {
+            return BadRequest("UsernameTaken");
+        }
+
+        student.PublishedPosts = new List<Post>();
+        student.PublishedEvents = new List<Event>();
+        student.PublishedComments = new List<Comment>();
+        student.LikedPosts = new List<Post>();
+        student.LikedEvents = new List<Event>();
+        student.LikedComments = new List<Comment>();
+        student.LikedLocations = new List<Location>();
+        student.Grades = new List<Grade>();
+        student.Reservations = new List<Reservation>();
+        student.Locations = new List<Location>();
+
+        student.Password = _passwordManager.hashPassword(student.Password);
+
+        await _context.AddAsync(student);
+        await _context.SaveChangesAsync();
 
         return Ok("RegistrationSuccessful");
     }
@@ -82,20 +104,15 @@ public class StudentController : ControllerBase
     [HttpDelete]
     public async Task<ActionResult> Delete()
     {
-        var userDetails = TokenManager.GetUserDetails(HttpContext.User);
-        if (userDetails == null || Context.Students == null)
-        {
-            return StatusCode(500);
-        }
+        var student = await _tokenManager.GetStudent(HttpContext.User);
 
-        var user = await Context.Students.FindAsync(userDetails.ID);
-        if (user == null)
+        if (student == null)
         {
             return BadRequest("StudentNotFound");
         }
 
-        Context.Students.Remove(user);
-        await Context.SaveChangesAsync();
+        _context.Students.Remove(student);
+        await _context.SaveChangesAsync();
 
         return Ok("DeletionSuccessful");
     }

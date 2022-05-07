@@ -14,12 +14,14 @@ namespace Backend.Models
     [Table("Event")]
     public class Event
     {
+        #region Props
+
         [Key]
         public int ID { get; set; }
 
-        public bool Verified { get; set; }
+        public bool Verified { get; set; } = false;
 
-        public bool Pinned { get; set; }
+        public bool Pinned { get; set; } = false;
 
         [NotMapped]
         public int LikeCount
@@ -35,32 +37,27 @@ namespace Backend.Models
             }
         }
 
-        [Required]
         [MaxLength(128)]
-        public string? Title { get; set; }
+        public string Title { get; set; } = String.Empty;
 
         [MaxLength(2048)]
-        public string? Description { get; set; }
+        public string Description { get; set; } = String.Empty;
 
-        [Required]
         public DateTime PublicationTime { get; set; }
 
-        [Required]
         public DateTime TimeOfEvent { get; set; }
 
-        [Required]
-        public DateTime EndTime { get; set; }
+        public DateTime? EndTime { get; set; }
 
         [MaxLength(128)]
         public string? LocationName { get; set; }
 
-        public string? ImagePath { get; set; }
+        public string ImagePath { get; set; } = String.Empty;
 
-        [Required]
-        public bool PaidEvent { get; set; }
+        public bool PaidEvent { get; set; } = false;
 
         [Range(0, 5000)]
-        public int NumberOfTickets { get; set; }
+        public int NumberOfTickets { get; set; } = 0;
 
         [NotMapped]
         public int TicketsReserved
@@ -69,17 +66,20 @@ namespace Backend.Models
             {
                 if (Reservations != null)
                 {
-                    return Reservations.Select(p => p.NumberOfTickets).Aggregate(0, (total, ticketNum) => total += ticketNum);
+                    return Reservations.Select(p => p.NumberOfTickets)
+                            .Aggregate(0, (total, ticketNum) => total += ticketNum);
                 }
                 return 0;
             }
         }
 
         [Range(0, 10000)]
-        public float TicketPrice { get; set; }
+        public float TicketPrice { get; set; } = 0;
 
+        #endregion Props
 
-        //R E L A T I O N S
+        #region Relations
+
         public Location? Location { get; set; }
 
         public Student? Organiser { get; set; }
@@ -91,5 +91,7 @@ namespace Backend.Models
         public List<Student>? LikedBy { get; set; }
 
         public List<Reservation>? Reservations { get; set; }
+
+        #endregion Relations
     }
 }

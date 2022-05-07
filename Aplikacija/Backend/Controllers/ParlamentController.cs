@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 using Backend.Models;
+using Backend.Services;
 
 namespace Backend.Controllers;
 
@@ -10,10 +12,12 @@ namespace Backend.Controllers;
 [Route("[controller]")]
 public class ParlamentController : ControllerBase
 {
-    public Context Context { get; set; }
+    private Context _context;
+    private IAccessTokenManager _tokenManager;
 
-    public ParlamentController(Context context)
+    public ParlamentController(Context context, IAccessTokenManager tokenManager)
     {
-        Context = context;
+        _context = context;
+        _tokenManager = tokenManager;
     }
 }

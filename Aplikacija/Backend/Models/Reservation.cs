@@ -6,16 +6,21 @@ namespace Backend.Models
     [Table("Reservation")]
     public class Reservation
     {
+        #region Props
+
         [Key]
         public int ID { get; set; }
 
-        [Required]
-        public int NumberOfTickets { get; set; }
+        public int NumberOfTickets { get; set; } = 1;
 
+        #endregion Props
 
-        //R E L A T I O N S
+        #region Relations
+
         public Student? ReservedBy { get; set; }
 
         public Event? Event { get; set; }
+
+        #endregion Relations
     }
 }

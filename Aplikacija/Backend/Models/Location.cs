@@ -19,32 +19,27 @@ namespace Backend.Models
     [Table("Location")]
     public class Location
     {
+        #region Props
+
         [Key]
         public int ID { get; set; }
 
-        [Required]
-        public string? Name { get; set; }
+        public string Name { get; set; } = String.Empty;
 
-        [Required]
         [MaxLength(2048)]
-        public string? Description { get; set; }
+        public string Description { get; set; } = String.Empty;
 
-        [Required]
         [MaxLength(1024)]
-        public string? Address { get; set; }
+        public string Address { get; set; } = String.Empty;
 
-        [Required]
         public LocationType Type { get; set; }
 
         //Geografska širina
-        [Required]
         public float Latitude { get; set; }
 
         //Geografska dužina
-        [Required]
         public float Longitude { get; set; }
 
-        [Required]
         public DateTime PublicationTime { get; set; }
 
         [NotMapped]
@@ -62,8 +57,10 @@ namespace Backend.Models
 
         public string? ImagePath { get; set; }
 
+        #endregion Props
 
-        //R E L A T I O N S
+        #region Relations
+
         public Student? Author { get; set; }
 
         public University? University { get; set; }
@@ -71,5 +68,7 @@ namespace Backend.Models
         public List<Event>? Events { get; set; }
 
         public List<Grade>? Grades { get; set; }
+
+        #endregion Relations
     }
 }

@@ -3,7 +3,13 @@ using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
 namespace Backend.Services
 {
-    public class PasswordManager
+    public interface IPasswordManager
+    {
+        public string hashPassword(string password);
+        public bool verifyPassword(string? password, string? hashedPassword);
+    }
+
+    public class PasswordManager : IPasswordManager
     {
         private IConfiguration Config;
 
