@@ -1,0 +1,19 @@
+{
+    "register": "Register",
+    "createAcc": "Create Account",
+    "subtitle": "Fill all fields with valid information",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "university": "University",
+    "chooseUni": "Choose Univeristy",
+    "chooseFac": "Choose Faculty",
+    "faculty": "Faculty",
+    "gender": "Gender",
+    "male": "Male",
+    "female": "Female",
+    "email": "Email address",
+    "password": "Password",
+    "signUp": "Sign up",
+    "onExchange": "On Exchange",
+    "haveAcc?": "Already have an account?"
+}

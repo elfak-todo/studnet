@@ -1,0 +1,19 @@
+{
+    "register": "Registruj se",
+    "createAcc": "Kreiraj nalog",
+    "subtitle": "Popunite sva polja validnim informacijama",
+    "firstName": "Ime",
+    "lastName": "Prezime",
+    "university": "Univerzitet",
+    "chooseUni": "Izaberite Univerzitet",
+    "chooseFac": "Izaberite Fakultet",
+    "faculty": "Fakultet",
+    "gender": "Pol",
+    "male": "Muški",
+    "female": "Ženski",
+    "email": "Email adresa",
+    "password": "Lozinka",
+    "signUp": "Registruj se",
+    "onExchange": "Na razmeni",
+    "haveAcc?": "Već imaš nalog?"
+}

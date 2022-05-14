@@ -12,7 +12,7 @@ i18n
     },
     fallbackLng: "en",
     debug: true,
-    ns: ["login"],
+    ns: ["login", "register"],
     interpolation: {
       espaceValue: false,
       formatSeparator: ",",

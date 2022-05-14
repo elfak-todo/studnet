@@ -46,7 +46,7 @@ function LoginForm() {
       <Card.Footer>
         <Card.Text>
           {t("dontHaveAcc")}
-          <Link to="/home">{t("signUp")}</Link>
+          <Link to="/register">{t("signUp")}</Link>
         </Card.Text>
       </Card.Footer>
     </Card>
