@@ -10,10 +10,12 @@ function RegisterForm() {
 
   return (
     <div className="registration-from">
-      <Card>
-        <Card.Body>
+      <Card className="m-3 shadow p-3">
+        <Card.Header>
           <Card.Title className="text-center"> {t("createAcc")}</Card.Title>
           <Card.Text className="text-center"> {t("subtitle")}</Card.Text>
+          </Card.Header>
+          <Card.Body>
           <RegisterFormLayout />
           <Card.Footer>
             <Card.Text>

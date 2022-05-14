@@ -16,8 +16,6 @@ function SelectGender() {
             label={t("male")}
             name="gender"
           ></Form.Check>
-        </Col>
-        <Col>
           <Form.Check
             inline
             type="radio"

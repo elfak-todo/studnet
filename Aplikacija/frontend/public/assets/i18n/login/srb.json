@@ -9,5 +9,9 @@
     "email": "Email adresa",
     "password": "Lozinka",
     "dontHaveAcc": "Nemaš nalog?",
-    "signUp": "Registruj se"
+    "signUp": "Registruj se",
+    "enterEmail":"Unesite email adresu.",
+    "enterPassword": "Unesite lozinku.",
+    "userNotRegistered": "Korisnik nije registrovan!",
+    "noMatch": "Email adresa ili lozinka nisu validne!"
 }
