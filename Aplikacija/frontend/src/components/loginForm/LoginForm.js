@@ -1,4 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./LoginForm.style.css";
+import { SERVER_ADDRESS } from "../../config";
 import { useTranslation } from "react-i18next";
 import { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -10,7 +12,7 @@ function LoginForm() {
   const [validated, setValidated] = useState(false);
   const [showWrongPassLabel, setShowWrongPassLabel] = useState(true);
 
-  const emailInputRef = useRef();
+  const usernameOrEmailInputRef = useRef();
   const passwordInputRef = useRef();
 
   const submitHander = (event) => {
@@ -19,33 +21,33 @@ function LoginForm() {
     const form = event.currentTarget;
 
     if (form.checkValidity() === true) {
-      const enteredEmail = emailInputRef.current.value;
+      const enteredUsernameOrEmail = usernameOrEmailInputRef.current.value;
       const enteredPassword = passwordInputRef.current.value;
 
-      fetch("https://localhost:7246/Student/Login", {
+      fetch(SERVER_ADDRESS + "Student/Login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: enteredEmail,
+          username: enteredUsernameOrEmail,
           password: enteredPassword,
         }),
-      })
-        .then((response) => {
-          switch (response.status) {
-            case 200:
-              navigate("/home", { replace: true });
-              setShowWrongPassLabel(true);
-              break;
-            case 401:
-              setShowWrongPassLabel(false);
-              break;
-            default:
-              break;
-          }
-        })
-        .then((data) => console.log(data));
+      }).then((response) => {
+        if (response.ok) {
+          navigate("/home", { replace: true });
+          setShowWrongPassLabel(true);
+
+          response.json().then((data) => {
+
+            //Luka hir, iz dis ok? xD
+            //Username and role not stored.
+            localStorage.setItem("token", data.accessToken);
+          });
+        } else if (response.status == 401) {
+          setShowWrongPassLabel(false);
+        }
+      });
     } else {
       event.stopPropagation();
     }
@@ -53,8 +55,8 @@ function LoginForm() {
     setValidated(true);
   };
 
-  function hideWrongPassLabel(){
-    setShowWrongPassLabel(true)
+  function hideWrongPassLabel() {
+    setShowWrongPassLabel(true);
   }
 
   return (
@@ -66,18 +68,22 @@ function LoginForm() {
       <Card.Body>
         <Form noValidate validated={validated} onSubmit={submitHander}>
           <FloatingLabel label={t("email")} className="mb-3">
-            <Form.Control onClick={hideWrongPassLabel}
+            <Form.Control
+              className="prevent-validation-color"
+              onClick={hideWrongPassLabel}
               required
-              type="email"
-              placeholder={"name@example.com"}
-              ref={emailInputRef}
+              type="text"
+              placeholder={"text"}
+              ref={usernameOrEmailInputRef}
             />
             <Form.Control.Feedback type="invalid">
               {t("enterEmail")}
             </Form.Control.Feedback>
           </FloatingLabel>
           <FloatingLabel label={t("password")}>
-            <Form.Control onClick={hideWrongPassLabel}
+            <Form.Control
+              className="prevent-validation-color"
+              onClick={hideWrongPassLabel}
               required
               type="password"
               placeholder="Password"
@@ -87,13 +93,14 @@ function LoginForm() {
               {t("enterPassword")}
             </Form.Control.Feedback>
           </FloatingLabel>
-          <Form.Check
-            className="mt-3"
-            type="switch"
-            label={t("stayLoggedIn")}
-          />
           <Row className="p-3">
-            <Alert variant="danger" className="text-center" hidden={showWrongPassLabel}>{t("noMatch")}</Alert>
+            <Alert
+              variant="danger"
+              className="text-center"
+              hidden={showWrongPassLabel}
+            >
+              {t("noMatch")}
+            </Alert>
             <Button variant="primary" type="submit" size="md" className="mt-2">
               {t("signIn")}
             </Button>

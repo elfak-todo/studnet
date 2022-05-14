@@ -6,12 +6,12 @@
     "signIn": "Prijavi se",
     "loginToYourAccount": "Prijavi se na svoj postojeći nalog",
     "stayLoggedIn": "Ostani prijavljen",
-    "email": "Email adresa",
+    "email": "Korisničko ime ili Email",
     "password": "Lozinka",
     "dontHaveAcc": "Nemaš nalog?",
     "signUp": "Registruj se",
     "enterEmail":"Unesite email adresu.",
     "enterPassword": "Unesite lozinku.",
     "userNotRegistered": "Korisnik nije registrovan!",
-    "noMatch": "Email adresa ili lozinka nisu validne!"
+    "noMatch": "Korisničko ime ili lozinka nisu validne!"
 }

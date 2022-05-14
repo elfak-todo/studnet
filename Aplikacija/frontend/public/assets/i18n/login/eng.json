@@ -6,12 +6,12 @@
     "signIn": "Sign in",
     "loginToYourAccount": "Login to your existing account",
     "stayLoggedIn": "Stay logged in",
-    "email": "Email address",
+    "email": "Username or Email",
     "password": "Password",
     "dontHaveAcc": "Don't have an account?",
     "signUp": "Sign up",
     "enterEmail":"Enter email address.",
     "enterPassword": "Enter password.",
     "userNotRegistered": "User not registered!",
-    "noMatch": "Email or password is invalid"
+    "noMatch": "Username or password is invalid"
 }

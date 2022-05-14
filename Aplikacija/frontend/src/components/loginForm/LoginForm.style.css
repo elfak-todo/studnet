@@ -1,0 +1,5 @@
+.was-validated .prevent-validation-color.form-control:valid,
+.prevent-validation-color.form-control.is-valid {
+  border-color: #ced4da;
+  background-image: none;
+}
