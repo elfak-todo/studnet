@@ -2,7 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./LoginForm.style.css";
 import { SERVER_ADDRESS } from "../../config";
 import { useTranslation } from "react-i18next";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Row,
@@ -26,7 +26,6 @@ function LoginForm() {
 
   const submitHander = (event) => {
     event.preventDefault();
-
     const form = event.currentTarget;
 
     if (form.checkValidity() === true) {

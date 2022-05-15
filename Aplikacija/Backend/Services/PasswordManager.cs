@@ -11,16 +11,16 @@ namespace Backend.Services
 
     public class PasswordManager : IPasswordManager
     {
-        private IConfiguration Config;
+        private IConfiguration _config;
 
         public PasswordManager(IConfiguration config)
         {
-            Config = config;
+            _config = config;
         }
 
         public string hashPassword(string password)
         {
-            byte[] salt = Encoding.ASCII.GetBytes(Config["Passwords:Salt"]);
+            byte[] salt = Encoding.ASCII.GetBytes(_config["Passwords:Salt"]);
 
             string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
                 password: password,
