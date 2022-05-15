@@ -44,7 +44,7 @@ function LoginForm() {
             //Username and role not stored.
             localStorage.setItem("token", data.accessToken);
           });
-        } else if (response.status == 401) {
+        } else if (response.status === 401) {
           setShowWrongPassLabel(false);
         }
       });
