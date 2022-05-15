@@ -4,6 +4,7 @@
     "subtitle": "Fill all fields with valid information",
     "firstName": "First name",
     "lastName": "Last name",
+    "username": "Username",
     "university": "University",
     "chooseUni": "Choose Univeristy",
     "chooseFac": "Choose Faculty",
@@ -15,5 +16,12 @@
     "password": "Password",
     "signUp": "Sign up",
     "onExchange": "On exchange",
-    "haveAcc?": "Already have an account?"
+    "haveAcc?": "Already have an account?",
+    "enterFirstName": "Enter first name.",
+    "enterLastName": "Enter last name.",
+    "enterUsername": "Enter username.",
+    "selectUni": "Select University",
+    "selectFac": "Select Faculty",
+    "chooseGender": "Choose gender"
+
 }

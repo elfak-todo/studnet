@@ -12,32 +12,20 @@ function RegisterFormLayout() {
     <Form>
       <Row>
         <Col>
-          <FloatingLabel
-            controlId="firstName"
-            label={t("firstName")}
-            className="mb-2"
-          >
+          <FloatingLabel label={t("firstName")} className="mb-2">
             <Form.Control type="input" placeholder={"Enter first name"} />
           </FloatingLabel>
         </Col>
         <Col>
-          <FloatingLabel
-            controlId="lastName"
-            label={t("lastName")}
-            className="mb-2"
-          >
+          <FloatingLabel label={t("lastName")} className="mb-2">
             <Form.Control type="input" placeholder={"Enter last name"} />
           </FloatingLabel>
         </Col>
       </Row>
-      <FloatingLabel controlId="email" label={t("email")} className="mb-2">
+      <FloatingLabel label={t("email")} className="mb-2">
         <Form.Control type="email" placeholder={"name@example.com"} />
       </FloatingLabel>
-      <FloatingLabel
-        controlId="password"
-        label={t("password")}
-        className="mb-2"
-      >
+      <FloatingLabel label={t("password")} className="mb-2">
         <Form.Control type="password" placeholder={"Password"} />
       </FloatingLabel>
       <Form.Check

@@ -4,6 +4,7 @@
     "subtitle": "Popunite sva polja validnim informacijama",
     "firstName": "Ime",
     "lastName": "Prezime",
+    "username": "Korisničko ime",
     "university": "Univerzitet",
     "chooseUni": "Izaberite Univerzitet",
     "chooseFac": "Izaberite Fakultet",
@@ -15,5 +16,11 @@
     "password": "Lozinka",
     "signUp": "Registruj se",
     "onExchange": "Na razmeni",
-    "haveAcc?": "Već imaš nalog?"
+    "haveAcc?": "Već imaš nalog?",
+    "enterFirstName": "Unesite ime.",
+    "enterLastName": "Unesite prezime.",
+    "enterUsername": "Unesite korisničko ime.",
+    "selectUni": "Izaberite univerzitet.",
+    "selectFac": "Izaberite fakultet",
+    "chooseGender": "Izaberite pol"
 }
