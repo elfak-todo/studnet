@@ -1,12 +1,13 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import { SERVER_ADDRESS } from "../../config";
 import axios from "axios";
+import { SERVER_ADDRESS } from "../../config";
 import { useTranslation } from "react-i18next";
-import { FloatingLabel, Form } from "react-bootstrap";
 import { useEffect, useState } from "react";
+import { FloatingLabel, Form } from "react-bootstrap";
 
 function SelectUniversity(props) {
   const { t } = useTranslation(["register"]);
+
   const [options, setOptions] = useState([]);
 
   useEffect(() => {
@@ -21,14 +22,24 @@ function SelectUniversity(props) {
   }, []);
 
   return (
-    <FloatingLabel className="mb-2" label={t("chooseUni")}>
-      <Form.Select onChange={(e) => props.selectedUniversity(e.target.value)}>
+    <FloatingLabel className="mb-2" label={t("university")}>
+      <Form.Select
+        isInvalid={props.invalid}
+        onChange={(e) => {
+          props.selectedUniversity(e.target.value);
+          props.setInvalid(false);
+        }}
+      >
+        <option>{t("chooseUni")} </option>
         {options.map((option) => (
           <option key={option.id} value={option.id}>
             {option.name}
           </option>
         ))}
       </Form.Select>
+      <Form.Control.Feedback type="invalid">
+        {t("selectUni")}
+      </Form.Control.Feedback>
     </FloatingLabel>
   );
 }

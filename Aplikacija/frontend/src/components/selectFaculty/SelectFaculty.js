@@ -1,39 +1,62 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import { SERVER_ADDRESS } from "../../config";
 import axios from "axios";
+import { SERVER_ADDRESS } from "../../config";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { FloatingLabel, Form } from "react-bootstrap";
 
 function SelectFaculty(props) {
   const { t } = useTranslation(["register"]);
+
   const [options, setOptions] = useState([]);
-  let universityID = 1;
-  if(props.selectedUniversity !== undefined){
-    universityID = props.selectedUniversity;
-  }
+  const [clearSelect, setClearSelect] = useState(false);
+
+  const defaultOption = t("chooseUni");
+
   useEffect(() => {
-    axios
-      .get(
-        SERVER_ADDRESS + "Parlament/GetByUniversity/" + universityID
-      )
-      .then((result) => {
-        setOptions(result.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [universityID]);
+    if (props.selectedUniversity === defaultOption) {
+      setClearSelect(true);
+    }
+    if (
+      props.selectedUniversity !== undefined &&
+      props.selectedUniversity !== defaultOption
+    ) {
+      axios
+        .get(
+          SERVER_ADDRESS +
+            "Parlament/GetByUniversity/" +
+            props.selectedUniversity
+        )
+        .then((result) => {
+          setOptions(result.data);
+          setClearSelect(false);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [props.selectedUniversity, defaultOption]);
 
   return (
-    <FloatingLabel className="mb-2" label={t("chooseFac")}>
-      <Form.Select>
-        {options.map((option) => (
-          <option key={option.id} value={option.id}>
-            {option.facultyName}
-          </option>
-        ))}
+    <FloatingLabel className="mb-2" label={t("faculty")}>
+      <Form.Select
+        isInvalid={props.invalid}
+        onChange={(e) => {
+          props.selectedFaculty(e.target.value);
+          props.setInvalid(false);
+        }}
+      >
+        <option> {t("chooseFac")} </option>
+        {clearSelect ||
+          options.map((option) => (
+            <option key={option.id} value={option.id}>
+              {option.facultyName}
+            </option>
+          ))}
       </Form.Select>
+      <Form.Control.Feedback type="invalid">
+        {t("selectFac")}
+      </Form.Control.Feedback>
     </FloatingLabel>
   );
 }

@@ -6,9 +6,11 @@
     "lastName": "Prezime",
     "username": "Korisničko ime",
     "university": "Univerzitet",
+    "faculty": "Fakultet",
     "chooseUni": "Izaberite Univerzitet",
     "chooseFac": "Izaberite Fakultet",
-    "faculty": "Fakultet",
+    "selectUni": "Izaberite Univerzitet.",
+    "selectFac": "Izaberite Fakultet.",
     "gender": "Pol",
     "male": "Muški",
     "female": "Ženski",
@@ -20,7 +22,8 @@
     "enterFirstName": "Unesite ime.",
     "enterLastName": "Unesite prezime.",
     "enterUsername": "Unesite korisničko ime.",
-    "selectUni": "Izaberite univerzitet.",
-    "selectFac": "Izaberite fakultet",
-    "chooseGender": "Izaberite pol"
+    "enterPassword": "Unesite lozinku.",
+    "enterEmail": "Unesite email.",
+    "chooseGender": "Izaberite pol.",
+    "passwordLength": "Lozinka mora da sadrži najmanje 8 karaktera."
 }

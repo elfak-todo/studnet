@@ -6,9 +6,11 @@
     "lastName": "Last name",
     "username": "Username",
     "university": "University",
-    "chooseUni": "Choose Univeristy",
-    "chooseFac": "Choose Faculty",
     "faculty": "Faculty",
+    "chooseUni": "Choose Univeristy",
+    "selectUni": "Select Univeristy.",
+    "selectFac": "Select Faculty.",
+    "chooseFac": "Choose Faculty",
     "gender": "Gender",
     "male": "Male",
     "female": "Female",
@@ -20,8 +22,9 @@
     "enterFirstName": "Enter first name.",
     "enterLastName": "Enter last name.",
     "enterUsername": "Enter username.",
-    "selectUni": "Select University",
-    "selectFac": "Select Faculty",
-    "chooseGender": "Choose gender"
+    "enterPassword": "Enter password.",
+    "enterEmail": "Enter email.",
+    "chooseGender": "Choose gender.",
+    "passwordLength": "Password must be at least 8 characters long."
 
 }
