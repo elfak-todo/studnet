@@ -28,21 +28,23 @@ public class ParlamentController : ControllerBase
     {
         try
         {
-            //Need new migrations!
             var university = await _context.Universities.Where(p => p.ID == universityID).FirstOrDefaultAsync();
             if (university != null)
             {
-                var parlaments = await _context.Parlaments.Where(p => p.University == university).ToListAsync();
+                var parlaments = await _context.Parlaments.Where(p => p.University == university).Select(p =>
+                    new
+                    {
+                        ID = p.ID,
+                        FacultyName = p.FacultyName
+                    }).ToListAsync();
+
                 if (parlaments != null)
                 {
                     return Ok(parlaments);
                 }
                 return BadRequest("No parlaments found for university with id: " + universityID);
             }
-            else
-            {
-                return BadRequest("University with id: " + universityID + " doesn't exist");
-            }
+            return BadRequest("University with id: " + universityID + " doesn't exist");
         }
         catch (Exception exc)
         {

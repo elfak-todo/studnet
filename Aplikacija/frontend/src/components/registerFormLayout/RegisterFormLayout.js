@@ -4,10 +4,12 @@ import SelectFaculty from "../selectFaculty/SelectFaculty";
 import SelectGender from "../selectGender/SelectGender";
 import SelectUniversity from "../selectUniveristy/SelectUniveristy";
 import { Form, FloatingLabel, Button, Row, Col } from "react-bootstrap";
+import { useState } from "react";
 
 function RegisterFormLayout() {
   const { t } = useTranslation(["register"]);
-
+  const [selectedUni, setSelectedUni] = useState();
+  
   return (
     <Form>
       <Row>
@@ -34,8 +36,8 @@ function RegisterFormLayout() {
         type="switch"
         label={t("onExchange")}
       ></Form.Check>
-      <SelectUniversity />
-      <SelectFaculty />
+      <SelectUniversity selectedUniversity={uni => setSelectedUni(uni)}/>
+      <SelectFaculty selectedUniversity={selectedUni}/>
       <SelectGender />
       <Row className="p-3">
         <Button variant="primary" type="submit" size="md">

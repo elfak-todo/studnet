@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Backend.Models
 {
@@ -22,7 +23,7 @@ namespace Backend.Models
         #region Relations    
 
         public List<Student>? Users { get; set; }
-
+        [JsonIgnore]
         public List<Parlament>? Parlaments { get; set; }
 
         public List<Location>? Locations { get; set; }

@@ -2,7 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./LoginForm.style.css";
 import { SERVER_ADDRESS } from "../../config";
 import { useTranslation } from "react-i18next";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Row,
