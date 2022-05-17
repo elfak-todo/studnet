@@ -71,12 +71,11 @@ function RegisterFormLayout() {
       setlastNameInvalid(true);
       proceed = false;
     }
-    //Fali validacija za email baca badReq ako nije nesto@nesto.nesto
     if (enteredEmail === "" || enteredEmail.length > 64) {
       setEmailInvalid(true);
       proceed = false;
     }else{
-      const validRegex = /^([\.\_a-zA-Z0-9]+)@([a-zA-Z]+)\.([a-zA-Z]){2,8}/;
+      const validRegex = /^([a-zA-Z0-9]+)@([a-zA-Z]+)\.([a-zA-Z]){2,8}/;
       
       if(!validRegex.test(enteredEmail)){
         setEmailInvalid(true);
