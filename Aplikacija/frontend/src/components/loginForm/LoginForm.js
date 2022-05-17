@@ -1,5 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./LoginForm.style.css";
+import axios from "axios";
 import { SERVER_ADDRESS } from "../../config";
 import { useTranslation } from "react-i18next";
 import { useRef, useState } from "react";
@@ -15,8 +16,10 @@ import {
 } from "react-bootstrap";
 
 function LoginForm() {
-  const navigate = useNavigate();
   const { t } = useTranslation(["login"]);
+
+  const navigate = useNavigate();
+
   const [validated, setValidated] = useState(false);
   const [showWrongPassLabel, setShowWrongPassLabel] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -26,49 +29,36 @@ function LoginForm() {
 
   const submitHander = (event) => {
     event.preventDefault();
+
     const form = event.currentTarget;
 
     if (form.checkValidity() === true) {
       const enteredUsernameOrEmail = usernameOrEmailInputRef.current.value;
       const enteredPassword = passwordInputRef.current.value;
 
-      fetch(SERVER_ADDRESS + "Student/Login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      axios
+        .post(SERVER_ADDRESS + "Student/Login", {
           username: enteredUsernameOrEmail,
           password: enteredPassword,
-        }),
-      }).then((response) => {
-        if (response.ok) {
+        })
+        .then(function (response) {
           navigate("/home", { replace: true });
-          response.json().then((data) => {
-            //Luka hir, iz dis ok? xD
-            //Username and role not stored.
-            localStorage.setItem("token", data.accessToken);
-            setIsLoading(false);
-            setShowWrongPassLabel(false);
-          });
-        } else if (response.status === 401) {
+          localStorage.setItem("student", JSON.stringify(response.data));
           setIsLoading(false);
-          setShowWrongPassLabel(true);
-        }
-      });
+          setShowWrongPassLabel(false);
+        })
+        .catch(function (error) {
+          if (error.response.data === "BadCredentials") {
+            setIsLoading(false);
+            setShowWrongPassLabel(true);
+          }
+        });
     } else {
       event.stopPropagation();
       setIsLoading(false);
     }
     setValidated(true);
   };
-
-  function hideWrongPassLabel() {
-    setShowWrongPassLabel(false);
-  }
-  function showLoading() {
-    setIsLoading(true);
-  }
 
   return (
     <Card className="m-3 shadow p-3">
@@ -78,14 +68,16 @@ function LoginForm() {
       </Card.Header>
       <Card.Body>
         <Form noValidate validated={validated} onSubmit={submitHander}>
-          <FloatingLabel label={t("email")} className="mb-3">
+          <FloatingLabel label={t("email")}>
             <Form.Control
-              className="prevent-validation-color"
-              onChange={hideWrongPassLabel}
               required
+              className="mb-3 prevent-validation-color"
               type="text"
               placeholder={"Email or Username"}
               ref={usernameOrEmailInputRef}
+              onChange={() => {
+                setShowWrongPassLabel(false);
+              }}
             />
             <Form.Control.Feedback type="invalid">
               {t("enterEmail")}
@@ -93,12 +85,14 @@ function LoginForm() {
           </FloatingLabel>
           <FloatingLabel label={t("password")}>
             <Form.Control
-              className="prevent-validation-color"
-              onClick={hideWrongPassLabel}
               required
+              className="prevent-validation-color"
               type="password"
               placeholder="Password"
               ref={passwordInputRef}
+              onChange={() => {
+                setShowWrongPassLabel(false);
+              }}
             />
             <Form.Control.Feedback type="invalid">
               {t("enterPassword")}
@@ -115,7 +109,9 @@ function LoginForm() {
               type="submit"
               size="md"
               className="mt-2"
-              onClick={showLoading}
+              onClick={() => {
+                setIsLoading(true);
+              }}
             >
               {isLoading && (
                 <Spinner

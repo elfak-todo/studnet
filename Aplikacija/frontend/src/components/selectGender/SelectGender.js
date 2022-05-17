@@ -18,7 +18,7 @@ function SelectGender(props) {
             }}
             inline
             type="radio"
-            value="male"
+            value="m"
             label={t("male")}
             name="gender"
           ></Form.Check>
@@ -30,7 +30,7 @@ function SelectGender(props) {
             }}
             inline
             type="radio"
-            value="female"
+            value="f"
             label={t("female")}
             name="gender"
           ></Form.Check>

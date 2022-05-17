@@ -25,6 +25,8 @@
     "enterPassword": "Enter password.",
     "enterEmail": "Enter email.",
     "chooseGender": "Choose gender.",
-    "passwordLength": "Password must be at least 8 characters long."
+    "passwordLength": "Password must be at least 6 characters long.",
+    "emailTaken": "Email already registered!",
+    "usernameTaken": "Username already exist!"
 
 }

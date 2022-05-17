@@ -11,12 +11,13 @@ function SelectFaculty(props) {
   const [options, setOptions] = useState([]);
   const [clearSelect, setClearSelect] = useState(false);
 
-  const defaultOption = t("chooseUni");
+  const defaultOption = 0;
 
   useEffect(() => {
     if (props.selectedUniversity === defaultOption) {
       setClearSelect(true);
     }
+
     if (
       props.selectedUniversity !== undefined &&
       props.selectedUniversity !== defaultOption
@@ -35,14 +36,14 @@ function SelectFaculty(props) {
           console.log(error);
         });
     }
-  }, [props.selectedUniversity, defaultOption]);
+  }, [props.selectedUniversity]);
 
   return (
     <FloatingLabel className="mb-2" label={t("faculty")}>
       <Form.Select
         isInvalid={props.invalid}
         onChange={(e) => {
-          props.selectedFaculty(e.target.value);
+          props.selectedFaculty(e.target.selectedIndex);
           props.setInvalid(false);
         }}
       >

@@ -65,7 +65,7 @@ public class StudentController : ControllerBase
     [HttpPost]
     public async Task<ActionResult> Register([FromBody] Student student)
     {
-        if (student.Password == null || student.Parlament == null || student.University == null)
+        if (student.Password == null)
         {
             return BadRequest("FieldMissing");
         }

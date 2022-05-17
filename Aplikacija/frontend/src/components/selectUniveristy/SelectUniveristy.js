@@ -26,11 +26,11 @@ function SelectUniversity(props) {
       <Form.Select
         isInvalid={props.invalid}
         onChange={(e) => {
-          props.selectedUniversity(e.target.value);
+          props.selectedUniversity(e.target.selectedIndex);
           props.setInvalid(false);
         }}
       >
-        <option>{t("chooseUni")} </option>
+        <option>{t("chooseUni")}</option>
         {options.map((option) => (
           <option key={option.id} value={option.id}>
             {option.name}

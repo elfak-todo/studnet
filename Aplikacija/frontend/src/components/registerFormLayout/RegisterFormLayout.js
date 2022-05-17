@@ -1,26 +1,42 @@
 import "bootstrap/dist/css/bootstrap.min.css";
+import axios from "axios";
+import { SERVER_ADDRESS } from "../../config";
 import SelectFaculty from "../selectFaculty/SelectFaculty";
 import SelectGender from "../selectGender/SelectGender";
 import SelectUniversity from "../selectUniveristy/SelectUniveristy";
 import { useTranslation } from "react-i18next";
 import { useState, useRef } from "react";
-import { Form, FloatingLabel, Button, Row, Col } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import {
+  Row,
+  Col,
+  Form,
+  FloatingLabel,
+  Button,
+  Spinner,
+} from "react-bootstrap";
 
 function RegisterFormLayout() {
   const { t } = useTranslation(["register"]);
 
-  const [selectedUni, setSelectedUni] = useState();
-  const [selectedFac, setSelectedFac] = useState();
-  const [selectedGend, setSelectedGend] = useState();
+  const navigate = useNavigate();
+
+  const [isLoading, setIsLoading] = useState(false);
   const [firstNameInvalid, setFirstNameInvalid] = useState(false);
   const [lastNameInvalid, setlastNameInvalid] = useState(false);
   const [emailInvalid, setEmailInvalid] = useState(false);
+  const [emailTaken, setEmailTaken] = useState(false);
   const [usernameInvalid, setUsernameInvalid] = useState(false);
+  const [usernameTaken, setUsernameTaken] = useState(false);
   const [passwordInvalid, setPasswordInvalid] = useState(false);
   const [passwordShortInvalid, setPasswordShortInvalid] = useState(false);
   const [universityInvalid, setUniversityInvalid] = useState(false);
   const [facultyInvalid, setFacultyInvalid] = useState(false);
   const [genderInvalid, setGenderInvalid] = useState(false);
+
+  const [selectedUni, setSelectedUni] = useState();
+  const [selectedFac, setSelectedFac] = useState();
+  const [selectedGend, setSelectedGend] = useState();
 
   const firstNameInputRef = useRef();
   const lastNameInputRef = useRef();
@@ -40,34 +56,36 @@ function RegisterFormLayout() {
     const selectedUniversity = selectedUni;
     const selectedFaculty = selectedFac;
     const selectedGender = selectedGend;
-    const onExchange = onExchangeInputRef.current.value;
+    const onExchange = onExchangeInputRef.current.checked;
+    const defaultRole = 0;
+    const defaultImagePath = "/";
 
     let proceed = true;
 
-    if (enteredFirstName === "") {
+    if (enteredFirstName === "" || enteredFirstName.lentgh > 32) {
       setFirstNameInvalid(true);
       proceed = false;
     }
 
-    if (enteredLastName === "") {
+    if (enteredLastName === "" || enteredLastName.length > 32) {
       setlastNameInvalid(true);
       proceed = false;
     }
-
-    if (enteredEmail === "") {
+    //Fali validacija za email baca badReq ako nije nesto@nesto.nesto
+    if (enteredEmail === "" || enteredEmail.length > 64) {
       setEmailInvalid(true);
       proceed = false;
     }
 
-    if (enteredUsername === "") {
+    if (enteredUsername === "" || enteredUsername.length > 32) {
       setUsernameInvalid(true);
       proceed = false;
     }
 
-    if (enteredPassword === "") {
+    if (enteredPassword === "" || enteredPassword.length > 128) {
       setPasswordInvalid(true);
       proceed = false;
-    } else if (enteredPassword.length < 8) {
+    } else if (enteredPassword.length < 6) {
       setPasswordShortInvalid(true);
       setPasswordInvalid(true);
       proceed = false;
@@ -75,41 +93,71 @@ function RegisterFormLayout() {
 
     if (
       selectedUniversity === undefined ||
-      selectedUniversity === null ||
       selectedUniversity === t("chooseUni")
     ) {
       setUniversityInvalid(true);
       proceed = false;
     }
 
-    if (
-      selectedFaculty === undefined ||
-      selectedFaculty === null ||
-      selectedFaculty === t("chooseFac")
-    ) {
+    if (selectedFaculty === undefined || selectedFaculty === t("chooseFac")) {
       setFacultyInvalid(true);
       proceed = false;
     }
 
-    if (selectedGender === undefined || selectedGend === null) {
+    if (selectedGender === undefined) {
       setGenderInvalid(true);
       proceed = false;
     }
 
     if (proceed) {
-      //Post data
-      const data = {
-        firstName: enteredFirstName,
-        lastName: enteredLastName,
-        email: enteredEmail,
+      const d = {
         username: enteredUsername,
-        password: enteredPassword,
-        onExchange: onExchange,
-        university: selectedUniversity,
-        faculty: selectedFaculty,
-        gender: selectedGender,
-      };
-      console.log(data);
+          password: enteredPassword,
+          email: enteredEmail,
+          imagePath: defaultImagePath,
+          firstName: enteredFirstName,
+          lastName: enteredLastName,
+          gender: selectedGender,
+          role: defaultRole,
+          isExchange: onExchange,
+          universityId: selectedUniversity,
+          parlamentId: selectedFaculty,
+      }
+      console.log(d);
+      axios
+        .post(SERVER_ADDRESS + "Student/Register", {
+          username: enteredUsername,
+          password: enteredPassword,
+          email: enteredEmail,
+          imagePath: defaultImagePath,
+          firstName: enteredFirstName,
+          lastName: enteredLastName,
+          gender: selectedGender,
+          role: defaultRole,
+          isExchange: onExchange,
+          universityId: selectedUniversity,
+          parlamentId: selectedFaculty,
+        })
+        .then(function (response) {
+          setIsLoading(false);
+          if (response.data === "RegistrationSuccessful") {
+            navigate("/", { replace: true });
+          }
+        })
+        .catch(function (error) {
+          setIsLoading(false);
+          if (error.response.data === "EmailTaken") {
+            setEmailInvalid(true);
+            setEmailTaken(true);
+          }
+          if (error.response.data === "UsernameTaken") {
+            setUsernameInvalid(true);
+            setUsernameTaken(true);
+          }
+        });
+    }
+    else{
+      setIsLoading(false);
     }
   };
   return (
@@ -118,13 +166,13 @@ function RegisterFormLayout() {
         <Col>
           <FloatingLabel label={t("firstName")} className="mb-2">
             <Form.Control
+              type="input"
+              placeholder={"Enter first name"}
               isInvalid={firstNameInvalid}
+              ref={firstNameInputRef}
               onChange={() => {
                 setFirstNameInvalid(false);
               }}
-              type="input"
-              placeholder={"Enter first name"}
-              ref={firstNameInputRef}
             />
             <Form.Control.Feedback type="invalid">
               {t("enterFirstName")}
@@ -134,13 +182,13 @@ function RegisterFormLayout() {
         <Col>
           <FloatingLabel label={t("lastName")} className="mb-2">
             <Form.Control
+              type="input"
+              placeholder={"Enter last name"}
               isInvalid={lastNameInvalid}
+              ref={lastNameInputRef}
               onChange={() => {
                 setlastNameInvalid(false);
               }}
-              type="input"
-              placeholder={"Enter last name"}
-              ref={lastNameInputRef}
             />
             <Form.Control.Feedback type="invalid">
               {t("enterLastName")}
@@ -150,52 +198,48 @@ function RegisterFormLayout() {
       </Row>
       <FloatingLabel label={t("email")} className="mb-2">
         <Form.Control
-          isInvalid={emailInvalid}
-          onChange={() => {
-            setEmailInvalid(false);
-          }}
           type="email"
           placeholder={"name@example.com"}
+          isInvalid={emailInvalid}
           ref={emailInputRef}
+          onChange={() => {
+            setEmailInvalid(false);
+            setEmailTaken(false);
+          }}
         />
         <Form.Control.Feedback type="invalid">
-          {t("enterEmail")}
+          {emailTaken ? t("emailTaken") : t("enterEmail")}
         </Form.Control.Feedback>
       </FloatingLabel>
       <FloatingLabel label={t("username")} className="mb-2">
         <Form.Control
-          isInvalid={usernameInvalid}
-          onChange={() => {
-            setUsernameInvalid(false);
-          }}
           type="text"
           placeholder={"Username"}
+          isInvalid={usernameInvalid}
           ref={usernameInputRef}
+          onChange={() => {
+            setUsernameInvalid(false);
+            setUsernameTaken(false);
+          }}
         />
         <Form.Control.Feedback type="invalid">
-          {t("enterUsername")}
+          {usernameTaken ? t("usernameTaken") : t("enterUsername")}
         </Form.Control.Feedback>
       </FloatingLabel>
       <FloatingLabel label={t("password")} className="mb-2">
         <Form.Control
+          type="password"
+          placeholder={"Password"}
           isInvalid={passwordInvalid}
+          ref={passwordInputRef}
           onChange={() => {
             setPasswordInvalid(false);
             setPasswordShortInvalid(false);
           }}
-          type="password"
-          placeholder={"Password"}
-          ref={passwordInputRef}
         />
-        {passwordShortInvalid ? (
-          <Form.Control.Feedback type="invalid">
-            {t("passwordLength")}
-          </Form.Control.Feedback>
-        ) : (
-          <Form.Control.Feedback type="invalid">
-            {t("enterPassword")}
-          </Form.Control.Feedback>
-        )}
+        <Form.Control.Feedback type="invalid">
+          {passwordShortInvalid ? t("passwordLength") : t("enterPassword")}
+        </Form.Control.Feedback>
       </FloatingLabel>
       <Form.Check
         inline
@@ -221,7 +265,23 @@ function RegisterFormLayout() {
         setInvalid={(value) => setGenderInvalid(value)}
       />
       <Row className="p-3">
-        <Button variant="primary" type="submit" size="md">
+        <Button
+          variant="primary"
+          type="submit"
+          size="md"
+          onClick={() => {
+            setIsLoading(true);
+          }}
+        >
+          {isLoading && (
+            <Spinner
+              as="span"
+              animation="border"
+              size="sm"
+              role="status"
+              aria-hidden="true"
+            />
+          )}
           {t("signUp")}
         </Button>
       </Row>

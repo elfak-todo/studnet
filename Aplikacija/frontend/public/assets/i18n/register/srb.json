@@ -25,5 +25,7 @@
     "enterPassword": "Unesite lozinku.",
     "enterEmail": "Unesite email.",
     "chooseGender": "Izaberite pol.",
-    "passwordLength": "Lozinka mora da sadrži najmanje 8 karaktera."
+    "passwordLength": "Lozinka mora da sadrži najmanje 6 karaktera.",
+    "emailTaken": "Email je već registrovan!",
+    "usernameTaken": "Korisničko ime zauzeto!"
 }
