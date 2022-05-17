@@ -23,7 +23,7 @@
     "enterLastName": "Enter last name.",
     "enterUsername": "Enter username.",
     "enterPassword": "Enter password.",
-    "enterEmail": "Enter email.",
+    "enterEmail": "Enter valid email address.",
     "chooseGender": "Choose gender.",
     "passwordLength": "Password must be at least 6 characters long.",
     "emailTaken": "Email already registered!",

@@ -75,6 +75,13 @@ function RegisterFormLayout() {
     if (enteredEmail === "" || enteredEmail.length > 64) {
       setEmailInvalid(true);
       proceed = false;
+    }else{
+      const validRegex = /^([\.\_a-zA-Z0-9]+)@([a-zA-Z]+)\.([a-zA-Z]){2,8}/;
+      
+      if(!validRegex.test(enteredEmail)){
+        setEmailInvalid(true);
+        proceed = false;
+      }
     }
 
     if (enteredUsername === "" || enteredUsername.length > 32) {
@@ -110,20 +117,6 @@ function RegisterFormLayout() {
     }
 
     if (proceed) {
-      const d = {
-        username: enteredUsername,
-          password: enteredPassword,
-          email: enteredEmail,
-          imagePath: defaultImagePath,
-          firstName: enteredFirstName,
-          lastName: enteredLastName,
-          gender: selectedGender,
-          role: defaultRole,
-          isExchange: onExchange,
-          universityId: selectedUniversity,
-          parlamentId: selectedFaculty,
-      }
-      console.log(d);
       axios
         .post(SERVER_ADDRESS + "Student/Register", {
           username: enteredUsername,

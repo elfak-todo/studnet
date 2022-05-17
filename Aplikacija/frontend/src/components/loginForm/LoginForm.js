@@ -71,7 +71,7 @@ function LoginForm() {
           <FloatingLabel label={t("email")}>
             <Form.Control
               required
-              className="mb-3 prevent-validation-color"
+              className="prevent-validation-color"
               type="text"
               placeholder={"Email or Username"}
               ref={usernameOrEmailInputRef}
@@ -86,7 +86,7 @@ function LoginForm() {
           <FloatingLabel label={t("password")}>
             <Form.Control
               required
-              className="prevent-validation-color"
+              className="mt-3 prevent-validation-color"
               type="password"
               placeholder="Password"
               ref={passwordInputRef}
