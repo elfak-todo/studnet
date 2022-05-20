@@ -1,7 +1,7 @@
-function HomePage() {
-  const student = JSON.parse(localStorage.getItem('student'));
+import useStudent from "../services/StudentManager.js";
 
-  return <div> {student.accessToken} </div>;
+function HomePage() {
+  return <div> LALAL </div>;
 }
 
 export default HomePage;

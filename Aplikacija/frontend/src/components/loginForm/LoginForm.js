@@ -1,7 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./LoginForm.style.css";
 import axios from "axios";
-import { SERVER_ADDRESS } from "../../config";
 import { useTranslation } from "react-i18next";
 import { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -14,6 +13,7 @@ import {
   Alert,
   Spinner,
 } from "react-bootstrap";
+import useStudent from "../../services/StudentManager.js";
 
 function LoginForm() {
   const { t } = useTranslation(["login"]);
@@ -27,6 +27,8 @@ function LoginForm() {
   const usernameOrEmailInputRef = useRef();
   const passwordInputRef = useRef();
 
+  const [student, setStudent] = useStudent();
+
   const submitHander = (event) => {
     event.preventDefault();
 
@@ -37,17 +39,17 @@ function LoginForm() {
       const enteredPassword = passwordInputRef.current.value;
 
       axios
-        .post(SERVER_ADDRESS + "Student/Login", {
+        .post("Student/Login", {
           username: enteredUsernameOrEmail,
           password: enteredPassword,
         })
-        .then(function (response) {
+        .then((response) => {
+          setStudent(response.data);
           navigate("/home", { replace: true });
-          localStorage.setItem("student", JSON.stringify(response.data));
           setIsLoading(false);
           setShowWrongPassLabel(false);
         })
-        .catch(function (error) {
+        .catch((error) => {
           if (error.response.data === "BadCredentials") {
             setIsLoading(false);
             setShowWrongPassLabel(true);
