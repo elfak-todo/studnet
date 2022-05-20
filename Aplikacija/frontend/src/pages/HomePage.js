@@ -1,7 +1,5 @@
-import useStudent from "../services/StudentManager.js";
-
 function HomePage() {
-  return <div> LALAL </div>;
+  return <div>Home Page</div>;
 }
 
 export default HomePage;

@@ -1,0 +1,12 @@
+{
+    "events": "Events",
+    "locations": "Locations",
+    "profile" : "Profile",
+    "settings": "Settings",
+    "logout": "Logout",
+    "language": "Language",
+    "english": "English",
+    "serbian": "Serbian",
+    "search": "Search",
+    "searchPlaceholder": "Search"
+}
