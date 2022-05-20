@@ -22,89 +22,96 @@ public class EventController : ControllerBase
     }
 
 
-    [Route("Event")]
+    [Route("")]
     [Authorize(Roles = "Student")]
     [HttpPost]
-    public async Task<ActionResult> Event([FromBody] Event _event)
+    public async Task<ActionResult> PostEvent([FromBody] Event ev)
     {
-        var student = await _tokenManagerManager.GetStudent(HttpContext.User);
+        var student = await _tokenManager.GetStudent(HttpContext.User);
 
-        if (student ==  null)
+        if (student == null)
         {
             return BadRequest("StudentNotFound");
         }
 
-        _event.PublicationTime = DateTime.Now;
-        _event.Author = student;
-        _event.Edited = false;
-        _event.Comments = new List<Comment>();
-        _event.LikedBy = new List<Student>();
+        if (ev.LocationId == null)
+        {
+            return BadRequest("FieldMissing");
+        }
+
+        ev.PublicationTime = DateTime.Now;
+        ev.Organiser = student;
+        ev.Comments = new List<Comment>();
+        ev.LikedBy = new List<Student>();
+        ev.Reservations = new List<Reservation>();
+        ev.OrganisingParlamentId = student.ParlamentId;
+        ev.UniversityId = student.UniversityId;
 
         if ((int)student.Role < (int)Role.ParlamentMember)
         {
-            _event.Verified = false;
-            _event.Pinned = false;
+            ev.Verified = false;
+            ev.Pinned = false;
         }
 
-        _context.Event.Add(_event);
+        _context.Events.Add(ev);
         await _context.SaveChangesAsync();
 
-        return Ok(post);
+        return Ok(ev);
     }
 
-    [Route("Feed/Event/{page}")]
+    [Route("Feed/{page}")]
     [Authorize(Roles = "Student")]
     [HttpGet]
     public async Task<ActionResult> GetFeed(int page)
     {
         const int pageSize = 20;
 
-        IQeryable<Event> events;
+        IQueryable<Event> events;
 
         if (page == 0)
         {
-            events = _context.Events.Include (events =>events.Author)
-                                    .Include(e=>e.Comments)
-                                    .OrderByDescending(e=>e.PublicationTime)
+            events = _context.Events.Include(events => events.Organiser)
+                                    .Include(e => e.Comments)
+                                    .OrderByDescending(e => e.PublicationTime)
                                     .Take(pageSize)
-                                    .OrderByDescending(e=> e.Pinned)
+                                    .OrderByDescending(e => e.Pinned)
                                     .ThenByDescending(e => e.Verified)
                                     .ThenByDescending(e => e.PublicationTime);
         }
         else
         {
-            events = _context.Events.Include(e=>e.Author)
-                                    .Include(e=>e.Comments)
-                                    .OrderByDescending(e=>e.PublicationTime)
+            events = _context.Events.Include(e => e.Organiser)
+                                    .Include(e => e.Comments)
+                                    .OrderByDescending(e => e.PublicationTime)
                                     .Skip(page * pageSize)
                                     .Take(pageSize);
         }
 
-        var EventsSelected = events.Select(e=> new
+        var EventsSelected = events.Select(e => new
         {
-            _event = e,
+            ev = e,
             author = new
             {
-                e.Author!.ID,
-                e.Author.FirstName,
-                e.Author.LastName,
-                e.Author.Username,
-                e.Author.ImagePath
+                e.Organiser!.ID,
+                e.Organiser.FirstName,
+                e.Organiser.LastName,
+                e.Organiser.Username,
+                e.Organiser.ImagePath
             },
-            comments = e.Comments!.OrderByDescending(e=>e.Pinned)
-                                .ThenByDescending(e=>e.verified)
-                                .ThenByDescending(e=>e.PublicationTime)
+            comments = e.Comments!.OrderByDescending(e => e.Pinned)
+                                .ThenByDescending(e => e.Verified)
+                                .ThenByDescending(e => e.PublicationTime)
                                 .Take(3)
-                                .Select(c=> new 
+                                .Select(c => new
                                 {
                                     comment = c,
-                                    author = e.Anonymous ? null : new
+                                    author = new
                                     {
-                                        e.Author!.ID,
-                                        e.Author.FirstName,
-                                        e.Author.LastName,
-                                        e.Author.Username,
-                                        e.Author.ImagePath
+                                        e.Organiser!.ID,
+                                        e.Organiser.FirstName,
+                                        e.Organiser.LastName,
+                                        e.Organiser.Username,
+                                        e.Organiser.ImagePath
                                     }
                                 }),
         });
@@ -114,41 +121,48 @@ public class EventController : ControllerBase
     [Route("Edit")]
     [Authorize(Roles = "Student")]
     [HttpPut]
-    public async Task<ActionResult> EditEvent([FromBody] Event _event)
+    public async Task<ActionResult> EditEvent([FromBody] Event ev)
     {
-         var user = _tokenManager.GetUserDetails(HttpContext.User);
+        var user = _tokenManager.GetUserDetails(HttpContext.User);
 
         if (user == null)
         {
             return BadRequest("BadToken");
         }
 
-        var eventInDatabase = await _context.Events.FindAsync(_event.ID);
+        var eventInDatabase = await _context.Events.FindAsync(ev.ID);
 
         if (eventInDatabase == null)
         {
             return BadRequest("EventNotFound");
         }
 
-        if (_event.Author == null || _event.Author.ID != user.ID)
+        if (ev.OrganiserId == null || ev.OrganiserId != user.ID)
         {
             return Forbid("NotAuthor");
         }
 
-        eventInDatabase.Text = _event.Text;
-        eventInDatabase.Edited = true;
+        eventInDatabase.Title = ev.Title;
+        eventInDatabase.Description = ev.Description;
+        eventInDatabase.TimeOfEvent = ev.TimeOfEvent;
+        eventInDatabase.EndTime = ev.EndTime;
+        eventInDatabase.LocationName = ev.LocationName;
+        eventInDatabase.ImagePath = ev.ImagePath;
+        eventInDatabase.PaidEvent = ev.PaidEvent;
+        eventInDatabase.NumberOfTickets = ev.NumberOfTickets;
+        eventInDatabase.TicketPrice = ev.TicketPrice;
 
         if ((int)user.Role >= (int)Role.ParlamentMember)
         {
-            eventInDatabase.Verified = _event.Verified;
-            eventInDatabase.Pinned = _event.Pinned;
+            eventInDatabase.Verified = ev.Verified;
+            eventInDatabase.Pinned = ev.Pinned;
         }
 
         await _context.SaveChangesAsync();
 
         return Ok(eventInDatabase);
     }
-    
+
     [Route("Delete/{eventId}")]
     [Authorize(Roles = "Student")]
     [HttpDelete]
@@ -161,20 +175,19 @@ public class EventController : ControllerBase
             return BadRequest("BadToken");
         }
 
-        var _event = await _context.Events.Include(e => e.Author)
-                            .FirstOrDefaultAsync(e => e.ID == eventId);
+        var ev = await _context.Events.FirstOrDefaultAsync(e => e.ID == eventId);
 
-        if (_event == null)
+        if (ev == null)
         {
             return BadRequest("PostNotFound");
         }
 
-        if (_event.Author == null || _event.Author.ID != user.ID)
+        if (ev.OrganiserId == null || ev.OrganiserId != user.ID)
         {
             return Forbid("NotAuthor");
         }
 
-        _context.Events.Remove(_event);
+        _context.Events.Remove(ev);
         await _context.SaveChangesAsync();
         return Ok();
     }
@@ -184,17 +197,17 @@ public class EventController : ControllerBase
     [HttpPut]
     public async Task<ActionResult> SetVerified(int eventId, bool verified)
     {
-        var _event = await _context.Events.FindAsync(eventId);
+        var ev = await _context.Events.FindAsync(eventId);
 
-        if (_event == null)
+        if (ev == null)
         {
             return BadRequest("PostNotFound");
         }
 
-        _event.Verified = verified;
+        ev.Verified = verified;
 
         await _context.SaveChangesAsync();
-        return Ok(_event);
+        return Ok(ev);
     }
 
     [Route("SetPinned/{eventId}/{pinned}")]
@@ -202,16 +215,16 @@ public class EventController : ControllerBase
     [HttpPut]
     public async Task<ActionResult> SetPinned(int eventId, bool pinned)
     {
-        var _event = await _context.Events.FindAsync(eventId);
+        var ev = await _context.Events.FindAsync(eventId);
 
-        if (_event == null)
+        if (ev == null)
         {
             return BadRequest("EventNotFound");
         }
 
-        _event.Pinned = pinned;
+        ev.Pinned = pinned;
 
         await _context.SaveChangesAsync();
-        return Ok(_event);
+        return Ok(ev);
     }
 }

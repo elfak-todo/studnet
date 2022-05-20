@@ -21,7 +21,7 @@ public class PostController : ControllerBase
         _tokenManager = tokenManager;
     }
 
-    [Route("Post")]
+    [Route("")]
     [Authorize(Roles = "Student")]
     [HttpPost]
     public async Task<ActionResult> Post([FromBody] Post post)

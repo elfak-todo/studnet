@@ -10,7 +10,6 @@ function HomePage() {
     });
   }, []);
 
-  //Test ✅ - ako se prikazuje feed ovde autorizacija radi
   return <div>{JSON.stringify(feed)}</div>;
 }
 
