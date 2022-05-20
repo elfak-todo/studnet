@@ -1,0 +1,12 @@
+{
+  "events": "Događaji",
+  "locations": "Lokacije",
+  "profile" : "Profil",
+  "settings": "Podešavanja",
+  "logout": "Odjavi se",
+  "language": "Jezik",
+  "english": "Engleski",
+  "serbian": "Srpski",
+  "search": "Pretraži",
+  "searchPlaceholder": "Pretraga"
+}

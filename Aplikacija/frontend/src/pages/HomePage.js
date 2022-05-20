@@ -1,7 +1,5 @@
 function HomePage() {
-  const student = JSON.parse(localStorage.getItem('student'));
-
-  return <div> {student.accessToken} </div>;
+  return <div>Home Page</div>;
 }
 
 export default HomePage;
