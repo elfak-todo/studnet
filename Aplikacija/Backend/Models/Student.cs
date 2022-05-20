@@ -46,9 +46,11 @@ namespace Backend.Models
 
         [JsonIgnore]
         public University? University { get; set; }
+        public int? UniversityId { get; set; }
 
         [JsonIgnore]
         public Parlament? Parlament { get; set; }
+        public int? ParlamentId { get; set; }
 
         [JsonIgnore]
         public List<Post>? PublishedPosts { get; set; }

@@ -18,8 +18,10 @@ namespace Backend.Models
         #region Relations
 
         public Student? ReservedBy { get; set; }
+        public int? ReservedById { get; set; }
 
         public Event? Event { get; set; }
+        public int? EventId { get; set; }
 
         #endregion Relations
     }

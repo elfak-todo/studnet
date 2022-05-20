@@ -23,6 +23,9 @@ namespace Backend.Models
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Student>()
+                                .HasAlternateKey(s => s.Email);
+
             modelBuilder.Entity<Comment>()
                                 .HasMany<Student>(k => k.LikedBy)
                                 .WithMany(l => l.LikedComments);

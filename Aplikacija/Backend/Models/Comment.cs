@@ -44,15 +44,18 @@ namespace Backend.Models
 
         [JsonIgnore]
         public Student? Author { get; set; }
+        public int? AuthorId { get; set; }
 
         [JsonIgnore]
         public List<Student>? LikedBy { get; set; }
 
         [JsonIgnore]
         public Post? CommentedPost { get; set; }
+        public int? CommentedPostId { get; set; }
 
         [JsonIgnore]
         public Event? CommentedEvent { get; set; }
+        public int? CommentedEventId { get; set; }
 
         #endregion Relations
     }

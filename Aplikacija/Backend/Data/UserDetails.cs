@@ -9,5 +9,7 @@ namespace Backend.Data
         public string? Username { get; set; }
 
         public Role Role { get; set; }
+
+        public int UniversityId { get; set; }
     }
 }

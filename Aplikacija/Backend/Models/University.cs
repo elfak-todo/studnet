@@ -28,6 +28,10 @@ namespace Backend.Models
 
         public List<Location>? Locations { get; set; }
 
+        public List<Post>? Posts { get; set; }
+
+        public List<Event>? Events { get; set; }
+
         #endregion Relations
     }
 }

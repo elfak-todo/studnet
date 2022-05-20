@@ -54,6 +54,7 @@ public class StudentController : ControllerBase
             new
             {
                 username = student.Username,
+                name = $"{student.FirstName} {student.LastName}",
                 role = student.Role,
                 accessToken = token,
             }
@@ -65,7 +66,7 @@ public class StudentController : ControllerBase
     [HttpPost]
     public async Task<ActionResult> Register([FromBody] Student student)
     {
-        if (student.Password == null)
+        if (student.Password == null || student.ParlamentId == null || student.UniversityId == null)
         {
             return BadRequest("FieldMissing");
         }

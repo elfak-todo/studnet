@@ -38,6 +38,7 @@ public class PostController : ControllerBase
         post.Edited = false;
         post.Comments = new List<Comment>();
         post.LikedBy = new List<Student>();
+        post.UniversityId = student.UniversityId;
 
         if ((int)student.Role < (int)Role.ParlamentMember)
         {
@@ -58,12 +59,19 @@ public class PostController : ControllerBase
     {
         const int pageSize = 20;
 
+        var user = _tokenManager.GetUserDetails(HttpContext.User);
+        if (user == null)
+        {
+            return StatusCode(500);
+        }
+
         IQueryable<Post> posts;
 
         if (page == 0)
         {
             posts = _context.Posts.Include(p => p.Author)
                                 .Include(p => p.Comments)
+                                .Where(p => p.UniversityId == user.UniversityId)
                                 .OrderByDescending(p => p.PublicationTime)
                                 .Take(pageSize)
                                 .OrderByDescending(p => p.Pinned)
@@ -74,6 +82,7 @@ public class PostController : ControllerBase
         {
             posts = _context.Posts.Include(p => p.Author)
                                 .Include(p => p.Comments)
+                                .Where(p => p.UniversityId == user.UniversityId)
                                 .OrderByDescending(p => p.PublicationTime)
                                 .Skip(page * pageSize)
                                 .Take(pageSize);

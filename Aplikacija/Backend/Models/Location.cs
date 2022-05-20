@@ -62,8 +62,10 @@ namespace Backend.Models
         #region Relations
 
         public Student? Author { get; set; }
+        public int? AuthorId { get; set; }
 
         public University? University { get; set; }
+        public int? UniversityId { get; set; }
 
         public List<Event>? Events { get; set; }
 

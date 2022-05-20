@@ -21,6 +21,7 @@ namespace Backend.Models
 
         #region Relations
         public University? University { get; set; }
+        public int? UniversityId { get; set; }
 
         public List<Student>? Members { get; set; }
 

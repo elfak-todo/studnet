@@ -4,6 +4,7 @@ using Backend.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20220520210547_V5")]
+    partial class V5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,13 +35,13 @@ namespace Backend.Migrations
                     b.Property<bool>("Anonymous")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("AuthorId")
+                    b.Property<int?>("AuthorID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CommentedEventId")
+                    b.Property<int?>("CommentedEventID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CommentedPostId")
+                    b.Property<int?>("CommentedPostID")
                         .HasColumnType("int");
 
                     b.Property<bool>("Edited")
@@ -61,11 +63,11 @@ namespace Backend.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("AuthorId");
+                    b.HasIndex("AuthorID");
 
-                    b.HasIndex("CommentedEventId");
+                    b.HasIndex("CommentedEventID");
 
-                    b.HasIndex("CommentedPostId");
+                    b.HasIndex("CommentedPostID");
 
                     b.ToTable("Comment");
                 });
@@ -90,7 +92,7 @@ namespace Backend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("LocationId")
+                    b.Property<int?>("LocationID")
                         .HasColumnType("int");
 
                     b.Property<string>("LocationName")
@@ -100,10 +102,10 @@ namespace Backend.Migrations
                     b.Property<int>("NumberOfTickets")
                         .HasColumnType("int");
 
-                    b.Property<int?>("OrganiserId")
+                    b.Property<int?>("OrganiserID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("OrganisingParlamentId")
+                    b.Property<int?>("OrganisingParlamentID")
                         .HasColumnType("int");
 
                     b.Property<bool>("PaidEvent")
@@ -126,21 +128,16 @@ namespace Backend.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
-                    b.Property<int?>("UniversityId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("Verified")
                         .HasColumnType("bit");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("LocationId");
+                    b.HasIndex("LocationID");
 
-                    b.HasIndex("OrganiserId");
+                    b.HasIndex("OrganiserID");
 
-                    b.HasIndex("OrganisingParlamentId");
-
-                    b.HasIndex("UniversityId");
+                    b.HasIndex("OrganisingParlamentID");
 
                     b.ToTable("Event");
                 });
@@ -157,10 +154,10 @@ namespace Backend.Migrations
                         .HasMaxLength(1024)
                         .HasColumnType("nvarchar(1024)");
 
-                    b.Property<int?>("GradedById")
+                    b.Property<int?>("GradedByID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("GradedLocationId")
+                    b.Property<int?>("GradedLocationID")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("PublicationTime")
@@ -171,9 +168,9 @@ namespace Backend.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("GradedById");
+                    b.HasIndex("GradedByID");
 
-                    b.HasIndex("GradedLocationId");
+                    b.HasIndex("GradedLocationID");
 
                     b.ToTable("Grade");
                 });
@@ -191,7 +188,7 @@ namespace Backend.Migrations
                         .HasMaxLength(1024)
                         .HasColumnType("nvarchar(1024)");
 
-                    b.Property<int?>("AuthorId")
+                    b.Property<int?>("AuthorID")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -221,16 +218,16 @@ namespace Backend.Migrations
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UniversityId")
+                    b.Property<int?>("UniversityID")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("AuthorId");
+                    b.HasIndex("AuthorID");
 
                     b.HasIndex("StudentID");
 
-                    b.HasIndex("UniversityId");
+                    b.HasIndex("UniversityID");
 
                     b.ToTable("Location");
                 });
@@ -253,12 +250,12 @@ namespace Backend.Migrations
                         .HasMaxLength(32)
                         .HasColumnType("nvarchar(32)");
 
-                    b.Property<int?>("UniversityId")
+                    b.Property<int?>("UniversityID")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("UniversityId");
+                    b.HasIndex("UniversityID");
 
                     b.ToTable("Parlament");
                 });
@@ -291,17 +288,12 @@ namespace Backend.Migrations
                         .HasMaxLength(2048)
                         .HasColumnType("nvarchar(2048)");
 
-                    b.Property<int?>("UniversityId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("Verified")
                         .HasColumnType("bit");
 
                     b.HasKey("ID");
 
                     b.HasIndex("AuthorID");
-
-                    b.HasIndex("UniversityId");
 
                     b.ToTable("Post");
                 });
@@ -314,20 +306,20 @@ namespace Backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
-                    b.Property<int?>("EventId")
+                    b.Property<int?>("EventID")
                         .HasColumnType("int");
 
                     b.Property<int>("NumberOfTickets")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ReservedById")
+                    b.Property<int?>("ReservedByID")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("EventId");
+                    b.HasIndex("EventID");
 
-                    b.HasIndex("ReservedById");
+                    b.HasIndex("ReservedByID");
 
                     b.ToTable("Reservation");
                 });
@@ -367,7 +359,7 @@ namespace Backend.Migrations
                         .HasMaxLength(32)
                         .HasColumnType("nvarchar(32)");
 
-                    b.Property<int?>("ParlamentId")
+                    b.Property<int>("ParlamentId")
                         .HasColumnType("int");
 
                     b.Property<string>("Password")
@@ -378,7 +370,7 @@ namespace Backend.Migrations
                     b.Property<int>("Role")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UniversityId")
+                    b.Property<int>("UniversityId")
                         .HasColumnType("int");
 
                     b.Property<string>("Username")
@@ -469,15 +461,15 @@ namespace Backend.Migrations
                 {
                     b.HasOne("Backend.Models.Student", "Author")
                         .WithMany("PublishedComments")
-                        .HasForeignKey("AuthorId");
+                        .HasForeignKey("AuthorID");
 
                     b.HasOne("Backend.Models.Event", "CommentedEvent")
                         .WithMany("Comments")
-                        .HasForeignKey("CommentedEventId");
+                        .HasForeignKey("CommentedEventID");
 
                     b.HasOne("Backend.Models.Post", "CommentedPost")
                         .WithMany("Comments")
-                        .HasForeignKey("CommentedPostId");
+                        .HasForeignKey("CommentedPostID");
 
                     b.Navigation("Author");
 
@@ -490,38 +482,32 @@ namespace Backend.Migrations
                 {
                     b.HasOne("Backend.Models.Location", "Location")
                         .WithMany("Events")
-                        .HasForeignKey("LocationId");
+                        .HasForeignKey("LocationID");
 
                     b.HasOne("Backend.Models.Student", "Organiser")
                         .WithMany("PublishedEvents")
-                        .HasForeignKey("OrganiserId");
+                        .HasForeignKey("OrganiserID");
 
                     b.HasOne("Backend.Models.Parlament", "OrganisingParlament")
                         .WithMany("Events")
-                        .HasForeignKey("OrganisingParlamentId");
-
-                    b.HasOne("Backend.Models.University", "University")
-                        .WithMany("Events")
-                        .HasForeignKey("UniversityId");
+                        .HasForeignKey("OrganisingParlamentID");
 
                     b.Navigation("Location");
 
                     b.Navigation("Organiser");
 
                     b.Navigation("OrganisingParlament");
-
-                    b.Navigation("University");
                 });
 
             modelBuilder.Entity("Backend.Models.Grade", b =>
                 {
                     b.HasOne("Backend.Models.Student", "GradedBy")
                         .WithMany("Grades")
-                        .HasForeignKey("GradedById");
+                        .HasForeignKey("GradedByID");
 
                     b.HasOne("Backend.Models.Location", "GradedLocation")
                         .WithMany("Grades")
-                        .HasForeignKey("GradedLocationId");
+                        .HasForeignKey("GradedLocationID");
 
                     b.Navigation("GradedBy");
 
@@ -532,7 +518,7 @@ namespace Backend.Migrations
                 {
                     b.HasOne("Backend.Models.Student", "Author")
                         .WithMany("Locations")
-                        .HasForeignKey("AuthorId");
+                        .HasForeignKey("AuthorID");
 
                     b.HasOne("Backend.Models.Student", null)
                         .WithMany("LikedLocations")
@@ -540,7 +526,7 @@ namespace Backend.Migrations
 
                     b.HasOne("Backend.Models.University", "University")
                         .WithMany("Locations")
-                        .HasForeignKey("UniversityId");
+                        .HasForeignKey("UniversityID");
 
                     b.Navigation("Author");
 
@@ -551,7 +537,7 @@ namespace Backend.Migrations
                 {
                     b.HasOne("Backend.Models.University", "University")
                         .WithMany("Parlaments")
-                        .HasForeignKey("UniversityId");
+                        .HasForeignKey("UniversityID");
 
                     b.Navigation("University");
                 });
@@ -562,24 +548,18 @@ namespace Backend.Migrations
                         .WithMany("PublishedPosts")
                         .HasForeignKey("AuthorID");
 
-                    b.HasOne("Backend.Models.University", "University")
-                        .WithMany("Posts")
-                        .HasForeignKey("UniversityId");
-
                     b.Navigation("Author");
-
-                    b.Navigation("University");
                 });
 
             modelBuilder.Entity("Backend.Models.Reservation", b =>
                 {
                     b.HasOne("Backend.Models.Event", "Event")
                         .WithMany("Reservations")
-                        .HasForeignKey("EventId");
+                        .HasForeignKey("EventID");
 
                     b.HasOne("Backend.Models.Student", "ReservedBy")
                         .WithMany("Reservations")
-                        .HasForeignKey("ReservedById");
+                        .HasForeignKey("ReservedByID");
 
                     b.Navigation("Event");
 
@@ -590,11 +570,15 @@ namespace Backend.Migrations
                 {
                     b.HasOne("Backend.Models.Parlament", "Parlament")
                         .WithMany("Members")
-                        .HasForeignKey("ParlamentId");
+                        .HasForeignKey("ParlamentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Backend.Models.University", "University")
                         .WithMany("Users")
-                        .HasForeignKey("UniversityId");
+                        .HasForeignKey("UniversityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Parlament");
 
@@ -691,13 +675,9 @@ namespace Backend.Migrations
 
             modelBuilder.Entity("Backend.Models.University", b =>
                 {
-                    b.Navigation("Events");
-
                     b.Navigation("Locations");
 
                     b.Navigation("Parlaments");
-
-                    b.Navigation("Posts");
 
                     b.Navigation("Users");
                 });

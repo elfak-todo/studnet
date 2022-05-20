@@ -64,6 +64,10 @@ namespace Backend.Models
         [JsonIgnore]
         public List<Student>? LikedBy { get; set; }
 
+        [JsonIgnore]
+        public University? University { get; set; }
+        public int? UniversityId { get; set; }
+
         #endregion Relations
     }
 }

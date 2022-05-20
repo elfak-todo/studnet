@@ -25,8 +25,10 @@ namespace Backend.Models
         #region Relations
 
         public Student? GradedBy { get; set; }
+        public int? GradedById { get; set; }
 
         public Location? GradedLocation { get; set; }
+        public int? GradedLocationId { get; set; }
 
         #endregion Relations
     }

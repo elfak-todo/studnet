@@ -1,6 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
-import { SERVER_ADDRESS } from "../../config";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { FloatingLabel, Form } from "react-bootstrap";
@@ -12,7 +11,7 @@ function SelectUniversity(props) {
 
   useEffect(() => {
     axios
-      .get(SERVER_ADDRESS + "University/GetAll")
+      .get("University/GetAll")
       .then((result) => {
         setOptions(result.data);
       })

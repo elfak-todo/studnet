@@ -49,6 +49,7 @@ namespace Backend.Services
             claims.Add(new Claim("ID", student.ID.ToString()));
             claims.Add(new Claim("username", student.Username));
             claims.Add(new Claim("roleID", ((int)student.Role).ToString()));
+            claims.Add(new Claim("uniID", student.UniversityId.ToString()!));
 
             for (int i = 0; i <= (int)student.Role; i++)
             {
@@ -84,8 +85,9 @@ namespace Backend.Services
             var id = user.Claims.FirstOrDefault(c => c.Type == "ID");
             var username = user.Claims.FirstOrDefault(c => c.Type == "username");
             var role = user.Claims.FirstOrDefault(c => c.Type == "roleID");
+            var university = user.Claims.FirstOrDefault(c => c.Type == "uniID");
 
-            if (id == null || username == null || role == null)
+            if (id == null || username == null || role == null || university == null)
             {
                 return null;
             }
@@ -93,6 +95,7 @@ namespace Backend.Services
             details.ID = int.Parse(id.Value);
             details.Username = username.Value;
             details.Role = (Role)(int.Parse(role.Value));
+            details.UniversityId = int.Parse(university.Value);
 
             return details;
         }

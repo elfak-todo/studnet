@@ -2,7 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./LoginForm.style.css";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Row,
@@ -13,7 +13,8 @@ import {
   Alert,
   Spinner,
 } from "react-bootstrap";
-import useStudent from "../../services/StudentManager.js";
+
+import StudentContext from "../studentManager/StudentManager.js";
 
 function LoginForm() {
   const { t } = useTranslation(["login"]);
@@ -27,7 +28,7 @@ function LoginForm() {
   const usernameOrEmailInputRef = useRef();
   const passwordInputRef = useRef();
 
-  const [student, setStudent] = useStudent();
+  const { setStudent } = useContext(StudentContext);
 
   const submitHander = (event) => {
     event.preventDefault();

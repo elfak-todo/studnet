@@ -10,13 +10,14 @@ function SelectLanguage() {
   };
 
   return (
-    <NavDropdown className="me-5"
+    <NavDropdown
+      className="me-5"
       title={t("language")}
       value={localStorage.getItem("i18nextLng")}
       onSelect={handleLanguageChange}
     >
-      <NavDropdown.Item eventKey="eng"> {t("english")} </NavDropdown.Item>
-      <NavDropdown.Item eventKey="srb"> {t("serbian")} </NavDropdown.Item>
+      <NavDropdown.Item eventKey="en"> {t("english")} </NavDropdown.Item>
+      <NavDropdown.Item eventKey="sr"> {t("serbian")} </NavDropdown.Item>
     </NavDropdown>
   );
 }

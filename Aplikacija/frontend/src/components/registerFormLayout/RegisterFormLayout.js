@@ -1,6 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
-import { SERVER_ADDRESS } from "../../config";
 import SelectFaculty from "../selectFaculty/SelectFaculty";
 import SelectGender from "../selectGender/SelectGender";
 import SelectUniversity from "../selectUniveristy/SelectUniveristy";
@@ -74,10 +73,10 @@ function RegisterFormLayout() {
     if (enteredEmail === "" || enteredEmail.length > 64) {
       setEmailInvalid(true);
       proceed = false;
-    }else{
+    } else {
       const validRegex = /^([a-zA-Z0-9]+)@([a-zA-Z]+)\.([a-zA-Z]){2,8}/;
-      
-      if(!validRegex.test(enteredEmail)){
+
+      if (!validRegex.test(enteredEmail)) {
         setEmailInvalid(true);
         proceed = false;
       }
@@ -117,7 +116,7 @@ function RegisterFormLayout() {
 
     if (proceed) {
       axios
-        .post(SERVER_ADDRESS + "Student/Register", {
+        .post("Student/Register", {
           username: enteredUsername,
           password: enteredPassword,
           email: enteredEmail,
@@ -147,8 +146,7 @@ function RegisterFormLayout() {
             setUsernameTaken(true);
           }
         });
-    }
-    else{
+    } else {
       setIsLoading(false);
     }
   };

@@ -81,10 +81,16 @@ namespace Backend.Models
         #region Relations
 
         public Location? Location { get; set; }
+        public int? LocationId { get; set; }
 
         public Student? Organiser { get; set; }
+        public int? OrganiserId { get; set; }
 
         public Parlament? OrganisingParlament { get; set; }
+        public int? OrganisingParlamentId { get; set; }
+
+        public University? University { get; set; }
+        public int? UniversityId { get; set; }
 
         public List<Comment>? Comments { get; set; }
 

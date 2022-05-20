@@ -10,16 +10,16 @@ i18n
     backend: {
       loadPath: "/assets/i18n/{{ns}}/{{lng}}.json",
     },
-    fallbackLng: "en",
+    fallbackLng: "sr",
     debug: true,
     ns: ["login", "register"],
     interpolation: {
       espaceValue: false,
       formatSeparator: ",",
     },
-    react:{
-        wait: true,
+    react: {
+      wait: true,
     },
   });
 
-  export default i18n;
+export default i18n;
