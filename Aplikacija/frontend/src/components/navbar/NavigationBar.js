@@ -16,7 +16,7 @@ function NavigationBar() {
   const { t } = useTranslation(["navbar"]);
   const location = useLocation();
 
-  return (location.pathname!=="/" && location.pathname!=="/register") ? (
+  return location.pathname !== "/" && location.pathname !== "/register" ? (
     <Navbar sticky collapseOnSelect expand="md" bg="light" variant="light">
       <Container fluid className="p-1">
         <Navbar.Brand as={Link} to="/home">

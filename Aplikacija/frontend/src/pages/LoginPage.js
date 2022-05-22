@@ -11,7 +11,7 @@ function LoginPage() {
         <Col lg={6} md={5} sm={12}>
           <LoginDescription />
         </Col>
-        <Col lg={4} md={5} sm={12} className="p-5">
+        <Col lg={4} md={5} sm={12}>
           <LoginForm />
         </Col>
       </Row>

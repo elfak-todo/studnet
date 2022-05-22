@@ -1,3 +1,11 @@
+.login-form {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .was-validated .prevent-validation-color.form-control:valid,
 .prevent-validation-color.form-control.is-valid {
   border-color: #ced4da;

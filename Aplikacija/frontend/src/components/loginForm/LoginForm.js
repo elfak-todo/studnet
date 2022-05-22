@@ -64,7 +64,7 @@ function LoginForm() {
   };
 
   return (
-    <Card className="m-3 shadow p-3">
+    <Card className="shadow">
       <Card.Header>
         <Card.Title className="text-center">{t("login")}</Card.Title>
         <Card.Text className="text-center">{t("loginToYourAccount")}</Card.Text>

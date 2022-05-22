@@ -2,6 +2,12 @@ import { useContext } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { NavDropdown, Image } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faUser,
+  faAddressBook,
+  faRightFromBracket,
+} from "@fortawesome/free-solid-svg-icons";
 
 import defaultPic from "../../images/defaultProfilePic.jpg";
 import "./ProfileDropdown.style.css";
@@ -18,19 +24,38 @@ function ProfileDropdown() {
 
   return (
     <NavDropdown
-      className="me-3"
+      className="me-2"
       title={
-        <>
-          <Image src={defaultPic} className="avatar" roundedCircle />
-          <p>{student && student.name}</p>{" "}
-          {/*TODO evo ime i prezime, reši ovo pls numem*/}
-        </>
+        <div>
+          <Image
+            src={defaultPic}
+            alt="user-pic"
+            className="avatar"
+            roundedCircle
+          />
+          {student && student.name}
+        </div>
       }
     >
-      <NavDropdown.Item> {t("profile")} </NavDropdown.Item>
-      <NavDropdown.Item> {t("settings")} </NavDropdown.Item>
+      <NavDropdown.Item>
+        <FontAwesomeIcon icon={faUser} className="comment-like-icon-sm" />
+        {t("profile")}
+      </NavDropdown.Item>
+      <NavDropdown.Item>
+        <FontAwesomeIcon
+          icon={faAddressBook}
+          className="comment-like-icon-sm"
+        />
+        {t("myPosts")}
+      </NavDropdown.Item>
       <NavDropdown.Divider />
-      <NavDropdown.Item onClick={logout}> {t("logout")} </NavDropdown.Item>
+      <NavDropdown.Item onClick={logout}>
+        <FontAwesomeIcon
+          icon={faRightFromBracket}
+          className="comment-like-icon-sm"
+        />
+        {t("logout")}
+      </NavDropdown.Item>
     </NavDropdown>
   );
 }

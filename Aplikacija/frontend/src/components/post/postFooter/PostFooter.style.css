@@ -1,0 +1,27 @@
+.post-footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: left;
+}
+.align-row {
+    display: flex;
+}
+.center-items {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+.like-comment-icon {
+    font-size: 25px;
+    color: #1976D2;
+    margin-left: 10px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+.like-comment-icon-sm {
+    font-size: 15px;
+    color: grey;
+    margin-left: 10px;
+    margin-right: 5px;
+}
