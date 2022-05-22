@@ -12,13 +12,10 @@ i18n
     },
     fallbackLng: "sr",
     debug: true,
-    ns: ["login", "register"],
+    ns: ["login", "register", "navbar", "locations"],
     interpolation: {
       espaceValue: false,
       formatSeparator: ",",
-    },
-    react: {
-      wait: true,
     },
   });
 

@@ -31,7 +31,9 @@ builder.Services.AddCors(options =>
                                               "http://127.0.0.1:5500",
                                               "http://127.0.0.1:5500",
                                               "http://localhost:5500",
-                                              "https://localhost:5500")
+                                              "https://localhost:5500",
+                                              "http://192.168.1.35:3000",
+                                              "http://192.168.100.2:3000")
                                               .AllowAnyHeader()
                                               .AllowAnyMethod();
                       });
@@ -64,9 +66,15 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.Urls.Add("https://localhost:7246");
+    app.Urls.Add("http://localhost:5000");
+    app.Urls.Add("http://192.168.1.35:5000");
+    app.Urls.Add("https://192.168.1.35:7246");
+    // app.Urls.Add("http://192.168.100.2:5000");
+    // app.Urls.Add("https://192.168.100.2:7246");
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseCors("CORS");
 

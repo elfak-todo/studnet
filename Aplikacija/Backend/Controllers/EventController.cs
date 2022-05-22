@@ -59,6 +59,50 @@ public class EventController : ControllerBase
         return Ok(ev);
     }
 
+    [Route("Hot")]
+    [Authorize(Roles = "Student")]
+    [HttpGet]
+    public async Task<ActionResult> GetHotEvents()
+    {
+        IQueryable<Event> events;
+
+        events = _context.Events.Include(events => events.Organiser)
+                                           .Include(e => e.Comments)
+                                           .Where(e => (e.Pinned || e.Verified) && e.EndTime > DateTime.Now)
+                                           .OrderBy(e => e.TimeOfEvent)
+                                           .Take(15);
+
+        var EventsSelected = events.Select(e => new
+        {
+            ev = e,
+            author = new
+            {
+                e.Organiser!.ID,
+                e.Organiser.FirstName,
+                e.Organiser.LastName,
+                e.Organiser.Username,
+                e.Organiser.ImagePath
+            },
+            comments = e.Comments!.OrderByDescending(e => e.Pinned)
+                                .ThenByDescending(e => e.Verified)
+                                .ThenByDescending(e => e.PublicationTime)
+                                .Take(3)
+                                .Select(c => new
+                                {
+                                    comment = c,
+                                    author = new
+                                    {
+                                        e.Organiser!.ID,
+                                        e.Organiser.FirstName,
+                                        e.Organiser.LastName,
+                                        e.Organiser.Username,
+                                        e.Organiser.ImagePath
+                                    }
+                                }),
+        });
+        return Ok(await EventsSelected.ToListAsync());
+    }
+
     [Route("Feed/{page}")]
     [Authorize(Roles = "Student")]
     [HttpGet]
@@ -72,17 +116,19 @@ public class EventController : ControllerBase
         {
             events = _context.Events.Include(events => events.Organiser)
                                     .Include(e => e.Comments)
-                                    .OrderByDescending(e => e.PublicationTime)
+                                    .Where(e => e.EndTime > DateTime.Now)
+                                    .OrderBy(e => e.TimeOfEvent)
                                     .Take(pageSize)
                                     .OrderByDescending(e => e.Pinned)
                                     .ThenByDescending(e => e.Verified)
-                                    .ThenByDescending(e => e.PublicationTime);
+                                    .ThenByDescending(e => e.TimeOfEvent);
         }
         else
         {
             events = _context.Events.Include(e => e.Organiser)
                                     .Include(e => e.Comments)
-                                    .OrderByDescending(e => e.PublicationTime)
+                                    .Where(e => e.EndTime > DateTime.Now)
+                                    .OrderBy(e => e.TimeOfEvent)
                                     .Skip(page * pageSize)
                                     .Take(pageSize);
         }

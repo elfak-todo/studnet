@@ -18,6 +18,13 @@ namespace Backend.Models
         [MaxLength(32)]
         public string City { get; set; } = String.Empty;
 
+        //Geografska širina
+        public float Latitude { get; set; }
+
+        //Geografska dužina
+        public float Longitude { get; set; }
+
+
         #endregion Props
 
         #region Relations    

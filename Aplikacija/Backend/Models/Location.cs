@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Backend.Models
 {
@@ -13,7 +14,15 @@ namespace Backend.Models
         Restoraunt,
         Tavern,
         Gym,
-        Library
+        Library,
+        Faculty,
+        BasketballCourt,
+        FootballField,
+        BowlingAlley,
+        Doctor,
+        Confectionery,
+        Shop,
+        SkatePark
     }
 
     [Table("Location")]
@@ -47,7 +56,7 @@ namespace Backend.Models
         {
             get
             {
-                if (Grades != null)
+                if (Grades != null && Grades.Count > 0)
                 {
                     return Grades.Average(p => p.Value);
                 }
@@ -61,15 +70,19 @@ namespace Backend.Models
 
         #region Relations
 
+        [JsonIgnore]
         public Student? Author { get; set; }
         public int? AuthorId { get; set; }
 
+        [JsonIgnore]
         public University? University { get; set; }
         public int? UniversityId { get; set; }
 
+        [JsonIgnore]
         public List<Event>? Events { get; set; }
 
-        public List<Grade>? Grades { get; set; }
+        [JsonIgnore]
+        public List<Grade>? Grades { get; set; } = new List<Grade>();
 
         #endregion Relations
     }
