@@ -105,6 +105,36 @@ public class CommentController : ControllerBase
         return Ok(comment);
     }
 
+    [Route("Delete/{commentId}")]
+    [Authorize(Roles = "Student")]
+    [HttpDelete]
+    public async Task<ActionResult> DeleteCommment(int commentId)
+    {
+        var user = _tokenManager.GetUserDetails(HttpContext.User);
+
+        if (user == null)
+        {
+            return BadRequest("BadToken");
+        }
+
+        var comment = await _context.Comments.Include(c => c.Author)
+                                           .FirstOrDefaultAsync(c => c.ID == commentId);
+        
+        if (comment == null)
+        {
+            return BadRequest("CommentNotFound");
+        }
+
+        if (comment.Author == null || comment.Author.ID != user.ID)
+        {
+            return Forbid("NotAuthor");
+        }
+
+        _context.Comments.Remove(comment);
+        await _context.SaveChangesAsync();
+        return Ok();
+    }
+
     [Route("SetVerified/{commentId}/{verified}")]
     [Authorize(Roles = "ParlamentMember")]
     [HttpPut]
