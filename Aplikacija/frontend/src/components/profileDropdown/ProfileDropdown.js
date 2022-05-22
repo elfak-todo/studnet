@@ -18,17 +18,20 @@ function ProfileDropdown() {
 
   return (
     <NavDropdown
-      className="me-3"
+      className="me-2"
       title={
-        <>
-          <Image src={defaultPic} className="avatar" roundedCircle />
-          <p>{student && student.name}</p>{" "}
-          {/*TODO evo ime i prezime, reši ovo pls numem*/}
-        </>
+        <div>
+          <Image
+            src={defaultPic}
+            alt="user-pic"
+            className="avatar"
+            roundedCircle
+          />
+          {student && student.name}
+        </div>
       }
     >
       <NavDropdown.Item> {t("profile")} </NavDropdown.Item>
-      <NavDropdown.Item> {t("settings")} </NavDropdown.Item>
       <NavDropdown.Divider />
       <NavDropdown.Item onClick={logout}> {t("logout")} </NavDropdown.Item>
     </NavDropdown>

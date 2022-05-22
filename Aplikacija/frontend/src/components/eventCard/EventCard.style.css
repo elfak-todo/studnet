@@ -1,0 +1,8 @@
+.my-card {
+    width: 12rem;
+    transition: transform 450ms;
+}
+
+.my-card:hover {
+    transform: scale(1.08);
+}

@@ -1,0 +1,25 @@
+.post-header {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin: 10px;
+}
+.post-header-name {
+    margin: 0px;
+    padding: 0px;
+}
+.post-header-faculty {
+    font-size: small;
+}
+.post-profile-pic {
+    height: 50px;
+    width: 50px;
+    margin-right: 10px;
+}
+.settings-icon {
+    font-size: 20px;
+    color: #1976D2;
+    margin-left: 10px;
+    margin-right: 5px;
+    cursor: pointer;
+}
