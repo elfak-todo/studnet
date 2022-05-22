@@ -1,6 +1,11 @@
 .my-card {
     width: 12rem;
+    height: 20rem;
     transition: transform 450ms;
+}
+.card-img {
+    width: 12rem;
+    height: 10rem;
 }
 
 .my-card:hover {

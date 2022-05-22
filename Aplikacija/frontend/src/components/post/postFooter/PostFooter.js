@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp, faComment } from "@fortawesome/free-solid-svg-icons";
 import { Card } from "react-bootstrap";
 
-function PostFooter() {
+function PostFooter({counters}) {
   const { t } = useTranslation(["post"]);
   
   return (
@@ -13,11 +13,11 @@ function PostFooter() {
       <div className="align-row">
         <div className="center-items">
           <FontAwesomeIcon icon={faThumbsUp} className="like-comment-icon-sm" />
-          <Card.Text> 10 </Card.Text>
+          <Card.Text> {counters.likeCount} </Card.Text>
         </div>
         <div className="center-items">
           <FontAwesomeIcon icon={faComment} className="like-comment-icon-sm" />
-          <Card.Text> 5 </Card.Text>
+          <Card.Text> {counters.commentCount} </Card.Text>
         </div>
       </div>
       <div className="align-row">

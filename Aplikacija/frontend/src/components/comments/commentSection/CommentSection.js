@@ -5,7 +5,7 @@ import Comment from "../comment/Comment";
 import { useTranslation } from "react-i18next";
 import { Accordion } from "react-bootstrap";
 
-function CommentSection() {
+function CommentSection({ comments }) {
   const { t } = useTranslation(["post"]);
 
   return (
@@ -14,10 +14,15 @@ function CommentSection() {
         <Accordion.Header> {t("seeComments")} </Accordion.Header>
         <Accordion.Body>
           <CommentForm />
-          <Comment />
-          <Comment />
-          <Comment />
-          <Comment />
+          {comments !== null
+            ? comments.map((c) => (
+                <Comment
+                  key={c.comment.id}
+                  author={c.author}
+                  comment={c.comment}
+                />
+              ))
+            : null}
         </Accordion.Body>
       </Accordion.Item>
     </Accordion>

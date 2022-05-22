@@ -5,19 +5,15 @@ import PostFooter from "./postFooter/PostFooter";
 import CommentSection from "../comments/commentSection/CommentSection";
 import { Card, Container } from "react-bootstrap";
 
-function Post() {
+function Post({ author, comments, post }) {
   return (
     <Container className="mb-5">
       <Card className="post shadow bg-white rounded">
-        <PostHeader />
+        <PostHeader author={author}/>
         <Card.Body>
-          <Card.Text>
-            Jučerašnji dan je bio jako produktivan! Uspeo sam da završim student
-            manager-a kao i dosta drugih stvari koje su moje kolege propustile!
-            Današnji plan je da odmaram! Zasluženo!
-          </Card.Text>
-          <PostFooter />
-          <CommentSection />
+          <Card.Text>{post.text}</Card.Text>
+          <PostFooter counters={post} />
+          <CommentSection author={author} comments={comments} />
         </Card.Body>
       </Card>
     </Container>
