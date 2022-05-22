@@ -10,7 +10,7 @@ import { Container } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
 function EventSlider() {
-  const {t} = useTranslation(["homePage"]);
+  const { t } = useTranslation(["homePage"]);
 
   return (
     <Container className="p-3">

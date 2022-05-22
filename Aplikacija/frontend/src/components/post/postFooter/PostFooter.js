@@ -6,7 +6,8 @@ import { faThumbsUp, faComment } from "@fortawesome/free-solid-svg-icons";
 import { Card } from "react-bootstrap";
 
 function PostFooter() {
-    const {t} = useTranslation(["post"])
+  const { t } = useTranslation(["post"]);
+  
   return (
     <div className="post-footer">
       <div className="align-row">

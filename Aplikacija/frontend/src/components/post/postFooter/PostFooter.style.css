@@ -4,12 +4,11 @@
     justify-content: left;
     align-items: left;
 }
-.align-row{
+.align-row {
     display: flex;
 }
 .center-items {
     display: flex;
-    flex-direction: row;
     justify-content: right;
     align-items: center;
 }

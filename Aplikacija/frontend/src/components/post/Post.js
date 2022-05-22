@@ -2,11 +2,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./Post.style.css";
 import PostHeader from "./postHeader/PostHeader";
 import PostFooter from "./postFooter/PostFooter";
+import CommentSection from "../comments/commentSection/CommentSection";
 import { Card, Container } from "react-bootstrap";
 
 function Post() {
   return (
-    <Container>
+    <Container className="mb-5">
       <Card className="post shadow bg-white rounded">
         <PostHeader />
         <Card.Body>
@@ -16,6 +17,7 @@ function Post() {
             Današnji plan je da odmaram! Zasluženo!
           </Card.Text>
           <PostFooter />
+          <CommentSection />
         </Card.Body>
       </Card>
     </Container>

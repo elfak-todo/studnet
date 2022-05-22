@@ -5,9 +5,7 @@ import { Card } from "react-bootstrap";
 
 function EventCard() {
   return (
-    <Card
-      className="my-card shadow m-5 bg-white rounded"
-    >
+    <Card className="my-card shadow m-5 bg-white rounded">
       <Card.Img variant="top" src={elektrijada} />
       <Card.Body className="text-center">
         <Card.Title> Elektrijada </Card.Title>

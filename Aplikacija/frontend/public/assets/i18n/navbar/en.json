@@ -2,6 +2,7 @@
     "events": "Events",
     "locations": "Locations",
     "profile" : "Profile",
+    "myPosts": "My posts",
     "settings": "Settings",
     "logout": "Logout",
     "language": "Language",

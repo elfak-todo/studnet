@@ -1,11 +1,9 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Container, Card, Dropdown, Row } from "react-bootstrap";
+import { Container, Card } from "react-bootstrap";
 import Post from "../post/Post";
-import SelectFaculty from "../selectFaculty/SelectFaculty";
-import "./Feed.style.css"
+import "./Feed.style.css";
 
 function Feed() {
-  const uniNis = 1;
   return (
     <Container className="feed">
       <Card>
