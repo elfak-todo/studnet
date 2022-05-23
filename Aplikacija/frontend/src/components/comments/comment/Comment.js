@@ -4,7 +4,11 @@ import defaultPic from "../../../images/defaultProfilePic.jpg";
 import SettingsDropdown from "../../settingsDropdown/SettingsDropdown";
 import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
+import {
+  faThumbsUp,
+  faCircleCheck,
+  faThumbTack,
+} from "@fortawesome/free-solid-svg-icons";
 import { Container, Image, Card } from "react-bootstrap";
 
 function Comment({ author, comment }) {
@@ -33,6 +37,15 @@ function Comment({ author, comment }) {
         {/* TODO */}
         <Card.Text className="comment-faculty">Elektronski fakultet</Card.Text>
       </div>
+      {comment.verified && (
+        <FontAwesomeIcon
+          icon={faCircleCheck}
+          className="comment-verified-icon"
+        />
+      )}
+      {comment.pinned && (
+        <FontAwesomeIcon icon={faThumbTack} className="comment-pinned-icon" />
+      )}
       <SettingsDropdown />
       <Container className="ms-0">
         <Card className="comment-body">

@@ -7,7 +7,7 @@ function CommentForm() {
   const { t } = useTranslation(["post"]);
 
   return (
-    <Container className="mb-3 mt-3">
+    <Container className="mb-3">
       <Form className="comment-form">
         <FormControl
           as="textarea"

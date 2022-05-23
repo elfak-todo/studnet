@@ -8,12 +8,12 @@ import { Card, Container } from "react-bootstrap";
 function Post({ author, comments, post }) {
   return (
     <Container className="mb-5">
-      <Card className="post shadow bg-white rounded">
-        <PostHeader author={author}/>
+      <Card className="post shadow rounded">
+        <PostHeader author={author} post={post} />
         <Card.Body>
           <Card.Text>{post.text}</Card.Text>
           <PostFooter counters={post} />
-          <CommentSection author={author} comments={comments} />
+          <CommentSection author={author} comments={comments} post={post} />
         </Card.Body>
       </Card>
     </Container>

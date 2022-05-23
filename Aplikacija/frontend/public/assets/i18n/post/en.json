@@ -8,5 +8,7 @@
     "pin": "Pin",
     "seeComments": "See comments",
     "commentSome": "Leave a comment here",
-    "anonymous": "Anonymus"
+    "anonymous": "Anonymus",
+    "todayAt": "Today at",
+    "startsAt": "Starts At"
 }

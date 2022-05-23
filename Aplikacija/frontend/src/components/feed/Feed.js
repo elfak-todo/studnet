@@ -12,21 +12,22 @@ function Feed() {
 
   const loadMorePosts = (pg) => {
     setIsLoaded(false);
-
     axios.get("Post/Feed/" + pg).then((res) => {
       const newPosts = res.data;
       if (newPosts !== null && newPosts !== undefined && newPosts.length > 0) {
         pg === 0
           ? setFeed(newPosts)
           : setFeed((oldPosts) => [...oldPosts, ...newPosts]);
+          setIsLoaded(true);
+      }else{
+        setIsLoaded(true);
       }
-      setIsLoaded(true);
     });
   };
 
   const handleScroll = (e) => {
     if (
-      window.innerHeight + e.target.documentElement.scrollTop + 15 >=
+      window.innerHeight + e.target.documentElement.scrollTop + 1 >=
       e.target.documentElement.scrollHeight
     ) {
       loadMorePosts((page += 1));
@@ -39,30 +40,28 @@ function Feed() {
   }, []);
 
   return (
-    <Container fluid>
-      <Card>
-        <Card.Body>
-          {feed.map((p) => (
-            <Post
-              key={p.post.id}
-              author={p.author}
-              comments={p.comments}
-              post={p.post}
+    <Container fluid className="feed">
+      <Card className="feed-card">
+        {feed.map((p) => (
+          <Post
+            key={p.post.id}
+            author={p.author}
+            comments={p.comments}
+            post={p.post}
+          />
+        ))}
+        {!isLoaded && (
+          <div className="feed-spinner">
+            <Spinner
+              className="text-center"
+              as="span"
+              animation="border"
+              size="lg"
+              role="status"
+              aria-hidden="true"
             />
-          ))}
-          {!isLoaded && (
-            <div className="feed-spinner">
-              <Spinner
-                className="text-center"
-                as="span"
-                animation="border"
-                size="lg"
-                role="status"
-                aria-hidden="true"
-              />
-            </div>
-          )}
-        </Card.Body>
+          </div>
+        )}
       </Card>
     </Container>
   );

@@ -11,8 +11,8 @@ function CommentSection({ comments }) {
   return (
     <Accordion alwaysOpen flush>
       <Accordion.Item eventKey="0">
-        <Accordion.Header> {t("seeComments")} </Accordion.Header>
-        <Accordion.Body>
+        <Accordion.Header > {t("seeComments")} </Accordion.Header>
+        <Accordion.Body className="pb-2">
           <CommentForm />
           {comments !== null
             ? comments.map((c) => (
