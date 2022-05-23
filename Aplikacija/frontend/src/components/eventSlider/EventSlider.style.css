@@ -11,3 +11,14 @@
   color: gray;
   font-size: 30px;
 }
+
+.events-heading {
+  margin-left: 40px;
+}
+
+@media screen and (max-width: 780px) {
+  .events-heading {
+    margin: 0px;
+    text-align: center;
+  }
+}

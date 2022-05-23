@@ -11,7 +11,7 @@ i18n
       loadPath: "/assets/i18n/{{ns}}/{{lng}}.json",
     },
     fallbackLng: "sr",
-    debug: true,
+    debug: false,
     ns: ["login", "register", "navbar", "locations"],
     interpolation: {
       espaceValue: false,

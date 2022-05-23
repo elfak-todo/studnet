@@ -23,7 +23,7 @@ function EventSlider() {
 
   return (
     <Container className="p-3">
-      <h3 className="ms-5">{t("eventsHeading")}</h3>
+      <h3 className="events-heading">{t("eventsHeading")}</h3>
       <Slider {...SETTINGS}>
         {feed.map((e) => (
           <EventCard key={e.ev.id} event={e.ev} />
