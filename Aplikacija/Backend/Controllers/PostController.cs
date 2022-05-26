@@ -57,7 +57,7 @@ public class PostController : ControllerBase
     [HttpGet]
     public async Task<ActionResult> GetFeed(int page)
     {
-        const int pageSize = 20;
+        const int pageSize = 10;
 
         var user = _tokenManager.GetUserDetails(HttpContext.User);
         if (user == null)

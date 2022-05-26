@@ -1,8 +1,25 @@
 .my-card {
     width: 12rem;
+    height: 20rem;
     transition: transform 450ms;
+}
+.card-img {
+    width: 12rem;
+    height: 10rem;
 }
 
 .my-card:hover {
     transform: scale(1.08);
+}
+
+@media screen and (max-width: 780px) {
+    .my-card {
+        width: auto;
+        height: auto;
+        transition: transform 450ms;
+    }
+    .card-img {
+        width: auto;
+        height: 20rem;
+    }
 }

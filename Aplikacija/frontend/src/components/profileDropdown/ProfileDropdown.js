@@ -17,7 +17,7 @@ function ProfileDropdown() {
   const { t } = useTranslation(["navbar"]);
 
   const { student, setStudent } = useContext(StudentContext);
-
+  
   const logout = () => {
     setStudent(null);
   };
