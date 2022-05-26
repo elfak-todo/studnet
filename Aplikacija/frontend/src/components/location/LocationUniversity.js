@@ -1,5 +1,5 @@
 import React from "react";
-import { Marker, Popup } from "react-leaflet";
+import { Marker, Tooltip } from "react-leaflet";
 import L from "leaflet";
 
 import uniIcon from "../../images/locationMarkers/univeristy.png";
@@ -11,6 +11,7 @@ function LocationUniversity({ university }) {
     iconRetinaUrl: uniIcon,
     iconSize: [42, 42],
     iconAnchor: [12.5, 42],
+    tooltipAnchor: [24, -21],
     popupAnchor: [0, -42],
     shadowUrl: shadowIcon,
     shadowSize: [42, 42],
@@ -23,9 +24,9 @@ function LocationUniversity({ university }) {
         position={[university.latitude, university.longitude]}
         icon={icon}
       >
-        <Popup>
+        <Tooltip>
           {university.name} <br /> {university.city}
-        </Popup>
+        </Tooltip>
       </Marker>
     )
   );

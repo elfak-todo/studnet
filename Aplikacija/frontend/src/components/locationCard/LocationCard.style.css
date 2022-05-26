@@ -1,0 +1,6 @@
+.location-card {
+  position: absolute;
+  top: 30vh;
+  right: 4rem;
+  z-index: 1000;
+}

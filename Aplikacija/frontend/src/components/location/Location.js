@@ -1,5 +1,5 @@
 import React from "react";
-import { Marker, Popup } from "react-leaflet";
+import { Marker, Tooltip } from "react-leaflet";
 import L from "leaflet";
 import { useTranslation } from "react-i18next";
 
@@ -8,7 +8,7 @@ import shadowIcon from "../../images/locationMarkers/shadow.png";
 
 import "./Location.css";
 
-function Location({ location }) {
+function Location({ location, setOpenedLocation }) {
   const { t } = useTranslation(["locations"]);
 
   let icon = new L.icon({
@@ -16,6 +16,7 @@ function Location({ location }) {
     iconSize: [38, 38],
     iconAnchor: [18.5, 38],
     popupAnchor: [0, -38],
+    tooltipAnchor: [15, -19],
     shadowUrl: shadowIcon,
     shadowSize: [38, 38],
     shadowAnchor: [16, 37],
@@ -24,10 +25,18 @@ function Location({ location }) {
 
   return (
     location && (
-      <Marker position={[location.latitude, location.longitude]} icon={icon}>
-        <Popup>
+      <Marker
+        position={[location.latitude, location.longitude]}
+        icon={icon}
+        eventHandlers={{
+          click: (e) => {
+            setOpenedLocation(location);
+          },
+        }}
+      >
+        <Tooltip>
           {location.name} <br /> {t(locationTypes[location.type].name)}
-        </Popup>
+        </Tooltip>
       </Marker>
     )
   );

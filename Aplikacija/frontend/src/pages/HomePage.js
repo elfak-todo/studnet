@@ -2,7 +2,7 @@
 // import { useEffect, useState } from "react";
 import EventSlider from "../components/eventSlider/EventSlider";
 import Feed from "../components/feed/Feed";
-import Post from "../components/post/Post";
+//import Post from "../components/post/Post";
 
 function HomePage() {
   // const [feed, setFeed] = useState(null);
@@ -16,7 +16,7 @@ function HomePage() {
   return (
     <div>
       <EventSlider />
-      <Feed/>
+      <Feed />
     </div>
   );
 }
