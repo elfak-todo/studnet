@@ -17,7 +17,7 @@ function ProfileDropdown() {
   const { t } = useTranslation(["navbar"]);
 
   const { student, setStudent } = useContext(StudentContext);
-  
+
   const logout = () => {
     setStudent(null);
   };
@@ -28,7 +28,13 @@ function ProfileDropdown() {
       title={
         <div>
           <Image
-            src={defaultPic}
+            src={
+              (student !== null && student.ImagePath === "/") ||
+              (student === null ||
+              student.ImagePath === "/")
+                ? defaultPic 
+                : student.imagePath
+            }
             alt="user-pic"
             className="avatar"
             roundedCircle

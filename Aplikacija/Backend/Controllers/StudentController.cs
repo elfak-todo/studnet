@@ -53,6 +53,7 @@ public class StudentController : ControllerBase
         return Ok(
             new
             {
+                imagePath = student.ImagePath,
                 username = student.Username,
                 name = $"{student.FirstName} {student.LastName}",
                 role = student.Role,
