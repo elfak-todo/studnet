@@ -1,5 +1,11 @@
-function EventsPage() {
-  return <div>Events Page</div>;
+import EventFeed from "../components/eventFeed/EventFeed";
+function EventsPage() 
+{
+  return (
+    <div>
+    <EventFeed />
+    </div>
+  );
 }
 
 export default EventsPage;
