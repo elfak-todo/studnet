@@ -15,8 +15,8 @@ function EventFeed()
 
     useEffect(() => {
         setLoading(true);
-        axios.get("Event/Feed/" + pageNum).then((res) =>{
-            pageNum ===0
+        axios.get("Event/Feed/" + pageNum).then((res) => {
+            pageNum === 0
             ? setFeed(res.data)
             : setFeed((oldEvents) => [...oldEvents, ...res.data]);
         setHasMore(res.data.length > 0);
@@ -43,24 +43,24 @@ function EventFeed()
     return (
         <Container fluid className="feed">
             <Card className="feed-card">
-                {feed.map((p, i) => {
+                {feed.map((e, i) => {
                     if (feed.length === i + 1) {
                         return (
                             <EventPost
-                                key={p.event.id}
-                                author={p.author}
-                                comments={p.comments}
-                                event={p.event}
+                                key={e.ev.id}
+                                author={e.author}
+                                comments={e.comments}
+                                event={e.ev}
                                 innerRef={lastEvent}
                             />
                         );
                     } else {
                         return (
                             <EventPost
-                                key={p.event.id}
-                                author={p.author}
-                                comments={p.comments}
-                                event={p.event}
+                                key={e.ev.id}
+                                author={e.author}
+                                comments={e.comments}
+                                event={e.ev}
                             />
                         );
                     }
