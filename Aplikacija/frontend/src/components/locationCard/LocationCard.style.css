@@ -1,6 +1,26 @@
 .location-card {
   position: absolute;
-  top: 30vh;
-  right: 4rem;
+  top: 20%;
+  right: 5%;
   z-index: 1000;
+  width: 28rem;
+  opacity: 0;
+  transform: translateY(15px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  visibility: collapse;
+}
+
+.location-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+}
+
+@media only screen and (max-width: 768px) {
+  .location-card {
+    width: auto;
+    right: 0;
+    left: 0;
+    top: 5rem;
+  }
 }

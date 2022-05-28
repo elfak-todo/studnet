@@ -66,6 +66,13 @@ namespace Backend.Models
 
         public string? ImagePath { get; set; }
 
+        public String Webpage { get; set; } = String.Empty;
+
+        public bool Verified { get; set; } = false;
+
+        [NotMapped]
+        public int GradeCount { get; set; }
+
         #endregion Props
 
         #region Relations
@@ -81,7 +88,6 @@ namespace Backend.Models
         [JsonIgnore]
         public List<Event>? Events { get; set; }
 
-        [JsonIgnore]
         public List<Grade>? Grades { get; set; } = new List<Grade>();
 
         #endregion Relations
