@@ -1,0 +1,6 @@
+.post { margin: 10px; }
+
+@media screen and (max-width: 780px)
+{
+    .post { margin: 0px; }
+}
