@@ -1,5 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./EventPostFooter.css";
+import "./EventPostFooter.style.css";
 import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faThumbsUp, faComment } from "@fortawesome/free-solid-svg-icons";

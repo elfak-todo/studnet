@@ -1,5 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./PostHeader.style.css";
+import "./EventPostHeader.style.css";
 import defaultPic from "../../../images/defaultProfilePic.jpg";
 import SettingsDropdown from "../../settingsDropdown/SettingsDropdown";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -73,11 +73,7 @@ function EventPostHeader({author, event}) {
             />
             <div>
                 <Card.Text className="event-header-name">
-                    {
-                        author === null
-                        ? t("anonymous")
-                        : author.firstName + " " +author.lastName
-                    }
+                    { author.firstName + " " + author.lastName }
                 </Card.Text>
                 <Card.Text className="event-header-time"> {isToday(date)}</Card.Text>
             </div>

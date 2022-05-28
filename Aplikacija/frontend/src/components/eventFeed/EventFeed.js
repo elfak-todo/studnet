@@ -1,5 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./Feed.style.css";
+import "./EventFeed.style.css";
 import axios from "axios";
 import EventPost from "../eventPost/EventPost";
 import { useEffect, useState, useRef, useCallback } from "react";

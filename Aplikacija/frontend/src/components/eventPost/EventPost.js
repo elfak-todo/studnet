@@ -2,6 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./EventPost.style.css";
 import EventPostHeader from "./eventPostHeader/EventPostHeader";
 import EventPostFooter from "./eventPostFooter/EventPostFooter";
+import CommentSection from "../comments/commentSection/CommentSection"
 import { Card, Container } from "react-bootstrap";
 
 function EventPost({ author, comments, event, innerRef})
@@ -35,8 +36,8 @@ function EventPost({ author, comments, event, innerRef})
                 <Card.Body>
                     <Card.Img variant= "top" src={event.imagePath} className="card-img" />
                     <Card.Text>{event.description}</Card.Text>
-                    <EventPostFooter counters={post} />
-                    <CommentSection author={author} comments={comments} post={post} />
+                    <EventPostFooter counters={event} />
+                    <CommentSection author={author} comments={comments} event={event} />
                 </Card.Body>
             </Card> 
         </Container>
