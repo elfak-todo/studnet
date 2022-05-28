@@ -1,0 +1,6 @@
+.event { margin: 10px; }
+
+@media screen and (max-width: 780px)
+{
+    .event { margin: 0px; }
+}
