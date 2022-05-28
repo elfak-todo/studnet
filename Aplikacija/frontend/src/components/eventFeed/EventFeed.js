@@ -1,25 +1,15 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Feed.style.css";
 import axios from "axios";
-import Post from "../post/Post";
+import EventPost from "../eventPost/EventPost";
 import { useEffect, useState, useRef, useCallback } from "react";
 import { Container, Card, Spinner } from "react-bootstrap";
 
-function eventFeed({author, comments, event})
+function EventFeed()
 {
-    return (
-        <Container>
-            <Card>
-                <EventHeader>
-                <Card.Body>
-                    <Card.Text> </Card.Text>
-                    <PostFooter />
-                    <CommentSection author={author} comments={comments} event={event} />
-                </Card.Body>
-                </EventHeader>
-            </Card>
-        </Container>
-    );
+    const [feed, setFeed] = useState([]);
+    const [loading, setLoading] = useState(false);
+    
 }
 
-export default eventFeed
+export default EventFeed
