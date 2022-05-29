@@ -21,18 +21,20 @@ function LocationCard({ openedLocation, setOpenedLocation }) {
       }
     >
       <Card.Header>
-        <Badge>
-          {openedLocation && t(locationTypes[openedLocation?.type].name)}
-        </Badge>
-        <Badge className="ms-1">
-          {openedLocation && openedLocation.averageGrade.toFixed(1)} ★
-        </Badge>
-        {openedLocation?.verified && (
-          <FontAwesomeIcon
-            className="post-header-verify"
-            icon={faCircleCheck}
-          />
-        )}
+        <div className="d-inline-flex justify-content-start">
+          <Badge>
+            {openedLocation && t(locationTypes[openedLocation?.type].name)}
+          </Badge>
+          <Badge className="ms-1">
+            {openedLocation && openedLocation.averageGrade.toFixed(1)} ★
+          </Badge>
+          {openedLocation?.verified && (
+            <FontAwesomeIcon
+              className="post-header-verify"
+              icon={faCircleCheck}
+            />
+          )}
+        </div>
         <CloseButton
           className="float-end"
           onClick={(e) => {
