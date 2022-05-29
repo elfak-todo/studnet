@@ -15,5 +15,9 @@
   "doctor": "Doctor",
   "confectionery": "Confectionery",
   "shop": "Shop",
-  "skatePark": "Skate park"
+  "skatePark": "Skate park",
+  "recentGrades": "Recent grades",
+  "trendingLocations": "Trending locations",
+  "dontSeeYourLocation": "Don't see your favourite location? Suggest it ",
+  "here": "here"
 }

@@ -1,0 +1,66 @@
+.LocationTrendingCard {
+  width: auto;
+  margin: 0 0.5rem;
+}
+
+.LocationTrendingCardImage {
+  margin-bottom: 1rem;
+}
+
+.LocationTrendingCardGrades {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1.5rem;
+}
+
+.LocationTrendingCardGrade {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-style: solid;
+  border-color: lightgray;
+  border-radius: 5px;
+  padding: 0.5rem;
+  border-width: 1px;
+  margin: 0.3rem 0;
+}
+
+.LocationTrendingCardGrade p {
+  margin: 0;
+}
+
+@media only screen and (min-width: 768px) {
+  .LocationTrendingCard {
+    width: 95%;
+    margin: 0 auto;
+  }
+  .LocationTrendingCardBody {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+  .LocationTrendingCardImage {
+    max-width: 30%;
+    width: 30%;
+    height: auto;
+    margin-bottom: inherit;
+  }
+  .LocationTrendingCardText {
+    margin-left: 1rem;
+  }
+  .LocationTrendingCardGrades {
+    display: flex;
+    flex-direction: row;
+  }
+  .LocationTrendingCardGrade {
+    min-width: 32.5%;
+    max-width: 32.5%;
+    margin: 0 auto;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .LocationTrendingCard {
+    width: 80%;
+  }
+}

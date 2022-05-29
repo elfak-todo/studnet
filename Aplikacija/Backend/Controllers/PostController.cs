@@ -70,6 +70,7 @@ public class PostController : ControllerBase
         if (page == 0)
         {
             posts = _context.Posts.Include(p => p.Author)
+                                .ThenInclude(a => a!.Parlament)
                                 .Include(p => p.Comments)
                                 .Where(p => p.UniversityId == user.UniversityId)
                                 .OrderByDescending(p => p.PublicationTime)
@@ -81,6 +82,7 @@ public class PostController : ControllerBase
         else
         {
             posts = _context.Posts.Include(p => p.Author)
+                                .ThenInclude(a => a!.Parlament)
                                 .Include(p => p.Comments)
                                 .Where(p => p.UniversityId == user.UniversityId)
                                 .OrderByDescending(p => p.PublicationTime)
@@ -97,7 +99,8 @@ public class PostController : ControllerBase
                 p.Author.FirstName,
                 p.Author.LastName,
                 p.Author.Username,
-                p.Author.ImagePath
+                p.Author.ImagePath,
+                p.Author.Parlament!.FacultyName
             },
             comments = p.Comments!.OrderByDescending(p => p.Pinned)
                                 .ThenByDescending(p => p.Verified)
@@ -112,7 +115,8 @@ public class PostController : ControllerBase
                                         p.Author.FirstName,
                                         p.Author.LastName,
                                         p.Author.Username,
-                                        p.Author.ImagePath
+                                        p.Author.ImagePath,
+                                        p.Author.Parlament!.FacultyName
                                     }
                                 }),
         });
