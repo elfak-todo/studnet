@@ -37,8 +37,10 @@ function EventPost({ author, comments, event, innerRef})
                     <Card.Img variant= "top" src={event.imagePath} className="card-img" />
                     <Card.Text>{event.description}</Card.Text>
                     <EventPostFooter counters={event} />
-                    <CommentSection author={author} comments={comments} event={event} />
                 </Card.Body>
+                <Card.Footer>
+                    <CommentSection author={author} topComments={comments} event={event} />
+                </Card.Footer>
             </Card> 
         </Container>
     );
