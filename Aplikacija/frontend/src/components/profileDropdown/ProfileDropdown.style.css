@@ -1,8 +1,7 @@
-.avatar{
+.avatar {
     height: 30px;
     width: 30px;
     margin-right: 5px;
-    margin-bottom: 3px;
 }
 
 .dropdown-toggle:after {

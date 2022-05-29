@@ -1,7 +1,7 @@
 .post-footer {
     display: flex;
-    flex-direction: column;
-    justify-content: left;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: left;
 }
 .align-row {

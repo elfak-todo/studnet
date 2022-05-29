@@ -1,15 +1,16 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./CommentSection.style.css";
 import axios from "axios";
-import CommentForm from "../commentForm/CommentForm";
-import Comment from "../comment/Comment";
 import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import { Card, Spinner } from "react-bootstrap";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-function CommentSection({ topComments, post }) {
+import CommentForm from "../commentForm/CommentForm";
+import Comment from "../comment/Comment";
+
+import "./CommentSection.style.css";
+
+function CommentSection({ topComments, post, feed, setFeed }) {
   const { t } = useTranslation(["post"]);
 
   const [comments, setComments] = useState(topComments);
@@ -37,15 +38,37 @@ function CommentSection({ topComments, post }) {
   }
 
   function seeLessComments() {
-    setComments(topComments);
+    const l = [];
+    comments.forEach((c) => {
+      topComments.forEach((e) => {
+        if (e.comment.id === c.comment.id) l.push(e);
+      });
+    });
+    setComments(l);
     setLessComments(false);
   }
 
   return (
     <div>
+      <CommentForm
+        post={post}
+        comments={comments}
+        setComments={setComments}
+        feed={feed}
+        setFeed={setFeed}
+      />
       {comments !== null
         ? comments.map((c) => (
-            <Comment key={c.comment.id} author={c.author} comment={c.comment}/>
+            <Comment
+              key={c.comment.id}
+              author={c.author}
+              comment={c.comment}
+              comments={comments}
+              setComments={setComments}
+              post={post}
+              feed={feed}
+              setFeed={setFeed}
+            />
           ))
         : null}
       {loading && (
@@ -60,7 +83,6 @@ function CommentSection({ topComments, post }) {
           />
         </div>
       )}
-      <CommentForm post={post} comments={comments} setComments={setComments} />
       {noComments && lessComments && (
         <Card.Text className="text-center"> {t("noComments")} </Card.Text>
       )}

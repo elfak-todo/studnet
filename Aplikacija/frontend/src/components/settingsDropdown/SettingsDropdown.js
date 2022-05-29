@@ -1,10 +1,10 @@
-import "bootstrap/dist/css/bootstrap.min.css";
 import { useTranslation } from "react-i18next";
 import { useContext } from "react";
-import StudentContext from "../studentManager/StudentManager";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import { NavDropdown } from "react-bootstrap";
+
+import StudentContext from "../studentManager/StudentManager";
 
 function SettingsDropdown({ selectedAction }) {
   const { t } = useTranslation(["post"]);
@@ -17,7 +17,7 @@ function SettingsDropdown({ selectedAction }) {
   return (
     <NavDropdown
       onSelect={selectHandler}
-      className="ms-auto me-2"
+      className="ms-auto"
       title={
         <div>
           <FontAwesomeIcon icon={faEllipsisV} className="settings-icon" />
