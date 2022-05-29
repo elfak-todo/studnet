@@ -1,9 +1,10 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./Feed.style.css";
 import axios from "axios";
-import Post from "../post/Post";
 import { useEffect, useState, useRef, useCallback } from "react";
 import { Container, Card, Spinner } from "react-bootstrap";
+
+import Post from "../post/Post";
+
+import "./Feed.style.css";
 
 function Feed() {
   const [feed, setFeed] = useState([]);
@@ -51,6 +52,8 @@ function Feed() {
                 comments={p.comments}
                 post={p.post}
                 innerRef={lastPost}
+                feed={feed}
+                setFeed={setFeed}
               />
             );
           } else {
@@ -60,6 +63,8 @@ function Feed() {
                 author={p.author}
                 comments={p.comments}
                 post={p.post}
+                feed={feed}
+                setFeed={setFeed}
               />
             );
           }

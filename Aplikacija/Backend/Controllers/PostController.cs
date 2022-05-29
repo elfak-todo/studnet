@@ -109,14 +109,14 @@ public class PostController : ControllerBase
                                 .Select(c => new
                                 {
                                     comment = c,
-                                    author = p.Anonymous ? null : new
+                                    author = c.Anonymous ? null : new
                                     {
-                                        p.Author!.ID,
-                                        p.Author.FirstName,
-                                        p.Author.LastName,
-                                        p.Author.Username,
-                                        p.Author.ImagePath,
-                                        p.Author.Parlament!.FacultyName
+                                        c.Author!.ID,
+                                        c.Author.FirstName,
+                                        c.Author.LastName,
+                                        c.Author.Username,
+                                        c.Author.ImagePath,
+                                        c.Author.Parlament!.FacultyName
                                     }
                                 }),
         });
