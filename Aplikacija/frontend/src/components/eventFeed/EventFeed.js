@@ -39,46 +39,46 @@ function EventFeed() {
     [loading, hasMore]
   );
 
-    return (
-        <Container fluid className="feed">
-            <Card className="feed-card">
-                {feed.map((e, i) => {
-                    if (feed.length === i + 1) {
-                        return (
-                            <EventPost
-                                key={e.ev.id}
-                                author={e.author}
-                                comments={e.comments}
-                                event={e.ev}
-                                innerRef={lastEvent}
-                            />
-                        );
-                    } else {
-                        return (
-                            <EventPost
-                                key={e.ev.id}
-                                author={e.author}
-                                comments={e.comments}
-                                event={e.ev}
-                            />
-                        );
-                    }
-                })}
-                {loading && (
-                    <div className="feed-spinner">
-                        <Spinner
-                            className="text-center"
-                            as="span"
-                            animation="border"
-                            size="lg"
-                            role="status"
-                            aria-hidden="true"
-                        />
-                    </div>
-                )}
-            </Card>
-        </Container>
-    );
+  return (
+    <Container fluid className="feed">
+      <Card className="feed-card">
+        {feed.map((e, i) => {
+          if (feed.length === i + 1) {
+            return (
+              <EventPost
+                key={e.ev.id}
+                author={e.author}
+                comments={e.comments}
+                event={e.ev}
+                innerRef={lastEvent}
+              />
+            );
+          } else {
+            return (
+              <EventPost
+                key={e.ev.id}
+                author={e.author}
+                comments={e.comments}
+                event={e.ev}
+              />
+            );
+          }
+        })}
+        {loading && (
+          <div className="feed-spinner">
+            <Spinner
+              className="text-center"
+              as="span"
+              animation="border"
+              size="lg"
+              role="status"
+              aria-hidden="true"
+            />
+          </div>
+        )}
+      </Card>
+    </Container>
+  );
 }
 
 export default EventFeed;
