@@ -54,6 +54,7 @@ public class StudentController : ControllerBase
             new
             {
                 imagePath = student.ImagePath,
+                id = student.ID,
                 username = student.Username,
                 name = $"{student.FirstName} {student.LastName}",
                 role = student.Role,

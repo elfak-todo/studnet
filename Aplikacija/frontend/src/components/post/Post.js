@@ -5,7 +5,7 @@ import PostFooter from "./postFooter/PostFooter";
 import CommentSection from "../comments/commentSection/CommentSection";
 import { Card, Container } from "react-bootstrap";
 
-function Post({ author, comments, post, innerRef}) {
+function Post({ author, comments, post, innerRef }) {
   return (
     <Container className="mb-5" ref={innerRef}>
       <Card className="post shadow rounded">
@@ -13,8 +13,10 @@ function Post({ author, comments, post, innerRef}) {
         <Card.Body>
           <Card.Text>{post.text}</Card.Text>
           <PostFooter counters={post} />
-          <CommentSection author={author} comments={comments} post={post} />
         </Card.Body>
+        <Card.Footer>
+          <CommentSection author={author} topComments={comments} post={post} />
+        </Card.Footer>
       </Card>
     </Container>
   );

@@ -6,12 +6,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import { NavDropdown } from "react-bootstrap";
 
-function SettingsDropdown() {
+function SettingsDropdown({ selectedAction }) {
   const { t } = useTranslation(["post"]);
   const { student } = useContext(StudentContext);
 
+  const selectHandler = (keyEvent) => {
+    selectedAction(keyEvent);
+  };
+
   return (
     <NavDropdown
+      onSelect={selectHandler}
       className="ms-auto me-2"
       title={
         <div>
@@ -19,14 +24,14 @@ function SettingsDropdown() {
         </div>
       }
     >
-      <NavDropdown.Item> {t("edit")} </NavDropdown.Item>
+      <NavDropdown.Item eventKey="edit"> {t("edit")} </NavDropdown.Item>
       {student.role !== 0 && (
         <>
-          <NavDropdown.Item> {t("verify")} </NavDropdown.Item>
-          <NavDropdown.Item> {t("pin")} </NavDropdown.Item>
+          <NavDropdown.Item eventKey="verify"> {t("verify")} </NavDropdown.Item>
+          <NavDropdown.Item eventKey="pin"> {t("pin")} </NavDropdown.Item>
         </>
       )}
-      <NavDropdown.Item> {t("delete")} </NavDropdown.Item>
+      <NavDropdown.Item eventKey="delete"> {t("delete")} </NavDropdown.Item>
     </NavDropdown>
   );
 }

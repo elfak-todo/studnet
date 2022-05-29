@@ -1,5 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Comment.style.css";
+import StudentContext from "../../studentManager/StudentManager";
 import defaultPic from "../../../images/defaultProfilePic.jpg";
 import SettingsDropdown from "../../settingsDropdown/SettingsDropdown";
 import { useTranslation } from "react-i18next";
@@ -10,9 +11,12 @@ import {
   faThumbTack,
 } from "@fortawesome/free-solid-svg-icons";
 import { Container, Image, Card } from "react-bootstrap";
+import { useContext, useEffect, useState } from "react";
 
-function Comment({ author, comment }) {
+function Comment({ author, comment, action}) {
   const { t } = useTranslation(["post"]);
+
+  const { student } = useContext(StudentContext);
 
   return (
     <Container className="comment-header">
@@ -46,7 +50,7 @@ function Comment({ author, comment }) {
       {comment.pinned && (
         <FontAwesomeIcon icon={faThumbTack} className="comment-pinned-icon" />
       )}
-      <SettingsDropdown />
+      {student.id === author.id && <SettingsDropdown />}
       <Container className="ms-0">
         <Card className="comment-body">
           <Card.Body>

@@ -65,7 +65,7 @@ function Feed() {
           }
         })}
         {loading && (
-          <div className="feed-spinner">
+          <div className="comments-spinner">
             <Spinner
               className="text-center"
               as="span"
