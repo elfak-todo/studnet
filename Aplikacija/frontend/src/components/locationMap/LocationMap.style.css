@@ -1,3 +1,9 @@
 #map {
-  height: 82vh;
+  height: 76vh;
+}
+
+@media only screen and (min-width: 768px) {
+  #map {
+    height: 82vh;
+  }
 }

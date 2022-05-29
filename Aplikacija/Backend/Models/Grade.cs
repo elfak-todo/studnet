@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Backend.Models
 {
@@ -27,6 +28,7 @@ namespace Backend.Models
         public Student? GradedBy { get; set; }
         public int? GradedById { get; set; }
 
+        [JsonIgnore]
         public Location? GradedLocation { get; set; }
         public int? GradedLocationId { get; set; }
 

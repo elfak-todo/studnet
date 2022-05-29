@@ -1,9 +1,10 @@
 import EventFeed from "../components/eventFeed/EventFeed";
 function EventsPage() 
 {
+
   return (
     <div>
-    <EventFeed />
+      <EventFeed />
     </div>
   );
 }

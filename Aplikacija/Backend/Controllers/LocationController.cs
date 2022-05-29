@@ -40,8 +40,10 @@ public class LocationController : ControllerBase
             return StatusCode(500);
         }
 
-        var locations = await _context.Locations.Where(l => l.UniversityId == user.UniversityId).ToListAsync();
-
+        var locations = await _context.Locations
+                            .Where(l => l.UniversityId == user.UniversityId)
+                            .Include(l => l.Grades)
+                            .ToListAsync();
         return Ok(new
         {
             uni = new
@@ -51,8 +53,55 @@ public class LocationController : ControllerBase
                 latitude = university.Latitude,
                 longitude = university.Longitude
             },
-            loc = locations,
+            loc = locations.Select(l => new
+            {
+                id = l.ID,
+                name = l.Name,
+                description = l.Description,
+                type = l.Type,
+                latitude = l.Latitude,
+                longitude = l.Longitude,
+                averageGrade = l.AverageGrade,
+                imagePath = l.ImagePath,
+                verified = l.Verified
+            }),
         });
+    }
+
+    [Route("Trending")]
+    [Authorize(Roles = "Student")]
+    [HttpGet]
+    public async Task<ActionResult> GetTrendingLocations()
+    {
+        var user = _tokenManager.GetUserDetails(HttpContext.User);
+
+        if (user == null)
+        {
+            return StatusCode(500);
+        }
+
+        var university = await _context.Universities.FindAsync(user.UniversityId);
+
+        if (university == null)
+        {
+            return StatusCode(500);
+        }
+
+        var locations = await _context.Locations
+                            .Include(l => l.Grades!.OrderByDescending(g => g.PublicationTime))
+                            .ThenInclude(g => g.GradedBy)
+                            .Where(l => l.UniversityId == user.UniversityId)
+                            .OrderByDescending(l => l.Grades!.Count())
+                            .Take(10)
+                            .ToListAsync();
+
+        locations.ForEach(l =>
+        {
+            l.GradeCount = l.Grades!.Count();
+            l.Grades = l.Grades!.Take(3).ToList();
+        });
+
+        return Ok(locations);
     }
 
     [Route("")]

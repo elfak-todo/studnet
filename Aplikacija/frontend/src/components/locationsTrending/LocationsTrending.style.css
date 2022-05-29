@@ -1,0 +1,7 @@
+.LocationsTrending {
+  max-width: 100%;
+}
+
+.LocationsTrending > h2 {
+  text-align: center;
+}

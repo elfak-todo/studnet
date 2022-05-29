@@ -42,7 +42,7 @@ public class CommentController : ControllerBase
 
         return Ok(post.Comments.OrderByDescending(p => p.Pinned)
                                 .ThenByDescending(p => p.Verified)
-                                .ThenByDescending(p => p.PublicationTime)
+                                .ThenBy(p => p.PublicationTime)
                                 .Select(c => new
                                 {
                                     comment = c,
@@ -102,7 +102,18 @@ public class CommentController : ControllerBase
 
         post.Comments.Add(comment);
         await _context.SaveChangesAsync();
-        return Ok(comment);
+        return Ok(new
+        {
+            comment = comment,
+            author = comment.Anonymous ? null : new
+            {
+                comment.Author!.ID,
+                comment.Author.FirstName,
+                comment.Author.LastName,
+                comment.Author.Username,
+                comment.Author.ImagePath
+            }
+        });
     }
 
     [Route("Delete/{commentId}")]
@@ -119,7 +130,7 @@ public class CommentController : ControllerBase
 
         var comment = await _context.Comments.Include(c => c.Author)
                                            .FirstOrDefaultAsync(c => c.ID == commentId);
-        
+
         if (comment == null)
         {
             return BadRequest("CommentNotFound");
