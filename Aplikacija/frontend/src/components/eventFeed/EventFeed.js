@@ -12,18 +12,6 @@ function EventFeed() {
   const [hasMore, setHasMore] = useState(false);
   const observer = useRef();
 
-<<<<<<< HEAD
-    useEffect(() => {
-        setLoading(true);
-        axios.get("Event/Feed/" + pageNum).then((res) => {
-            pageNum === 0
-            ? setFeed(res.data)
-            : setFeed((oldEvents) => [...oldEvents, ...res.data]);
-        setHasMore(res.data.length > 0);
-        setLoading(false);
-        });
-    }, [pageNum]);
-=======
   useEffect(() => {
     setLoading(true);
     axios.get("Event/Feed/" + pageNum).then((res) => {
@@ -34,7 +22,6 @@ function EventFeed() {
       setLoading(false);
     });
   }, [pageNum]);
->>>>>>> 142ffae00e71fc62f80723b49851c39a5e3726e2
 
   const lastEvent = useCallback(
     (node) => {
