@@ -1,0 +1,26 @@
+.post-form-container {
+    width: 800px;
+    margin-bottom: 20px;
+}
+
+.post-form-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.profile-pic {
+    height: 60px;
+    width: 60px;
+}
+.post-toolbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media only screen and (max-width: 768px) {
+    .post-form-container {
+      width: auto;
+    }
+  }

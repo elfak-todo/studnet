@@ -1,16 +1,21 @@
 {
+  "post": "Objavi",
   "submit": "Postavi",
   "like": "Sviđanje",
   "comment": "Komentar",
   "edit": "Izmeni",
   "delete": "Obriši",
   "verify": "Verifikuj",
+  "verified": "Verifikovana",
+  "pinned": "Zakačena",
   "pin": "Zakači",
   "seeAllComments": "Vidi sve komentare",
   "seeLessComments": "Vidi manje komentara",
   "noComments": "Nema komentara za prikaz",
   "commentSome": "Ostavi komentar",
+  "postSome": "Napiši nešto pametno!",
   "anonymous": "Anonimni korisnik",
+  "anonymousPost": "Anonimna objava",
   "todayAt": "Danas u",
   "startsAt": "Počinje u"
 }

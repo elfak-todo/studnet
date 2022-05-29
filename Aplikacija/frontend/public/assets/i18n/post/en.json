@@ -1,16 +1,21 @@
 {
+    "post": "Post",
     "submit": "Submit",
     "like": "Like",
     "comment": "Comment",
     "edit": "Edit",
     "delete": "Delete",
     "verify": "Verify",
+    "verified": "Verified",
+    "pinned": "Pinned",
     "pin": "Pin",
     "seeAllComments": "See all comments",
     "seeLessComments": "See less comments",
     "noComments": "No comments to show",
     "commentSome": "Leave a comment here",
+    "postSome": "Type something smart!",
     "anonymous": "Anonymus",
+    "anonymousPost": "Anonymous post",
     "todayAt": "Today at",
     "startsAt": "Starts At"
 }

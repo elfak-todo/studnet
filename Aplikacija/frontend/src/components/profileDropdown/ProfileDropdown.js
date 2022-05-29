@@ -29,7 +29,7 @@ function ProfileDropdown() {
         <div>
           <Image
             src={
-              (student !== null && student.ImagePath === "/") ||
+              (student !== null && student.imagePath === "/") ||
               (student === null ||
               student.ImagePath === "/")
                 ? defaultPic 

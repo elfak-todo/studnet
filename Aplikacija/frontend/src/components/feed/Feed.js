@@ -3,6 +3,7 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import { Container, Card, Spinner } from "react-bootstrap";
 
 import Post from "../post/Post";
+import PostForm from "../post/postForm/PostForm";
 
 import "./Feed.style.css";
 
@@ -11,6 +12,7 @@ function Feed() {
   const [loading, setLoading] = useState(false);
   const [pageNum, setPageNum] = useState(0);
   const [hasMore, setHasMore] = useState(false);
+  
   const observer = useRef();
 
   useEffect(() => {
@@ -42,6 +44,7 @@ function Feed() {
 
   return (
     <Container fluid className="feed">
+      <PostForm feed={feed} setFeed={setFeed} />
       <Card className="feed-card">
         {feed.map((p, i) => {
           if (feed.length === i + 1) {
