@@ -68,6 +68,7 @@ public class EventController : ControllerBase
 
         events = _context.Events.Include(events => events.Organiser)
                                            .Include(e => e.Comments)
+                                           .AsSplitQuery()
                                            .Where(e => (e.Pinned || e.Verified) && e.EndTime > DateTime.Now)
                                            .OrderBy(e => e.TimeOfEvent)
                                            .Take(15);
@@ -116,6 +117,7 @@ public class EventController : ControllerBase
         {
             events = _context.Events.Include(events => events.Organiser)
                                     .Include(e => e.Comments)
+                                    .AsSplitQuery()
                                     .Where(e => e.EndTime > DateTime.Now)
                                     .OrderBy(e => e.TimeOfEvent)
                                     .Take(pageSize)
@@ -127,6 +129,7 @@ public class EventController : ControllerBase
         {
             events = _context.Events.Include(e => e.Organiser)
                                     .Include(e => e.Comments)
+                                    .AsSplitQuery()
                                     .Where(e => e.EndTime > DateTime.Now)
                                     .OrderBy(e => e.TimeOfEvent)
                                     .Skip(page * pageSize)

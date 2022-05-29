@@ -20,6 +20,7 @@ i18n
       "homePage",
       "misc",
       "post",
+      "parlament",
     ],
     interpolation: {
       espaceValue: false,

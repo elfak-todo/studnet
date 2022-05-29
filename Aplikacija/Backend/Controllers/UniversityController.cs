@@ -28,12 +28,14 @@ public class UniversityController : ControllerBase
     {
         try
         {
-            return Ok(await _context.Universities.Select(p =>
-            new
-            {
-                ID = p.ID,
-                Name = p.Name
-            }).ToListAsync()
+            return Ok
+            (
+                await _context.Universities.Select(p =>
+                    new
+                    {
+                        ID = p.ID,
+                        Name = p.Name
+                    }).ToListAsync()
             );
         }
         catch (Exception exc)

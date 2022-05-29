@@ -35,8 +35,11 @@ public class LocationController : ControllerBase
 
         var location = await _context.Locations
                                 .Include(l => l.Author)
+                                .ThenInclude(a => a!.Parlament)
                                 .Include(l => l.Events!.Where(e => e.EndTime >= DateTime.Now))
+                                .AsSplitQuery()
                                 .Include(l => l.Grades!.OrderByDescending(g => g.PublicationTime))
+                                .AsSplitQuery()
                                 .Where(l => l.ID == locationId)
                                 .FirstOrDefaultAsync();
 
@@ -50,7 +53,14 @@ public class LocationController : ControllerBase
         return Ok(new
         {
             details = location,
-            author = location.Author,
+            author = new
+            {
+                id = location.Author!.ID,
+                firstName = location.Author.FirstName,
+                lastName = location.Author.LastName,
+                imagePath = location.Author.ImagePath,
+                facultyName = location.Author.Parlament!.FacultyName
+            },
             events = location.Events,
             grades = location.Grades
         });
@@ -78,6 +88,7 @@ public class LocationController : ControllerBase
         var locations = await _context.Locations
                             .Where(l => l.UniversityId == user.UniversityId)
                             .Include(l => l.Grades)
+                            .AsSplitQuery()
                             .ToListAsync();
         return Ok(new
         {
@@ -125,6 +136,7 @@ public class LocationController : ControllerBase
         var locations = await _context.Locations
                             .Include(l => l.Grades!.OrderByDescending(g => g.PublicationTime))
                             .ThenInclude(g => g.GradedBy)
+                            .AsSplitQuery()
                             .Where(l => l.UniversityId == user.UniversityId)
                             .OrderByDescending(l => l.Grades!.Count())
                             .Take(10)

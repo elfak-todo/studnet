@@ -2,12 +2,14 @@ import { useContext } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 
 import StudentContext from "./components/studentManager/StudentManager.js";
+import EventPage from "./pages/EventPage.js";
 import EventsPage from "./pages/EventsPage";
 import HomePage from "./pages/HomePage";
 import LocationCreationPage from "./pages/LocationCreationPage.js";
 import LocationPage from "./pages/LocationPage.js";
 import LocationsPage from "./pages/LocationsPage";
 import LoginPage from "./pages/LoginPage";
+import ParlamentPage from "./pages/ParlamentPage.js";
 import RegisterPage from "./pages/RegisterPage";
 import StudentPage from "./pages/StudentPage.js";
 
@@ -20,10 +22,12 @@ function AppRoutes() {
       <Route path="/register" element={<Navigate replace to="/home" />} />
       <Route path="/home" element={<HomePage />} />
       <Route path="/events" element={<EventsPage />} />
+      <Route path="/event/:eventId" element={<EventPage />} />
       <Route path="/locations" element={<LocationsPage />} />
       <Route path="/location/:locationId" element={<LocationPage />} />
       <Route path="/location/create" element={<LocationCreationPage />} />
       <Route path="/student/:studentId" element={<StudentPage />} />
+      <Route path="/parlament/:parlamentId" element={<ParlamentPage />} />
     </Routes>
   ) : (
     <Routes>

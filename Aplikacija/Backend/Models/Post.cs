@@ -57,6 +57,7 @@ namespace Backend.Models
 
         [JsonIgnore]
         public Student? Author { get; set; }
+        public int? AuthorId { get; set; }
 
         [JsonIgnore]
         public List<Comment>? Comments { get; set; }

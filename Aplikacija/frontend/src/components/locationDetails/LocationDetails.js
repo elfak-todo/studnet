@@ -1,27 +1,28 @@
 import React from "react";
-import { Image, Tab, Tabs } from "react-bootstrap";
+import { Tab, Tabs } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
 import "./LocationDetails.style.css";
-import locationTypes from "../location/LocationTypes.js";
+
 import LocationMap from "../locationMap/LocationMap.js";
 
-function LocationDetails({ location }) {
-  console.log(location);
+import LocationDetailsComments from "./grades/LocationDetailsGrades.js";
+import LocationDetailsDetails from "./details/LocationDetailsDetails.js";
+import LocationDetailsEvents from "./events/LocationDetailsEvents.js";
 
+function LocationDetails({ location }) {
   const { t } = useTranslation(["locations"]);
   return (
     location && (
       <div>
         <div
-          className="text-center testy py-5 mb-3"
+          className="text-center testy mb-3"
           style={{
             backgroundImage: `url(${location.details.imagePath})`,
           }}
         >
-          <h1 className="text-center test2">{location.details.name}</h1>
+          <h1 className="text-center py-5 test2">{location.details.name}</h1>
         </div>
-
         <Tabs
           defaultActiveKey="details"
           id="uncontrolled-tab-example"
@@ -33,28 +34,28 @@ function LocationDetails({ location }) {
             }
           }}
         >
-          <Tab eventKey="details" title="Detalji" className="p-2 location-tab">
-            <Image
-              src={location.details.imagePath}
-              alt="Slika događaja"
-              style={{
-                width: "48%",
-                margin: "0 1%",
-                borderRadius: "0.5em",
-              }}
-            />
+          <Tab
+            eventKey="details"
+            title={t("details")}
+            className="p-2 location-tab"
+          >
+            <LocationDetailsDetails location={location} />
           </Tab>
           <Tab
-            eventKey="comments"
-            title="Komentari"
+            eventKey="grades"
+            title={`${t("grades")} (${location.grades.length})`}
             className="p-2 location-tab"
-          ></Tab>
+          >
+            <LocationDetailsComments location={location} />
+          </Tab>
           <Tab
             eventKey="events"
-            title="Događaji"
+            title={`${t("events")} (${location.events.length})`}
             className="p-2 location-tab"
-          ></Tab>
-          <Tab eventKey="map" title="Mapa" className="p-2 location-tab">
+          >
+            <LocationDetailsEvents location={location} />
+          </Tab>
+          <Tab eventKey="map" title={t("map")} className="p-2 location-tab">
             <LocationMap selectedMode mapData={{ loc: [location.details] }} />
           </Tab>
         </Tabs>

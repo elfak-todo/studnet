@@ -1,0 +1,48 @@
+.location-details-review {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  max-width: 100%;
+  margin: 0 0 2rem 0;
+}
+.location-details-slider {
+  width: 100%;
+}
+.location-details-description {
+  margin: 0;
+  text-indent: 2rem;
+  text-align: justify;
+}
+.location-details-fields {
+  width: 100%;
+  margin-top: 2rem;
+}
+.author-card {
+  border: solid;
+  border-width: 1px;
+  border-color: lightgray;
+  border-radius: 5px;
+  width: fit-content;
+  cursor: pointer;
+  padding: 1rem;
+}
+
+@media only screen and (min-width: 768px) {
+  .location-details-review {
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .location-details-slider {
+    width: 49.5%;
+  }
+  .location-details-fields {
+    width: 49.5%;
+    margin-top: 0;
+  }
+  .location-details-description {
+    margin: 1rem auto;
+    width: 70%;
+  }
+}

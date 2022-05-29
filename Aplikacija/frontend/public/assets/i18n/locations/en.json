@@ -20,5 +20,9 @@
   "trendingLocations": "Trending locations",
   "dontSeeYourLocation": "Don't see your favourite location? Suggest it ",
   "here": "here",
-  "locationNotFound": "Requested location doesn't exist!"
+  "locationNotFound": "Requested location doesn't exist!",
+  "details": "Details",
+  "grades": "Grades",
+  "events": "Events",
+  "map": "Map"
 }

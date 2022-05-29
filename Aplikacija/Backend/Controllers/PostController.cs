@@ -26,7 +26,16 @@ public class PostController : ControllerBase
     [HttpPost]
     public async Task<ActionResult> Post([FromBody] Post post)
     {
-        var student = await _tokenManager.GetStudent(HttpContext.User);
+        var userDetails = _tokenManager.GetUserDetails(HttpContext.User);
+
+        if (userDetails == null)
+        {
+            return BadRequest("BadToken");
+        }
+
+        var student = await _context.Students.Include(s => s.Parlament)
+                                .Where(s => s.ID == userDetails.ID)
+                                .FirstOrDefaultAsync();
 
         if (student == null)
         {
@@ -49,7 +58,20 @@ public class PostController : ControllerBase
         _context.Posts.Add(post);
         await _context.SaveChangesAsync();
 
-        return Ok(post);
+        return Ok(new
+        {
+            post,
+            author = new
+            {
+                post.Author.ID,
+                post.Author.FirstName,
+                post.Author.LastName,
+                post.Author.Username,
+                post.Author.ImagePath,
+                post.Author.Parlament!.FacultyName
+            },
+            comments = new List<Comment>(),
+        });
     }
 
     [Route("Feed/{page}")]
@@ -72,6 +94,7 @@ public class PostController : ControllerBase
             posts = _context.Posts.Include(p => p.Author)
                                 .ThenInclude(a => a!.Parlament)
                                 .Include(p => p.Comments)
+                                .AsSplitQuery()
                                 .Where(p => p.UniversityId == user.UniversityId)
                                 .OrderByDescending(p => p.PublicationTime)
                                 .Take(pageSize)
@@ -84,6 +107,7 @@ public class PostController : ControllerBase
             posts = _context.Posts.Include(p => p.Author)
                                 .ThenInclude(a => a!.Parlament)
                                 .Include(p => p.Comments)
+                                .AsSplitQuery()
                                 .Where(p => p.UniversityId == user.UniversityId)
                                 .OrderByDescending(p => p.PublicationTime)
                                 .Skip(page * pageSize)
@@ -93,7 +117,7 @@ public class PostController : ControllerBase
         var postsSelected = posts.Select(p => new
         {
             post = p,
-            author = p.Anonymous ? null : new
+            author = p.Anonymous && p.AuthorId != user.ID ? null : new
             {
                 p.Author!.ID,
                 p.Author.FirstName,
@@ -103,22 +127,23 @@ public class PostController : ControllerBase
                 p.Author.Parlament!.FacultyName
             },
             comments = p.Comments!.OrderByDescending(p => p.Pinned)
-                                .ThenByDescending(p => p.Verified)
-                                .ThenByDescending(p => p.PublicationTime)
-                                .Take(3)
-                                .Select(c => new
-                                {
-                                    comment = c,
-                                    author = c.Anonymous ? null : new
-                                    {
-                                        c.Author!.ID,
-                                        c.Author.FirstName,
-                                        c.Author.LastName,
-                                        c.Author.Username,
-                                        c.Author.ImagePath,
-                                        c.Author.Parlament!.FacultyName
-                                    }
-                                }),
+                        .ThenByDescending(p => p.Verified)
+                        .ThenByDescending(p => p.PublicationTime)
+                        .Take(3)
+                        .Select(c => new
+                        {
+                            comment = c,
+                            author = c.Anonymous && c.AuthorId != user.ID ?
+                            null : new
+                            {
+                                c.Author!.ID,
+                                c.Author.FirstName,
+                                c.Author.LastName,
+                                c.Author.Username,
+                                c.Author.ImagePath,
+                                c.Author.Parlament!.FacultyName
+                            }
+                        }),
         });
 
         return Ok(await postsSelected.ToListAsync());
@@ -175,6 +200,7 @@ public class PostController : ControllerBase
         }
 
         var post = await _context.Posts.Include(p => p.Author)
+                            .Include(p => p.Comments)
                             .FirstOrDefaultAsync(p => p.ID == postId);
 
         if (post == null)
@@ -226,5 +252,46 @@ public class PostController : ControllerBase
 
         await _context.SaveChangesAsync();
         return Ok(post);
+    }
+
+    [Route("SetLiked/{postId}/{liked}")]
+    [Authorize(Roles = "Student")]
+    [HttpPut]
+    public async Task<ActionResult> SetLiked(int postId, bool liked)
+    {
+        var userDetails = _tokenManager.GetUserDetails(HttpContext.User);
+
+        if (userDetails == null)
+        {
+            return BadRequest("BadToken");
+        }
+
+        var post = await _context.Posts.FindAsync(postId);
+
+        if (post == null)
+        {
+            return BadRequest("PostNotFound");
+        }
+
+        var student = await _context.Students.Include(s => s.LikedPosts)
+                                        .Where(s => s.ID == userDetails.ID)
+                                        .FirstOrDefaultAsync();
+
+        if (student == null)
+        {
+            return BadRequest("UserNotFound");
+        }
+
+        if (liked)
+        {
+            student.LikedPosts!.Add(post);
+        }
+        else
+        {
+            student.LikedPosts!.Remove(post);
+        }
+
+        await _context.SaveChangesAsync();
+        return Ok(liked);
     }
 }

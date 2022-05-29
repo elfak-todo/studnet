@@ -7,7 +7,8 @@
 
 .test2 {
   color: white;
-  text-shadow: 3px 3px 3px #000;
+  text-shadow: 3px 3px 5px #000;
+  background: rgba(0, 0, 0, 0.3);
 }
 
 .location-tab {

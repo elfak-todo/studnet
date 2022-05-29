@@ -20,5 +20,9 @@
   "trendingLocations": "Lokacije u trendu",
   "dontSeeYourLocation": "Ne vidite svoju omiljenu lokaciju? Predložite je ",
   "here": "ovde",
-  "locationNotFound": "Tražena lokacija ne postoji!"
+  "locationNotFound": "Tražena lokacija ne postoji!",
+  "details": "Detalji",
+  "grades": "Ocene",
+  "events": "Događaji",
+  "map": "Mapa"
 }

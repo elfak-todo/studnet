@@ -26,8 +26,15 @@ public class CommentController : ControllerBase
     [HttpGet]
     public async Task<ActionResult> GetPostComments(int postId)
     {
+        var user = _tokenManager.GetUserDetails(HttpContext.User);
+        if (user == null)
+        {
+            return StatusCode(500);
+        }
+
         var post = await _context.Posts.Include(p => p.Comments!)
-                                .ThenInclude(c => c.Author)
+                                .ThenInclude(c => c.Author!)
+                                .ThenInclude(a => a.Parlament)
                                 .FirstOrDefaultAsync(p => p.ID == postId);
 
         if (post == null)
@@ -41,20 +48,22 @@ public class CommentController : ControllerBase
         }
 
         return Ok(post.Comments.OrderByDescending(p => p.Pinned)
-                                .ThenByDescending(p => p.Verified)
-                                .ThenBy(p => p.PublicationTime)
-                                .Select(c => new
-                                {
-                                    comment = c,
-                                    author = c.Anonymous ? null : new
-                                    {
-                                        c.Author!.ID,
-                                        c.Author.FirstName,
-                                        c.Author.LastName,
-                                        c.Author.Username,
-                                        c.Author.ImagePath
-                                    }
-                                }));
+                        .ThenByDescending(p => p.Verified)
+                        .ThenBy(p => p.PublicationTime)
+                        .Select(c => new
+                        {
+                            comment = c,
+                            author = c.Anonymous && c.AuthorId != user.ID ?
+                            null : new
+                            {
+                                c.Author!.ID,
+                                c.Author.FirstName,
+                                c.Author.LastName,
+                                c.Author.Username,
+                                c.Author.ImagePath,
+                                c.Author.Parlament!.FacultyName
+                            }
+                        }));
     }
 
     [Route("Post/{postId}")]
@@ -69,8 +78,9 @@ public class CommentController : ControllerBase
             return BadRequest("StudentNotFound");
         }
 
-        var post = await _context.Posts.Include(p => p.Author)
-                                    .Include(p => p.Comments)
+        var post = await _context.Posts.Include(p => p.Author!)
+                                    .ThenInclude(a => a.Parlament)
+                                    .Include(p => p.Comments!)
                                     .FirstOrDefaultAsync(p => p.ID == postId);
 
         if (post == null)
@@ -105,13 +115,14 @@ public class CommentController : ControllerBase
         return Ok(new
         {
             comment = comment,
-            author = comment.Anonymous ? null : new
+            author = new
             {
                 comment.Author!.ID,
                 comment.Author.FirstName,
                 comment.Author.LastName,
                 comment.Author.Username,
-                comment.Author.ImagePath
+                comment.Author.ImagePath,
+                comment.Author.Parlament!.FacultyName
             }
         });
     }
@@ -180,5 +191,46 @@ public class CommentController : ControllerBase
 
         await _context.SaveChangesAsync();
         return Ok(comment);
+    }
+
+    [Route("SetLiked/{commentId}/{liked}")]
+    [Authorize(Roles = "Student")]
+    [HttpPut]
+    public async Task<ActionResult> SetLiked(int commentId, bool liked)
+    {
+        var userDetails = _tokenManager.GetUserDetails(HttpContext.User);
+
+        if (userDetails == null)
+        {
+            return BadRequest("BadToken");
+        }
+
+        var comment = await _context.Comments.FindAsync(commentId);
+
+        if (comment == null)
+        {
+            return BadRequest("CommentNotFound");
+        }
+
+        var student = await _context.Students.Include(s => s.LikedPosts)
+                                        .Where(s => s.ID == userDetails.ID)
+                                        .FirstOrDefaultAsync();
+
+        if (student == null)
+        {
+            return BadRequest("UserNotFound");
+        }
+
+        if (liked)
+        {
+            student.LikedComments!.Add(comment);
+        }
+        else
+        {
+            student.LikedComments!.Remove(comment);
+        }
+
+        await _context.SaveChangesAsync();
+        return Ok(liked);
     }
 }
