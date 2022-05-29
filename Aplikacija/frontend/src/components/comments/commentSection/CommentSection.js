@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import { Card, Spinner } from "react-bootstrap";
-import { useEffect, useState } from "react";
+import { /*useEffect,*/ useState } from "react";
 
 function CommentSection({ topComments, post }) {
   const { t } = useTranslation(["post"]);
@@ -45,7 +45,7 @@ function CommentSection({ topComments, post }) {
     <div>
       {comments !== null
         ? comments.map((c) => (
-            <Comment key={c.comment.id} author={c.author} comment={c.comment}/>
+            <Comment key={c.comment.id} author={c.author} comment={c.comment} />
           ))
         : null}
       {loading && (

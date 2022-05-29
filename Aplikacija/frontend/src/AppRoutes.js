@@ -9,6 +9,7 @@ import LocationPage from "./pages/LocationPage.js";
 import LocationsPage from "./pages/LocationsPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import StudentPage from "./pages/StudentPage.js";
 
 function AppRoutes() {
   const { student } = useContext(StudentContext);
@@ -22,6 +23,7 @@ function AppRoutes() {
       <Route path="/locations" element={<LocationsPage />} />
       <Route path="/location/:locationId" element={<LocationPage />} />
       <Route path="/location/create" element={<LocationCreationPage />} />
+      <Route path="/student/:studentId" element={<StudentPage />} />
     </Routes>
   ) : (
     <Routes>

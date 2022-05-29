@@ -19,5 +19,6 @@
   "recentGrades": "Skorašnje recenzije",
   "trendingLocations": "Lokacije u trendu",
   "dontSeeYourLocation": "Ne vidite svoju omiljenu lokaciju? Predložite je ",
-  "here": "ovde"
+  "here": "ovde",
+  "locationNotFound": "Tražena lokacija ne postoji!"
 }

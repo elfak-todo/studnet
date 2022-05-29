@@ -21,6 +21,41 @@ public class LocationController : ControllerBase
         _tokenManager = tokenManager;
     }
 
+    [Route("{locationId}")]
+    [Authorize(Roles = "Student")]
+    [HttpGet]
+    public async Task<ActionResult> GetLocationDetails(int locationId)
+    {
+        var user = _tokenManager.GetUserDetails(HttpContext.User);
+
+        if (user == null)
+        {
+            return StatusCode(500);
+        }
+
+        var location = await _context.Locations
+                                .Include(l => l.Author)
+                                .Include(l => l.Events!.Where(e => e.EndTime >= DateTime.Now))
+                                .Include(l => l.Grades!.OrderByDescending(g => g.PublicationTime))
+                                .Where(l => l.ID == locationId)
+                                .FirstOrDefaultAsync();
+
+        if (location == null)
+        {
+            return StatusCode(404);
+        }
+
+        location.GradeCount = location.Grades!.Count();
+
+        return Ok(new
+        {
+            details = location,
+            author = location.Author,
+            events = location.Events,
+            grades = location.Grades
+        });
+    }
+
     [Route("")]
     [Authorize(Roles = "Student")]
     [HttpGet]

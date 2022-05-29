@@ -12,7 +12,15 @@ i18n
     },
     fallbackLng: "sr",
     debug: false,
-    ns: ["login", "register", "navbar", "locations"],
+    ns: [
+      "login",
+      "register",
+      "navbar",
+      "locations",
+      "homePage",
+      "misc",
+      "post",
+    ],
     interpolation: {
       espaceValue: false,
       formatSeparator: ",",
