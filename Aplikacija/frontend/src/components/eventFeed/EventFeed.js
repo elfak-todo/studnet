@@ -12,6 +12,18 @@ function EventFeed() {
   const [hasMore, setHasMore] = useState(false);
   const observer = useRef();
 
+<<<<<<< HEAD
+    useEffect(() => {
+        setLoading(true);
+        axios.get("Event/Feed/" + pageNum).then((res) => {
+            pageNum === 0
+            ? setFeed(res.data)
+            : setFeed((oldEvents) => [...oldEvents, ...res.data]);
+        setHasMore(res.data.length > 0);
+        setLoading(false);
+        });
+    }, [pageNum]);
+=======
   useEffect(() => {
     setLoading(true);
     axios.get("Event/Feed/" + pageNum).then((res) => {
@@ -22,6 +34,7 @@ function EventFeed() {
       setLoading(false);
     });
   }, [pageNum]);
+>>>>>>> 142ffae00e71fc62f80723b49851c39a5e3726e2
 
   const lastEvent = useCallback(
     (node) => {
@@ -39,46 +52,46 @@ function EventFeed() {
     [loading, hasMore]
   );
 
-  return (
-    <Container fluid className="feed">
-      <Card className="feed-card">
-        {feed.map((p, i) => {
-          if (feed.length === i + 1) {
-            return (
-              <EventPost
-                key={p.event.id}
-                author={p.author}
-                comments={p.comments}
-                event={p.event}
-                innerRef={lastEvent}
-              />
-            );
-          } else {
-            return (
-              <EventPost
-                key={p.event.id}
-                author={p.author}
-                comments={p.comments}
-                event={p.event}
-              />
-            );
-          }
-        })}
-        {loading && (
-          <div className="feed-spinner">
-            <Spinner
-              className="text-center"
-              as="span"
-              animation="border"
-              size="lg"
-              role="status"
-              aria-hidden="true"
-            />
-          </div>
-        )}
-      </Card>
-    </Container>
-  );
+    return (
+        <Container fluid className="feed">
+            <Card className="feed-card">
+                {feed.map((e, i) => {
+                    if (feed.length === i + 1) {
+                        return (
+                            <EventPost
+                                key={e.ev.id}
+                                author={e.author}
+                                comments={e.comments}
+                                event={e.ev}
+                                innerRef={lastEvent}
+                            />
+                        );
+                    } else {
+                        return (
+                            <EventPost
+                                key={e.ev.id}
+                                author={e.author}
+                                comments={e.comments}
+                                event={e.ev}
+                            />
+                        );
+                    }
+                })}
+                {loading && (
+                    <div className="feed-spinner">
+                        <Spinner
+                            className="text-center"
+                            as="span"
+                            animation="border"
+                            size="lg"
+                            role="status"
+                            aria-hidden="true"
+                        />
+                    </div>
+                )}
+            </Card>
+        </Container>
+    );
 }
 
 export default EventFeed;
