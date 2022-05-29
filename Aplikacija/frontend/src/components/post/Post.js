@@ -10,7 +10,7 @@ function Post({ author, comments, post, innerRef, feed, setFeed }) {
   return (
     <Container className="mb-5" ref={innerRef}>
       <Card className="post shadow rounded">
-        <PostHeader author={author} post={post} />
+        <PostHeader author={author} post={post} feed={feed} setFeed={setFeed} />
         <Card.Body>
           <Card.Text>{post.text}</Card.Text>
           <PostFooter counters={post} />
