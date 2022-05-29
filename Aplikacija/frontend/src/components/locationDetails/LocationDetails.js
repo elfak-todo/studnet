@@ -1,9 +1,15 @@
 import React from "react";
 import { Image, Tab, Tabs } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
 import "./LocationDetails.style.css";
+import locationTypes from "../location/LocationTypes.js";
+import LocationMap from "../locationMap/LocationMap.js";
 
 function LocationDetails({ location }) {
+  console.log(location);
+
+  const { t } = useTranslation(["locations"]);
   return (
     location && (
       <div>
@@ -19,9 +25,15 @@ function LocationDetails({ location }) {
         <Tabs
           defaultActiveKey="details"
           id="uncontrolled-tab-example"
-          className="mb-3 justify-content-center"
+          className="justify-content-center"
+          onSelect={(key) => {
+            if (key === "map") {
+              window.dispatchEvent(new Event("resize"));
+              window.scrollTo(0, document.body.scrollHeight);
+            }
+          }}
         >
-          <Tab eventKey="details" title="Detalji">
+          <Tab eventKey="details" title="Detalji" className="p-2 location-tab">
             <Image
               src={location.details.imagePath}
               alt="Slika događaja"
@@ -32,9 +44,19 @@ function LocationDetails({ location }) {
               }}
             />
           </Tab>
-          <Tab eventKey="comments" title="Komentari"></Tab>
-          <Tab eventKey="events" title="Događaji"></Tab>
-          <Tab eventKey="map" title="Mapa"></Tab>
+          <Tab
+            eventKey="comments"
+            title="Komentari"
+            className="p-2 location-tab"
+          ></Tab>
+          <Tab
+            eventKey="events"
+            title="Događaji"
+            className="p-2 location-tab"
+          ></Tab>
+          <Tab eventKey="map" title="Mapa" className="p-2 location-tab">
+            <LocationMap selectedMode mapData={{ loc: [location.details] }} />
+          </Tab>
         </Tabs>
       </div>
     )

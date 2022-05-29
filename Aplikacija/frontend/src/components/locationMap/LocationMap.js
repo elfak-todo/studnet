@@ -6,15 +6,19 @@ import LocationUniversity from "../location/LocationUniversity.js";
 import { useState } from "react";
 import LocationCard from "../locationCard/LocationCard.js";
 
-function LocationMap({ mapData }) {
+function LocationMap({ mapData, selectedMode }) {
   const [openedLocation, setOpenedLocation] = useState(null);
 
   return (
     mapData && (
       <div className="map-container">
         <MapContainer
-          id="map"
-          center={[mapData.uni.latitude, mapData.uni.longitude]}
+          className="map"
+          center={
+            selectedMode
+              ? [mapData.loc[0].latitude, mapData.loc[0].longitude]
+              : [mapData.uni.latitude, mapData.uni.longitude]
+          }
           zoom={13}
           scrollWheelZoom={false}
         >
@@ -22,7 +26,9 @@ function LocationMap({ mapData }) {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          <LocationUniversity university={mapData.uni} />
+          {!selectedMode && mapData.uni && (
+            <LocationUniversity university={mapData.uni} />
+          )}
           {mapData.loc.map((l) => (
             <Location
               location={l}
@@ -31,10 +37,12 @@ function LocationMap({ mapData }) {
             />
           ))}
         </MapContainer>
-        <LocationCard
-          openedLocation={openedLocation}
-          setOpenedLocation={setOpenedLocation}
-        />
+        {!selectedMode && (
+          <LocationCard
+            openedLocation={openedLocation}
+            setOpenedLocation={setOpenedLocation}
+          />
+        )}
       </div>
     )
   );

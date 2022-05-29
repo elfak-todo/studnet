@@ -7,6 +7,9 @@
 
 .test2 {
   color: white;
-  mix-blend-mode: normal;
-  text-shadow: 3px 3px 6px #000;
+  text-shadow: 3px 3px 3px #000;
+}
+
+.location-tab {
+  min-height: 79vh;
 }

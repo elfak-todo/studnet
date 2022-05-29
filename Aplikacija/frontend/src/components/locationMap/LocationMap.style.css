@@ -1,9 +1,11 @@
-#map {
+.map {
   height: 76vh;
+  width: 100%;
+  max-width: 100%;
 }
 
 @media only screen and (min-width: 768px) {
-  #map {
+  .map {
     height: 82vh;
   }
 }
