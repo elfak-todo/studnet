@@ -11,7 +11,7 @@ function CommentForm({ post, comments, setComments }) {
   const commentInputRef = useRef();
 
   const submitHandler = (e) => {
-    if (e.keyCode == 13 && e.shiftKey == false) {
+    if (e.keyCode === 13 && e.shiftKey === false) {
       e.preventDefault();
       const commentText = commentInputRef.current.value;
       commentInputRef.current.value = "";
@@ -23,7 +23,7 @@ function CommentForm({ post, comments, setComments }) {
           text: commentText,
         })
         .then((res) => {
-          console.log([...comments, res.data]);
+          setComments([...comments, res.data]);
         });
     }
   };

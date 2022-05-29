@@ -11,7 +11,7 @@ import {
   faThumbTack,
 } from "@fortawesome/free-solid-svg-icons";
 import { Container, Image, Card } from "react-bootstrap";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 
 function Comment({ author, comment, action}) {
   const { t } = useTranslation(["post"]);

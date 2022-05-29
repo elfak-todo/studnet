@@ -77,9 +77,8 @@ function PostHeader({ author, post }) {
             ? t("anonymous")
             : author.firstName + " " + author.lastName}
         </Card.Text>
-        {/* TODO */}
         <Card.Text className="post-header-faculty">
-          Elektronski fakultet
+          {author !== null && author.facultyName}
         </Card.Text>
         <Card.Text className="post-header-time"> {isToday(date)} </Card.Text>
       </div>

@@ -7,25 +7,25 @@ import { Card, Container } from "react-bootstrap";
 
 function EventPost({ author, comments, event, innerRef})
 {
-    const date = new Date(event.timeOfEvent);
-    const timeSrp = date.toLocaleTimeString("srp", {
-        hour: "2-digit",
-        minute: "2-digit",
-    });
-    const timeEng = date.toLocaleTimeString("eng", {
-        hour: "2-digit",
-        minute: "2-digit",
-    });
-    const dateSrp = date.toLocaleString("srp", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-    });
-    const dateEng = date.toLocaleString("eng", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-    });
+    // const date = new Date(event.timeOfEvent);
+    // const timeSrp = date.toLocaleTimeString("srp", {
+    //     hour: "2-digit",
+    //     minute: "2-digit",
+    // });
+    // const timeEng = date.toLocaleTimeString("eng", {
+    //     hour: "2-digit",
+    //     minute: "2-digit",
+    // });
+    // const dateSrp = date.toLocaleString("srp", {
+    //     year: "numeric",
+    //     month: "long",
+    //     day: "numeric",
+    // });
+    // const dateEng = date.toLocaleString("eng", {
+    //     year: "numeric",
+    //     month: "long",
+    //     day: "numeric",
+    // });
 
 
 
