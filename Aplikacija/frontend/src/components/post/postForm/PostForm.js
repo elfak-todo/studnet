@@ -36,8 +36,11 @@ function PostForm({ feed, setFeed }) {
       !anonymousPost && student.role !== 0 ? pinnedRef.current.checked : false;
 
     postTextInputRef.current.value = "";
-    verifiedRef.current.checked = false;
-    pinnedRef.current.checked = false;
+    
+    if (!anonymousPost && student.role !== 0) {
+      verifiedRef.current.checked = false;
+      pinnedRef.current.checked = false;
+    }
 
     setLoading(true);
 

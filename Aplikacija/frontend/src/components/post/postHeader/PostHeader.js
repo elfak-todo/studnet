@@ -67,9 +67,9 @@ function PostHeader({ author, post, feed, setFeed }) {
       {post.pinned && (
         <FontAwesomeIcon icon={faThumbTack} className="post-header-pinned" />
       )}
-      {student !== null && author !== null && student.id === author.id && (
+      {student.role === 3 || (student !== null && author !== null && student.id === author.id) ? (
         <SettingsDropdown selectedAction={handleSelectedAction} />
-      )}
+      ) : null}
     </div>
   );
 }

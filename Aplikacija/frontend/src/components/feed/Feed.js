@@ -21,23 +21,23 @@ function Feed() {
       if (pageNum === 0) {
         setFeed(res.data);
       } else {
-        const f = [...feed, ...res.data];
-        
-        const newFeed = Array.from(new Set(f.map((p) => p.post.id))).map(
-          (id) => {
-            return f.find((p) => p.post.id === id);
-          }
-        );
 
-        setFeed(newFeed);
+        setFeed((state) =>{
+          const f = [...state, ...res.data];
+
+          return Array.from(new Set(f.map((p) => p.post.id))).map(
+            (id) => {
+              return f.find((p) => p.post.id === id);
+            }
+          );
+        })
+
       }
 
       setHasMore(res.data.length > 0);
       setLoading(false);
     });
 
-    //Ne znam drugi nacin da sklonim ovaj warning ako znas Luka, skloni...
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageNum]);
 
   const lastPost = useCallback(

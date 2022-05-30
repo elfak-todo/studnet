@@ -110,9 +110,10 @@ function Comment({
               />
             )}
           </div>
-          {student.id === author.id && (
+          {student.role === 3 ||
+          (student !== null && author !== null && student.id === author.id) ? (
             <SettingsDropdown selectedAction={handleSelectedAction} />
-          )}
+          ) : null}
         </div>
         <Container className="ms-0">
           <Card className="ms-0">

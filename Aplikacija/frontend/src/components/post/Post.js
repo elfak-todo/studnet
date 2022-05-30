@@ -8,7 +8,7 @@ import "./Post.style.css";
 
 function Post({ author, comments, post, innerRef, feed, setFeed }) {
   return (
-    <Container className="mb-5" ref={innerRef}>
+    <Container className="mb-3" ref={innerRef}>
       <Card className="post shadow rounded">
         <PostHeader author={author} post={post} feed={feed} setFeed={setFeed} />
         <Card.Body>
