@@ -71,7 +71,16 @@ public class CommentController : ControllerBase
     [HttpPost]
     public async Task<ActionResult> PostComment([FromBody] Comment comment, int postId)
     {
-        var student = await _tokenManager.GetStudent(HttpContext.User);
+        var userDetails = _tokenManager.GetUserDetails(HttpContext.User);
+
+        if (userDetails == null)
+        {
+            return BadRequest("TokenNotValid");
+        }
+
+        var student = await _context.Students.Include(s => s.Parlament)
+                                            .Where(s => s.ID == userDetails.ID)
+                                            .FirstOrDefaultAsync();
 
         if (student == null)
         {

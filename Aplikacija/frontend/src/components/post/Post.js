@@ -6,14 +6,14 @@ import CommentSection from "../comments/commentSection/CommentSection";
 
 import "./Post.style.css";
 
-function Post({ author, comments, post, innerRef, feed, setFeed }) {
+function Post({ author, comments, post, liked, innerRef, feed, setFeed }) {
   return (
     <Container className="mb-3" ref={innerRef}>
       <Card className="post shadow rounded">
         <PostHeader author={author} post={post} feed={feed} setFeed={setFeed} />
         <Card.Body>
           <Card.Text> {post.text} </Card.Text>
-          <PostFooter post={post} />
+          <PostFooter post={post} isLiked={liked} />
         </Card.Body>
         <Card.Footer className="p-0">
           <CommentSection

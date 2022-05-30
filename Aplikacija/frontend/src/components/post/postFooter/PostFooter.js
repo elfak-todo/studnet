@@ -1,4 +1,4 @@
-//import axios from "axios";
+import axios from "axios";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,31 +8,32 @@ import { Card } from "react-bootstrap";
 import "./PostFooter.style.css";
 //import StudentContext from "../../studentManager/StudentManager";
 
-function PostFooter({ post }) {
+function PostFooter({ post, isLiked }) {
   const { t } = useTranslation(["post"]);
   //const { student } = useContext(StudentContext);
 
-  const [liked, setLiked] = useState(false);
+  const [liked, setLiked] = useState(isLiked);
 
   const handleLike = () => {
-    if (liked) {
-      setLiked(false);
-      console.log("Unliked post: " + post.id);
-    } else {
-      setLiked(true);
-      console.log("Liked post: " + post.id);
-    }
-        //TODO luka back
+    // if (liked) {
+    //   setLiked(false);
+    //   console.log("Unliked post: " + post.id);
+    // } else {
+    //   setLiked(true);
+    //   console.log("Liked post: " + post.id);
+    // }
 
-    // axios
-    //   .put("Post/SetLiked/" + post.id + "/" + liked)
-    //   .then((res) => {
-    //     console.log("RESPONSE");
-    //     console.log(res.data);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err.response.data);
-    //   });
+    //liked mora da bude invertovanyy zbog closure!!1!1!
+    //cak i kad se setLiked desi pre ovo ima referencu na starou
+
+    axios
+      .put("Post/SetLiked/" + post.id + "/" + !liked)
+      .then((res) => {
+        setLiked(res.data);
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+      });
   };
 
   return (

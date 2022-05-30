@@ -21,23 +21,18 @@ function Feed() {
       if (pageNum === 0) {
         setFeed(res.data);
       } else {
-
-        setFeed((state) =>{
+        setFeed((state) => {
           const f = [...state, ...res.data];
 
-          return Array.from(new Set(f.map((p) => p.post.id))).map(
-            (id) => {
-              return f.find((p) => p.post.id === id);
-            }
-          );
-        })
-
+          return Array.from(new Set(f.map((p) => p.post.id))).map((id) => {
+            return f.find((p) => p.post.id === id);
+          });
+        });
       }
 
       setHasMore(res.data.length > 0);
       setLoading(false);
     });
-
   }, [pageNum]);
 
   const lastPost = useCallback(
@@ -68,6 +63,7 @@ function Feed() {
                 author={p.author}
                 comments={p.comments}
                 post={p.post}
+                liked={p.liked}
                 innerRef={lastPost}
                 feed={feed}
                 setFeed={setFeed}
@@ -80,6 +76,7 @@ function Feed() {
                 author={p.author}
                 comments={p.comments}
                 post={p.post}
+                liked={p.liked}
                 feed={feed}
                 setFeed={setFeed}
               />

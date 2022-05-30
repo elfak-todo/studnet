@@ -81,10 +81,10 @@ public class PostController : ControllerBase
     {
         const int pageSize = 10;
 
-        var user = _tokenManager.GetUserDetails(HttpContext.User);
-        if (user == null)
+        var student = await _tokenManager.GetStudent(HttpContext.User);
+        if (student == null)
         {
-            return StatusCode(500);
+            return BadRequest("UserNotFound");
         }
 
         IQueryable<Post> posts;
@@ -94,8 +94,9 @@ public class PostController : ControllerBase
             posts = _context.Posts.Include(p => p.Author)
                                 .ThenInclude(a => a!.Parlament)
                                 .Include(p => p.Comments)
+                                .Include(p => p.LikedBy)
                                 .AsSplitQuery()
-                                .Where(p => p.UniversityId == user.UniversityId)
+                                .Where(p => p.UniversityId == student.UniversityId)
                                 .OrderByDescending(p => p.PublicationTime)
                                 .Take(pageSize)
                                 .OrderByDescending(p => p.Pinned)
@@ -107,8 +108,9 @@ public class PostController : ControllerBase
             posts = _context.Posts.Include(p => p.Author)
                                 .ThenInclude(a => a!.Parlament)
                                 .Include(p => p.Comments)
+                                .Include(p => p.LikedBy)
                                 .AsSplitQuery()
-                                .Where(p => p.UniversityId == user.UniversityId)
+                                .Where(p => p.UniversityId == student.UniversityId)
                                 .OrderByDescending(p => p.PublicationTime)
                                 .Skip(page * pageSize)
                                 .Take(pageSize);
@@ -116,8 +118,9 @@ public class PostController : ControllerBase
 
         var postsSelected = posts.Select(p => new
         {
+            liked = p.LikedBy!.Contains(student),
             post = p,
-            author = p.Anonymous && p.AuthorId != user.ID ? null : new
+            author = p.Anonymous && p.AuthorId != student.ID ? null : new
             {
                 p.Author!.ID,
                 p.Author.FirstName,
@@ -133,7 +136,7 @@ public class PostController : ControllerBase
                         .Select(c => new
                         {
                             comment = c,
-                            author = c.Anonymous && c.AuthorId != user.ID ?
+                            author = c.Anonymous && c.AuthorId != student.ID ?
                             null : new
                             {
                                 c.Author!.ID,
