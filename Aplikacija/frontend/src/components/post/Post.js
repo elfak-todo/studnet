@@ -12,7 +12,7 @@ function Post({ author, comments, post, innerRef, feed, setFeed }) {
       <Card className="post shadow rounded">
         <PostHeader author={author} post={post} feed={feed} setFeed={setFeed} />
         <Card.Body>
-          <Card.Text>{post.text}</Card.Text>
+          <Card.Text> {post.text} </Card.Text>
           <PostFooter post={post} />
         </Card.Body>
         <Card.Footer className="p-0">

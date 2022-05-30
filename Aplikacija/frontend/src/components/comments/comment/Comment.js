@@ -7,7 +7,7 @@ import {
   faThumbTack,
 } from "@fortawesome/free-solid-svg-icons";
 import { Container, Image, Card } from "react-bootstrap";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 import { parseDate } from "../../../helpers/DateParser.js";
 import StudentContext from "../../studentManager/StudentManager";
@@ -15,7 +15,6 @@ import defaultPic from "../../../images/defaultProfilePic.jpg";
 import SettingsDropdown from "../../settingsDropdown/SettingsDropdown";
 
 import "./Comment.style.css";
-
 
 function Comment({
   author,
@@ -29,6 +28,8 @@ function Comment({
   const { t, i18n } = useTranslation(["post"]);
 
   const { student } = useContext(StudentContext);
+
+  const [liked, setLiked] = useState(false);
 
   const handleSelectedAction = (keyEvent) => {
     if (keyEvent === "delete") handleDelete();
@@ -60,6 +61,17 @@ function Comment({
     setFeed(feedCopy);
   };
 
+  const handleLike = () => {
+    if (liked) {
+      setLiked(false);
+      console.log("Unliked comment: " + comment.id);
+    } else {
+      setLiked(true);
+      console.log("Liked comment: " + comment.id);
+    }
+    //TODO
+  };
+
   return (
     <Container className="comment-header">
       <Image
@@ -81,9 +93,8 @@ function Comment({
               ? t("anonymous")
               : author.firstName + " " + author.lastName}
           </Card.Text>
-          {/* TODO */}
           <Card.Text className="comment-faculty">
-            Elektronski fakultet
+            {author.facultyName}
           </Card.Text>
           <div>
             {comment.verified && (
@@ -110,22 +121,27 @@ function Comment({
             </Card.Body>
           </Card>
           <div className="comment-row-icons">
-          <Card.Text className="comment-date"> {parseDate(comment.publicationTime, i18n.language)} </Card.Text>
-          <div className="comment-row-icons">
-            <div className="comment-center-icons">
-              <FontAwesomeIcon
-                icon={faThumbsUp}
-                className="comment-like-icon-sm"
-              />
-              <Card.Text className="me-2"> {comment.likeCount} </Card.Text>
-            </div>
-            <div className="comment-center-icons">
-              <FontAwesomeIcon
-                icon={faThumbsUp}
-                className="comment-like-icon"
-              />
-              <Card.Text> {t("like")} </Card.Text>
-            </div>
+            <Card.Text className="comment-date">
+              {parseDate(comment.publicationTime, i18n.language)}
+            </Card.Text>
+            <div className="comment-row-icons">
+              <div className="comment-center-icons">
+                <FontAwesomeIcon
+                  icon={faThumbsUp}
+                  className="comment-like-icon-sm"
+                />
+                <Card.Text className="me-2"> {comment.likeCount} </Card.Text>
+              </div>
+              <div className="comment-like" onClick={handleLike}>
+                <FontAwesomeIcon
+                  icon={faThumbsUp}
+                  className="comment-like-icon"
+                  style={liked && { color: "#5bc0de" }}
+                />
+                <Card.Text className={liked && "liked-text"}>
+                  {t("like")}
+                </Card.Text>
+              </div>
             </div>
           </div>
         </Container>

@@ -28,6 +28,12 @@
     justify-content: left;
     align-items: center;
 }
+.comment-like {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    cursor: pointer;
+}
 .comment-like-icon-sm {
     font-size: 15px;
     color: grey;

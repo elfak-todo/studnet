@@ -11,17 +11,21 @@
     display: flex;
     justify-content: right;
     align-items: center;
+    cursor: pointer;
 }
 .like-comment-icon {
-    font-size: 20px;
+    font-size: 25px;
     color: #1976D2;
     margin-left: 10px;
     margin-right: 5px;
-    cursor: pointer;
 }
 .like-comment-icon-sm {
     font-size: 15px;
     color: grey;
     margin-left: 10px;
     margin-right: 5px;
+}
+
+.liked-text {
+    color:#5bc0de;
 }

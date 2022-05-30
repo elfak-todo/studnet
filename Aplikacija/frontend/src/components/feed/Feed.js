@@ -12,18 +12,32 @@ function Feed() {
   const [loading, setLoading] = useState(false);
   const [pageNum, setPageNum] = useState(0);
   const [hasMore, setHasMore] = useState(false);
-  
+
   const observer = useRef();
 
   useEffect(() => {
     setLoading(true);
     axios.get("Post/Feed/" + pageNum).then((res) => {
-      pageNum === 0
-        ? setFeed(res.data)
-        : setFeed((oldPosts) => [...oldPosts, ...res.data]);
+      if (pageNum === 0) {
+        setFeed(res.data);
+      } else {
+        const f = [...feed, ...res.data];
+        
+        const newFeed = Array.from(new Set(f.map((p) => p.post.id))).map(
+          (id) => {
+            return f.find((p) => p.post.id === id);
+          }
+        );
+
+        setFeed(newFeed);
+      }
+
       setHasMore(res.data.length > 0);
       setLoading(false);
     });
+
+    //Ne znam drugi nacin da sklonim ovaj warning ako znas Luka, skloni...
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageNum]);
 
   const lastPost = useCallback(
@@ -50,7 +64,7 @@ function Feed() {
           if (feed.length === i + 1) {
             return (
               <Post
-                key={i}
+                key={p.post.id}
                 author={p.author}
                 comments={p.comments}
                 post={p.post}
@@ -62,7 +76,7 @@ function Feed() {
           } else {
             return (
               <Post
-                key={i}
+                key={p.post.id}
                 author={p.author}
                 comments={p.comments}
                 post={p.post}
