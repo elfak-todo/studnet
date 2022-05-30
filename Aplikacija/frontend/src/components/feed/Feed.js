@@ -50,7 +50,7 @@ function Feed() {
           if (feed.length === i + 1) {
             return (
               <Post
-                key={p.post.id}
+                key={i}
                 author={p.author}
                 comments={p.comments}
                 post={p.post}
@@ -62,7 +62,7 @@ function Feed() {
           } else {
             return (
               <Post
-                key={p.post.id}
+                key={i}
                 author={p.author}
                 comments={p.comments}
                 post={p.post}

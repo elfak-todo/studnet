@@ -13,7 +13,7 @@ function Post({ author, comments, post, innerRef, feed, setFeed }) {
         <PostHeader author={author} post={post} feed={feed} setFeed={setFeed} />
         <Card.Body>
           <Card.Text>{post.text}</Card.Text>
-          <PostFooter counters={post} />
+          <PostFooter post={post} />
         </Card.Body>
         <Card.Footer className="p-0">
           <CommentSection

@@ -15,6 +15,7 @@ function PostForm({ feed, setFeed }) {
 
   const [anonymous, setAnonymous] = useState(false);
   const [loading, setLoading] = useState(false);
+
   const anonymousRef = useRef();
   const postTextInputRef = useRef();
   const verifiedRef = useRef();
@@ -49,21 +50,24 @@ function PostForm({ feed, setFeed }) {
         let postId = 0;
         if (verified && pinned) {
           feed.unshift(response.data);
-          setFeed(feed.filter((p, i) => i !== feed.length));
+
+          setFeed(feed.filter((p, i) => i < feed.length - 1));
         } else if (pinned && !verified) {
           feed.forEach((p, i) => {
             if (p.post.pinned) postId = i;
           });
 
           feed.splice(postId + 1, 0, response.data);
-          setFeed(feed.filter((p, i) => i !== feed.length));
+
+          setFeed(feed.filter((p, i) => i < feed.length - 1));
         } else if (verified && !pinned) {
           feed.forEach((p, i) => {
             if (p.post.pinned) postId = i;
           });
 
           feed.splice(postId + 1, 0, response.data);
-          setFeed(feed.filter((p, i) => i !== feed.length));
+
+          setFeed(feed.filter((p, i) => i < feed.length - 1));
         } else if (!pinned && !verified) {
           let found = false;
           feed.forEach((p, i) => {
@@ -74,7 +78,8 @@ function PostForm({ feed, setFeed }) {
           });
 
           feed.splice(postId, 0, response.data);
-          setFeed(feed.filter((p, i) => i !== feed.length));
+          
+          setFeed(feed.filter((p, i) => i < feed.length - 1));
         }
 
         setLoading(false);

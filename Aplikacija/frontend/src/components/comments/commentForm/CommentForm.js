@@ -26,6 +26,8 @@ function CommentForm({ post, comments, setComments, feed, setFeed }) {
         .then((res) => {
           setComments([...comments, res.data]);
           commentCounterInc();
+        }).catch(error => {
+          console.log(error.response.data);
         });
     }
   };
