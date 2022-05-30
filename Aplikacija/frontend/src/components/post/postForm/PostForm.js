@@ -15,7 +15,6 @@ function PostForm({ feed, setFeed }) {
 
   const [anonymous, setAnonymous] = useState(false);
   const [loading, setLoading] = useState(false);
-
   const anonymousRef = useRef();
   const postTextInputRef = useRef();
   const verifiedRef = useRef();
@@ -28,8 +27,14 @@ function PostForm({ feed, setFeed }) {
 
     const anonymousPost = anonymousRef.current.checked;
     const postText = postTextInputRef.current.value;
-    const verified = !anonymous ? verifiedRef.current.checked : false;
-    const pinned = !anonymous ? pinnedRef.current.checked : false;
+    const verified =
+      !anonymousPost && student.role !== 0
+        ? verifiedRef.current.checked
+        : false;
+    const pinned =
+      !anonymousPost && student.role !== 0 ? pinnedRef.current.checked : false;
+
+    postTextInputRef.current.value = "";
 
     setLoading(true);
 
@@ -41,27 +46,36 @@ function PostForm({ feed, setFeed }) {
         text: postText,
       })
       .then((response) => {
-        console.log(response.data);
+        let postId = 0;
+        if (verified && pinned) {
+          feed.unshift(response.data);
+          setFeed(feed.filter((p, i) => i !== feed.length));
+        } else if (pinned && !verified) {
+          feed.forEach((p, i) => {
+            if (p.post.pinned) postId = i;
+          });
 
-        //TODO luka treba da izmeni back
+          feed.splice(postId + 1, 0, response.data);
+          setFeed(feed.filter((p, i) => i !== feed.length));
+        } else if (verified && !pinned) {
+          feed.forEach((p, i) => {
+            if (p.post.pinned) postId = i;
+          });
 
-        // let postId = 0;
-        // if (verified && pinned) {
-        //   feed.unshift(response.data);
-        //   setFeed(feed);
-        // } else if (pinned && !verified) {
-        //   feed.forEach((p) => {
-        //     if (p.post.pinned) postId = p.id;
-        //   });
-        //   feed.splice(postId, 0, response.data);
-        //   setFeed(feed);
-        // } else {
-        //   feed.forEach((p) => {
-        //     if (p.post.verified) postId = p.id;
-        //   });
-        //   feed.splice(postId, 0, response.data);
-        //   setFeed(feed);
-        // }
+          feed.splice(postId + 1, 0, response.data);
+          setFeed(feed.filter((p, i) => i !== feed.length));
+        } else if (!pinned && !verified) {
+          let found = false;
+          feed.forEach((p, i) => {
+            if (!p.post.verified && !p.post.pinned && !found) {
+              postId = i;
+              found = true;
+            }
+          });
+
+          feed.splice(postId, 0, response.data);
+          setFeed(feed.filter((p, i) => i !== feed.length));
+        }
 
         setLoading(false);
       })

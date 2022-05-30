@@ -68,7 +68,7 @@ export const parseDate = (databaseDate, language) => {
   ) {
     today = true;
   } else if (
-    date.getDate() - 1 === dateToday.getDate() &&
+    date.getDate() === dateToday.getDate() - 1 &&
     date.getMonth() === dateToday.getMonth() &&
     date.getFullYear() === dateToday.getFullYear()
   ) {

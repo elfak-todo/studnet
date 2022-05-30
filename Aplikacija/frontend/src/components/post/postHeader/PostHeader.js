@@ -33,14 +33,16 @@ function PostHeader({ author, post, feed, setFeed }) {
         console.log(error.response.data);
       });
   };
-
+  
   return (
     <div className="post-header">
       <Image
         src={
-          (author !== null && author.imagePath === "/")
+          post.anonymous
+            ? anonymousPic
+            : author !== null && author.imagePath === "/"
             ? defaultPic
-            : post.anonymous ? anonymousPic : author.imagePath
+            : author.imagePath
         }
         alt="user-pic"
         className="post-profile-pic"
@@ -66,8 +68,8 @@ function PostHeader({ author, post, feed, setFeed }) {
         <FontAwesomeIcon icon={faThumbTack} className="post-header-pinned" />
       )}
       {student !== null && author !== null && student.id === author.id && (
-            <SettingsDropdown selectedAction={handleSelectedAction} />
-          )}
+        <SettingsDropdown selectedAction={handleSelectedAction} />
+      )}
     </div>
   );
 }
