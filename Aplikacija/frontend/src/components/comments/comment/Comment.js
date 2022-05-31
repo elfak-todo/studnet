@@ -6,8 +6,8 @@ import {
   faCircleCheck,
   faThumbTack,
 } from "@fortawesome/free-solid-svg-icons";
-import { Container, Image, Card } from "react-bootstrap";
-import { useContext, useState } from "react";
+import { Container, Image, Card, Form } from "react-bootstrap";
+import { useContext, useState, useRef } from "react";
 
 import { parseDate } from "../../../helpers/DateParser.js";
 import StudentContext from "../../studentManager/StudentManager";
@@ -32,7 +32,27 @@ function Comment({
   const [liked, setLiked] = useState(false);
   const [pinned, setPinned] = useState(comment.pinned);
   const [verified, setVerified] = useState(comment.verified);
+  const [edit, setEdit] = useState(false);
+  const [edited, setEdited] = useState(comment.edited);
 
+  const editTextInputRef = useRef();
+
+  const handleEdit = (e) => {
+    //TODO fali EditComment metoda u back
+    if (e.keyCode === 13 && e.shiftKey === false) {
+      e.preventDefault();
+
+      const editedText = editTextInputRef.current.value;
+
+      if (editedText === "") return;
+
+      console.log(editedText);
+      
+      setEdited(true);
+
+      setEdit(false);
+    }
+  };
 
   const handleDelete = () => {
     axios
@@ -58,7 +78,6 @@ function Comment({
     axios
       .put("Comment/SetPinned/" + comment.id + "/" + !pinned)
       .then((res) => {
-        console.log(res.data);
         setPinned(res.data.pinned);
         setComments((prevState) => {
           return prevState.map((p) => {
@@ -72,12 +91,11 @@ function Comment({
       .catch((err) => {
         console.log(err.response.data);
       });
-  }
+  };
   const handleVerify = () => {
     axios
       .put("Comment/SetVerified/" + comment.id + "/" + !verified)
       .then((res) => {
-        console.log(res.data);
         setVerified(res.data.verified);
         setComments((prevState) => {
           return prevState.map((p) => {
@@ -116,8 +134,7 @@ function Comment({
         handlePinn();
         break;
       case "edit":
-        //TODO
-        console.log("Edit comment: " + comment.id);
+        setEdit(true);
         break;
       default:
         break;
@@ -164,19 +181,44 @@ function Comment({
           </div>
           {student.role === 3 ||
           (student !== null && author !== null && student.id === author.id) ? (
-            <SettingsDropdown selectedAction={handleSelectedAction} pinned={pinned} verified={verified}/>
+            <SettingsDropdown
+              selectedAction={handleSelectedAction}
+              pinned={pinned}
+              verified={verified}
+            />
           ) : null}
         </div>
         <Container className="ms-0">
           <Card className="ms-0">
             <Card.Body>
-              <Card.Text>{comment.text}</Card.Text>
+              {edit ? (
+                <Form noValidate>
+                  <Form.Control
+                    as="textarea"
+                    rows={2}
+                    type="text"
+                    defaultValue={comment.text}
+                    onKeyDown={handleEdit}
+                    ref={editTextInputRef}
+                  ></Form.Control>
+                </Form>
+              ) : (
+                <Card.Text>{comment.text}</Card.Text>
+              )}
             </Card.Body>
           </Card>
           <div className="comment-row-icons">
-            <Card.Text className="comment-date">
-              {parseDate(comment.publicationTime, i18n.language)}
-            </Card.Text>
+            <div className="date-edited">
+              <Card.Text className="comment-date">
+                {parseDate(comment.publicationTime, i18n.language)}
+              </Card.Text>
+              {edited && (
+                <Card.Text className="ms-2" style={{ fontSize: "x-small" }}>
+                  {" "}
+                  {t("edited")}{" "}
+                </Card.Text>
+              )}
+            </div>
             <div className="comment-row-icons">
               <div className="comment-center-icons">
                 <FontAwesomeIcon

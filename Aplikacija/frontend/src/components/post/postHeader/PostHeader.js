@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useContext, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck, faThumbTack } from "@fortawesome/free-solid-svg-icons";
-import { Image, Card } from "react-bootstrap";
+import { Image, Card, OverlayTrigger, Popover } from "react-bootstrap";
 
 import { parseDate } from "../../../helpers/DateParser.js";
 import defaultPic from "../../../images/defaultProfilePic.jpg";
@@ -12,8 +12,9 @@ import SettingsDropdown from "../../settingsDropdown/SettingsDropdown";
 import StudentContext from "../../studentManager/StudentManager";
 
 import "./PostHeader.style.css";
+import ProfileHoverCard from "../../profileHoverCard/ProfileHoverCard.js";
 
-function PostHeader({ author, post, feed, setFeed }) {
+function PostHeader({ author, post, feed, setFeed, setEdit }) {
   const { t, i18n } = useTranslation(["post"]);
 
   const { student } = useContext(StudentContext);
@@ -82,8 +83,7 @@ function PostHeader({ author, post, feed, setFeed }) {
         handlePinn();
         break;
       case "edit":
-        //TODO
-        console.log("Edit post: " + post.id);
+        setEdit(true);
         break;
       default:
         break;
@@ -92,18 +92,29 @@ function PostHeader({ author, post, feed, setFeed }) {
 
   return (
     <div className="post-header">
-      <Image
-        src={
-          post.anonymous
-            ? anonymousPic
-            : author !== null && author.imagePath === "/"
-            ? defaultPic
-            : author.imagePath
+      <OverlayTrigger
+      rootClose
+        trigger="click"
+        placement="right"
+        overlay={
+          <Popover>
+            <ProfileHoverCard />
+          </Popover>
         }
-        alt="user-pic"
-        className="post-profile-pic"
-        roundedCircle
-      />
+      >
+        <Image
+          src={
+            post.anonymous
+              ? anonymousPic
+              : author !== null && author.imagePath === "/"
+              ? defaultPic
+              : author.imagePath
+          }
+          alt="user-pic"
+          className="post-profile-pic"
+          roundedCircle
+        />
+      </OverlayTrigger>
       <div>
         <Card.Text className="post-header-name">
           {author === null
@@ -125,7 +136,11 @@ function PostHeader({ author, post, feed, setFeed }) {
       )}
       {student.role === 3 ||
       (student !== null && author !== null && student.id === author.id) ? (
-        <SettingsDropdown selectedAction={handleSelectedAction} verified={verified} pinned={pinned} />
+        <SettingsDropdown
+          selectedAction={handleSelectedAction}
+          verified={verified}
+          pinned={pinned}
+        />
       ) : null}
     </div>
   );

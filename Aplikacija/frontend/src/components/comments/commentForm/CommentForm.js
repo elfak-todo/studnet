@@ -15,6 +15,7 @@ function CommentForm({ post, comments, setComments, feed, setFeed }) {
       e.preventDefault();
 
       const commentText = commentInputRef.current.value;
+      
       if (commentText === "") return;
 
       commentInputRef.current.value = "";
