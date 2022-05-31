@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useTranslation } from "react-i18next";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck, faThumbTack } from "@fortawesome/free-solid-svg-icons";
 import { Image, Card } from "react-bootstrap";
@@ -18,22 +18,78 @@ function PostHeader({ author, post, feed, setFeed }) {
 
   const { student } = useContext(StudentContext);
 
-  const handleSelectedAction = (keyEvent) => {
-    if (keyEvent === "delete") {
-      handleDelete();
-    }
-  };
+  const [pinned, setPinned] = useState(post.pinned);
+  const [verified, setVerified] = useState(post.verified);
+
   const handleDelete = () => {
     axios
       .delete("Post/Delete/" + post.id)
-      .then((res) => {
+      .then(() => {
         setFeed(feed.filter((p) => p.post.id !== post.id));
       })
       .catch((error) => {
         console.log(error.response.data);
       });
   };
-  
+
+  const handlePinn = () => {
+    axios
+      .put("Post/SetPinned/" + post.id + "/" + !pinned)
+      .then((res) => {
+        setPinned(res.data.pinned);
+        setFeed((prevState) => {
+          return prevState.map((p) => {
+            if (p.post.id === post.id) {
+              p.post.pinned = !pinned;
+              return p;
+            } else return p;
+          });
+        });
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+      });
+  };
+
+  const handleVerify = () => {
+    axios
+      .put("Post/SetVerified/" + post.id + "/" + !verified)
+      .then((res) => {
+        setVerified(res.data.verified);
+        setFeed((prevState) => {
+          return prevState.map((p) => {
+            if (p.post.id === post.id) {
+              p.post.verified = !verified;
+              return p;
+            } else return p;
+          });
+        });
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+      });
+  };
+
+  const handleSelectedAction = (keyEvent) => {
+    switch (keyEvent) {
+      case "delete":
+        handleDelete();
+        break;
+      case "verify":
+        handleVerify();
+        break;
+      case "pinn":
+        handlePinn();
+        break;
+      case "edit":
+        //TODO
+        console.log("Edit post: " + post.id);
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <div className="post-header">
       <Image
@@ -67,8 +123,9 @@ function PostHeader({ author, post, feed, setFeed }) {
       {post.pinned && (
         <FontAwesomeIcon icon={faThumbTack} className="post-header-pinned" />
       )}
-      {student.role === 3 || (student !== null && author !== null && student.id === author.id) ? (
-        <SettingsDropdown selectedAction={handleSelectedAction} />
+      {student.role === 3 ||
+      (student !== null && author !== null && student.id === author.id) ? (
+        <SettingsDropdown selectedAction={handleSelectedAction} verified={verified} pinned={pinned} />
       ) : null}
     </div>
   );

@@ -6,7 +6,7 @@ import { NavDropdown } from "react-bootstrap";
 
 import StudentContext from "../studentManager/StudentManager";
 
-function SettingsDropdown({ selectedAction }) {
+function SettingsDropdown({ selectedAction, verified, pinned }) {
   const { t } = useTranslation(["post"]);
   const { student } = useContext(StudentContext);
 
@@ -27,8 +27,12 @@ function SettingsDropdown({ selectedAction }) {
       <NavDropdown.Item eventKey="edit"> {t("edit")} </NavDropdown.Item>
       {student.role !== 0 && (
         <>
-          <NavDropdown.Item eventKey="verify"> {t("verify")} </NavDropdown.Item>
-          <NavDropdown.Item eventKey="pin"> {t("pin")} </NavDropdown.Item>
+          <NavDropdown.Item eventKey="verify">
+            {!verified ? t("verify") : t("unverify")}
+          </NavDropdown.Item>
+          <NavDropdown.Item eventKey="pinn">
+            {!pinned ? t("pin") : t("unpin")}
+          </NavDropdown.Item>
         </>
       )}
       <NavDropdown.Item eventKey="delete"> {t("delete")} </NavDropdown.Item>

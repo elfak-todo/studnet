@@ -30,38 +30,71 @@ function Comment({
   const { student } = useContext(StudentContext);
 
   const [liked, setLiked] = useState(false);
+  const [pinned, setPinned] = useState(comment.pinned);
+  const [verified, setVerified] = useState(comment.verified);
 
-  const handleSelectedAction = (keyEvent) => {
-    if (keyEvent === "delete") handleDelete();
-  };
 
   const handleDelete = () => {
     axios
       .delete("Comment/Delete/" + comment.id)
       .then((res) => {
         setComments(comments.filter((com) => com.comment.id !== comment.id));
-        commentCounterDec();
+
+        setFeed((prevState) => {
+          return prevState.map((p) => {
+            if (p.post.id === post.id) {
+              p.post.commentCount = p.post.commentCount - 1;
+              return p;
+            } else return p;
+          });
+        });
       })
       .catch((error) => {
         console.log(error.response.data);
       });
   };
 
-  const commentCounterDec = () => {
-    let feedCopy = [];
-
-    feed.forEach((p) => {
-      if (p.post.id === post.id) {
-        let postCopy = p;
-        postCopy.post.commentCount = postCopy.post.commentCount - 1;
-        feedCopy.push(postCopy);
-      } else feedCopy.push(p);
-    });
-
-    setFeed(feedCopy);
+  const handlePinn = () => {
+    axios
+      .put("Comment/SetPinned/" + comment.id + "/" + !pinned)
+      .then((res) => {
+        console.log(res.data);
+        setPinned(res.data.pinned);
+        setComments((prevState) => {
+          return prevState.map((p) => {
+            if (p.comment.id === comment.id) {
+              p.comment.pinned = !pinned;
+              return p;
+            } else return p;
+          });
+        });
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+      });
+  }
+  const handleVerify = () => {
+    axios
+      .put("Comment/SetVerified/" + comment.id + "/" + !verified)
+      .then((res) => {
+        console.log(res.data);
+        setVerified(res.data.verified);
+        setComments((prevState) => {
+          return prevState.map((p) => {
+            if (p.comment.id === comment.id) {
+              p.comment.verified = !verified;
+              return p;
+            } else return p;
+          });
+        });
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+      });
   };
 
   const handleLike = () => {
+    //TODO
     if (liked) {
       setLiked(false);
       console.log("Unliked comment: " + comment.id);
@@ -69,7 +102,26 @@ function Comment({
       setLiked(true);
       console.log("Liked comment: " + comment.id);
     }
-    //TODO
+  };
+
+  const handleSelectedAction = (keyEvent) => {
+    switch (keyEvent) {
+      case "delete":
+        handleDelete();
+        break;
+      case "verify":
+        handleVerify();
+        break;
+      case "pinn":
+        handlePinn();
+        break;
+      case "edit":
+        //TODO
+        console.log("Edit comment: " + comment.id);
+        break;
+      default:
+        break;
+    }
   };
 
   return (
@@ -112,7 +164,7 @@ function Comment({
           </div>
           {student.role === 3 ||
           (student !== null && author !== null && student.id === author.id) ? (
-            <SettingsDropdown selectedAction={handleSelectedAction} />
+            <SettingsDropdown selectedAction={handleSelectedAction} pinned={pinned} verified={verified}/>
           ) : null}
         </div>
         <Container className="ms-0">

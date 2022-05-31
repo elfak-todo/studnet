@@ -6,30 +6,37 @@ import { faThumbsUp, faComment } from "@fortawesome/free-solid-svg-icons";
 import { Card } from "react-bootstrap";
 
 import "./PostFooter.style.css";
-//import StudentContext from "../../studentManager/StudentManager";
 
-function PostFooter({ post, isLiked }) {
+function PostFooter({ post, isLiked, feed, setFeed }) {
   const { t } = useTranslation(["post"]);
-  //const { student } = useContext(StudentContext);
 
   const [liked, setLiked] = useState(isLiked);
+  const [loading, setLoading] = useState(false);
 
   const handleLike = () => {
-    // if (liked) {
-    //   setLiked(false);
-    //   console.log("Unliked post: " + post.id);
-    // } else {
-    //   setLiked(true);
-    //   console.log("Liked post: " + post.id);
-    // }
+    if (loading) return;
 
-    //liked mora da bude invertovanyy zbog closure!!1!1!
-    //cak i kad se setLiked desi pre ovo ima referencu na starou
+    setLoading(true);
 
     axios
       .put("Post/SetLiked/" + post.id + "/" + !liked)
       .then((res) => {
         setLiked(res.data);
+        setFeed(
+          feed.map((p) => {
+            if (p.post.id === post.id) {
+              if (res.data) {
+                p.post.likeCount = p.post.likeCount + 1;
+              } else {
+                if (p.post.likeCount > 0)
+                  p.post.likeCount = p.post.likeCount - 1;
+              }
+              return p;
+            } else return p;
+          })
+        );
+
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err.response.data);

@@ -25,25 +25,20 @@ function CommentForm({ post, comments, setComments, feed, setFeed }) {
         })
         .then((res) => {
           setComments([...comments, res.data]);
-          commentCounterInc();
-        }).catch(error => {
+
+          setFeed((prevState) => {
+            return prevState.map((p) => {
+              if (p.post.id === post.id) {
+                p.post.commentCount = p.post.commentCount + 1;
+                return p;
+              } else return p;
+            });
+          });
+        })
+        .catch((error) => {
           console.log(error.response.data);
         });
     }
-  };
-
-  const commentCounterInc = () => {
-    let feedCopy = [];
-
-    feed.forEach((p) => {
-      if (p.post.id === post.id) {
-        let postCopy = p;
-        postCopy.post.commentCount = postCopy.post.commentCount + 1;
-        feedCopy.push(postCopy);
-      } else feedCopy.push(p);
-    });
-
-    setFeed(feedCopy);
   };
 
   return (
