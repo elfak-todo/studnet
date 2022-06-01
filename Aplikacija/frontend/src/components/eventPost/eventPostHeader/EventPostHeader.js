@@ -9,55 +9,55 @@ import { Image, Card } from "react-bootstrap";
 function EventPostHeader({ author, event }) {
   const { t, i18n } = useTranslation(["event"]);
 
-  const date = new Date(event.publicationTime);
-  const timeSrp = date.toLocaleTimeString("srp", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-  const timeEng = date.toLocaleTimeString("eng", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-  const dateSrp = date.toLocaleString("srp", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-  const dateEng = date.toLocaleString("eng", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+  /*const date = new Date(event.publicationTime);
+    const timeSrp = date.toLocaleTimeString("srp", {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+      const timeEng = date.toLocaleTimeString("eng", {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+      const dateSrp = date.toLocaleString("srp", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+      const dateEng = date.toLocaleString("eng", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
 
-  const isToday = (date) => {
-    const dateToday = new Date();
-    let today = false;
-    if (
-      date.getDate() === dateToday.getDate() &&
-      date.getMonth() === dateToday.getMonth() &&
-      date.getFullYear() === dateToday.getFullYear()
-    ) {
-      today = true;
-    }
-    if (today) {
-      if (i18n.language === "sr") {
-        return t("todayAt") + " " + timeSrp;
-      } else {
-        return t("todayAt") + " " + timeEng;
-      }
-    } else if (i18n.language === "sr") {
-      return dateSrp;
-    } else {
-      return dateEng;
-    }
-  };
-
+      const isToday = (date) => {
+          const dateToday = new Date();
+          let today = false;
+          if (
+              date.getDate() === dateToday.getDate() &&
+              date.getMonth() === dateToday.getMonth() &&
+              date.getFullYear() === dateToday.getFullYear()
+          ) {
+              today = true;
+          }
+          if (today) {
+            if (i18n.language === "sr") {
+              return t("todayAt") + " " + timeSrp;
+            } else {
+              return t("todayAt") + " " + timeEng;
+            }
+          } else if (i18n.language === "sr") {
+            return dateSrp;
+          } else {
+            return dateEng;
+          }
+      };
+*/
   return (
-    <div className="eventPostHeader">
+    <div className="event-header">
       <Image
         src={
           (author !== null && author.imagePath === "/") ||
@@ -74,13 +74,15 @@ function EventPostHeader({ author, event }) {
         <Card.Text className="event-header-name">
           {author.firstName + " " + author.lastName}
         </Card.Text>
-        <Card.Text className="event-header-time"> {isToday(date)}</Card.Text>
+        <Card.Text className="event-header-faculty">
+          {author !== null && author.facultyName}
+        </Card.Text>
       </div>
       {event.verified && (
-        <FontAwesomeIcon icon={faCircleCheck} className="post-header-verify" />
+        <FontAwesomeIcon icon={faCircleCheck} className="event-header-verify" />
       )}
       {event.pinned && (
-        <FontAwesomeIcon icon={faThumbTack} className="post-header-pinned" />
+        <FontAwesomeIcon icon={faThumbTack} className="event-header-pinned" />
       )}
       <SettingsDropdown />
     </div>

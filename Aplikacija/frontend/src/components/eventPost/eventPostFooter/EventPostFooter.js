@@ -2,7 +2,8 @@ import "./EventPostFooter.style.css";
 import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp, faComment } from "@fortawesome/free-solid-svg-icons";
-import { Card } from "react-bootstrap";
+import { Card, Button } from "react-bootstrap";
+import { Navigate } from "react-router-dom";
 
 function EventPostFooter({ counters }) {
   const { t } = useTranslation(["post"]);
@@ -27,6 +28,12 @@ function EventPostFooter({ counters }) {
         <div className="center-items">
           <FontAwesomeIcon icon={faComment} className="like-comment-icon" />
           <Card.Text> {t("comment")} </Card.Text>
+        </div>
+        <div>
+          <Button className="float-end" variant="primary">
+            {" "}
+            {t("reserve")}
+          </Button>
         </div>
       </div>
     </div>

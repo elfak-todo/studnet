@@ -194,6 +194,7 @@ public class EventController : ControllerBase
         eventInDatabase.Title = ev.Title;
         eventInDatabase.Description = ev.Description;
         eventInDatabase.TimeOfEvent = ev.TimeOfEvent;
+        eventInDatabase.Type = ev.Type;
         eventInDatabase.EndTime = ev.EndTime;
         eventInDatabase.LocationName = ev.LocationName;
         eventInDatabase.ImagePath = ev.ImagePath;
