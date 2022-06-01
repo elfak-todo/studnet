@@ -1,4 +1,3 @@
-import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import SelectFaculty from "../selectFaculty/SelectFaculty";
 import SelectGender from "../selectGender/SelectGender";

@@ -1,4 +1,3 @@
-import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";

@@ -26,34 +26,31 @@ public class CommentController : ControllerBase
     [HttpGet]
     public async Task<ActionResult> GetPostComments(int postId)
     {
-        var user = _tokenManager.GetUserDetails(HttpContext.User);
-        if (user == null)
+        var student = await _tokenManager.GetStudent(HttpContext.User);
+
+        if (student == null)
         {
-            return StatusCode(500);
+            return StatusCode(500, "StudentNotFound");
         }
 
-        var post = await _context.Posts.Include(p => p.Comments!)
-                                .ThenInclude(c => c.Author!)
+        var comments = _context.Comments.Include(c => c.Author!)
                                 .ThenInclude(a => a.Parlament)
-                                .FirstOrDefaultAsync(p => p.ID == postId);
+                                .Include(c => c.LikedBy)
+                                .Where(c => c.CommentedPostId == postId);
 
-        if (post == null)
-        {
-            return BadRequest("PostNotFound");
-        }
-
-        if (post.Comments == null)
+        if (comments == null)
         {
             return Ok(null);
         }
 
-        return Ok(post.Comments.OrderByDescending(p => p.Pinned)
+        return Ok(comments.OrderByDescending(p => p.Pinned)
                         .ThenByDescending(p => p.Verified)
                         .ThenBy(p => p.PublicationTime)
                         .Select(c => new
                         {
                             comment = c,
-                            author = c.Anonymous && c.AuthorId != user.ID ?
+                            liked = c.LikedBy!.Contains(student),
+                            author = c.Anonymous && c.AuthorId != student.ID ?
                             null : new
                             {
                                 c.Author!.ID,
@@ -164,6 +161,47 @@ public class CommentController : ControllerBase
         _context.Comments.Remove(comment);
         await _context.SaveChangesAsync();
         return Ok();
+    }
+
+    [Route("Edit")]
+    [Authorize(Roles = "Student")]
+    [HttpPut]
+    public async Task<ActionResult> EditComment([FromBody] Comment comment)
+    {
+        var user = _tokenManager.GetUserDetails(HttpContext.User);
+
+        if (user == null)
+        {
+            return BadRequest("BadToken");
+        }
+
+        var commentInDatabase = await _context.Comments
+                            .Include(c => c.Author)
+                            .Where(c => c.ID == comment.ID)
+                            .FirstOrDefaultAsync();
+
+        if (commentInDatabase == null)
+        {
+            return BadRequest("CommentNotFound");
+        }
+
+        if (commentInDatabase.Author == null || commentInDatabase.Author.ID != user.ID)
+        {
+            return Forbid("NotAuthor");
+        }
+
+        commentInDatabase.Text = commentInDatabase.Text;
+        commentInDatabase.Edited = true;
+
+        if ((int)user.Role >= (int)Role.ParlamentMember)
+        {
+            commentInDatabase.Verified = comment.Verified;
+            commentInDatabase.Pinned = comment.Pinned;
+        }
+
+        await _context.SaveChangesAsync();
+
+        return Ok(commentInDatabase);
     }
 
     [Route("SetVerified/{commentId}/{verified}")]

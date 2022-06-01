@@ -93,7 +93,8 @@ public class PostController : ControllerBase
         {
             posts = _context.Posts.Include(p => p.Author)
                                 .ThenInclude(a => a!.Parlament)
-                                .Include(p => p.Comments)
+                                .Include(p => p.Comments!)
+                                .ThenInclude(c => c.LikedBy)
                                 .Include(p => p.LikedBy)
                                 .AsSplitQuery()
                                 .Where(p => p.UniversityId == student.UniversityId)
@@ -107,7 +108,8 @@ public class PostController : ControllerBase
         {
             posts = _context.Posts.Include(p => p.Author)
                                 .ThenInclude(a => a!.Parlament)
-                                .Include(p => p.Comments)
+                                .Include(p => p.Comments!)
+                                .ThenInclude(c => c.LikedBy)
                                 .Include(p => p.LikedBy)
                                 .AsSplitQuery()
                                 .Where(p => p.UniversityId == student.UniversityId)
@@ -118,8 +120,8 @@ public class PostController : ControllerBase
 
         var postsSelected = posts.Select(p => new
         {
-            liked = p.LikedBy!.Contains(student),
             post = p,
+            liked = p.LikedBy!.Contains(student),
             author = p.Anonymous && p.AuthorId != student.ID ? null : new
             {
                 p.Author!.ID,
@@ -136,6 +138,7 @@ public class PostController : ControllerBase
                         .Select(c => new
                         {
                             comment = c,
+                            liked = c.LikedBy!.Contains(student),
                             author = c.Anonymous && c.AuthorId != student.ID ?
                             null : new
                             {
@@ -164,14 +167,17 @@ public class PostController : ControllerBase
             return BadRequest("BadToken");
         }
 
-        var postInDatabase = await _context.Posts.FindAsync(post.ID);
+        var postInDatabase = await _context.Posts
+                            .Include(p => p.Author)
+                            .Where(p => p.ID == post.ID)
+                            .FirstOrDefaultAsync();
 
         if (postInDatabase == null)
         {
             return BadRequest("PostNotFound");
         }
 
-        if (post.Author == null || post.Author.ID != user.ID)
+        if (postInDatabase.Author == null || postInDatabase.Author.ID != user.ID)
         {
             return Forbid("NotAuthor");
         }
@@ -211,7 +217,7 @@ public class PostController : ControllerBase
             return BadRequest("PostNotFound");
         }
 
-        if (post.Author == null || post.Author.ID != user.ID)
+        if (user.Role < Role.AdminUni && (post.Author == null || post.Author.ID != user.ID))
         {
             return Forbid("NotAuthor");
         }

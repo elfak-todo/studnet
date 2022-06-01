@@ -4,6 +4,9 @@ import AxiosConfig from "./AxiosConfig";
 
 import { StudentManager } from "./components/studentManager/StudentManager";
 
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./scss/theme.scss";
+
 function App() {
   return (
     <StudentManager>

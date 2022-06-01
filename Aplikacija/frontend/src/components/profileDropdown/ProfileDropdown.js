@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { useContext } from "react";
-import { NavDropdown, Image } from "react-bootstrap";
+import { NavDropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
@@ -24,10 +24,9 @@ function ProfileDropdown() {
 
   return (
     <NavDropdown
-      className="me-2"
       title={
-        <div>
-          <Image
+        <span>
+          <img
             src={
               !student || student.imagePath === "/"
                 ? defaultPic
@@ -35,10 +34,9 @@ function ProfileDropdown() {
             }
             alt="user-pic"
             className="avatar"
-            roundedCircle
-          />
-          {student && student.name}
-        </div>
+          ></img>
+          <span className="text-light">{student && student.name}</span>
+        </span>
       }
     >
       <NavDropdown.Item>

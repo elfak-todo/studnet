@@ -25,6 +25,47 @@ public class StudentController : ControllerBase
         _passwordManager = passwordManager;
     }
 
+    [Route("{studentId}")]
+    [Authorize(Roles = "Student")]
+    [HttpGet]
+    public async Task<ActionResult> GetStudent(int studentId)
+    {
+        if (_context.Students == null)
+        {
+            return StatusCode(500);
+        }
+
+        var student = await _context.Students.Include(s => s.PublishedPosts)
+                                        .Include(s => s.PublishedEvents)
+                                        .Include(s => s.Locations)
+                                        .Include(s => s.University)
+                                        .Include(s => s.Parlament)
+                                        .AsSplitQuery()
+                                        .Where(s => s.ID == studentId)
+                                        .FirstOrDefaultAsync();
+
+        if (student == null)
+        {
+            return NotFound("StudentNotFound");
+        }
+
+        return Ok(
+            new
+            {
+                id = student.ID,
+                username = student.Username,
+                name = $"{student.FirstName} {student.LastName}",
+                role = student.Role,
+                imagePath = student.ImagePath,
+                universityName = student.University!.Name,
+                facultyName = student.Parlament!.FacultyName,
+                postCount = student.PublishedPosts!.Count(),
+                locationCount = student.Locations!.Count(),
+                eventCount = student.PublishedEvents!.Count()
+            }
+        );
+    }
+
     [Route("Login")]
     [AllowAnonymous]
     [HttpPost]
@@ -41,11 +82,18 @@ public class StudentController : ControllerBase
         }
 
         var student = await _context.Students.Where(s => s.Username == creds.Username
-                        || s.Email == creds.Username).FirstOrDefaultAsync();
+                        || s.Email == creds.Username)
+                                .Include(s => s.University)
+                                .FirstOrDefaultAsync();
 
         if (student == null || !_passwordManager.verifyPassword(creds.Password, student.Password))
         {
             return Unauthorized("BadCredentials");
+        }
+
+        if (student.University == null)
+        {
+            return StatusCode(500, "UniversityNotFound");
         }
 
         string? token = _tokenManager.GenerateAccessToken(student);
@@ -53,12 +101,13 @@ public class StudentController : ControllerBase
         return Ok(
             new
             {
-                imagePath = student.ImagePath,
                 id = student.ID,
                 username = student.Username,
                 name = $"{student.FirstName} {student.LastName}",
                 role = student.Role,
                 accessToken = token,
+                imagePath = student.ImagePath,
+                university = student.University.Name,
             }
         );
     }

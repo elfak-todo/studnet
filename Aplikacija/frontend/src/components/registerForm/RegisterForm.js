@@ -1,4 +1,3 @@
-import "bootstrap/dist/css/bootstrap.min.css";
 import "./RegisterForm.style.css";
 import { useTranslation } from "react-i18next";
 import RegisterFormLayout from "../registerFormLayout/RegisterFormLayout";
