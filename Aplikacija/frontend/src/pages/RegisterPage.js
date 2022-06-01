@@ -1,13 +1,12 @@
-import RegisterForm from "../components/registerForm/RegisterForm";
-import SelectLanguage from "../components/selectLanguage/SelectLanguage";
-import { Container } from "react-bootstrap";
+import AnimatedBackground from "../components/animatedBackground/AnimatedBackground.js";
+import Register from "../components/register/Register.js";
 
 function RegisterPage() {
   return (
-    <Container fluid>
-      <SelectLanguage />
-      <RegisterForm />
-    </Container>
+    <>
+      <Register />
+      <AnimatedBackground />
+    </>
   );
 }
 

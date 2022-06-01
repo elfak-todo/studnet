@@ -1,4 +1,3 @@
-import "bootstrap/dist/css/bootstrap.min.css";
 import "./EventFeed.style.css";
 import axios from "axios";
 import EventPost from "../eventPost/EventPost";

@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 
-import locationTypes from "../location/LocationTypes.js";
+import locationTypes from "../locationMarker/LocationTypes.js";
 
 import "./LocationCard.style.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

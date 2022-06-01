@@ -1,21 +1,13 @@
-import LoginDescription from "../components/loginDescription/LoginDescription";
-import LoginForm from "../components/loginForm/LoginForm";
-import SelectLanguage from "../components/selectLanguage/SelectLanguage";
-import { Container, Row, Col } from "react-bootstrap";
+import AnimatedBackground from "../components/animatedBackground/AnimatedBackground.js";
+import Login from "../components/login/Login.js";
 
 function LoginPage() {
   return (
-    <Container fluid>
-      <SelectLanguage />
-      <Row>
-        <Col lg={6} md={5} sm={12}>
-          <LoginDescription />
-        </Col>
-        <Col lg={4} md={5} sm={12}>
-          <LoginForm />
-        </Col>
-      </Row>
-    </Container>
+    <>
+      <Login />
+      <AnimatedBackground />
+    </>
   );
 }
+
 export default LoginPage;

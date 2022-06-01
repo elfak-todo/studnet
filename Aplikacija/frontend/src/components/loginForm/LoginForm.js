@@ -1,4 +1,3 @@
-import "bootstrap/dist/css/bootstrap.min.css";
 import "./LoginForm.style.css";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
@@ -64,7 +63,7 @@ function LoginForm() {
   };
 
   return (
-    <Card className="shadow">
+    <Card className="shadow login-form">
       <Card.Header>
         <Card.Title className="text-center">{t("login")}</Card.Title>
         <Card.Text className="text-center">{t("loginToYourAccount")}</Card.Text>

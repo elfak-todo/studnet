@@ -1,4 +1,3 @@
-import "bootstrap/dist/css/bootstrap.min.css";
 import "./EventPostHeader.style.css";
 import defaultPic from "../../../images/defaultProfilePic.jpg";
 import SettingsDropdown from "../../settingsDropdown/SettingsDropdown";
@@ -7,10 +6,10 @@ import { faCircleCheck, faThumbTack } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
 import { Image, Card } from "react-bootstrap";
 
-function EventPostHeader({author, event}) {
-    const { t, i18n} = useTranslation(["event"]);
+function EventPostHeader({ author, event }) {
+  const { t, i18n } = useTranslation(["event"]);
 
-    /*const date = new Date(event.publicationTime);
+  /*const date = new Date(event.publicationTime);
     const timeSrp = date.toLocaleTimeString("srp", {
         hour: "2-digit",
         minute: "2-digit",
@@ -57,44 +56,37 @@ function EventPostHeader({author, event}) {
           }
       };
 */
-      return (
-        <div className="event-header">
-          <Image
-            src={
-              (author !== null && author.imagePath === "/") ||
-              author === null ||
-              author.imagePath === "/"
-                ? defaultPic
-                : author.imagePath
-            }
-            alt="user-pic"
-            className="event-profile-pic"
-            roundedCircle
-          />
-          <div>
-            <Card.Text className="event-header-name">
-              {author.firstName + " " + author.lastName}
-            </Card.Text>
-            <Card.Text className="event-header-faculty">
-              {author !== null && author.facultyName}
-            </Card.Text>
-            
-          </div>
-          {event.verified && (
-            <FontAwesomeIcon
-              icon={faCircleCheck}
-              className="event-header-verify"
-            />
-          )}
-          {event.pinned && (
-            <FontAwesomeIcon
-              icon={faThumbTack}
-              className="event-header-pinned"
-            />
-          )}
-          <SettingsDropdown />
-        </div>
-      );
+  return (
+    <div className="event-header">
+      <Image
+        src={
+          (author !== null && author.imagePath === "/") ||
+          author === null ||
+          author.imagePath === "/"
+            ? defaultPic
+            : author.imagePath
+        }
+        alt="user-pic"
+        className="event-profile-pic"
+        roundedCircle
+      />
+      <div>
+        <Card.Text className="event-header-name">
+          {author.firstName + " " + author.lastName}
+        </Card.Text>
+        <Card.Text className="event-header-faculty">
+          {author !== null && author.facultyName}
+        </Card.Text>
+      </div>
+      {event.verified && (
+        <FontAwesomeIcon icon={faCircleCheck} className="event-header-verify" />
+      )}
+      {event.pinned && (
+        <FontAwesomeIcon icon={faThumbTack} className="event-header-pinned" />
+      )}
+      <SettingsDropdown />
+    </div>
+  );
 }
 
 export default EventPostHeader;

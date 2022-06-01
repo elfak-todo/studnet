@@ -1,10 +1,10 @@
 import React from "react";
 import Slider from "react-slick";
-import locationTypes from "../../location/LocationTypes.js";
+import locationTypes from "../../locationMarker/LocationTypes.js";
 import { Image } from "react-bootstrap";
 
 import defaultPic from "../../../images/defaultProfilePic.jpg";
-import "./LocationDetailsDetails.style.css";
+import "./LocationDetails.style.css";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 

@@ -6,7 +6,7 @@ import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import "./LocationTrendingCard.style.css";
-import locationTypes from "../location/LocationTypes.js";
+import locationTypes from "../locationMarker/LocationTypes.js";
 import LocationTrendingCardComment from "../locationTrendingCardComment/LocationTrendingCardComment.js";
 
 function LocationTrendingCard({ location }) {

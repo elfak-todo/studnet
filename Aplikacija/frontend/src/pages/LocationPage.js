@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
-import LocationDetails from "../components/locationDetails/LocationDetails.js";
+import Location from "../components/location/Location.js";
 import ResourceNotFound from "../components/resourceNotFound/ResourceNotFound.js";
 
 function LocationPage() {
@@ -25,7 +25,7 @@ function LocationPage() {
   }, [locationId]);
 
   return location !== null ? (
-    <LocationDetails location={location} />
+    <Location location={location} />
   ) : (
     <ResourceNotFound text={t("locationNotFound")} />
   );

@@ -1,0 +1,52 @@
+.background {
+  position: absolute;
+  bottom: 0;
+  background: #4e54c8;
+  background: -webkit-linear-gradient(to left, #8f94fb, #4e54c8);
+  width: 100vw;
+  height: 100vh;
+  min-height: 100vh;
+  z-index: 1;
+}
+
+.particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  min-height: 100vh;
+}
+
+.particles li {
+  position: absolute;
+  display: block;
+  list-style: none;
+  background-repeat: no-repeat;
+  background-size: contain;
+  animation: animate 25s linear infinite;
+  bottom: -95px;
+}
+.particles li:nth-child(3n) {
+  background-image: url("../../images/login/graduate-cap.png");
+}
+.particles li:nth-child(3n + 1) {
+  background-image: url("../../images/login/megaphone.png");
+}
+.particles li:nth-child(3n + 2) {
+  background-image: url("../../images/login/location.png");
+}
+
+@keyframes animate {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+    border-radius: 0;
+  }
+
+  100% {
+    transform: translateY(-1000px) rotate(720deg);
+    opacity: 0;
+  }
+}

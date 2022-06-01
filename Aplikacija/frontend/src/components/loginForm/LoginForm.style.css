@@ -1,9 +1,13 @@
 .login-form {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 95%;
+  margin: 0 auto;
+}
+
+@media only screen and (min-width: 768px) {
+  .login-form {
+    width: 26rem;
+    margin: 0 auto;
+  }
 }
 
 .was-validated .prevent-validation-color.form-control:valid,

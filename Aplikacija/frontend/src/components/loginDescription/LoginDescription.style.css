@@ -1,0 +1,10 @@
+.login-description > img {
+  width: 60%;
+  margin-top: 2rem;
+}
+
+@media only screen and (min-width: 768px) {
+  .login-description > img {
+    width: 20rem;
+  }
+}

@@ -1,8 +1,8 @@
 import { MapContainer, TileLayer } from "react-leaflet";
 
 import "./LocationMap.style.css";
-import Location from "../location/Location.js";
-import LocationUniversity from "../location/LocationUniversity.js";
+import LocationMarker from "../locationMarker/LocationMarker.js";
+import LocationUniversity from "../locationMarker/LocationUniversity.js";
 import { useState } from "react";
 import LocationCard from "../locationCard/LocationCard.js";
 
@@ -30,7 +30,7 @@ function LocationMap({ mapData, selectedMode }) {
             <LocationUniversity university={mapData.uni} />
           )}
           {mapData.loc.map((l) => (
-            <Location
+            <LocationMarker
               location={l}
               key={l.id}
               setOpenedLocation={setOpenedLocation}

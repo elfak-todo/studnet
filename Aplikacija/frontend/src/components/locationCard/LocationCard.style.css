@@ -1,18 +1,17 @@
 .location-card {
-  position: absolute;
-  top: 20%;
-  right: 5%;
+  position: relative;
   z-index: 1000;
   width: 28rem;
+  left: calc(100vw - 34rem);
   opacity: 0;
-  transform: translateY(15px);
+  transform: translateY(-68vh);
   transition: opacity 0.25s ease, transform 0.25s ease;
   visibility: collapse;
 }
 
 .location-card.visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(-70vh);
   visibility: visible;
 }
 
@@ -22,5 +21,9 @@
     right: 0;
     left: 0;
     top: 5rem;
+    transform: translateY(-80vh);
+  }
+  .location-card.visible {
+    transform: translateY(-83vh);
   }
 }
