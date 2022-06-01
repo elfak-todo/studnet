@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Models
@@ -50,9 +51,11 @@ namespace Backend.Models
                                 .HasMany<Student>(p => p.LikedBy)
                                 .WithMany(s => s.LikedPosts);
 
+
             modelBuilder.Entity<Location>()
                                 .HasOne<Student>(l => l.Author)
                                 .WithMany(s => s.Locations);
+
         }
     }
 }

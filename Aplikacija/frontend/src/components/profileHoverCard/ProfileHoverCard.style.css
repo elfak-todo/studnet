@@ -1,0 +1,35 @@
+.profile-hover-cont {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.bg-picture {
+    height: inherit;
+    width: inherit;
+}
+.profile-picture {
+    height: 8rem;
+    width: 8rem;
+}
+.parent-pic-div {
+    width: inherit;
+    height: inherit;
+    position: relative;
+}
+.child-pic-div {
+    position: absolute; 
+    left: 0; 
+    right: 0;
+    bottom: -50px;
+    margin-left: auto; 
+    margin-right: 37%; 
+    width: 100px;
+}
+
+
+@media only screen and (max-width: 768px) {
+  }

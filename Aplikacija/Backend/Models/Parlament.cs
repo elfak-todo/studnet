@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Backend.Models
 {
@@ -20,11 +21,15 @@ namespace Backend.Models
         #endregion Props
 
         #region Relations
+
+        [JsonIgnore]
         public University? University { get; set; }
         public int? UniversityId { get; set; }
 
+        [JsonIgnore]
         public List<Student>? Members { get; set; }
 
+        [JsonIgnore]
         public List<Event>? Events { get; set; }
 
         #endregion Relations

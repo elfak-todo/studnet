@@ -1,0 +1,7 @@
+{
+  "resNotFound": "Requested resource doesn't exist!",
+  "recommendation": "Instead, we recommend one of many posts, events or locations:",
+  "events": "Events",
+  "posts": "Posts",
+  "locations": "Locations"
+}

@@ -66,7 +66,23 @@ namespace Backend.Models
 
         public string? ImagePath { get; set; }
 
-        public String Webpage { get; set; } = String.Empty;
+        [JsonIgnore]
+        public string GalleryString { get; set; } = String.Empty;
+
+        [NotMapped]
+        public List<string> ImageGallery
+        {
+            get
+            {
+                return GalleryString.Split(';').ToList();
+            }
+            set
+            {
+                GalleryString = string.Join(';', value);
+            }
+        }
+
+        public string Webpage { get; set; } = String.Empty;
 
         public bool Verified { get; set; } = false;
 

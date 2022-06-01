@@ -41,8 +41,9 @@
   }
   .LocationTrendingCardImage {
     max-width: 30%;
+    min-width: 30%;
     width: 30%;
-    height: auto;
+    height: 30%;
     margin-bottom: inherit;
   }
   .LocationTrendingCardText {

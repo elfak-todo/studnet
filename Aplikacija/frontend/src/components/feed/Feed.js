@@ -1,23 +1,35 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./Feed.style.css";
 import axios from "axios";
-import Post from "../post/Post";
 import { useEffect, useState, useRef, useCallback } from "react";
 import { Container, Card, Spinner } from "react-bootstrap";
+
+import Post from "../post/Post";
+import PostForm from "../post/postForm/PostForm";
+
+import "./Feed.style.css";
 
 function Feed() {
   const [feed, setFeed] = useState([]);
   const [loading, setLoading] = useState(false);
   const [pageNum, setPageNum] = useState(0);
   const [hasMore, setHasMore] = useState(false);
+
   const observer = useRef();
 
   useEffect(() => {
     setLoading(true);
     axios.get("Post/Feed/" + pageNum).then((res) => {
-      pageNum === 0
-        ? setFeed(res.data)
-        : setFeed((oldPosts) => [...oldPosts, ...res.data]);
+      if (pageNum === 0) {
+        setFeed(res.data);
+      } else {
+        setFeed((state) => {
+          const f = [...state, ...res.data];
+
+          return Array.from(new Set(f.map((p) => p.post.id))).map((id) => {
+            return f.find((p) => p.post.id === id);
+          });
+        });
+      }
+
       setHasMore(res.data.length > 0);
       setLoading(false);
     });
@@ -41,6 +53,7 @@ function Feed() {
 
   return (
     <Container fluid className="feed">
+      <PostForm feed={feed} setFeed={setFeed} />
       <Card className="feed-card">
         {feed.map((p, i) => {
           if (feed.length === i + 1) {
@@ -50,7 +63,10 @@ function Feed() {
                 author={p.author}
                 comments={p.comments}
                 post={p.post}
+                liked={p.liked}
                 innerRef={lastPost}
+                feed={feed}
+                setFeed={setFeed}
               />
             );
           } else {
@@ -60,6 +76,9 @@ function Feed() {
                 author={p.author}
                 comments={p.comments}
                 post={p.post}
+                liked={p.liked}
+                feed={feed}
+                setFeed={setFeed}
               />
             );
           }

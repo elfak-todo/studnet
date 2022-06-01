@@ -1,76 +1,120 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./PostHeader.style.css";
-import defaultPic from "../../../images/defaultProfilePic.jpg";
-import SettingsDropdown from "../../settingsDropdown/SettingsDropdown";
+import axios from "axios";
+import { useTranslation } from "react-i18next";
+import { useContext, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck, faThumbTack } from "@fortawesome/free-solid-svg-icons";
-import { useTranslation } from "react-i18next";
-import { Image, Card } from "react-bootstrap";
+import { Image, Card, OverlayTrigger, Popover } from "react-bootstrap";
 
-function PostHeader({ author, post }) {
+import { parseDate } from "../../../helpers/DateParser.js";
+import defaultPic from "../../../images/defaultProfilePic.jpg";
+import anonymousPic from "../../../images/anonymous.jpg";
+import SettingsDropdown from "../../settingsDropdown/SettingsDropdown";
+import StudentContext from "../../studentManager/StudentManager";
+
+import "./PostHeader.style.css";
+import ProfileHoverCard from "../../profileHoverCard/ProfileHoverCard.js";
+
+function PostHeader({ author, post, feed, setFeed, setEdit }) {
   const { t, i18n } = useTranslation(["post"]);
 
-  const date = new Date(post.publicationTime);
-  const timeSrp = date.toLocaleTimeString("srp", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-  const timeEng = date.toLocaleTimeString("eng", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-  const dateSrp = date.toLocaleString("srp", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-  const dateEng = date.toLocaleString("eng", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+  const { student } = useContext(StudentContext);
 
-  const isToday = (date) => {
-    const dateToday = new Date();
-    let today = false;
-    if (
-      date.getDate() === dateToday.getDate() &&
-      date.getMonth() === dateToday.getMonth() &&
-      date.getFullYear() === dateToday.getFullYear()
-    ) {
-      today = true;
-    }
-    if (today) {
-      if (i18n.language === "sr") {
-        return t("todayAt") + " " + timeSrp;
-      } else {
-        return t("todayAt") + " " + timeEng;
-      }
-    } else if (i18n.language === "sr") {
-      return dateSrp;
-    } else {
-      return dateEng;
+  const [pinned, setPinned] = useState(post.pinned);
+  const [verified, setVerified] = useState(post.verified);
+
+  const handleDelete = () => {
+    axios
+      .delete("Post/Delete/" + post.id)
+      .then(() => {
+        setFeed(feed.filter((p) => p.post.id !== post.id));
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
+  };
+
+  const handlePinn = () => {
+    axios
+      .put("Post/SetPinned/" + post.id + "/" + !pinned)
+      .then((res) => {
+        setPinned(res.data.pinned);
+        setFeed((prevState) => {
+          return prevState.map((p) => {
+            if (p.post.id === post.id) {
+              p.post.pinned = !pinned;
+              return p;
+            } else return p;
+          });
+        });
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+      });
+  };
+
+  const handleVerify = () => {
+    axios
+      .put("Post/SetVerified/" + post.id + "/" + !verified)
+      .then((res) => {
+        setVerified(res.data.verified);
+        setFeed((prevState) => {
+          return prevState.map((p) => {
+            if (p.post.id === post.id) {
+              p.post.verified = !verified;
+              return p;
+            } else return p;
+          });
+        });
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+      });
+  };
+
+  const handleSelectedAction = (keyEvent) => {
+    switch (keyEvent) {
+      case "delete":
+        handleDelete();
+        break;
+      case "verify":
+        handleVerify();
+        break;
+      case "pinn":
+        handlePinn();
+        break;
+      case "edit":
+        setEdit(true);
+        break;
+      default:
+        break;
     }
   };
 
   return (
     <div className="post-header">
-      <Image
-        src={
-          (author !== null && author.imagePath === "/") ||
-          author === null ||
-          author.imagePath === "/"
-            ? defaultPic
-            : author.imagePath
+      <OverlayTrigger
+      rootClose
+        trigger="click"
+        placement="right"
+        overlay={
+          <Popover>
+            <ProfileHoverCard />
+          </Popover>
         }
-        alt="user-pic"
-        className="post-profile-pic"
-        roundedCircle
-      />
+      >
+        <Image
+          src={
+            post.anonymous
+              ? anonymousPic
+              : author !== null && author.imagePath === "/"
+              ? defaultPic
+              : author.imagePath
+          }
+          alt="user-pic"
+          className="post-profile-pic"
+          roundedCircle
+        />
+      </OverlayTrigger>
       <div>
         <Card.Text className="post-header-name">
           {author === null
@@ -80,7 +124,9 @@ function PostHeader({ author, post }) {
         <Card.Text className="post-header-faculty">
           {author !== null && author.facultyName}
         </Card.Text>
-        <Card.Text className="post-header-time"> {isToday(date)} </Card.Text>
+        <Card.Text className="post-header-time">
+          {parseDate(post.publicationTime, i18n.language)}{" "}
+        </Card.Text>
       </div>
       {post.verified && (
         <FontAwesomeIcon icon={faCircleCheck} className="post-header-verify" />
@@ -88,7 +134,14 @@ function PostHeader({ author, post }) {
       {post.pinned && (
         <FontAwesomeIcon icon={faThumbTack} className="post-header-pinned" />
       )}
-      <SettingsDropdown />
+      {student.role === 3 ||
+      (student !== null && author !== null && student.id === author.id) ? (
+        <SettingsDropdown
+          selectedAction={handleSelectedAction}
+          verified={verified}
+          pinned={pinned}
+        />
+      ) : null}
     </div>
   );
 }

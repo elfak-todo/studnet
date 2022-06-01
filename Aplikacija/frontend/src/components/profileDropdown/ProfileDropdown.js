@@ -1,7 +1,6 @@
-import { useContext } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { NavDropdown, Image } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
+import { useContext } from "react";
+import { NavDropdown, Image } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
@@ -10,8 +9,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import defaultPic from "../../images/defaultProfilePic.jpg";
-import "./ProfileDropdown.style.css";
 import StudentContext from "../studentManager/StudentManager.js";
+
+import "./ProfileDropdown.style.css";
 
 function ProfileDropdown() {
   const { t } = useTranslation(["navbar"]);
@@ -29,10 +29,8 @@ function ProfileDropdown() {
         <div>
           <Image
             src={
-              (student !== null && student.ImagePath === "/") ||
-              (student === null ||
-              student.ImagePath === "/")
-                ? defaultPic 
+              !student || student.imagePath === "/"
+                ? defaultPic
                 : student.imagePath
             }
             alt="user-pic"

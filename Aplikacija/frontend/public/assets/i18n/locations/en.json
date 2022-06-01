@@ -19,5 +19,10 @@
   "recentGrades": "Recent grades",
   "trendingLocations": "Trending locations",
   "dontSeeYourLocation": "Don't see your favourite location? Suggest it ",
-  "here": "here"
+  "here": "here",
+  "locationNotFound": "Requested location doesn't exist!",
+  "details": "Details",
+  "grades": "Grades",
+  "events": "Events",
+  "map": "Map"
 }

@@ -1,12 +1,12 @@
-import "bootstrap/dist/css/bootstrap.min.css";
 import { useTranslation } from "react-i18next";
 import { useContext } from "react";
-import StudentContext from "../studentManager/StudentManager";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import { NavDropdown } from "react-bootstrap";
 
-function SettingsDropdown({ selectedAction }) {
+import StudentContext from "../studentManager/StudentManager";
+
+function SettingsDropdown({ selectedAction, verified, pinned }) {
   const { t } = useTranslation(["post"]);
   const { student } = useContext(StudentContext);
 
@@ -17,7 +17,7 @@ function SettingsDropdown({ selectedAction }) {
   return (
     <NavDropdown
       onSelect={selectHandler}
-      className="ms-auto me-2"
+      className="ms-auto"
       title={
         <div>
           <FontAwesomeIcon icon={faEllipsisV} className="settings-icon" />
@@ -27,8 +27,12 @@ function SettingsDropdown({ selectedAction }) {
       <NavDropdown.Item eventKey="edit"> {t("edit")} </NavDropdown.Item>
       {student.role !== 0 && (
         <>
-          <NavDropdown.Item eventKey="verify"> {t("verify")} </NavDropdown.Item>
-          <NavDropdown.Item eventKey="pin"> {t("pin")} </NavDropdown.Item>
+          <NavDropdown.Item eventKey="verify">
+            {!verified ? t("verify") : t("unverify")}
+          </NavDropdown.Item>
+          <NavDropdown.Item eventKey="pinn">
+            {!pinned ? t("pin") : t("unpin")}
+          </NavDropdown.Item>
         </>
       )}
       <NavDropdown.Item eventKey="delete"> {t("delete")} </NavDropdown.Item>

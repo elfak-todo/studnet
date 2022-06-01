@@ -21,6 +21,51 @@ public class LocationController : ControllerBase
         _tokenManager = tokenManager;
     }
 
+    [Route("{locationId}")]
+    [Authorize(Roles = "Student")]
+    [HttpGet]
+    public async Task<ActionResult> GetLocationDetails(int locationId)
+    {
+        var user = _tokenManager.GetUserDetails(HttpContext.User);
+
+        if (user == null)
+        {
+            return StatusCode(500);
+        }
+
+        var location = await _context.Locations
+                                .Include(l => l.Author)
+                                .ThenInclude(a => a!.Parlament)
+                                .Include(l => l.Events!.Where(e => e.EndTime >= DateTime.Now))
+                                .AsSplitQuery()
+                                .Include(l => l.Grades!.OrderByDescending(g => g.PublicationTime))
+                                .AsSplitQuery()
+                                .Where(l => l.ID == locationId)
+                                .FirstOrDefaultAsync();
+
+        if (location == null)
+        {
+            return StatusCode(404);
+        }
+
+        location.GradeCount = location.Grades!.Count();
+
+        return Ok(new
+        {
+            details = location,
+            author = new
+            {
+                id = location.Author!.ID,
+                firstName = location.Author.FirstName,
+                lastName = location.Author.LastName,
+                imagePath = location.Author.ImagePath,
+                facultyName = location.Author.Parlament!.FacultyName
+            },
+            events = location.Events,
+            grades = location.Grades
+        });
+    }
+
     [Route("")]
     [Authorize(Roles = "Student")]
     [HttpGet]
@@ -43,6 +88,7 @@ public class LocationController : ControllerBase
         var locations = await _context.Locations
                             .Where(l => l.UniversityId == user.UniversityId)
                             .Include(l => l.Grades)
+                            .AsSplitQuery()
                             .ToListAsync();
         return Ok(new
         {
@@ -90,6 +136,7 @@ public class LocationController : ControllerBase
         var locations = await _context.Locations
                             .Include(l => l.Grades!.OrderByDescending(g => g.PublicationTime))
                             .ThenInclude(g => g.GradedBy)
+                            .AsSplitQuery()
                             .Where(l => l.UniversityId == user.UniversityId)
                             .OrderByDescending(l => l.Grades!.Count())
                             .Take(10)
