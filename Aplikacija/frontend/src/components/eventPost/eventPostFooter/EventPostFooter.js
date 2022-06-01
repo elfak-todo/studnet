@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp, faComment } from "@fortawesome/free-solid-svg-icons";
 import { Card, Button } from "react-bootstrap";
-import { Navigate } from "react-router-dom";
+// import { Navigate } from "react-router-dom";
 
 function EventPostFooter({ counters }) {
   const { t } = useTranslation(["post"]);

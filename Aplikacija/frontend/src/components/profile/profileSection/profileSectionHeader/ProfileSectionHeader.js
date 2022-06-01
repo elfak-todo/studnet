@@ -7,11 +7,11 @@ import luka from "../../../../images/luka.jpg";
 import EditCover from "../editProfile/EditProfile";
 import "./ProfileSectionHeader.style.css";
 
-function ProfileSectionHeader() {
+function ProfileSectionHeader({student}) {
   const { t } = useTranslation(["profile", "misc"]);
 
   const [showEditCover, setShowEditCover] = useState(false);
-
+  console.log(student);
   return (
     <Card className="shadow">
       <Card.Header className="profile-header">

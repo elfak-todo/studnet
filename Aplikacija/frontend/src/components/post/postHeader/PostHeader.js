@@ -98,7 +98,7 @@ function PostHeader({ author, post, feed, setFeed, setEdit }) {
         placement="right"
         overlay={
           <Popover>
-            <ProfileHoverCard />
+            <ProfileHoverCard studentProp={author}/>
           </Popover>
         }
       >

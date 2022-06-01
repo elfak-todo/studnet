@@ -1,5 +1,3 @@
-import ProfileDropdown from "../profileDropdown/ProfileDropdown";
-import SelectLanguage from "../selectLanguage/SelectLanguage";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router-dom";
 import { Container, Navbar, Nav } from "react-bootstrap";

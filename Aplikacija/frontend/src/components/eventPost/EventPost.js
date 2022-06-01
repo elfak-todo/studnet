@@ -1,9 +1,9 @@
 import "./EventPost.style.css";
 import EventPostHeader from "./eventPostHeader/EventPostHeader";
 import EventPostFooter from "./eventPostFooter/EventPostFooter";
-import CommentSection from "../comments/commentSection/CommentSection";
+// import CommentSection from "../comments/commentSection/CommentSection";
 import { Card, Container } from "react-bootstrap";
-import { t } from "i18next";
+// import { t } from "i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 

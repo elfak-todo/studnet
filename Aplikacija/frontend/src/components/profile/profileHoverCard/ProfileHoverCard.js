@@ -5,7 +5,7 @@ import elfak from "../../../images/elfak.jpg";
 import luka from "../../../images/luka.jpg";
 import "./ProfileHoverCard.style.css";
 
-function ProfileHoverCard() {
+function ProfileHoverCard({studentProp}) {
   const navigate = useNavigate();
 
   return (
@@ -30,7 +30,7 @@ function ProfileHoverCard() {
           <Badge className="ms-1"> Events 0 </Badge>
           <Badge className="ms-1"> Locations 0 </Badge>
       </div>
-      <Button className="mt-3" size="sm" onClick={(e) => navigate("/profile")}> More Information </Button>
+      <Button className="mt-3" size="sm" onClick={(e) => navigate("/student/" + studentProp.id)}> More Information </Button>
     </Container>
   );
 }
