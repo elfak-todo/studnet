@@ -1,5 +1,5 @@
 .profile-header {
-    padding: 0;
+    padding: 0 !important;
     position: relative;
 }
 .cover-img {
@@ -16,7 +16,7 @@
     margin-right: 70%; 
     border: solid;
     border-width: 5px;
-    border-color: white;
+    border-color: #4e54c8;
 }
 .header-desc {
     margin-left: 25rem;
@@ -35,7 +35,7 @@
     align-items: center;
     width: inherit;
     height: 30px;
-    background-color: 	#428bca;
+    background-color: #4e54c8;
 }
 .role-text {
     margin-left: 25rem;
@@ -46,6 +46,9 @@
 
 @media only screen and (max-width: 1400px) {
     .header-desc {
+        margin-left: 22rem;
+    }
+    .role-text {
         margin-left: 22rem;
     }
 }
@@ -60,6 +63,9 @@
     .header-desc {
         margin-left: 18rem;
     }
+    .role-text {
+        margin-left: 18rem;
+    }
 }
 @media only screen and (max-width: 1000px) {
     .profile-img {
@@ -69,6 +75,9 @@
         margin-right: 70%; 
     }
     .header-desc {
+        margin-left: 18rem;
+    }
+    .role-text {
         margin-left: 18rem;
     }
 }
@@ -84,6 +93,9 @@
         margin-left: 0;
         margin-top: 5rem;
         text-align: center;
+    }
+    .role-text {
+        margin: auto;
     }
     .header-badges {
         justify-content: center;

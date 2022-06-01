@@ -6,7 +6,7 @@ import { NavDropdown } from "react-bootstrap";
 
 import StudentContext from "../studentManager/StudentManager";
 
-function SettingsDropdown({ selectedAction, verified, pinned }) {
+function SettingsDropdown({ selectedAction, verified, pinned, className }) {
   const { t } = useTranslation(["post"]);
   const { student } = useContext(StudentContext);
 
@@ -20,7 +20,7 @@ function SettingsDropdown({ selectedAction, verified, pinned }) {
       className="ms-auto"
       title={
         <div>
-          <FontAwesomeIcon icon={faEllipsisV} className="settings-icon" />
+          <FontAwesomeIcon icon={faEllipsisV} className={className}/>
         </div>
       }
     >

@@ -140,6 +140,7 @@ function PostHeader({ author, post, feed, setFeed, setEdit }) {
           selectedAction={handleSelectedAction}
           verified={verified}
           pinned={pinned}
+          className="settings-icon"
         />
       ) : null}
     </div>

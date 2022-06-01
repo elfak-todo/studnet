@@ -4,5 +4,8 @@
   "events": "Događaji",
   "posts": "Objave",
   "locations": "Lokacije",
-  "saveChanges": "Sačuvaj izmene"
+  "saveChanges": "Sačuvaj izmene",
+  "parlamentMember": "Član parlamenta",
+  "universityAdmin": "Administrator Univerziteta",
+  "admin": "Administrator"
 }

@@ -11,13 +11,13 @@ import {
   Spinner,
 } from "react-bootstrap";
 
-import luka from "../../../../images/luka.jpg";
-import "./EditProfile.style.css";
+import defaultPic from "../../../../images/defaultProfilePic.jpg";
 import SelectUniversity from "../../../selectUniveristy/SelectUniveristy";
 import SelectFaculty from "../../../selectFaculty/SelectFaculty";
 import SelectGender from "../../../selectGender/SelectGender";
+import "./EditProfile.style.css";
 
-function EditCover(props) {
+function EditProfile({student, ...props}) {
   const { t } = useTranslation(["profile", "register", "misc"]);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -43,21 +43,22 @@ function EditCover(props) {
   const onExchangeInputRef = useRef();
 
   const submitHandler = (e) => {
+    // TODO
     e.preventDefault();
     console.log(selectedFac, selectedGend);
   };
 
   return (
     <Modal {...props} size="md" centered backdrop="static">
-      <Modal.Header closeButton>
-        <Modal.Title>{t("editProfile")}</Modal.Title>
+      <Modal.Header closeButton style={{backgroundColor: "#4e54c8"}}>
+        <Modal.Title style={{color: "white"}} >{t("editProfile")}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form noValidate onSubmit={submitHandler}>
           <div className="add-image-div">
             <Image
               fluid
-              src={luka}
+              src={student?.imagePath === "/" ? defaultPic : student?.imagePath}
               alt="profile-pic"
               className="edit-profile-img"
               roundedCircle
@@ -183,4 +184,4 @@ function EditCover(props) {
   );
 }
 
-export default EditCover;
+export default EditProfile;

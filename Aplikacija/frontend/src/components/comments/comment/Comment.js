@@ -185,6 +185,7 @@ function Comment({
               selectedAction={handleSelectedAction}
               pinned={pinned}
               verified={verified}
+              className="comment-settings"
             />
           ) : null}
         </div>
@@ -230,7 +231,7 @@ function Comment({
                 <FontAwesomeIcon
                   icon={faThumbsUp}
                   className="comment-like-icon"
-                  style={liked && { color: "#5bc0de" }}
+                  style={liked && { color: "#8c8fbf" }}
                 />
                 <Card.Text className={liked && "liked-text"}>
                   {t("like")}

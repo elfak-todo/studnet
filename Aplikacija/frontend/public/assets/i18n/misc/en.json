@@ -4,5 +4,8 @@
   "events": "Events",
   "posts": "Posts",
   "locations": "Locations",
-  "saveChanges": "Save changes"
+  "saveChanges": "Save changes",
+  "parlamentMember": "Parlament Member",
+  "universityAdmin": "Unversity Administrator",
+  "admin": "Administrator"
 }

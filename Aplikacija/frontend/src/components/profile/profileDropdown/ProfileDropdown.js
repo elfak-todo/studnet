@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { NavDropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -13,8 +14,11 @@ import StudentContext from "../../studentManager/StudentManager.js";
 
 import "./ProfileDropdown.style.css";
 
+
 function ProfileDropdown() {
   const { t } = useTranslation(["navbar"]);
+
+  const navigate = useNavigate();
 
   const { student, setStudent } = useContext(StudentContext);
 
@@ -39,16 +43,9 @@ function ProfileDropdown() {
         </span>
       }
     >
-      <NavDropdown.Item>
+      <NavDropdown.Item onClick={() => navigate("/student/" + student.id)}>
         <FontAwesomeIcon icon={faUser} className="comment-like-icon-sm" />
         {t("profile")}
-      </NavDropdown.Item>
-      <NavDropdown.Item>
-        <FontAwesomeIcon
-          icon={faAddressBook}
-          className="comment-like-icon-sm"
-        />
-        {t("myPosts")}
       </NavDropdown.Item>
       <NavDropdown.Divider />
       <NavDropdown.Item onClick={logout}>

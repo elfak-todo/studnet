@@ -1,36 +1,47 @@
-import { Container, Image, Badge, Button  } from "react-bootstrap";
+import { Container, Image, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 import elfak from "../../../images/elfak.jpg";
-import luka from "../../../images/luka.jpg";
+import defaultPic from "../../../images/defaultProfilePic.jpg";
 import "./ProfileHoverCard.style.css";
+import { useTranslation } from "react-i18next";
 
-function ProfileHoverCard({studentProp}) {
+function ProfileHoverCard({ studentProp }) {
+  const {t} = useTranslation(["profile"]);
+
   const navigate = useNavigate();
 
   return (
     <Container className="profile-hover-cont">
       <div className="parent-pic-div">
+        {/* TODO */}
         <Image src={elfak} alt="faculty-pic" className="bg-picture"></Image>
-      <div className="child-pic-div">
-        <Image
-          src={luka}
-          alt="profile-pic"
-          className="profile-picture"
-          roundedCircle
-        ></Image>
+        <div className="child-pic-div">
+          <Image
+            src={
+              studentProp?.imagePath === "/"
+                ? defaultPic
+                : studentProp?.imagePath
+            }
+            alt="profile-pic"
+            className="profile-picture"
+            roundedCircle
+          ></Image>
+        </div>
       </div>
-      </div>
-      <h4 className="mt-5"> Luka Kocić </h4>
-      <Badge bg="warning"> Student </Badge>
-      <p className="mt-1"> Univerzitet u Nišu </p>
-      <p className="mt-0"> Elektronski fakultet </p>
-      <div>
-          <Badge> Posts 0 </Badge>
-          <Badge className="ms-1"> Events 0 </Badge>
-          <Badge className="ms-1"> Locations 0 </Badge>
-      </div>
-      <Button className="mt-3" size="sm" onClick={(e) => navigate("/student/" + studentProp.id)}> More Information </Button>
+      <h4 className="mt-5">
+        {studentProp?.firstName + " " + studentProp?.lastName}
+      </h4>
+      {/* TODO */}
+      <p className="mb-1"> Univerzitet u Nišu </p>
+      <p> {studentProp.facultyName} </p>
+      <Button
+        className="mt-3"
+        size="sm"
+        onClick={(e) => navigate("/student/" + studentProp.id)}
+      >
+        {t("moreInfo")}
+      </Button>
     </Container>
   );
 }

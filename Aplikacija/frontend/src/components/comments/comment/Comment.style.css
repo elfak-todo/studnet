@@ -3,6 +3,13 @@
     justify-content: left;
     align-items: center;
 }
+.comment-settings{
+    font-size: 15px;
+    color: #4e54c8;
+    margin-left: 10px;
+    margin-right: 5px;
+    cursor: pointer;
+}
 .comment-row-icons {
     display: flex;
     justify-content: space-between;
@@ -41,7 +48,7 @@
 }
 .comment-like-icon {
     font-size: 20px;
-    color: #1976D2;
+    color: #4e54c8;
     cursor: pointer;
     margin-right: 5px;
 }
@@ -52,7 +59,7 @@
 }
 .comment-pinned-icon {
     font-size: 15px;
-    color: #5bc0de;
+    color: #4e54c8;
     margin-left: 8px;
 }
 .text-row {
