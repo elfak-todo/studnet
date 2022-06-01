@@ -21,6 +21,7 @@ i18n
       "misc",
       "post",
       "parlament",
+      "profile"
     ],
     interpolation: {
       espaceValue: false,

@@ -10,7 +10,7 @@ import CommentSection from "../comments/commentSection/CommentSection";
 import "./Post.style.css";
 
 function Post({ author, comments, post, liked, innerRef, feed, setFeed }) {
-  const { t } = useTranslation(["post"]);
+  const { t } = useTranslation(["post", "misc"]);
 
   const [edit, setEdit] = useState(false);
 
@@ -88,7 +88,7 @@ function Post({ author, comments, post, liked, innerRef, feed, setFeed }) {
                       aria-hidden="true"
                     />
                   )}
-                  {t("saveChanges")}
+                  {t("misc:saveChanges")}
                 </Button>
               </div>
             </Form>

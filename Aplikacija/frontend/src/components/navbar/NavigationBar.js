@@ -1,6 +1,3 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import ProfileDropdown from "../profileDropdown/ProfileDropdown";
-import SelectLanguage from "../selectLanguage/SelectLanguage";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router-dom";
 import {
@@ -11,6 +8,9 @@ import {
   FormControl,
   Button,
 } from "react-bootstrap";
+
+import ProfileDropdown from "../profile/profileDropdown/ProfileDropdown";
+import SelectLanguage from "../selectLanguage/SelectLanguage";
 
 function NavigationBar() {
   const { t } = useTranslation(["navbar"]);

@@ -214,8 +214,7 @@ function Comment({
               </Card.Text>
               {edited && (
                 <Card.Text className="ms-2" style={{ fontSize: "x-small" }}>
-                  {" "}
-                  {t("edited")}{" "}
+                  {t("edited")}
                 </Card.Text>
               )}
             </div>

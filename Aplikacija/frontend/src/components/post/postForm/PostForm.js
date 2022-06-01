@@ -68,7 +68,7 @@ function PostForm({ feed, setFeed }) {
 
   return (
     <Container className="post-form-container">
-      <Card>
+      <Card className="shadow">
         <Card.Body>
           <div className="post-form-header">
             <Image

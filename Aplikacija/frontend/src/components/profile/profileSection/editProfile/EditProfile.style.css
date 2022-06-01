@@ -1,0 +1,14 @@
+.add-image-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.edit-profile-img {
+    width: 10rem;
+
+}
+.center-button {
+    display: flex;
+    justify-content: center;
+}

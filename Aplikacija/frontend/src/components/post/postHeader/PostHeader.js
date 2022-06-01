@@ -12,7 +12,7 @@ import SettingsDropdown from "../../settingsDropdown/SettingsDropdown";
 import StudentContext from "../../studentManager/StudentManager";
 
 import "./PostHeader.style.css";
-import ProfileHoverCard from "../../profileHoverCard/ProfileHoverCard.js";
+import ProfileHoverCard from "../../profile/profileHoverCard/ProfileHoverCard.js";
 
 function PostHeader({ author, post, feed, setFeed, setEdit }) {
   const { t, i18n } = useTranslation(["post"]);

@@ -2,7 +2,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+
 import ResourceNotFound from "../components/resourceNotFound/ResourceNotFound.js";
+import ProfileSection from "../components/profile/profileSection/ProfileSection.js";
 
 function StudentPage() {
   const { t } = useTranslation(["students"]);
@@ -24,7 +26,7 @@ function StudentPage() {
   }, [studentId]);
 
   return student !== null ? (
-    <h1>{student?.id}</h1>
+    <ProfileSection />
   ) : (
     <ResourceNotFound text={t("studentNotFound")} />
   );

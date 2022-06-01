@@ -18,7 +18,9 @@ function EventSlider() {
   useEffect(() => {
     axios.get("Event/Hot").then((res) => {
       setFeed(res.data);
-    });
+    }).catch(err=>{
+      console.log(err.response.data);
+    })
   }, []);
 
   return (

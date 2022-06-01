@@ -1,10 +1,13 @@
 import { Container, Image, Badge, Button  } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
-import elfak from "../../images/elfak.jpg";
-import luka from "../../images/luka.jpg";
+import elfak from "../../../images/elfak.jpg";
+import luka from "../../../images/luka.jpg";
 import "./ProfileHoverCard.style.css";
 
 function ProfileHoverCard() {
+  const navigate = useNavigate();
+
   return (
     <Container className="profile-hover-cont">
       <div className="parent-pic-div">
@@ -18,7 +21,7 @@ function ProfileHoverCard() {
         ></Image>
       </div>
       </div>
-      <h4 className="mt-5">Luka Kocić</h4>
+      <h4 className="mt-5"> Luka Kocić </h4>
       <Badge bg="warning"> Student </Badge>
       <p className="mt-1"> Univerzitet u Nišu </p>
       <p className="mt-0"> Elektronski fakultet </p>
@@ -27,7 +30,7 @@ function ProfileHoverCard() {
           <Badge className="ms-1"> Events 0 </Badge>
           <Badge className="ms-1"> Locations 0 </Badge>
       </div>
-      <Button className="mt-3" size="sm"> More Information </Button>
+      <Button className="mt-3" size="sm" onClick={(e) => navigate("/profile")}> More Information </Button>
     </Container>
   );
 }

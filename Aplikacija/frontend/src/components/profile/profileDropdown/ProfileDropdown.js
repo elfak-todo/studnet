@@ -8,8 +8,8 @@ import {
   faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
 
-import defaultPic from "../../images/defaultProfilePic.jpg";
-import StudentContext from "../studentManager/StudentManager.js";
+import defaultPic from "../../../images/defaultProfilePic.jpg";
+import StudentContext from "../../studentManager/StudentManager.js";
 
 import "./ProfileDropdown.style.css";
 
