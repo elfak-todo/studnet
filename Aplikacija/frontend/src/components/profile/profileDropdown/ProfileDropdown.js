@@ -5,7 +5,6 @@ import { NavDropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
-  faAddressBook,
   faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
 
