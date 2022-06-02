@@ -12,3 +12,11 @@
     display: flex;
     justify-content: center;
 }
+.password-button {
+    display: flex;
+    justify-content: right;
+}
+.form-switch .form-check-input:checked {
+    background-color: #4e54c8!important;
+    border-color: #4e54c8 !important;
+}

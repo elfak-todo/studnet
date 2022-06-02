@@ -95,15 +95,12 @@ function RegisterFormLayout() {
       proceed = false;
     }
 
-    if (
-      selectedUniversity === undefined ||
-      selectedUniversity === t("chooseUni")
-    ) {
+    if (selectedUniversity === undefined || selectedUniversity === "0") {
       setUniversityInvalid(true);
       proceed = false;
     }
 
-    if (selectedFaculty === undefined || selectedFaculty === t("chooseFac")) {
+    if (selectedFaculty === undefined || selectedFaculty === "0") {
       setFacultyInvalid(true);
       proceed = false;
     }
@@ -238,15 +235,17 @@ function RegisterFormLayout() {
         ref={onExchangeInputRef}
       ></Form.Check>
       <SelectUniversity
-        selectedUniversity={(value) => setSelectedUni(value)}
+        selectedUni={selectedUni}
+        setSelectedUni={setSelectedUni}
         invalid={universityInvalid}
-        setInvalid={(value) => setUniversityInvalid(value)}
+        setInvalid={setUniversityInvalid}
       />
       <SelectFaculty
-        selectedUniversity={selectedUni}
-        selectedFaculty={(fac) => setSelectedFac(fac)}
+        selectedUni={selectedUni}
+        selectedFac={selectedFac}
+        setSelectedFac={setSelectedFac}
         invalid={facultyInvalid}
-        setInvalid={(value) => setFacultyInvalid(value)}
+        setInvalid={setFacultyInvalid}
       />
       <SelectGender
         selectedGender={(value) => setSelectedGend(value)}

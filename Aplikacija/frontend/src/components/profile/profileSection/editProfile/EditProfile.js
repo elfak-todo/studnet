@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Row,
   Col,
@@ -9,25 +9,27 @@ import {
   FloatingLabel,
   Image,
   Spinner,
+  CloseButton,
 } from "react-bootstrap";
 
 import defaultPic from "../../../../images/defaultProfilePic.jpg";
 import SelectUniversity from "../../../selectUniveristy/SelectUniveristy";
 import SelectFaculty from "../../../selectFaculty/SelectFaculty";
 import SelectGender from "../../../selectGender/SelectGender";
+import PasswordSettings from "../../passwordSettings/PasswordSettings";
+
 import "./EditProfile.style.css";
 
-function EditProfile({student, ...props}) {
+function EditProfile({ student, showEditCover, setShowEditCover }) {
   const { t } = useTranslation(["profile", "register", "misc"]);
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [showPassModal, setShowPassModal] = useState(false);
 
   const [firstNameInvalid, setFirstNameInvalid] = useState(false);
   const [lastNameInvalid, setlastNameInvalid] = useState(false);
   const [usernameInvalid, setUsernameInvalid] = useState(false);
   const [usernameTaken, setUsernameTaken] = useState(false);
-  const [passwordInvalid, setPasswordInvalid] = useState(false);
-  const [passwordShortInvalid, setPasswordShortInvalid] = useState(false);
   const [universityInvalid, setUniversityInvalid] = useState(false);
   const [facultyInvalid, setFacultyInvalid] = useState(false);
   const [genderInvalid, setGenderInvalid] = useState(false);
@@ -39,19 +41,86 @@ function EditProfile({student, ...props}) {
   const firstNameInputRef = useRef();
   const lastNameInputRef = useRef();
   const usernameInputRef = useRef();
-  const passwordInputRef = useRef();
   const onExchangeInputRef = useRef();
 
+  useEffect(() => {
+    setSelectedUni(student?.universityId + "");
+    setSelectedFac(student?.facultyId + "");
+    setSelectedGend(student?.gender);
+  }, [student]);
+
   const submitHandler = (e) => {
-    // TODO
     e.preventDefault();
-    console.log(selectedFac, selectedGend);
+
+    let proceed = true;
+
+    const firstName = firstNameInputRef.current.value;
+    const lastName = lastNameInputRef.current.value;
+    const username = usernameInputRef.current.value;
+    const universityId = Number(selectedUni);
+    const facultyId = Number(selectedFac);
+    const gender = selectedGend;
+    const onExchange = onExchangeInputRef.current.checked;
+
+    if (firstName === "") {
+      setFirstNameInvalid(true);
+      proceed = false;
+    }
+    if (lastName === "") {
+      setlastNameInvalid(true);
+      proceed = false;
+    }
+    if (username === "") {
+      setUsernameInvalid(true);
+      proceed = false;
+    }
+    if (universityId === 0) {
+      setUniversityInvalid(true);
+      proceed = false;
+    }
+    if (facultyId === 0) {
+      setFacultyInvalid(true);
+      proceed = false;
+    }
+    if (gender === undefined && gender === null) {
+      setGenderInvalid(true);
+      proceed = false;
+    }
+    if (proceed) {
+      setLoading(true);
+      //TODO
+      const data = {
+        firstName: firstName,
+        lastName: lastName,
+        username: username,
+        universityId: universityId,
+        facultyId: facultyId,
+        gender: gender,
+        onExchange: onExchange,
+      };
+
+      console.log(data);
+
+      closeEdit();
+      setLoading(false);
+    }
+  };
+
+  const closeEdit = () => {
+    setShowEditCover(false);
+    setFirstNameInvalid(false);
+    setlastNameInvalid(false);
+    setUsernameInvalid(false);
+    setGenderInvalid(false);
+    setFacultyInvalid(false);
+    setUniversityInvalid(false);
   };
 
   return (
-    <Modal {...props} size="md" centered backdrop="static">
-      <Modal.Header closeButton style={{backgroundColor: "#4e54c8"}}>
-        <Modal.Title style={{color: "white"}} >{t("editProfile")}</Modal.Title>
+    <Modal show={showEditCover} size="md" centered backdrop="static">
+      <Modal.Header style={{ backgroundColor: "#4e54c8" }}>
+        <Modal.Title style={{ color: "white" }}>{t("editProfile")}</Modal.Title>
+        <CloseButton variant="white" onClick={closeEdit} />
       </Modal.Header>
       <Modal.Body>
         <Form noValidate onSubmit={submitHandler}>
@@ -75,13 +144,14 @@ function EditProfile({student, ...props}) {
                   type="input"
                   placeholder={"Enter first name"}
                   isInvalid={firstNameInvalid}
+                  defaultValue={student?.firstName}
                   ref={firstNameInputRef}
                   onChange={() => {
                     setFirstNameInvalid(false);
                   }}
                 />
                 <Form.Control.Feedback type="invalid">
-                  {t("enterFirstName")}
+                  {t("register:enterFirstName")}
                 </Form.Control.Feedback>
               </FloatingLabel>
             </Col>
@@ -91,13 +161,14 @@ function EditProfile({student, ...props}) {
                   type="input"
                   placeholder={"Enter last name"}
                   isInvalid={lastNameInvalid}
+                  defaultValue={student?.lastName}
                   ref={lastNameInputRef}
                   onChange={() => {
                     setlastNameInvalid(false);
                   }}
                 />
                 <Form.Control.Feedback type="invalid">
-                  {t("enterLastName")}
+                  {t("register:enterLastName")}
                 </Form.Control.Feedback>
               </FloatingLabel>
             </Col>
@@ -107,6 +178,7 @@ function EditProfile({student, ...props}) {
               type="text"
               placeholder={"Username"}
               isInvalid={usernameInvalid}
+              defaultValue={student?.username}
               ref={usernameInputRef}
               onChange={() => {
                 setUsernameInvalid(false);
@@ -114,59 +186,45 @@ function EditProfile({student, ...props}) {
               }}
             />
             <Form.Control.Feedback type="invalid">
-              {usernameTaken ? t("register:usernameTaken") : t("enterUsername")}
+              {usernameTaken
+                ? t("register:usernameTaken")
+                : t("register:enterUsername")}
             </Form.Control.Feedback>
           </FloatingLabel>
-          <FloatingLabel label={t("register:password")} className="mb-2">
-            <Form.Control
-              type="password"
-              placeholder={"Password"}
-              isInvalid={passwordInvalid}
-              ref={passwordInputRef}
-              onChange={() => {
-                setPasswordInvalid(false);
-                setPasswordShortInvalid(false);
-              }}
-            />
-            <Form.Control.Feedback type="invalid">
-              {passwordShortInvalid
-                ? t("register:passwordLength")
-                : t("enterPassword")}
-            </Form.Control.Feedback>
-          </FloatingLabel>
+          <div className="password-button">
+            <Button siz="md" onClick={() => setShowPassModal(true)}>
+              {t("changePass")}
+            </Button>
+          </div>
           <Form.Check
-            inline
-            className="mb-2"
+            className="mb-2 form-switch"
+            defaultChecked={student?.isExchange}
             type="switch"
             label={t("register:onExchange")}
             ref={onExchangeInputRef}
           ></Form.Check>
           <SelectUniversity
-            selectedUniversity={(value) => setSelectedUni(value)}
+            selectedUni={selectedUni}
+            setSelectedUni={setSelectedUni}
             invalid={universityInvalid}
-            setInvalid={(value) => setUniversityInvalid(value)}
+            setInvalid={setUniversityInvalid}
           />
           <SelectFaculty
-            selectedUniversity={selectedUni}
-            selectedFaculty={(fac) => setSelectedFac(fac)}
+            selectedUni={selectedUni}
+            selectedFac={selectedFac}
+            setSelectedFac={setSelectedFac}
             invalid={facultyInvalid}
-            setInvalid={(value) => setFacultyInvalid(value)}
+            setInvalid={setFacultyInvalid}
           />
           <SelectGender
             selectedGender={(value) => setSelectedGend(value)}
+            defaultValue={student?.gender}
             invalid={genderInvalid}
             setInvalid={(value) => setGenderInvalid(value)}
           />
           <div className="center-button">
-            <Button
-              variant="primary"
-              type="submit"
-              size="md"
-              onClick={() => {
-                setIsLoading(true);
-              }}
-            >
-              {isLoading && (
+            <Button variant="primary" type="submit" size="md">
+              {loading && (
                 <Spinner
                   as="span"
                   animation="border"
@@ -179,6 +237,11 @@ function EditProfile({student, ...props}) {
             </Button>
           </div>
         </Form>
+        <PasswordSettings
+          showPassModal={showPassModal}
+          setShowPassModal={setShowPassModal}
+          student={student}
+        />
       </Modal.Body>
     </Modal>
   );

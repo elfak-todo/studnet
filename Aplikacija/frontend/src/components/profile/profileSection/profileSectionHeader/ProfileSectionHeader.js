@@ -60,13 +60,13 @@ function ProfileSectionHeader({ studentProp }) {
         </div>
       </Card.Header>
       <EditProfile
-        student={student}
-        show={showEditCover}
-        onHide={() => setShowEditCover(false)}
+        student={studentProp}
+        showEditCover={showEditCover}
+        setShowEditCover={setShowEditCover}
       />
       <Card.Body>
         <div className="header-desc">
-          <h2 className="text-name"> {studentProp?.name} </h2>
+          <h2 className="text-name"> {studentProp?.firstName + " " + studentProp?.lastName} </h2>
           <h4 className="m-0"> {studentProp?.universityName} </h4>
           <Card.Text> {studentProp?.facultyName} </Card.Text>
           <div className="header-badges">

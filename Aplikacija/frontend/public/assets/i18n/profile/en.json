@@ -1,5 +1,10 @@
 {
     "editCover": "Edit cover",
     "editProfile": "Edit profile",
-    "moreInfo": "More information"
+    "moreInfo": "More information",
+    "changePass": "Change password",
+    "oldPass": "Old password",
+    "newPass": "New password",
+    "enterOldPass": "Enter old password.",
+    "enterNewPass": "Enter new password."
 }

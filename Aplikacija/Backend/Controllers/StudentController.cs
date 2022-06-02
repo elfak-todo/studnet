@@ -54,11 +54,16 @@ public class StudentController : ControllerBase
             {
                 id = student.ID,
                 username = student.Username,
-                name = $"{student.FirstName} {student.LastName}",
+                firstName = student.FirstName,
+                lastName = student.LastName,
+                isExchange = student.IsExchange,
+                gender = student.Gender,
                 role = student.Role,
                 imagePath = student.ImagePath,
                 universityName = student.University!.Name,
+                universityId = student.University!.ID,
                 facultyName = student.Parlament!.FacultyName,
+                facultyId = student.Parlament!.ID,
                 postCount = student.PublishedPosts!.Count(),
                 locationCount = student.Locations!.Count(),
                 eventCount = student.PublishedEvents!.Count()
@@ -103,11 +108,13 @@ public class StudentController : ControllerBase
             {
                 id = student.ID,
                 username = student.Username,
-                name = $"{student.FirstName} {student.LastName}",
+                firstName = student.FirstName,
+                lastName = student.LastName,
                 role = student.Role,
                 accessToken = token,
                 imagePath = student.ImagePath,
                 university = student.University.Name,
+                universityId = student.University.ID,
             }
         );
     }
