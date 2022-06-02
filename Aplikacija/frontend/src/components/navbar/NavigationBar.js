@@ -32,9 +32,11 @@ function NavigationBar() {
               {t("locations")}
             </Nav.Link>
           </Nav>
-          <Nav className="me-5 pe-5">
-            <ProfileDropdown />
+          <Nav>
             <SelectLanguage />
+          </Nav>
+          <Nav className="me-5">
+            <ProfileDropdown />
           </Nav>
         </Navbar.Collapse>
       </Container>

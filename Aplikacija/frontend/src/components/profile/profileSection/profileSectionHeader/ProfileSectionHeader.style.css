@@ -67,12 +67,12 @@
         margin-left: 18rem;
     }
 }
-@media only screen and (max-width: 1000px) {
+@media only screen and (max-width: 994px) {
     .profile-img {
         width: 12rem;
         bottom: -8rem;
         margin-left: auto; 
-        margin-right: 70%; 
+        margin-right: 60%; 
     }
     .header-desc {
         margin-left: 18rem;

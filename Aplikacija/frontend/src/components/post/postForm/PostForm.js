@@ -69,7 +69,7 @@ function PostForm({ feed, setFeed }) {
   return (
     <Container className="post-form-container">
       <Card className="shadow">
-        <Card.Body>
+        <Card.Header>
           <div className="post-form-header">
             <Image
               src={
@@ -82,8 +82,8 @@ function PostForm({ feed, setFeed }) {
               alt="user-pic"
               className="m-2 profile-pic"
               roundedCircle
-            />
-            {anonymous ? t("anonymous") : student.name}
+            /> 
+            {anonymous ? t("anonymous") : student.firstName + " " + student.lastName}
             <Form.Check
               id="sw"
               type="switch"
@@ -92,6 +92,8 @@ function PostForm({ feed, setFeed }) {
               ref={anonymousRef}
             />
           </div>
+          </Card.Header>
+          <Card.Body>
           <Form noValidate onSubmit={submitHandler}>
             <Form.Control
               as="textarea"
