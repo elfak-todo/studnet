@@ -5,7 +5,7 @@
     margin-bottom: 100px;
 }
 .feed-card {
-    border: none;
+    border: none !important;
 }
 
 @media screen and (max-width: 780px) {
