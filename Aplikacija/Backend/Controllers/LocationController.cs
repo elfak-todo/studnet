@@ -127,13 +127,6 @@ public class LocationController : ControllerBase
             return StatusCode(500);
         }
 
-        var university = await _context.Universities.FindAsync(user.UniversityId);
-
-        if (university == null)
-        {
-            return StatusCode(500);
-        }
-
         var locations = await _context.Locations
                             .Include(l => l.Grades!.OrderByDescending(g => g.PublicationTime))
                             .ThenInclude(g => g.GradedBy)

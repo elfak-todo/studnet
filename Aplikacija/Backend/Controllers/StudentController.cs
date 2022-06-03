@@ -185,7 +185,32 @@ public class StudentController : ControllerBase
     [HttpGet]
     public async Task<ActionResult> GetStudentLocations(int studentId, int page)
     {
-        return Ok();
+        const int pageSize = 10;
+
+        var user = _tokenManager.GetUserDetails(HttpContext.User);
+
+        if (user == null)
+        {
+            return StatusCode(500);
+        }
+
+        var locations = await _context.Locations
+                            .Include(l => l.Grades!.OrderByDescending(g => g.PublicationTime))
+                            .ThenInclude(g => g.GradedBy)
+                            .AsSplitQuery()
+                            .Where(l => l.AuthorId == studentId)
+                            .OrderByDescending(l => l.Grades!.Count())
+                            .Skip(page * pageSize)
+                            .Take(10)
+                            .ToListAsync();
+
+        locations.ForEach(l =>
+        {
+            l.GradeCount = l.Grades!.Count();
+            l.Grades = l.Grades!.Take(3).ToList();
+        });
+
+        return Ok(locations);
     }
 
     [Route("{studentId}/Posts/{page}")]
@@ -193,7 +218,64 @@ public class StudentController : ControllerBase
     [HttpGet]
     public async Task<ActionResult> GetStudentPosts(int studentId, int page)
     {
-        return Ok();
+        const int pageSize = 10;
+
+        var student = await _tokenManager.GetStudent(HttpContext.User);
+        if (student == null)
+        {
+            return BadRequest("UserNotFound");
+        }
+
+        var posts = _context.Posts.Include(p => p.Author!)
+                                .ThenInclude(a => a.Parlament!)
+                                .ThenInclude(p => p.Faculty)
+                                .Include(p => p.Comments!)
+                                .ThenInclude(c => c.LikedBy)
+                                .Include(p => p.LikedBy)
+                                .AsSplitQuery()
+                                .Where(p => p.AuthorId == studentId)
+                                .OrderByDescending(p => p.PublicationTime)
+                                .Skip(page * pageSize)
+                                .Take(pageSize);
+
+
+        var postsSelected = posts.Select(p => new
+        {
+            post = p,
+            liked = p.LikedBy!.Contains(student),
+            author = p.Anonymous && p.AuthorId != student.ID ? null : new
+            {
+                p.Author!.ID,
+                p.Author.FirstName,
+                p.Author.LastName,
+                p.Author.Username,
+                p.Author.ImagePath,
+                facultyName = p.Author.Parlament!.Faculty!.Name,
+                facultyImagePath = p.Author.Parlament!.Faculty!.ImagePath
+            },
+            comments = p.Comments!.OrderByDescending(p => p.Pinned)
+            .ThenByDescending(p => p.Verified)
+            .ThenByDescending(p => p.PublicationTime)
+            .Take(3)
+            .Select(c => new
+            {
+                comment = c,
+                liked = c.LikedBy!.Contains(student),
+                author = c.Anonymous && c.AuthorId != student.ID ?
+                null : new
+                {
+                    c.Author!.ID,
+                    c.Author.FirstName,
+                    c.Author.LastName,
+                    c.Author.Username,
+                    c.Author.ImagePath,
+                    facultyName = c.Author.Parlament!.Faculty!.Name,
+                    facultyImagePath = c.Author.Parlament!.Faculty!.ImagePath
+                }
+            }),
+        });
+
+        return Ok(await postsSelected.ToListAsync());
     }
 
     [Route("{studentId}/Events/{page}")]
@@ -201,7 +283,20 @@ public class StudentController : ControllerBase
     [HttpGet]
     public async Task<ActionResult> GetStudentEvents(int studentId, int page)
     {
-        return Ok();
+        //TODO
+
+        //const int pageSize = 10;
+
+        // var userDetails = _tokenManager.GetUserDetails(HttpContext.User);
+
+        // if (userDetails == null)
+        // {
+        //     return BadRequest("BadToken");
+        // }
+
+        await _context.SaveChangesAsync();
+
+        return Ok(Array.Empty<Object>());
     }
 }
 

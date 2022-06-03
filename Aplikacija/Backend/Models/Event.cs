@@ -43,7 +43,7 @@ namespace Backend.Models
         [MaxLength(2048)]
         public string Description { get; set; } = String.Empty;
 
-        //public EventTypes Type { get; set; }
+        public EventTypes Type { get; set; }
 
         public DateTime PublicationTime { get; set; }
 
