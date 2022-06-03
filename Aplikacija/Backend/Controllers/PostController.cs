@@ -123,6 +123,7 @@ public class PostController : ControllerBase
 
         var postsSelected = posts.Select(p => new
         {
+            id = p.ID,
             post = p,
             liked = p.LikedBy!.Contains(student),
             author = p.Anonymous && p.AuthorId != student.ID ? null : new

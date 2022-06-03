@@ -1,19 +1,19 @@
 import { useTranslation } from "react-i18next";
-import { useContext, useState } from "react";
-import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Tabs, Tab, Button } from "react-bootstrap";
+import { useContext } from "react";
 
-import StudentContext from "../../studentManager/StudentManager";
-import PostForm from "../../post/postForm/PostForm.js";
+import { Tabs, Tab } from "react-bootstrap";
+
+import Post from "../../post/Post.js";
 import "./ProfileFeed.style.css";
+import Feed from "../../feed/Feed.js";
+import StudentContext from "../../studentManager/StudentManager.js";
+
+import ProfilePostForm from "../profilePostForm/ProfilePostForm.js";
 
 function ProfileFeed({ studentProp }) {
   const { t } = useTranslation(["profile", "misc"]);
 
   const { student } = useContext(StudentContext);
-
-  const [showPostForm, setShowPostForm] = useState(false);
 
   return (
     <Tabs fill defaultActiveKey="posts">
@@ -28,20 +28,15 @@ function ProfileFeed({ studentProp }) {
         tabClassName="profile-feed-tab"
         title={t("misc:posts")}
       >
-        <div className="btn-add-post">
-          {student.id === studentProp?.id && (
-            <Button
-              className="mt-2 float-end"
-              onClick={() => {
-                showPostForm ? setShowPostForm(false) : setShowPostForm(true);
-              }}
-            >
-              <FontAwesomeIcon icon={faPenToSquare} className="me-1" />
-              {t("newPost")}
-            </Button>
-          )}
-        </div>
-        {showPostForm && <PostForm />}
+        {studentProp && (
+          <Feed
+            url={`Student/${studentProp.id}/Posts`}
+            FeedCard={Post}
+            AddElementForm={
+              student.id === studentProp?.id ? ProfilePostForm : undefined
+            }
+          />
+        )}
       </Tab>
       <Tab
         eventKey="locations"

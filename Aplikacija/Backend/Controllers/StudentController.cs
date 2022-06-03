@@ -233,7 +233,8 @@ public class StudentController : ControllerBase
                                 .ThenInclude(c => c.LikedBy)
                                 .Include(p => p.LikedBy)
                                 .AsSplitQuery()
-                                .Where(p => p.AuthorId == studentId)
+                                .Where(p => p.AuthorId == studentId
+                                    && (!p.Anonymous || student.ID == studentId))
                                 .OrderByDescending(p => p.PublicationTime)
                                 .Skip(page * pageSize)
                                 .Take(pageSize);
@@ -241,9 +242,10 @@ public class StudentController : ControllerBase
 
         var postsSelected = posts.Select(p => new
         {
+            id = p.ID,
             post = p,
             liked = p.LikedBy!.Contains(student),
-            author = p.Anonymous && p.AuthorId != student.ID ? null : new
+            author = new
             {
                 p.Author!.ID,
                 p.Author.FirstName,

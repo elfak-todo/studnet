@@ -2,12 +2,9 @@ import axios from "axios";
 import { useEffect, useState, useRef, useCallback } from "react";
 import { Container, Card, Spinner } from "react-bootstrap";
 
-import Post from "../post/Post";
-import PostForm from "../post/postForm/PostForm";
-
 import "./Feed.style.css";
 
-function Feed() {
+function Feed({ url, FeedCard, AddElementForm }) {
   const [feed, setFeed] = useState([]);
   const [loading, setLoading] = useState(false);
   const [pageNum, setPageNum] = useState(0);
@@ -17,23 +14,22 @@ function Feed() {
 
   useEffect(() => {
     setLoading(true);
-    axios.get("Post/Feed/" + pageNum).then((res) => {
+    axios.get(`${url}/${pageNum}`).then((res) => {
       if (pageNum === 0) {
         setFeed(res.data);
       } else {
         setFeed((state) => {
           const f = [...state, ...res.data];
 
-          return Array.from(new Set(f.map((p) => p.post.id))).map((id) => {
-            return f.find((p) => p.post.id === id);
+          return Array.from(new Set(f.map((p) => p.id))).map((id) => {
+            return f.find((p) => p.id === id);
           });
         });
       }
-
       setHasMore(res.data.length > 0);
       setLoading(false);
     });
-  }, [pageNum]);
+  }, [pageNum, url]);
 
   const lastPost = useCallback(
     (node) => {
@@ -53,35 +49,18 @@ function Feed() {
 
   return (
     <Container fluid className="feed">
-      <PostForm feed={feed} setFeed={setFeed} />
+      {AddElementForm && <AddElementForm feed={feed} setFeed={setFeed} />}
       <Card className="feed-card">
-        {feed.map((p, i) => {
-          if (feed.length === i + 1) {
-            return (
-              <Post
-                key={p.post.id}
-                author={p.author}
-                comments={p.comments}
-                post={p.post}
-                liked={p.liked}
-                innerRef={lastPost}
-                feed={feed}
-                setFeed={setFeed}
-              />
-            );
-          } else {
-            return (
-              <Post
-                key={p.post.id}
-                author={p.author}
-                comments={p.comments}
-                post={p.post}
-                liked={p.liked}
-                feed={feed}
-                setFeed={setFeed}
-              />
-            );
-          }
+        {feed.map((el, i) => {
+          return (
+            <FeedCard
+              key={el.id}
+              feedEl={el}
+              innerRef={feed.length === i + 1 ? lastPost : undefined}
+              feed={feed}
+              setFeed={setFeed}
+            />
+          );
         })}
         {loading && (
           <div className="comments-spinner">

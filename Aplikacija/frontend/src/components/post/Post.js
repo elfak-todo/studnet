@@ -9,7 +9,12 @@ import CommentSection from "../comments/commentSection/CommentSection";
 
 import "./Post.style.css";
 
-function Post({ author, comments, post, liked, innerRef, feed, setFeed }) {
+function Post({ feedEl, innerRef, feed, setFeed }) {
+  const author = feedEl.author;
+  const comments = feedEl.comments;
+  const post = feedEl.post;
+  const liked = feedEl.liked;
+
   const { t } = useTranslation(["post", "misc"]);
 
   const [edit, setEdit] = useState(false);
@@ -94,7 +99,9 @@ function Post({ author, comments, post, liked, innerRef, feed, setFeed }) {
           ) : (
             <Card.Text> {post.text} </Card.Text>
           )}
-          {edited && <Card.Text style={{fontSize: "small"}}> {t("edited")} </Card.Text>}
+          {edited && (
+            <Card.Text style={{ fontSize: "small" }}> {t("edited")} </Card.Text>
+          )}
           <PostFooter
             post={post}
             isLiked={liked}
