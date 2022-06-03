@@ -63,6 +63,7 @@ function CommentSection({ topComments, post, feed, setFeed }) {
               key={c.comment.id}
               author={c.author}
               comment={c.comment}
+              isLiked={c.liked}
               comments={comments}
               setComments={setComments}
               post={post}

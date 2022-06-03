@@ -6,5 +6,6 @@
     "oldPass": "Stara lozinka",
     "newPass": "Nova lozinka",
     "enterOldPass": "Unesite staru lozinku.",
-    "enterNewPass": "Unesite novu lozinku."
+    "enterNewPass": "Unesite novu lozinku.",
+    "newPost": "Nova objava"
 }

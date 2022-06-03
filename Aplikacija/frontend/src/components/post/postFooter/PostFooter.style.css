@@ -20,12 +20,16 @@
     margin-right: 5px;
 }
 .like-comment-icon-sm {
-    font-size: 15px;
+    font-size: 20px;
     color: grey;
     margin-left: 10px;
     margin-right: 5px;
 }
+.like-text {
+    color:#4e54c8;
+}
 
 .liked-text {
-    color:#8c8fbf;
+    color:#4e54c8;
+    font-weight: 500;
 }

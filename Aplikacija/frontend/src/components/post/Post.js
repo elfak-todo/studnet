@@ -19,8 +19,7 @@ function Post({ author, comments, post, liked, innerRef, feed, setFeed }) {
 
   const editTextInputRef = useRef();
 
-  const submitHandler = (e) => {
-    //TODO
+  const handleEdit = (e) => {
     e.preventDefault();
 
     const editedText = editTextInputRef.current.value;
@@ -69,7 +68,7 @@ function Post({ author, comments, post, liked, innerRef, feed, setFeed }) {
         />
         <Card.Body>
           {edit ? (
-            <Form noValidate onSubmit={submitHandler}>
+            <Form noValidate onSubmit={handleEdit}>
               <Form.Control
                 as="textarea"
                 rows={5}

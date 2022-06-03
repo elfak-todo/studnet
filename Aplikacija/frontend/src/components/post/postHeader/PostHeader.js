@@ -93,13 +93,15 @@ function PostHeader({ author, post, feed, setFeed, setEdit }) {
   return (
     <div className="post-header">
       <OverlayTrigger
-      rootClose
+        rootClose
         trigger="click"
         placement="right"
         overlay={
-          <Popover>
-            <ProfileHoverCard studentProp={author}/>
-          </Popover>
+          !post.anonymous ? (
+            <Popover>
+              <ProfileHoverCard studentProp={author} />
+            </Popover>
+          ) : <></>
         }
       >
         <Image
@@ -117,15 +119,15 @@ function PostHeader({ author, post, feed, setFeed, setEdit }) {
       </OverlayTrigger>
       <div>
         <Card.Text className="post-header-name">
-          {author === null
+          {post.anonymous
             ? t("anonymous")
             : author.firstName + " " + author.lastName}
         </Card.Text>
         <Card.Text className="post-header-faculty">
-          {author !== null && author.facultyName}
+          {author !== null && !post.anonymous && author.facultyName}
         </Card.Text>
         <Card.Text className="post-header-time">
-          {parseDate(post.publicationTime, i18n.language)}{" "}
+          {parseDate(post.publicationTime, i18n.language)}
         </Card.Text>
       </div>
       {post.verified && (

@@ -52,7 +52,7 @@ function Feed() {
   );
 
   return (
-    <Container fluid>
+    <Container fluid className="feed">
       <PostForm feed={feed} setFeed={setFeed} />
       <Card className="feed-card">
         {feed.map((p, i) => {
