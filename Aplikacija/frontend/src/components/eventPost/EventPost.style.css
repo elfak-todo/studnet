@@ -1,9 +1,34 @@
-.event { 
-    margin: 10px; 
+.eventpost { 
+    width: auto;
+    margin: 10px;
+}
+
+.event-card{
+}
+.eventImage {
+    object-position: left;
+    width: auto !important;
+    height: 15rem;
+    margin-right: 10px;
+}
+
+.event-text{
+    font-size: medium;
+}
+.location{
+    font-weight: bold;
+}
+.event-title{
+    font-size: xx-large !important;
 }
 
 @media screen and (max-width: 780px) {
-    .event { 
+    .eventpost { 
+        width: auto;
         margin: 0px; 
+    }
+    .eventimage {
+        height: 12rem;
+        width: auto;
     }
 }
