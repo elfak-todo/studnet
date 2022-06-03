@@ -1,10 +1,16 @@
 import { useContext, useState } from "react";
 import { Card, Image, Badge, Button } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPen } from "@fortawesome/free-solid-svg-icons";
+import {
+  faClipboard,
+  faCalendar,
+  faMap,
+} from "@fortawesome/free-regular-svg-icons";
 
-import elfak from "../../../../images/elfak.jpg";
 import defaultPic from "../../../../images/defaultProfilePic.jpg";
-import EditProfile from "../editProfile/EditProfile";
+import EditProfile from "../../editProfile/EditProfile";
 import StudentContext from "../../../studentManager/StudentManager";
 import "./ProfileSectionHeader.style.css";
 
@@ -31,9 +37,8 @@ function ProfileSectionHeader({ studentProp }) {
   };
   return (
     <Card className="shadow">
-      {/* TODO */}
       <Card.Header className="profile-header">
-        <Card.Img variant="top" src={elfak} className="cover-img" />
+        <Card.Img variant="top" src={studentProp?.facultyImagePath} className="cover-img" />
         <Card.ImgOverlay>
           {student?.id === studentProp?.id && (
             <Button
@@ -42,6 +47,7 @@ function ProfileSectionHeader({ studentProp }) {
               className="float-end"
               onClick={() => setShowEditCover(true)}
             >
+              <FontAwesomeIcon icon={faPen} className="me-1" />
               {t("editProfile")}
             </Button>
           )}
@@ -51,7 +57,7 @@ function ProfileSectionHeader({ studentProp }) {
           src={
             studentProp?.imagePath === "/" ? defaultPic : studentProp?.imagePath
           }
-          alt="profile-pic"
+          alt={"profile-pic"}
           className="profile-img shadow"
           roundedCircle
         ></Image>
@@ -66,15 +72,22 @@ function ProfileSectionHeader({ studentProp }) {
       />
       <Card.Body>
         <div className="header-desc">
-          <h2 className="text-name"> {studentProp?.firstName + " " + studentProp?.lastName} </h2>
+          <h2 className="text-name">
+            {studentProp?.firstName + " " + studentProp?.lastName}
+          </h2>
           <h4 className="m-0"> {studentProp?.universityName} </h4>
           <Card.Text> {studentProp?.facultyName} </Card.Text>
           <div className="header-badges">
-            <Badge> {t("misc:posts") + " " + studentProp?.postCount} </Badge>
-            <Badge className="ms-1">
+            <Badge className="p-2">
+              <FontAwesomeIcon icon={faClipboard} className="me-1" />
+              {t("misc:posts") + " " + studentProp?.postCount}
+            </Badge>
+            <Badge className="ms-1 p-2">
+              <FontAwesomeIcon icon={faCalendar} className="me-1" />
               {t("misc:events") + " " + studentProp?.eventCount}
             </Badge>
-            <Badge className="ms-1">
+            <Badge className="ms-1 p-2">
+              <FontAwesomeIcon icon={faMap} className="me-1" />
               {t("misc:locations") + " " + studentProp?.locationCount}
             </Badge>
           </div>

@@ -12,6 +12,9 @@
     width: inherit;
 }
 .profile-picture {
+    border: solid;
+    border-width: 5px;
+    border-color: #4e54c8;
     width: 8rem;
 }
 .parent-pic-div {

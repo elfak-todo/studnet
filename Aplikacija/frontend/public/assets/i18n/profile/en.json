@@ -6,5 +6,6 @@
     "oldPass": "Old password",
     "newPass": "New password",
     "enterOldPass": "Enter old password.",
-    "enterNewPass": "Enter new password."
+    "enterNewPass": "Enter new password.",
+    "newPost": "New post"
 }

@@ -1,12 +1,14 @@
 import { Container } from "react-bootstrap";
 
 import ProfileSectionHeader from "./profileSectionHeader/ProfileSectionHeader";
+import ProfileSectionBody from "./profileSectionBody/ProfileSectionBody";
 import "./ProfileSection.style.css";
 
-function ProfileSection({student}) {
+function ProfileSection({ student }) {
   return (
-    <Container>
+    <Container className="profile-section-cont">
       <ProfileSectionHeader studentProp={student} />
+      <ProfileSectionBody studentProp={student} />
     </Container>
   );
 }

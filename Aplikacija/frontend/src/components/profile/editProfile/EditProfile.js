@@ -12,11 +12,11 @@ import {
   CloseButton,
 } from "react-bootstrap";
 
-import defaultPic from "../../../../images/defaultProfilePic.jpg";
-import SelectUniversity from "../../../selectUniveristy/SelectUniveristy";
-import SelectFaculty from "../../../selectFaculty/SelectFaculty";
-import SelectGender from "../../../selectGender/SelectGender";
-import PasswordSettings from "../../passwordSettings/PasswordSettings";
+import defaultPic from "../../../images/defaultProfilePic.jpg";
+import SelectUniversity from "../../selectUniveristy/SelectUniveristy";
+import SelectFaculty from "../../selectFaculty/SelectFaculty";
+import SelectGender from "../../selectGender/SelectGender";
+import PasswordSettings from "../passwordSettings/PasswordSettings";
 
 import "./EditProfile.style.css";
 

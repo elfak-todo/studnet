@@ -1,12 +1,16 @@
 import axios from "axios";
 import { useTranslation } from "react-i18next";
-import { Container, Form, FormControl } from "react-bootstrap";
-import { useRef } from "react";
+import { useContext, useRef } from "react";
+import { Container, Form, FormControl, Image } from "react-bootstrap";
 
 import "./CommentForm.style.css";
+import defaultPic from "../../../images/defaultProfilePic.jpg";
+import StudentContext from "../../studentManager/StudentManager";
 
 function CommentForm({ post, comments, setComments, feed, setFeed }) {
   const { t } = useTranslation(["post"]);
+
+  const { student } = useContext(StudentContext);
 
   const commentInputRef = useRef();
 
@@ -15,7 +19,7 @@ function CommentForm({ post, comments, setComments, feed, setFeed }) {
       e.preventDefault();
 
       const commentText = commentInputRef.current.value;
-      
+
       if (commentText === "") return;
 
       commentInputRef.current.value = "";
@@ -44,16 +48,26 @@ function CommentForm({ post, comments, setComments, feed, setFeed }) {
 
   return (
     <Container className="mb-2 mt-2">
-      <Form className="comment-form">
-        <FormControl
-          onKeyDown={submitHandler}
-          as="textarea"
-          type="text"
-          placeholder={t("commentSome")}
-          className="me-2"
-          ref={commentInputRef}
+      <div className="leave-comm">
+        <Image
+          src={student.imagePath === "/" ? defaultPic : student.imagePath}
+          alt="user-pic"
+          className="comment-profile-pic"
+          roundedCircle
         />
-      </Form>
+        <Container>
+          <Form className="comment-form">
+            <FormControl
+              onKeyDown={submitHandler}
+              as="textarea"
+              type="text"
+              placeholder={t("commentSome")}
+              className="me-2"
+              ref={commentInputRef}
+            />
+          </Form>
+        </Container>
+      </div>
     </Container>
   );
 }
