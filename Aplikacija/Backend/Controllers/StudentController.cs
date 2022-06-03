@@ -39,7 +39,8 @@ public class StudentController : ControllerBase
                                         .Include(s => s.PublishedEvents)
                                         .Include(s => s.Locations)
                                         .Include(s => s.University)
-                                        .Include(s => s.Parlament)
+                                        .Include(s => s.Parlament!)
+                                        .ThenInclude(p => p.Faculty)
                                         .AsSplitQuery()
                                         .Where(s => s.ID == studentId)
                                         .FirstOrDefaultAsync();
@@ -62,7 +63,8 @@ public class StudentController : ControllerBase
                 imagePath = student.ImagePath,
                 universityName = student.University!.Name,
                 universityId = student.University!.ID,
-                facultyName = student.Parlament!.FacultyName,
+                facultyName = student.Parlament!.Faculty!.Name,
+                facultyImagePath = student.Parlament!.Faculty!.ImagePath,
                 facultyId = student.Parlament!.ID,
                 postCount = student.PublishedPosts!.Count(),
                 locationCount = student.Locations!.Count(),

@@ -36,6 +36,7 @@ public class LocationController : ControllerBase
         var location = await _context.Locations
                                 .Include(l => l.Author)
                                 .ThenInclude(a => a!.Parlament)
+                                .ThenInclude(p => p!.Faculty)
                                 .Include(l => l.Events!.Where(e => e.EndTime >= DateTime.Now))
                                 .AsSplitQuery()
                                 .Include(l => l.Grades!.OrderByDescending(g => g.PublicationTime))
@@ -59,7 +60,7 @@ public class LocationController : ControllerBase
                 firstName = location.Author.FirstName,
                 lastName = location.Author.LastName,
                 imagePath = location.Author.ImagePath,
-                facultyName = location.Author.Parlament!.FacultyName
+                facultyName = location.Author.Parlament!.Faculty!.Name
             },
             events = location.Events,
             grades = location.Grades

@@ -15,9 +15,6 @@ namespace Backend.Models
         [MaxLength(32)]
         public string Name { get; set; } = String.Empty;
 
-        [MaxLength(256)]
-        public string FacultyName { get; set; } = String.Empty;
-
         #endregion Props
 
         #region Relations
@@ -31,6 +28,10 @@ namespace Backend.Models
 
         [JsonIgnore]
         public List<Event>? Events { get; set; }
+
+        [JsonIgnore]
+        public Location? Faculty { get; set; }
+        public int? FacultyId { get; set; }
 
         #endregion Relations
     }

@@ -34,7 +34,8 @@ public class CommentController : ControllerBase
         }
 
         var comments = _context.Comments.Include(c => c.Author!)
-                                .ThenInclude(a => a.Parlament)
+                                .ThenInclude(a => a.Parlament!)
+                                .ThenInclude(p => p.Faculty)
                                 .Include(c => c.LikedBy)
                                 .Where(c => c.CommentedPostId == postId);
 
@@ -58,7 +59,7 @@ public class CommentController : ControllerBase
                                 c.Author.LastName,
                                 c.Author.Username,
                                 c.Author.ImagePath,
-                                c.Author.Parlament!.FacultyName
+                                facultyName = c.Author.Parlament!.Faculty!.Name
                             }
                         }));
     }
@@ -75,7 +76,8 @@ public class CommentController : ControllerBase
             return BadRequest("TokenNotValid");
         }
 
-        var student = await _context.Students.Include(s => s.Parlament)
+        var student = await _context.Students.Include(s => s.Parlament!)
+                                            .ThenInclude(p => p.Faculty)
                                             .Where(s => s.ID == userDetails.ID)
                                             .FirstOrDefaultAsync();
 
@@ -128,7 +130,7 @@ public class CommentController : ControllerBase
                 comment.Author.LastName,
                 comment.Author.Username,
                 comment.Author.ImagePath,
-                comment.Author.Parlament!.FacultyName
+                facultyName = comment.Author.Parlament!.Faculty!.Name
             }
         });
     }
@@ -153,7 +155,7 @@ public class CommentController : ControllerBase
             return BadRequest("CommentNotFound");
         }
 
-        if (comment.Author == null || comment.Author.ID != user.ID)
+        if (user.Role < Role.AdminUni && (comment.Author == null || comment.Author.ID != user.ID))
         {
             return Forbid("NotAuthor");
         }
