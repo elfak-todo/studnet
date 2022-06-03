@@ -192,7 +192,7 @@ public class CommentController : ControllerBase
             return Forbid("NotAuthor");
         }
 
-        commentInDatabase.Text = commentInDatabase.Text;
+        commentInDatabase.Text = comment.Text;
         commentInDatabase.Edited = true;
 
         if ((int)user.Role >= (int)Role.ParlamentMember)
