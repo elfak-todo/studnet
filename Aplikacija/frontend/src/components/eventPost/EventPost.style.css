@@ -3,7 +3,8 @@
     margin: 10px;
 }
 
-.event-card{
+.reserve-btn {
+    position: absolute;
 }
 .eventImage {
     object-position: left;
@@ -20,6 +21,9 @@
 }
 .event-title{
     font-size: xx-large !important;
+}
+.event-type {
+    font-size: small !important;
 }
 
 @media screen and (max-width: 780px) {

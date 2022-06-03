@@ -7,8 +7,12 @@ namespace Backend.Models
     {
         Party = 0,
         Field_trip,
+        Sporting_event,
         Festival,
-        Sporting_event
+        Job_fair,
+        Theatre_play,
+        Art_Display,
+        New_Years
     }
 
     [Table("Event")]
@@ -43,7 +47,7 @@ namespace Backend.Models
         [MaxLength(2048)]
         public string Description { get; set; } = String.Empty;
 
-        //public EventTypes Type { get; set; }
+        public EventTypes Type { get; set; }
 
         public DateTime PublicationTime { get; set; }
 

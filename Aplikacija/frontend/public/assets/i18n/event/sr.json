@@ -1,16 +1,18 @@
 {
-    "moredetails": "Detaljnije",
-    "morepotions": "Više opcija",
-    "reserve": "Rezerviši mesta",
+    "moreDetails": "Detaljnije",
+    "moreOptions": "Više opcija",
+    "reserve": "Rezerviši mesto",
     "post": "Kreiraj događaj",
     "startsat": "Počinje u",
     "lasts":"Traje do",
     
     "party": "Žurka",
-    "fieldtrip": "Ekskurzija",
-    "sportevent": "Sportski događaj",
-    "festival": "Muzički festival",
-    "science":"Festival nauke",
+    "fieldTrip": "Ekskurzija",
+    "sportEvent": "Sportski događaj",
+    "concert": "Koncert",
+    "musicFestival": "Muzički festival",
+    "job":"Job fair",
     "play": "Predstava",
-    "art": "Izložba"
+    "art": "Izložba",
+    "newYears": "Doček nove godine"
 }
