@@ -10,7 +10,6 @@ function SelectLanguage() {
 
   return (
     <NavDropdown
-      className=""
       title={<span className="text-light">{t("language")}</span>}
       value={localStorage.getItem("i18nextLng")}
       onSelect={handleLanguageChange}

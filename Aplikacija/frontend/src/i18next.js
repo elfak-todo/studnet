@@ -22,7 +22,8 @@ i18n
       "post",
       "parlament",
       "event",
-      "students"
+      "students",
+      "profile"
     ],
     interpolation: {
       espaceValue: false,

@@ -3,7 +3,12 @@ import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { FloatingLabel, Form } from "react-bootstrap";
 
-function SelectUniversity(props) {
+function SelectUniversity({
+  selectedUni,
+  setSelectedUni,
+  invalid,
+  setInvalid,
+}) {
   const { t } = useTranslation(["register"]);
 
   const [options, setOptions] = useState([]);
@@ -22,13 +27,14 @@ function SelectUniversity(props) {
   return (
     <FloatingLabel className="mb-2" label={t("university")}>
       <Form.Select
-        isInvalid={props.invalid}
+        isInvalid={invalid}
+        value={selectedUni}
         onChange={(e) => {
-          props.selectedUniversity(e.target.selectedIndex);
-          props.setInvalid(false);
+          setSelectedUni(e.target.value);
+          setInvalid(false);
         }}
       >
-        <option>{t("chooseUni")}</option>
+        <option value={0}>{t("chooseUni")}</option>
         {options.map((option) => (
           <option key={option.id} value={option.id}>
             {option.name}

@@ -33,7 +33,8 @@ public class PostController : ControllerBase
             return BadRequest("BadToken");
         }
 
-        var student = await _context.Students.Include(s => s.Parlament)
+        var student = await _context.Students.Include(s => s.Parlament!)
+                                .ThenInclude(p => p.Faculty)
                                 .Where(s => s.ID == userDetails.ID)
                                 .FirstOrDefaultAsync();
 
@@ -68,7 +69,7 @@ public class PostController : ControllerBase
                 post.Author.LastName,
                 post.Author.Username,
                 post.Author.ImagePath,
-                post.Author.Parlament!.FacultyName
+                facultyName = post.Author.Parlament!.Faculty!.Name
             },
             comments = new List<Comment>(),
         });
@@ -91,8 +92,9 @@ public class PostController : ControllerBase
 
         if (page == 0)
         {
-            posts = _context.Posts.Include(p => p.Author)
-                                .ThenInclude(a => a!.Parlament)
+            posts = _context.Posts.Include(p => p.Author!)
+                                .ThenInclude(a => a.Parlament!)
+                                .ThenInclude(p => p.Faculty)
                                 .Include(p => p.Comments!)
                                 .ThenInclude(c => c.LikedBy)
                                 .Include(p => p.LikedBy)
@@ -106,8 +108,9 @@ public class PostController : ControllerBase
         }
         else
         {
-            posts = _context.Posts.Include(p => p.Author)
-                                .ThenInclude(a => a!.Parlament)
+            posts = _context.Posts.Include(p => p.Author!)
+                                .ThenInclude(a => a.Parlament!)
+                                .ThenInclude(p => p.Faculty)
                                 .Include(p => p.Comments!)
                                 .ThenInclude(c => c.LikedBy)
                                 .Include(p => p.LikedBy)
@@ -129,7 +132,8 @@ public class PostController : ControllerBase
                 p.Author.LastName,
                 p.Author.Username,
                 p.Author.ImagePath,
-                p.Author.Parlament!.FacultyName
+                facultyName = p.Author.Parlament!.Faculty!.Name,
+                facultyImagePath = p.Author.Parlament!.Faculty!.ImagePath
             },
             comments = p.Comments!.OrderByDescending(p => p.Pinned)
                         .ThenByDescending(p => p.Verified)
@@ -147,7 +151,8 @@ public class PostController : ControllerBase
                                 c.Author.LastName,
                                 c.Author.Username,
                                 c.Author.ImagePath,
-                                c.Author.Parlament!.FacultyName
+                                facultyName = c.Author.Parlament!.Faculty!.Name,
+                                facultyImagePath = c.Author.Parlament!.Faculty!.ImagePath
                             }
                         }),
         });

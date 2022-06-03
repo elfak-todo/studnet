@@ -3,7 +3,7 @@ import EventPostHeader from "./eventPostHeader/EventPostHeader";
 import EventPostFooter from "./eventPostFooter/EventPostFooter";
 import CommentSection from "../comments/commentSection/CommentSection";
 import LocationCard from "../locationCard/LocationCard";
-import { Card } from "react-bootstrap";
+import { Card, Button } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
@@ -97,11 +97,11 @@ const dateEndEng = dateEnd.toLocaleString("eng", {
       <Card.Footer>
         {event && event.paidEvent ?
             <Button className="reservebtn">
-
+                {t("reserve")}
             </Button>
             :
             <Button>
-
+              {t("reserve")}
             </Button>
 }
       </Card.Footer>

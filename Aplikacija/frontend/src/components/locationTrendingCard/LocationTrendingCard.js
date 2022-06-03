@@ -14,7 +14,7 @@ function LocationTrendingCard({ location }) {
   const navigate = useNavigate();
 
   return (
-    <Card className="LocationTrendingCard mb-4">
+    <Card className="LocationTrendingCard mb-4 shadow">
       <Card.Header className="d-flex justify-content-start">
         <Badge>{location && t(locationTypes[location?.type].name)}</Badge>
         <Badge className="ms-1">

@@ -106,6 +106,9 @@ namespace Backend.Models
 
         public List<Grade>? Grades { get; set; } = new List<Grade>();
 
+        [JsonIgnore]
+        public Parlament? Parlament { get; set; }
+
         #endregion Relations
     }
 }

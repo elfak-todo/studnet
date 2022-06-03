@@ -25,7 +25,7 @@
 }
 .post-header-pinned {
     font-size: 20px;
-    color: #5bc0de;
+    color: #4e54c8;
     margin-left: 10px;
 }
 .post-profile-pic {
@@ -35,4 +35,11 @@
 }
 .popover {
    min-height: 28rem;
+}
+.settings-icon {
+    font-size: 20px;
+    color: #4e54c8;
+    margin-left: 10px;
+    margin-right: 5px;
+    cursor: pointer;
 }

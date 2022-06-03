@@ -1,10 +1,11 @@
-import ProfileDropdown from "../profileDropdown/ProfileDropdown";
-import SelectLanguage from "../selectLanguage/SelectLanguage";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router-dom";
 import { Container, Navbar, Nav } from "react-bootstrap";
 
 import logo from "../../images/logoSmall.png";
+
+import ProfileDropdown from "../profile/profileDropdown/ProfileDropdown";
+import SelectLanguage from "../selectLanguage/SelectLanguage";
 
 function NavigationBar() {
   const { t } = useTranslation(["navbar"]);
@@ -31,9 +32,11 @@ function NavigationBar() {
               {t("locations")}
             </Nav.Link>
           </Nav>
-          <Nav className="me-5 pe-5">
-            <ProfileDropdown />
+          <Nav>
             <SelectLanguage />
+          </Nav>
+          <Nav className="me-5">
+            <ProfileDropdown />
           </Nav>
         </Navbar.Collapse>
       </Container>

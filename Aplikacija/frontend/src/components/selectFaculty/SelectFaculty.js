@@ -3,25 +3,22 @@ import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { FloatingLabel, Form } from "react-bootstrap";
 
-function SelectFaculty(props) {
+function SelectFaculty({
+  selectedUni,
+  selectedFac,
+  setSelectedFac,
+  invalid,
+  setInvalid,
+}) {
   const { t } = useTranslation(["register"]);
 
   const [options, setOptions] = useState([]);
   const [clearSelect, setClearSelect] = useState(false);
 
-  const defaultOption = 0;
-
   useEffect(() => {
-    if (props.selectedUniversity === defaultOption) {
-      setClearSelect(true);
-    }
-
-    if (
-      props.selectedUniversity !== undefined &&
-      props.selectedUniversity !== defaultOption
-    ) {
+    if (selectedUni !== undefined && selectedUni !== "0") {
       axios
-        .get("Parlament/GetByUniversity/" + props.selectedUniversity)
+        .get("Parlament/GetByUniversity/" + selectedUni)
         .then((result) => {
           setOptions(result.data);
           setClearSelect(false);
@@ -30,18 +27,26 @@ function SelectFaculty(props) {
           console.log(error);
         });
     }
-  }, [props.selectedUniversity]);
+  }, [selectedUni]);
+
+  useEffect(() => {
+    if (selectedUni === "0") {
+      setClearSelect(true);
+      setSelectedFac("0");
+    }
+  }, [selectedUni, setSelectedFac]);
 
   return (
     <FloatingLabel className="mb-2" label={t("faculty")}>
       <Form.Select
-        isInvalid={props.invalid}
+        isInvalid={invalid}
+        value={selectedFac}
         onChange={(e) => {
-          props.selectedFaculty(e.target.selectedIndex);
-          props.setInvalid(false);
+          setSelectedFac(e.target.value);
+          setInvalid(false);
         }}
       >
-        <option> {t("chooseFac")} </option>
+        <option value={0}> {t("chooseFac")} </option>
         {clearSelect ||
           options.map((option) => (
             <option key={option.id} value={option.id}>

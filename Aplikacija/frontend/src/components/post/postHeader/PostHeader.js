@@ -12,7 +12,7 @@ import SettingsDropdown from "../../settingsDropdown/SettingsDropdown";
 import StudentContext from "../../studentManager/StudentManager";
 
 import "./PostHeader.style.css";
-import ProfileHoverCard from "../../profileHoverCard/ProfileHoverCard.js";
+import ProfileHoverCard from "../../profile/profileHoverCard/ProfileHoverCard.js";
 
 function PostHeader({ author, post, feed, setFeed, setEdit }) {
   const { t, i18n } = useTranslation(["post"]);
@@ -98,7 +98,7 @@ function PostHeader({ author, post, feed, setFeed, setEdit }) {
         placement="right"
         overlay={
           <Popover>
-            <ProfileHoverCard />
+            <ProfileHoverCard studentProp={author}/>
           </Popover>
         }
       >
@@ -140,6 +140,7 @@ function PostHeader({ author, post, feed, setFeed, setEdit }) {
           selectedAction={handleSelectedAction}
           verified={verified}
           pinned={pinned}
+          className="settings-icon"
         />
       ) : null}
     </div>

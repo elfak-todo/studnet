@@ -3,5 +3,9 @@
   "recommendation": "Instead, we recommend one of many posts, events or locations:",
   "events": "Events",
   "posts": "Posts",
-  "locations": "Locations"
+  "locations": "Locations",
+  "saveChanges": "Save changes",
+  "parlamentMember": "Parlament Member",
+  "universityAdmin": "Unversity Administrator",
+  "admin": "Administrator"
 }

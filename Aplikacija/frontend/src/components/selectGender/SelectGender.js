@@ -1,7 +1,9 @@
 import { useTranslation } from "react-i18next";
 import { Row, Col, Form } from "react-bootstrap";
 
-function SelectGender(props) {
+import "./SelectGender.style.css";
+
+function SelectGender({ defaultValue, ...props }) {
   const { t } = useTranslation(["register"]);
 
   return (
@@ -18,8 +20,10 @@ function SelectGender(props) {
             inline
             type="radio"
             value="m"
+            defaultChecked={defaultValue === "m"}
             label={t("male")}
             name="gender"
+            className="gender-checkbox"
           ></Form.Check>
           <Form.Check
             isInvalid={props.invalid}
@@ -30,8 +34,10 @@ function SelectGender(props) {
             inline
             type="radio"
             value="f"
+            defaultChecked={defaultValue === "f"}
             label={t("female")}
             name="gender"
+            className="gender-checkbox"
           ></Form.Check>
         </Col>
       </Row>

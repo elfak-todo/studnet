@@ -254,10 +254,8 @@ namespace Backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
-                    b.Property<string>("FacultyName")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                    b.Property<int?>("FacultyId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -268,6 +266,10 @@ namespace Backend.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("FacultyId")
+                        .IsUnique()
+                        .HasFilter("[FacultyId] IS NOT NULL");
 
                     b.HasIndex("UniversityId");
 
@@ -285,7 +287,7 @@ namespace Backend.Migrations
                     b.Property<bool>("Anonymous")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("AuthorID")
+                    b.Property<int?>("AuthorId")
                         .HasColumnType("int");
 
                     b.Property<bool>("Edited")
@@ -310,7 +312,7 @@ namespace Backend.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("AuthorID");
+                    b.HasIndex("AuthorId");
 
                     b.HasIndex("UniversityId");
 
@@ -566,9 +568,15 @@ namespace Backend.Migrations
 
             modelBuilder.Entity("Backend.Models.Parlament", b =>
                 {
+                    b.HasOne("Backend.Models.Location", "Faculty")
+                        .WithOne("Parlament")
+                        .HasForeignKey("Backend.Models.Parlament", "FacultyId");
+
                     b.HasOne("Backend.Models.University", "University")
                         .WithMany("Parlaments")
                         .HasForeignKey("UniversityId");
+
+                    b.Navigation("Faculty");
 
                     b.Navigation("University");
                 });
@@ -577,7 +585,7 @@ namespace Backend.Migrations
                 {
                     b.HasOne("Backend.Models.Student", "Author")
                         .WithMany("PublishedPosts")
-                        .HasForeignKey("AuthorID");
+                        .HasForeignKey("AuthorId");
 
                     b.HasOne("Backend.Models.University", "University")
                         .WithMany("Posts")
@@ -675,6 +683,8 @@ namespace Backend.Migrations
                     b.Navigation("Events");
 
                     b.Navigation("Grades");
+
+                    b.Navigation("Parlament");
                 });
 
             modelBuilder.Entity("Backend.Models.Parlament", b =>

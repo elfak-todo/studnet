@@ -1,20 +1,23 @@
 import { useTranslation } from "react-i18next";
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { NavDropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
-  faAddressBook,
   faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
 
-import defaultPic from "../../images/defaultProfilePic.jpg";
-import StudentContext from "../studentManager/StudentManager.js";
+import defaultPic from "../../../images/defaultProfilePic.jpg";
+import StudentContext from "../../studentManager/StudentManager.js";
 
 import "./ProfileDropdown.style.css";
 
+
 function ProfileDropdown() {
   const { t } = useTranslation(["navbar"]);
+
+  const navigate = useNavigate();
 
   const { student, setStudent } = useContext(StudentContext);
 
@@ -35,20 +38,13 @@ function ProfileDropdown() {
             alt="user-pic"
             className="avatar"
           ></img>
-          <span className="text-light">{student && student.name}</span>
+          <span className="text-light">{student && student.firstName + " " + student.lastName}</span>
         </span>
       }
     >
-      <NavDropdown.Item>
+      <NavDropdown.Item onClick={() => navigate("/student/" + student.id)}>
         <FontAwesomeIcon icon={faUser} className="comment-like-icon-sm" />
         {t("profile")}
-      </NavDropdown.Item>
-      <NavDropdown.Item>
-        <FontAwesomeIcon
-          icon={faAddressBook}
-          className="comment-like-icon-sm"
-        />
-        {t("myPosts")}
       </NavDropdown.Item>
       <NavDropdown.Divider />
       <NavDropdown.Item onClick={logout}>

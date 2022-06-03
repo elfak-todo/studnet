@@ -60,7 +60,7 @@ function PostFooter({ post, isLiked, feed, setFeed }) {
           <FontAwesomeIcon
             icon={faThumbsUp}
             className="like-comment-icon"
-            style={liked && { color: "#5bc0de" }}
+            style={liked && { color: "#8c8fbf" }}
           />
           <Card.Text className={liked && "liked-text"}> {t("like")} </Card.Text>
         </div>

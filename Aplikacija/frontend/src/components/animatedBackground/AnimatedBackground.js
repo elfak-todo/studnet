@@ -19,8 +19,8 @@ function AnimatedBackground() {
   }
 
   return (
-    <div class="background">
-      <ul class="particles">{particles}</ul>
+    <div className="background">
+      <ul className="particles">{particles}</ul>
     </div>
   );
 }
