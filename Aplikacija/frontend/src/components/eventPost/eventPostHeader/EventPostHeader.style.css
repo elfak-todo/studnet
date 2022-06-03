@@ -21,12 +21,12 @@
 .event-header-verify {
     font-size: 20px;
     color: #4CAF50;
-    margin-left: 10px;
+    margin-left: 5px;
 }
 .event-header-pinned {
     font-size: 18px;
-    color: #5bc0de;
-    margin-right: 10px;
+    color: #4e54c8;
+    margin-right: 20px;
 }
 .event-profile-pic {
     height: 50px;

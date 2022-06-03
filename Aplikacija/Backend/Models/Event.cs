@@ -78,7 +78,18 @@ namespace Backend.Models
                 return 0;
             }
         }
-
+        [NotMapped]
+        public float SpaceTaken
+        {
+            get
+            {
+                if (Reservations !=null)
+                {
+                    return (float)TicketsReserved/(float)NumberOfTickets;
+                }
+                return 0;
+            }
+        }
         [Range(0, 10000)]
         public float TicketPrice { get; set; } = 0;
 

@@ -123,7 +123,7 @@ public class EventController : ControllerBase
                                     .Take(pageSize)
                                     .OrderByDescending(e => e.Pinned)
                                     .ThenByDescending(e => e.Verified)
-                                    .ThenByDescending(e => e.TimeOfEvent);
+                                    .ThenBy(e => e.TimeOfEvent);
         }
         else
         {

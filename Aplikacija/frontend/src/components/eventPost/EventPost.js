@@ -104,17 +104,15 @@ const badgeColor =[
         </div>
       </Card.Body>
       <Card.Footer>
-        {event && event.paidEvent ?
-            <Button variant="primary" disabled className="float-end">
-                {t("reserve")}
-            </Button>
-            : 
-            event.ticketsReserved/event.Tickets > 0.8 ?
-              <Button variant="danger" >
+        {event && !event.paidEvent ?
+            <Button variant="free" className="float-end" disabled>{t("NAF")}</Button> 
+            :
+            event.ticketsReserved > 0.8 * event.numberOfTickets ?
+              <Button variant="HOT" className="float-end">
                 {t("reserve")}
               </Button>
               :
-              <Button variant="primary">
+              <Button variant="primary" className="float-end">
                 {t("reserve")}
               </Button>
         }
