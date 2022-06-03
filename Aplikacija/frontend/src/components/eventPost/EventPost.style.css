@@ -1,9 +1,10 @@
 .eventpost { 
     width: auto;
-    margin: 10px;
+    margin: 0 0.5rem;
 }
 
-.event-card{
+.reserve-btn {
+    position: absolute;
 }
 .eventImage {
     object-position: left;
@@ -20,6 +21,9 @@
 }
 .event-title{
     font-size: xx-large !important;
+}
+.event-type {
+    font-size: small !important;
 }
 
 @media screen and (max-width: 780px) {

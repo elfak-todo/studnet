@@ -123,7 +123,7 @@ public class EventController : ControllerBase
                                     .Take(pageSize)
                                     .OrderByDescending(e => e.Pinned)
                                     .ThenByDescending(e => e.Verified)
-                                    .ThenByDescending(e => e.TimeOfEvent);
+                                    .ThenBy(e => e.TimeOfEvent);
         }
         else
         {
@@ -194,7 +194,7 @@ public class EventController : ControllerBase
         eventInDatabase.Title = ev.Title;
         eventInDatabase.Description = ev.Description;
         eventInDatabase.TimeOfEvent = ev.TimeOfEvent;
-        //eventInDatabase.Type = ev.Type;
+        eventInDatabase.Type = ev.Type;
         eventInDatabase.EndTime = ev.EndTime;
         eventInDatabase.LocationName = ev.LocationName;
         eventInDatabase.ImagePath = ev.ImagePath;

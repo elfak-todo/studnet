@@ -7,8 +7,12 @@ namespace Backend.Models
     {
         Party = 0,
         Field_trip,
+        Sporting_event,
         Festival,
-        Sporting_event
+        Job_fair,
+        Theatre_play,
+        Art_Display,
+        New_Years
     }
 
     [Table("Event")]
@@ -74,7 +78,18 @@ namespace Backend.Models
                 return 0;
             }
         }
-
+        [NotMapped]
+        public float SpaceTaken
+        {
+            get
+            {
+                if (Reservations !=null)
+                {
+                    return (float)TicketsReserved/(float)NumberOfTickets;
+                }
+                return 0;
+            }
+        }
         [Range(0, 10000)]
         public float TicketPrice { get; set; } = 0;
 

@@ -11,16 +11,28 @@ function EventFeed() {
   const [hasMore, setHasMore] = useState(false);
   const observer = useRef();
 
+
+
   useEffect(() => {
     setLoading(true);
     axios.get("Event/Feed/" + pageNum).then((res) => {
       pageNum === 0
         ? setFeed(res.data)
-        : setFeed((oldEvents) => [...oldEvents, ...res.data]);
+        : setFeed((state) => {
+          const f = [...state, ...res.data];
+
+          return Array.from(new Set(f.map((e) => e.id))).map((id) => {
+            return f.find((e) => e.id === id);
+          });
+        });
       setHasMore(res.data.length > 0);
       setLoading(false);
     });
   }, [pageNum]);
+
+
+
+
 
   const lastEvent = useCallback(
     (node) => {

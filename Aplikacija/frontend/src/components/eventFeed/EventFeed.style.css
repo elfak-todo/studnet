@@ -7,6 +7,9 @@
 .feed-card {
     border: none;
 }
+.feed {
+    max-width: 75%;
+}
 
 @media screen and (max-width: 780px) {
     .feed{

@@ -2,6 +2,8 @@ import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router-dom";
 import { Container, Navbar, Nav } from "react-bootstrap";
 
+import "./NavigationBar.style.css";
+
 import logo from "../../images/logoSmall.png";
 
 import ProfileDropdown from "../profile/profileDropdown/ProfileDropdown";
@@ -17,7 +19,7 @@ function NavigationBar() {
         <Navbar.Brand as={Link} to="/home">
           <img
             src={logo}
-            className="d-inline-block align-top"
+            className="logo d-inline-block align-top"
             alt="Logo"
             style={{ height: "1.6rem", width: "auto", marginLeft: "1rem" }}
           />

@@ -1,25 +1,26 @@
 .my-card {
-    width: 12rem;
-    height: 20rem;
+    width: 15rem;
+    height: 25rem;
     transition: transform 450ms;
 }
 .card-img {
-    width: 12rem;
-    height: 10rem;
+    height: 18rem;
+    background-size: cover;
 }
-
 .my-card:hover {
     transform: scale(1.08);
+}
+.ev-card-title {
+    font-weight: 600;
 }
 
 @media screen and (max-width: 780px) {
     .my-card {
         width: auto;
-        height: auto;
         transition: transform 450ms;
     }
     .card-img {
         width: auto;
-        height: 20rem;
+        height: 25rem;
     }
 }

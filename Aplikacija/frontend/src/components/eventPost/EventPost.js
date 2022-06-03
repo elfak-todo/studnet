@@ -3,7 +3,8 @@ import EventPostHeader from "./eventPostHeader/EventPostHeader";
 import EventPostFooter from "./eventPostFooter/EventPostFooter";
 import CommentSection from "../comments/commentSection/CommentSection";
 import LocationCard from "../locationCard/LocationCard";
-import { Card, Button } from "react-bootstrap";
+import EventTypes from "./EventTypes";
+import { Card, Button, Badge } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
@@ -52,6 +53,13 @@ const dateEndEng = dateEnd.toLocaleString("eng", {
     day: "numeric",
 });
 
+const badgeColor =[
+  "red",
+  "yellow",
+  "primary",
+  "blue"
+]
+
   return (
     <Card className="eventpost fluid mb-4 shadow rounded">
       <EventPostHeader author={author} event={event}>
@@ -65,7 +73,8 @@ const dateEndEng = dateEnd.toLocaleString("eng", {
       <Card.Body className="event-card d-flex">
         <Card.Img variant="top" className="eventImage" src={event.imagePath} />
         <div className="event-text">
-          <Card.Title className="event-title">{event.title}</Card.Title>
+          <Card.Title className="event-title">{event.title} </Card.Title>
+          <Badge bg={EventTypes[event.type].name} className="event-type">{event && t(EventTypes[event.type].name)}</Badge>
           <Card.Text>{event &&
               (event.description?.length > 339
                 ? event.description?.substring(0, 340) + "..."
@@ -95,15 +104,18 @@ const dateEndEng = dateEnd.toLocaleString("eng", {
         </div>
       </Card.Body>
       <Card.Footer>
-        {event && event.paidEvent ?
-            <Button className="reservebtn">
-                {t("reserve")}
-            </Button>
+        {event && !event.paidEvent ?
+            <Button variant="free" className="float-end" disabled>{t("NAF")}</Button> 
             :
-            <Button>
-              {t("reserve")}
-            </Button>
-}
+            event.ticketsReserved > 0.8 * event.numberOfTickets ?
+              <Button variant="HOT" className="float-end">
+                {t("reserve")}
+              </Button>
+              :
+              <Button variant="primary" className="float-end">
+                {t("reserve")}
+              </Button>
+        }
       </Card.Footer>
     </Card>
   );

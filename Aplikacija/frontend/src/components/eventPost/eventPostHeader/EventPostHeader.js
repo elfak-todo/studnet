@@ -1,63 +1,101 @@
 import "./EventPostHeader.style.css";
+
+import { useContext, useState } from "react";
+import axios from "axios";
+
 import defaultPic from "../../../images/defaultProfilePic.jpg";
 import SettingsDropdown from "../../settingsDropdown/SettingsDropdown";
+import StudentContext from "../../studentManager/StudentManager";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck, faThumbTack } from "@fortawesome/free-solid-svg-icons";
-// import { useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import { Image, Card } from "react-bootstrap";
 
-function EventPostHeader({ author, event }) {
-  // const { t, i18n } = useTranslation(["event"]);
+function EventPostHeader({ author, event, feed, setFeed, setEdit }) {
+  
 
-  /*const date = new Date(event.publicationTime);
-    const timeSrp = date.toLocaleTimeString("srp", {
-        hour: "2-digit",
-        minute: "2-digit",
-      });
-      const timeEng = date.toLocaleTimeString("eng", {
-        hour: "2-digit",
-        minute: "2-digit",
-      });
-      const dateSrp = date.toLocaleString("srp", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      });
-      const dateEng = date.toLocaleString("eng", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      });
+  const { student } = useContext(StudentContext);
 
-      const isToday = (date) => {
-          const dateToday = new Date();
-          let today = false;
-          if (
-              date.getDate() === dateToday.getDate() &&
-              date.getMonth() === dateToday.getMonth() &&
-              date.getFullYear() === dateToday.getFullYear()
-          ) {
-              today = true;
-          }
-          if (today) {
-            if (i18n.language === "sr") {
-              return t("todayAt") + " " + timeSrp;
-            } else {
-              return t("todayAt") + " " + timeEng;
-            }
-          } else if (i18n.language === "sr") {
-            return dateSrp;
-          } else {
-            return dateEng;
-          }
-      };
-*/
+  const [pinned, setPinned] = useState(event.pinned);
+  const [verified, setVerified] = useState(event.verified);
+
+  const handleDelete = () => {
+    axios
+      .delete("Event/Delete/" + event.id)
+      .then(() => {
+        setFeed(feed.filter((e) => e.event.id !== event.id));
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
+  };
+
+  const handlePinn = () => {
+    axios
+      .put("Post/SetPinned/" + event.id + "/" + !pinned)
+      .then((res) => {
+        setPinned(res.data.pinned);
+        setFeed((prevState) => {
+          return prevState.map((e) => {
+            if (e.event.id === event.id) {
+              e.event.pinned = !pinned;
+              return e;
+            } else return e;
+          });
+        });
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+      });
+  };
+
+  const handleVerify = () => {
+    axios
+      .put("Post/SetVerified/" + event.id + "/" + !verified)
+      .then((res) => {
+        setVerified(res.data.verified);
+        setFeed((prevState) => {
+          return prevState.map((e) => {
+            if (e.event.id === event.id) {
+              e.event.verified = !verified;
+              return e;
+            } else return e;
+          });
+        });
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+      });
+  };
+
+  const handleSelectedAction = (keyEvent) => {
+    switch (keyEvent) {
+      case "delete":
+        handleDelete();
+        break;
+      case "verify":
+        handleVerify();
+        break;
+      case "pinn":
+        handlePinn();
+        break;
+      case "edit":
+        setEdit(true);
+        break;
+      default:
+        break;
+    }
+  };
+
+
+  const { t, i18n } = useTranslation(["event"]);
+
+  
   return (
     <div className="event-header">
+      {event.pinned && (
+        <FontAwesomeIcon icon={faThumbTack} className="event-header-pinned" />
+      )}
       <Image
         src={
           (author !== null && author.imagePath === "/") ||
@@ -81,10 +119,15 @@ function EventPostHeader({ author, event }) {
       {event.verified && (
         <FontAwesomeIcon icon={faCircleCheck} className="event-header-verify" />
       )}
-      {event.pinned && (
-        <FontAwesomeIcon icon={faThumbTack} className="event-header-pinned" />
-      )}
-      <SettingsDropdown />
+      {student.role === 3 ||
+      (student !== null && author !== null && student.id === author.id) ? (
+        <SettingsDropdown
+          selectedAction={handleSelectedAction}
+          verified={verified}
+          pinned={pinned}
+          className="settings-icon"
+        />
+      ) : null}
     </div>
   );
 }

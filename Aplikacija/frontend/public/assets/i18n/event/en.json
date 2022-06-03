@@ -1,18 +1,21 @@
 {
-    "moredetails": "More details",
-    "morepotions": "More options",
+    "moreDetails": "More details",
+    "moreOptions": "More options",
     "reserve": "Reserve",
     "post": "Create post",
     "startsat":"Starts at",
     "lasts":"Lasts until",
+    "NAF":"Free entry",
 
     "party": "Party",
-    "fieldtrip": "Field trip",
-    "sportevent": "Sports event",
-    "musicfestival": "Music festival",
-    "science": "Science fair",
+    "fieldTrip": "Field trip",
+    "sportEvent": "Sports event",
+    "concert": "Concert",
+    "musicFestival": "Music festival",
+    "job": "Job fair",
     "play": "Theatre play",
-    "art": "Artwork display"
+    "art": "Artwork display",
+    "newYears": "New years eve"
 
 
 }

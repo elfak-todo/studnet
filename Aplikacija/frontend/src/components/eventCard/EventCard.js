@@ -1,47 +1,19 @@
-import "./EventCard.style.css";
 import { useTranslation } from "react-i18next";
 import { Card } from "react-bootstrap";
 
-function EventCard({ event }) {
-  const { t, i18n } = useTranslation(["post"]);
+import { parseDate } from "../../helpers/DateParser.js";
+import "./EventCard.style.css";
 
-  const date = new Date(event.timeOfEvent);
-  const timeSrp = date.toLocaleTimeString("sr-Latn", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-  const timeEng = date.toLocaleTimeString("eng", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-  const dateSrp = date.toLocaleString("sr-Latn", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-  const dateEng = date.toLocaleString("eng", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+function EventCard({ event }) {
+  const { i18n } = useTranslation(["post"]);
 
   return (
-    <Card className="my-card shadow m-5 bg-white rounded">
+    <Card className="my-card shadow m-4" bg="primary" text="white" >
       <Card.Img variant="top" src={event.imagePath} className="card-img" />
       <Card.Body className="text-center">
-        <Card.Title> {event.title} </Card.Title>
-        <Card.Subtitle>
-          {" "}
-          {i18n.language === "sr" ? dateSrp : dateEng}{" "}
-        </Card.Subtitle>
-        <Card.Subtitle className="p-0 m-0">
-          {" "}
-          {i18n.language === "sr"
-            ? t("startsAt") + " " + timeSrp
-            : t("startsAt") + " " + timeEng}{" "}
-        </Card.Subtitle>
-        <Card.Subtitle className="pt-1"> {event.locationName} </Card.Subtitle>
-        <Card.Text> {event.description} </Card.Text>
+        <Card.Title className="ev-card-title"> {event.title} </Card.Title>
+        <Card.Subtitle className="mt-1"> {parseDate(event.timeOfEvent, i18n.language)} </Card.Subtitle>
+        <Card.Subtitle className="mt-1"> {event.locationName} </Card.Subtitle>
       </Card.Body>
     </Card>
   );
