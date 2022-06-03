@@ -6,7 +6,7 @@ function EventCard({ event }) {
   const { t, i18n } = useTranslation(["post"]);
 
   const date = new Date(event.timeOfEvent);
-  const timeSrp = date.toLocaleTimeString("srp", {
+  const timeSrp = date.toLocaleTimeString("sr-Latn", {
     hour: "2-digit",
     minute: "2-digit",
   });
@@ -14,7 +14,7 @@ function EventCard({ event }) {
     hour: "2-digit",
     minute: "2-digit",
   });
-  const dateSrp = date.toLocaleString("srp", {
+  const dateSrp = date.toLocaleString("sr-Latn", {
     year: "numeric",
     month: "long",
     day: "numeric",
