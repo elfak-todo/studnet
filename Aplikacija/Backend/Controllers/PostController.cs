@@ -123,6 +123,7 @@ public class PostController : ControllerBase
 
         var postsSelected = posts.Select(p => new
         {
+            id = p.ID,
             post = p,
             liked = p.LikedBy!.Contains(student),
             author = p.Anonymous && p.AuthorId != student.ID ? null : new
@@ -136,25 +137,25 @@ public class PostController : ControllerBase
                 facultyImagePath = p.Author.Parlament!.Faculty!.ImagePath
             },
             comments = p.Comments!.OrderByDescending(p => p.Pinned)
-                        .ThenByDescending(p => p.Verified)
-                        .ThenByDescending(p => p.PublicationTime)
-                        .Take(3)
-                        .Select(c => new
+                    .ThenByDescending(p => p.Verified)
+                    .ThenByDescending(p => p.PublicationTime)
+                    .Take(3)
+                    .Select(c => new
+                    {
+                        comment = c,
+                        liked = c.LikedBy!.Contains(student),
+                        author = c.Anonymous && c.AuthorId != student.ID ?
+                        null : new
                         {
-                            comment = c,
-                            liked = c.LikedBy!.Contains(student),
-                            author = c.Anonymous && c.AuthorId != student.ID ?
-                            null : new
-                            {
-                                c.Author!.ID,
-                                c.Author.FirstName,
-                                c.Author.LastName,
-                                c.Author.Username,
-                                c.Author.ImagePath,
-                                facultyName = c.Author.Parlament!.Faculty!.Name,
-                                facultyImagePath = c.Author.Parlament!.Faculty!.ImagePath
-                            }
-                        }),
+                            c.Author!.ID,
+                            c.Author.FirstName,
+                            c.Author.LastName,
+                            c.Author.Username,
+                            c.Author.ImagePath,
+                            facultyName = c.Author.Parlament!.Faculty!.Name,
+                            facultyImagePath = c.Author.Parlament!.Faculty!.ImagePath
+                        }
+                    }),
         });
 
         return Ok(await postsSelected.ToListAsync());

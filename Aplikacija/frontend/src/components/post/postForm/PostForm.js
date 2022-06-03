@@ -36,7 +36,7 @@ function PostForm({ feed, setFeed }) {
       !anonymousPost && student.role !== 0 ? pinnedRef.current.checked : false;
 
     postTextInputRef.current.value = "";
-    
+
     if (!anonymousPost && student.role !== 0) {
       verifiedRef.current.checked = false;
       pinnedRef.current.checked = false;
@@ -82,8 +82,10 @@ function PostForm({ feed, setFeed }) {
               alt="user-pic"
               className="m-2 profile-pic"
               roundedCircle
-            /> 
-            {anonymous ? t("anonymous") : student.firstName + " " + student.lastName}
+            />
+            {anonymous
+              ? t("anonymous")
+              : student.firstName + " " + student.lastName}
             <Form.Check
               id="sw"
               type="switch"
@@ -92,8 +94,8 @@ function PostForm({ feed, setFeed }) {
               ref={anonymousRef}
             />
           </div>
-          </Card.Header>
-          <Card.Body>
+        </Card.Header>
+        <Card.Body>
           <Form noValidate onSubmit={submitHandler}>
             <Form.Control
               as="textarea"
@@ -103,22 +105,22 @@ function PostForm({ feed, setFeed }) {
               ref={postTextInputRef}
             ></Form.Control>
             <div className="post-toolbar">
-              {!anonymous && student.role !== 0 && (
-                <Form.Check
-                  type="checkbox"
-                  label={t("verified")}
-                  ref={verifiedRef}
-                  inline
-                />
-              )}
-              {!anonymous && student.role !== 0 && (
-                <Form.Check
-                  type="checkbox"
-                  label={t("pinned")}
-                  ref={pinnedRef}
-                  inline
-                />
-              )}
+              <Form.Check
+                className="form-checks"
+                disabled={anonymous}
+                type="checkbox"
+                label={t("verified")}
+                ref={verifiedRef}
+                inline
+              />
+              <Form.Check
+                className="form-checks"
+                disabled={anonymous}
+                type="checkbox"
+                label={t("pinned")}
+                ref={pinnedRef}
+                inline
+              />
             </div>
             <div className="post-toolbar">
               <Button

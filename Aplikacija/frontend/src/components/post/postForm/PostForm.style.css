@@ -1,8 +1,7 @@
 .post-form-container {
-    width: 800px;
+    width: 800px !important;
     margin-bottom: 20px;
 }
-
 .post-form-header {
     display: flex;
     flex-direction: column;
@@ -18,9 +17,13 @@
     justify-content: center;
     align-items: center;
 }
+.form-checks .form-check-input:checked {
+    background-color: #4e54c8!important;
+    border-color: #4e54c8 !important;
+}
 
 @media only screen and (max-width: 768px) {
     .post-form-container {
-      width: auto;
+      width: auto !important;
     }
   }

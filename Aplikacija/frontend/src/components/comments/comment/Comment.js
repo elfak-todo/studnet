@@ -1,18 +1,27 @@
 import axios from "axios";
 import { useTranslation } from "react-i18next";
+import { useContext, useState, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faThumbsUp as faThumbsUpRegular } from "@fortawesome/free-regular-svg-icons";
 import {
   faThumbsUp,
   faCircleCheck,
   faThumbTack,
 } from "@fortawesome/free-solid-svg-icons";
-import { Container, Image, Card, Form } from "react-bootstrap";
-import { useContext, useState, useRef } from "react";
+import {
+  Container,
+  Image,
+  Card,
+  Form,
+  OverlayTrigger,
+  Popover,
+} from "react-bootstrap";
 
 import { parseDate } from "../../../helpers/DateParser.js";
 import StudentContext from "../../studentManager/StudentManager";
 import defaultPic from "../../../images/defaultProfilePic.jpg";
 import SettingsDropdown from "../../settingsDropdown/SettingsDropdown";
+import ProfileHoverCard from "../../profile/profileHoverCard/ProfileHoverCard.js";
 
 import "./Comment.style.css";
 
@@ -22,6 +31,7 @@ function Comment({
   comments,
   setComments,
   post,
+  isLiked,
   feed,
   setFeed,
 }) {
@@ -29,7 +39,9 @@ function Comment({
 
   const { student } = useContext(StudentContext);
 
-  const [liked, setLiked] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const [liked, setLiked] = useState(isLiked);
   const [pinned, setPinned] = useState(comment.pinned);
   const [verified, setVerified] = useState(comment.verified);
   const [edit, setEdit] = useState(false);
@@ -38,7 +50,6 @@ function Comment({
   const editTextInputRef = useRef();
 
   const handleEdit = (e) => {
-    //TODO fali EditComment metoda u back
     if (e.keyCode === 13 && e.shiftKey === false) {
       e.preventDefault();
 
@@ -46,10 +57,28 @@ function Comment({
 
       if (editedText === "") return;
 
-      console.log(editedText);
-      
-      setEdited(true);
-
+      axios
+        .put("Comment/Edit", {
+          id: comment.id,
+          text: editedText,
+          verified: comment.verified,
+          pinned: comment.pinned,
+        })
+        .then(() => {
+          setEdited(true);
+          setComments((prevState) => {
+            return prevState.map((c) => {
+              if (c.comment.id === comment.id) {
+                c.comment.text = editedText;
+                return c;
+              } else return c;
+            });
+          });
+          console.log(editedText);
+        })
+        .catch((err) => {
+          console.log(err.response.data);
+        });
       setEdit(false);
     }
   };
@@ -112,14 +141,33 @@ function Comment({
   };
 
   const handleLike = () => {
-    //TODO
-    if (liked) {
-      setLiked(false);
-      console.log("Unliked comment: " + comment.id);
-    } else {
-      setLiked(true);
-      console.log("Liked comment: " + comment.id);
-    }
+    if (loading) return;
+
+    setLoading(true);
+    axios
+      .put("Comment/SetLiked/" + comment.id + "/" + !liked)
+      .then((res) => {
+        setLiked(res.data);
+        setComments(
+          comments.map((c) => {
+            if (c.comment.id === comment.id) {
+              if (res.data) {
+                c.comment.likeCount = c.comment.likeCount + 1;
+              } else {
+                if (c.comment.likeCount > 0)
+                  c.comment.likeCount = c.comment.likeCount - 1;
+              }
+              return c;
+            } else return c;
+          })
+        );
+
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+        setLoading(false);
+      });
   };
 
   const handleSelectedAction = (keyEvent) => {
@@ -143,18 +191,33 @@ function Comment({
 
   return (
     <Container className="comment-header">
-      <Image
-        src={
-          (author !== null && author.imagePath === "/") ||
-          author === null ||
-          author.imagePath === "/"
-            ? defaultPic
-            : author.imagePath
+      <OverlayTrigger
+        rootClose
+        trigger="click"
+        placement="right"
+        overlay={
+          !post.anonymous ? (
+            <Popover>
+              <ProfileHoverCard studentProp={author} />
+            </Popover>
+          ) : (
+            <></>
+          )
         }
-        alt="user-pic"
-        className="comment-profile-pic"
-        roundedCircle
-      />
+      >
+        <Image
+          src={
+            (author !== null && author.imagePath === "/") ||
+            author === null ||
+            author.imagePath === "/"
+              ? defaultPic
+              : author.imagePath
+          }
+          alt="user-pic"
+          className="comment-profile-pic"
+          roundedCircle
+        />
+      </OverlayTrigger>
       <Container className="m-0 p-0">
         <div className="text-row">
           <Card.Text className="comment-name">
@@ -185,6 +248,7 @@ function Comment({
               selectedAction={handleSelectedAction}
               pinned={pinned}
               verified={verified}
+              author={author}
               className="comment-settings"
             />
           ) : null}
@@ -222,18 +286,17 @@ function Comment({
             <div className="comment-row-icons">
               <div className="comment-center-icons">
                 <FontAwesomeIcon
-                  icon={faThumbsUp}
+                  icon={faThumbsUpRegular}
                   className="comment-like-icon-sm"
                 />
                 <Card.Text className="me-2"> {comment.likeCount} </Card.Text>
               </div>
               <div className="comment-like" onClick={handleLike}>
                 <FontAwesomeIcon
-                  icon={faThumbsUp}
+                  icon={liked ? faThumbsUp : faThumbsUpRegular}
                   className="comment-like-icon"
-                  style={liked && { color: "#8c8fbf" }}
                 />
-                <Card.Text className={liked && "liked-text"}>
+                <Card.Text className={liked ? "liked-text" : "like-text"}>
                   {t("like")}
                 </Card.Text>
               </div>

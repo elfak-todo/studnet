@@ -2,7 +2,11 @@ import axios from "axios";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faThumbsUp, faComment } from "@fortawesome/free-solid-svg-icons";
+import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
+import {
+  faThumbsUp as faThumbsUpRegular,
+  faComment as faCommentRegular,
+} from "@fortawesome/free-regular-svg-icons";
 import { Card } from "react-bootstrap";
 
 import "./PostFooter.style.css";
@@ -47,22 +51,29 @@ function PostFooter({ post, isLiked, feed, setFeed }) {
     <div className="post-footer">
       <div className="align-row">
         <div className="center-items">
-          <FontAwesomeIcon icon={faThumbsUp} className="like-comment-icon-sm" />
+          <FontAwesomeIcon
+            icon={faThumbsUpRegular}
+            className="like-comment-icon-sm"
+          />
           <Card.Text> {post.likeCount} </Card.Text>
         </div>
         <div className="center-items">
-          <FontAwesomeIcon icon={faComment} className="like-comment-icon-sm" />
+          <FontAwesomeIcon
+            icon={faCommentRegular}
+            className="like-comment-icon-sm"
+          />
           <Card.Text> {post.commentCount} </Card.Text>
         </div>
       </div>
       <div className="align-row">
         <div className="center-items" onClick={handleLike}>
           <FontAwesomeIcon
-            icon={faThumbsUp}
+            icon={liked ? faThumbsUp : faThumbsUpRegular}
             className="like-comment-icon"
-            style={liked && { color: "#8c8fbf" }}
           />
-          <Card.Text className={liked && "liked-text"}> {t("like")} </Card.Text>
+          <Card.Text className={liked ? "liked-text" : "like-text"}>
+            {t("like")}
+          </Card.Text>
         </div>
       </div>
     </div>

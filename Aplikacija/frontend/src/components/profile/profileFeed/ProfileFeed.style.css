@@ -1,0 +1,25 @@
+.tab-title {
+    margin: 0px !important;
+    padding: 0px !important;
+    font-weight: 700;
+    font-size: 20px;
+}
+.profile-feed-tab {
+    font-weight: 700;
+    font-size: 20px;
+    color: #4e54c8 !important;
+}
+.profile-feed-tab:focus {
+    background-color: #4e54c8 !important;
+    font-weight: 700;
+    font-size: 20px;
+    color: white !important;
+}
+.profile-feed-tab.active {
+    background-color: #4e54c8 !important;
+    color: white !important;
+}
+.btn-add-post {
+    display: flex;
+    justify-content: right;
+}
