@@ -115,11 +115,13 @@ public class LocationController : ControllerBase
         });
     }
 
-    [Route("Trending")]
+    [Route("Trending/{page}")]
     [Authorize(Roles = "Student")]
     [HttpGet]
-    public async Task<ActionResult> GetTrendingLocations()
+    public async Task<ActionResult> GetTrendingLocations(int page)
     {
+        const int pageSize = 10;
+
         var user = _tokenManager.GetUserDetails(HttpContext.User);
 
         if (user == null)
@@ -133,7 +135,8 @@ public class LocationController : ControllerBase
                             .AsSplitQuery()
                             .Where(l => l.UniversityId == user.UniversityId)
                             .OrderByDescending(l => l.Grades!.Count())
-                            .Take(10)
+                            .Skip(page * pageSize)
+                            .Take(pageSize)
                             .ToListAsync();
 
         locations.ForEach(l =>

@@ -16,6 +16,7 @@ public class StudentController : ControllerBase
     private Context _context;
     private IAccessTokenManager _tokenManager;
     private IPasswordManager _passwordManager;
+    private IConfiguration _config;
 
     public StudentController(Context context, IConfiguration config,
             IAccessTokenManager tokenManager, IPasswordManager passwordManager)
@@ -23,6 +24,7 @@ public class StudentController : ControllerBase
         _context = context;
         _tokenManager = tokenManager;
         _passwordManager = passwordManager;
+        _config = config;
     }
 
     [Route("{studentId}")]
@@ -299,6 +301,106 @@ public class StudentController : ControllerBase
         await _context.SaveChangesAsync();
 
         return Ok(Array.Empty<Object>());
+    }
+
+    [Route("")]
+    [Authorize(Roles = "Student")]
+    [HttpPut]
+    public async Task<ActionResult> EditProfile([FromBody] Student student)
+    {
+        var userDetails = _tokenManager.GetUserDetails(HttpContext.User);
+
+        if (userDetails == null)
+        {
+            return StatusCode(401);
+        }
+
+        if (student == null)
+        {
+            return BadRequest("StudentRequired");
+        }
+
+        if ((await _context.Students.FirstOrDefaultAsync(s => s.Username == student.Username)) != null)
+        {
+            return BadRequest("UsernameTaken");
+        }
+
+        var studentInDatabase = await _context.Students.FindAsync(userDetails.ID);
+
+        if (studentInDatabase == null)
+        {
+            return BadRequest("StudentNotFound");
+        }
+
+        studentInDatabase.Username = student.Username;
+        studentInDatabase.FirstName = student.FirstName;
+        studentInDatabase.LastName = student.LastName;
+        studentInDatabase.Gender = student.Gender;
+        studentInDatabase.IsExchange = student.IsExchange;
+        studentInDatabase.ParlamentId = student.ParlamentId;
+
+        await _context.SaveChangesAsync();
+        return Ok(studentInDatabase);
+    }
+
+    [Route("/Password")]
+    [Authorize(Roles = "Student")]
+    [HttpPut]
+    public async Task<ActionResult> ChangePassword([FromBody] ChangePassword passwords)
+    {
+        var student = await _tokenManager.GetStudent(HttpContext.User);
+
+        if (passwords.OldPassword == null || passwords.NewPassword == null)
+        {
+            return BadRequest("FieldMissing");
+        }
+
+        if (student == null || !_passwordManager.verifyPassword(passwords.OldPassword, student.Password))
+        {
+            return Unauthorized("BadCredentials");
+        }
+
+        student.Password = _passwordManager.hashPassword(passwords.NewPassword);
+
+        await _context.SaveChangesAsync();
+        return Ok();
+    }
+
+    [Route("Image")]
+    [Authorize(Roles = "Student")]
+    [HttpPut]
+    public async Task<ActionResult> UploadImage([FromForm] IFormFile image)
+    {
+        if (image == null)
+        {
+            return BadRequest("ImageRequired");
+        }
+
+        string[] allowedContentType = new string[] { ".png", ".jpg", ".jpeg" };
+
+        string extension = Path.GetExtension(image.FileName);
+
+        if (!allowedContentType.Contains(extension))
+        {
+            return BadRequest("UnsupportedFileType");
+        }
+
+        var student = await _tokenManager.GetStudent(HttpContext.User);
+        if (student == null)
+        {
+            return BadRequest("UserNotFound");
+        }
+
+        var fileName = Path.GetRandomFileName();
+        var imagePath = "/images/users/" + fileName + extension;
+
+        using (var stream = System.IO.File.Create(_config["Files:StaticPath"] + imagePath))
+        {
+            await image.CopyToAsync(stream);
+            student.ImagePath = imagePath;
+            await _context.SaveChangesAsync();
+            return Ok(imagePath);
+        }
     }
 }
 

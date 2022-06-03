@@ -61,6 +61,7 @@ public class PostController : ControllerBase
 
         return Ok(new
         {
+            id = post.ID,
             post,
             author = new
             {

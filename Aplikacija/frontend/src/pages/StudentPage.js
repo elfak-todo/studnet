@@ -23,18 +23,6 @@ function StudentPage() {
           setStudent(null);
         }
       });
-
-    //TEST
-    axios.get(`Student/${studentId}/Events/0`).then((res) => {
-      console.log("Events", res.data);
-    });
-    axios.get(`Student/${studentId}/Posts/0`).then((res) => {
-      console.log("Posts", res.data);
-    });
-    axios.get(`Student/${studentId}/Locations/0`).then((res) => {
-      console.log("Locations", res.data);
-    });
-    //TEST END
   }, [studentId]);
 
   return student !== null ? (

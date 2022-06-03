@@ -26,6 +26,8 @@ namespace Backend.Models
 
             modelBuilder.Entity<Student>()
                                 .HasAlternateKey(s => s.Email);
+            modelBuilder.Entity<Student>()
+                                .HasIndex(s => s.Username);
 
             modelBuilder.Entity<Comment>()
                                 .HasMany<Student>(k => k.LikedBy)

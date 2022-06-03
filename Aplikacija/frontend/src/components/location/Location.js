@@ -38,6 +38,7 @@ function Location({ location }) {
             eventKey="details"
             title={t("details")}
             className="p-2 location-tab"
+            tabClassName="profile-feed-tab"
           >
             <LocationDetailsDetails location={location} />
           </Tab>
@@ -45,6 +46,7 @@ function Location({ location }) {
             eventKey="grades"
             title={`${t("grades")} (${location.grades.length})`}
             className="p-2 location-tab"
+            tabClassName="profile-feed-tab"
           >
             <LocationGrades location={location} />
           </Tab>
@@ -52,10 +54,16 @@ function Location({ location }) {
             eventKey="events"
             title={`${t("events")} (${location.events.length})`}
             className="p-2 location-tab"
+            tabClassName="profile-feed-tab"
           >
             <LocationEvents location={location} />
           </Tab>
-          <Tab eventKey="map" title={t("map")} className="p-2 location-tab">
+          <Tab
+            eventKey="map"
+            title={t("map")}
+            className="p-2 location-tab"
+            tabClassName="profile-feed-tab"
+          >
             <LocationMap selectedMode mapData={{ loc: [location.details] }} />
           </Tab>
         </Tabs>

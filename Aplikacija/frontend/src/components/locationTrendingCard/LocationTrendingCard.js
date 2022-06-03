@@ -9,12 +9,14 @@ import "./LocationTrendingCard.style.css";
 import locationTypes from "../locationMarker/LocationTypes.js";
 import LocationTrendingCardComment from "../locationTrendingCardComment/LocationTrendingCardComment.js";
 
-function LocationTrendingCard({ location }) {
+function LocationTrendingCard({ feedEl, innerRef }) {
+  const location = feedEl;
+
   const { t } = useTranslation(["locations"]);
   const navigate = useNavigate();
 
   return (
-    <Card className="LocationTrendingCard mb-4 shadow">
+    <Card className="LocationTrendingCard mb-4 shadow" ref={innerRef}>
       <Card.Header className="d-flex justify-content-start">
         <Badge>{location && t(locationTypes[location?.type].name)}</Badge>
         <Badge className="ms-1">
