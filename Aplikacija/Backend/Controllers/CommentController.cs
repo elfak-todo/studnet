@@ -192,7 +192,7 @@ public class CommentController : ControllerBase
             return Forbid("NotAuthor");
         }
 
-        commentInDatabase.Text = commentInDatabase.Text;
+        commentInDatabase.Text = comment.Text;
         commentInDatabase.Edited = true;
 
         if ((int)user.Role >= (int)Role.ParlamentMember)
@@ -261,7 +261,7 @@ public class CommentController : ControllerBase
             return BadRequest("CommentNotFound");
         }
 
-        var student = await _context.Students.Include(s => s.LikedPosts)
+        var student = await _context.Students.Include(s => s.LikedComments)
                                         .Where(s => s.ID == userDetails.ID)
                                         .FirstOrDefaultAsync();
 
@@ -270,13 +270,18 @@ public class CommentController : ControllerBase
             return BadRequest("UserNotFound");
         }
 
+        if (student.LikedComments == null)
+        {
+            student.LikedComments = new List<Comment>();
+        }
+
         if (liked)
         {
-            student.LikedComments!.Add(comment);
+            student.LikedComments.Add(comment);
         }
         else
         {
-            student.LikedComments!.Remove(comment);
+            student.LikedComments.Remove(comment);
         }
 
         await _context.SaveChangesAsync();
