@@ -103,22 +103,22 @@ function PostForm({ feed, setFeed }) {
               ref={postTextInputRef}
             ></Form.Control>
             <div className="post-toolbar">
-              {!anonymous && student.role !== 0 && (
                 <Form.Check
+                  className="form-checks"
+                  disabled={anonymous}
                   type="checkbox"
                   label={t("verified")}
                   ref={verifiedRef}
                   inline
                 />
-              )}
-              {!anonymous && student.role !== 0 && (
                 <Form.Check
+                className="form-checks"
+                  disabled={anonymous}
                   type="checkbox"
                   label={t("pinned")}
                   ref={pinnedRef}
                   inline
                 />
-              )}
             </div>
             <div className="post-toolbar">
               <Button

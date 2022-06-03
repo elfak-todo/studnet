@@ -248,6 +248,7 @@ function Comment({
               selectedAction={handleSelectedAction}
               pinned={pinned}
               verified={verified}
+              author={author}
               className="comment-settings"
             />
           ) : null}

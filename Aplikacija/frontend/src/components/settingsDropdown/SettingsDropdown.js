@@ -6,7 +6,7 @@ import { NavDropdown } from "react-bootstrap";
 
 import StudentContext from "../studentManager/StudentManager";
 
-function SettingsDropdown({ selectedAction, verified, pinned, className }) {
+function SettingsDropdown({ author, selectedAction, verified, pinned, className }) {
   const { t } = useTranslation(["post"]);
   const { student } = useContext(StudentContext);
 
@@ -24,7 +24,7 @@ function SettingsDropdown({ selectedAction, verified, pinned, className }) {
         </div>
       }
     >
-      <NavDropdown.Item eventKey="edit"> {t("edit")} </NavDropdown.Item>
+      {author?.id === student.id && <NavDropdown.Item eventKey="edit"> {t("edit")} </NavDropdown.Item>}
       {student.role !== 0 && (
         <>
           <NavDropdown.Item eventKey="verify">

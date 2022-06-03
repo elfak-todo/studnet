@@ -142,6 +142,7 @@ function PostHeader({ author, post, feed, setFeed, setEdit }) {
           selectedAction={handleSelectedAction}
           verified={verified}
           pinned={pinned}
+          author={author}
           className="settings-icon"
         />
       ) : null}
