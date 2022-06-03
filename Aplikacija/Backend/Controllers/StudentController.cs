@@ -177,5 +177,31 @@ public class StudentController : ControllerBase
 
         return Ok("DeletionSuccessful");
     }
+
+    //Profile page
+
+    [Route("{studentId}/Locations/{page}")]
+    [Authorize(Roles = "Student")]
+    [HttpGet]
+    public async Task<ActionResult> GetStudentLocations(int studentId, int page)
+    {
+        return Ok();
+    }
+
+    [Route("{studentId}/Posts/{page}")]
+    [Authorize(Roles = "Student")]
+    [HttpGet]
+    public async Task<ActionResult> GetStudentPosts(int studentId, int page)
+    {
+        return Ok();
+    }
+
+    [Route("{studentId}/Events/{page}")]
+    [Authorize(Roles = "Student")]
+    [HttpGet]
+    public async Task<ActionResult> GetStudentEvents(int studentId, int page)
+    {
+        return Ok();
+    }
 }
 
