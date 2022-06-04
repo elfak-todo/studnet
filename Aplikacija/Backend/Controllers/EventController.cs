@@ -21,13 +21,18 @@ public class EventController : ControllerBase
         _tokenManager = tokenManager;
     }
 
-
     [Route("")]
     [Authorize(Roles = "Student")]
     [HttpPost]
     public async Task<ActionResult> PostEvent([FromBody] Event ev)
     {
-        var student = await _tokenManager.GetStudent(HttpContext.User);
+        var userDetails = _tokenManager.GetUserDetails(HttpContext.User);
+
+        var student = await _context.Students.Include(s => s.Parlament!)
+                                        .ThenInclude(p => p.Faculty)
+                                        .Where(s => s.ID == userDetails!.ID)
+                                        .FirstOrDefaultAsync();
+
 
         if (student == null)
         {
@@ -71,6 +76,7 @@ public class EventController : ControllerBase
                                            .AsSplitQuery()
                                            .Where(e => (e.Pinned || e.Verified) && e.EndTime > DateTime.Now)
                                            .OrderBy(e => e.TimeOfEvent)
+                                           .ThenBy(e=>e.PublicationTime)
                                            .Take(15);
 
         var EventsSelected = events.Select(e => new
@@ -85,7 +91,6 @@ public class EventController : ControllerBase
                 e.Organiser.ImagePath
             },
             comments = e.Comments!.OrderByDescending(e => e.Pinned)
-                                .ThenByDescending(e => e.Verified)
                                 .ThenByDescending(e => e.PublicationTime)
                                 .Take(3)
                                 .Select(c => new
@@ -100,6 +105,7 @@ public class EventController : ControllerBase
                                         e.Organiser.ImagePath
                                     }
                                 }),
+            
         });
         return Ok(await EventsSelected.ToListAsync());
     }
@@ -110,25 +116,33 @@ public class EventController : ControllerBase
     public async Task<ActionResult> GetFeed(int page)
     {
         const int pageSize = 20;
-
+        
+        var student = await _tokenManager.GetStudent(HttpContext.User);
+        if (student == null)
+        {
+            return BadRequest("UserNotFound");
+        }
         IQueryable<Event> events;
 
         if (page == 0)
         {
             events = _context.Events.Include(events => events.Organiser)
                                     .Include(e => e.Comments)
+                                    .Include(e => e.LikedBy)
+                                    //.Include(e=> e.Reservations)
                                     .AsSplitQuery()
                                     .Where(e => e.EndTime > DateTime.Now)
                                     .OrderBy(e => e.TimeOfEvent)
                                     .Take(pageSize)
                                     .OrderByDescending(e => e.Pinned)
-                                    .ThenByDescending(e => e.Verified)
                                     .ThenBy(e => e.TimeOfEvent);
         }
         else
         {
             events = _context.Events.Include(e => e.Organiser)
                                     .Include(e => e.Comments)
+                                    .Include(e => e.LikedBy)
+                                    //.Include(e => e.Reservations)
                                     .AsSplitQuery()
                                     .Where(e => e.EndTime > DateTime.Now)
                                     .OrderBy(e => e.TimeOfEvent)
@@ -139,7 +153,16 @@ public class EventController : ControllerBase
         var EventsSelected = events.Select(e => new
         {
             id = e.ID,
+            liked = e.LikedBy!.Contains(student),
             ev = e,
+            /*
+            reservations = e.Reservations!.Select(r=>new
+                                            {
+                                                r.EventId,
+                                                r.NumberOfTickets
+                                            })
+                                            .Where(r => r.EventId == e.ID),
+            */
             author = new
             {
                 e.Organiser!.ID,
@@ -149,7 +172,6 @@ public class EventController : ControllerBase
                 e.Organiser.ImagePath
             },
             comments = e.Comments!.OrderByDescending(e => e.Pinned)
-                                .ThenByDescending(e => e.Verified)
                                 .ThenByDescending(e => e.PublicationTime)
                                 .Take(3)
                                 .Select(c => new
@@ -202,6 +224,7 @@ public class EventController : ControllerBase
         eventInDatabase.PaidEvent = ev.PaidEvent;
         eventInDatabase.NumberOfTickets = ev.NumberOfTickets;
         eventInDatabase.TicketPrice = ev.TicketPrice;
+        eventInDatabase.Reservations=ev.Reservations;
 
         if ((int)user.Role >= (int)Role.ParlamentMember)
         {

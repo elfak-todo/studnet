@@ -10,7 +10,8 @@ $theme-colors: (
   "play":red,
   "newYears": #4e54c8,
   "free": green,
-  "HOT": #ff4800
+  "HOT": #ff4800,
+  "soldout": black
 );
 
 @import "~bootstrap/scss/bootstrap.scss";
