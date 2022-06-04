@@ -343,7 +343,7 @@ public class StudentController : ControllerBase
         return Ok(studentInDatabase);
     }
 
-    [Route("/Password")]
+    [Route("Password")]
     [Authorize(Roles = "Student")]
     [HttpPut]
     public async Task<ActionResult> ChangePassword([FromBody] ChangePassword passwords)

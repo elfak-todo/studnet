@@ -13,7 +13,6 @@ function EventPost({ feedEl }) {
   const author = feedEl.author;
   const comments = feedEl.comments;
   const event = feedEl.ev;
-  console.log(feedEl);
 
   const { t, i18n } = useTranslation(["event"]);
 
