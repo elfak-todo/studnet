@@ -1,7 +1,7 @@
 export const timeSrp = (databaseDate) => {
   const date = new Date(databaseDate);
 
-  const time = date.toLocaleTimeString("srp", {
+  const time = date.toLocaleTimeString("sr-Latn", {
     hour: "2-digit",
     minute: "2-digit",
   });
@@ -23,7 +23,7 @@ export const timeEng = (databaseDate) => {
 export const dateSrp = (databaseDate) => {
   const date = new Date(databaseDate);
 
-  const dateSerbian = date.toLocaleString("srp", {
+  const dateSerbian = date.toLocaleString("sr-Latn", {
     year: "numeric",
     month: "long",
     day: "numeric",

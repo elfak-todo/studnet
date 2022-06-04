@@ -56,7 +56,6 @@ function EventPost({ feedEl }) {
     day: "numeric",
   });
 
-  const badgeColor = ["red", "yellow", "primary", "blue"];
 
   return (
     <Card className="eventpost fluid mb-4 shadow rounded">
@@ -68,10 +67,13 @@ function EventPost({ feedEl }) {
           />
         )}
       </EventPostHeader>
-      <Card.Body className="event-card d-flex">
-        <Card.Img variant="top" className="eventImage" src={event.imagePath} />
+      <Card.Body className="event-card">
+        <Card.Img 
+          variant="top" 
+          className="eventImage" 
+          src={event.imagePath} />
         <div className="event-text">
-          <Card.Title className="event-title">{event.title} </Card.Title>
+          <Card.Title>{event.title} </Card.Title>
           <Badge bg={EventTypes[event.type].name} className="event-type">
             {event && t(EventTypes[event.type].name)}
           </Badge>
@@ -94,8 +96,8 @@ function EventPost({ feedEl }) {
           <Card.Text className="">
             {dateEnd.getDate() !== date.getDate()
               ? i18n.language === "sr"
-                ? t("lasts") + " - " + dateEndSrp + "-" + timeEndSrp
-                : t("lasts") + " - " + dateEndEng + "/" + timeEndEng
+                ? t("lasts") + " - " + dateEndSrp + " - " + timeEndSrp
+                : t("lasts") + " - " + dateEndEng + " - " + timeEndEng
               : i18n.language === "sr"
               ? t("lasts") + " - " + timeEndSrp
               : t("lasts") + " - " + timeEndEng}
@@ -103,19 +105,23 @@ function EventPost({ feedEl }) {
         </div>
       </Card.Body>
       <Card.Footer>
-        {event && !event.paidEvent ? (
-          <Button variant="free" className="float-end" disabled>
-            {t("NAF")}
-          </Button>
-        ) : event.ticketsReserved > 0.8 * event.numberOfTickets ? (
-          <Button variant="HOT" className="float-end">
-            {t("reserve")}
-          </Button>
-        ) : (
-          <Button variant="primary" className="float-end">
-            {t("reserve")}
-          </Button>
-        )}
+        {event && !event.paidEvent ?
+            <Button variant="free" className="float-end" disabled>{t("NAF")}</Button> 
+            :
+            10 * event.ticketsReserved >= 8 * event.numberOfTickets ?
+              <Button variant="HOT" className="float-end">
+                {t("reserve")}
+              </Button>
+              :
+              event.ticketsReserved === event.numberOfTickets?
+              <Button variant="soldout" className="float-end" disabled>
+                {t("soldout")}
+              </Button>
+              :
+              <Button variant="primary" className="float-end">
+                {t("reserve")}
+              </Button>
+        }
       </Card.Footer>
     </Card>
   );
