@@ -16,9 +16,10 @@ namespace Backend.Models
         [MaxLength(32)]
         public string Username { get; set; } = String.Empty;
 
+        [JsonIgnore]
         [MinLength(6)]
         [MaxLength(256)]
-        public string Password { get; set; } = String.Empty;
+        public string Password { get; set; } = "PasswordNotSet";
 
         [MaxLength(64)]
         [RegularExpression("^\\S+@\\S+\\.\\S+$")]

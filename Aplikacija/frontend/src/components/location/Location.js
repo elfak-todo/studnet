@@ -7,7 +7,7 @@ import "./Location.style.css";
 import LocationMap from "../locationMap/LocationMap.js";
 
 import LocationGrades from "./grades/LocationGrades.js";
-import LocationDetailsDetails from "./details/LocationDetails.js";
+import LocationDetails from "./details/LocationDetails.js";
 import LocationEvents from "./events/LocationEvents.js";
 
 function Location({ location }) {
@@ -40,7 +40,7 @@ function Location({ location }) {
             className="p-2 location-tab"
             tabClassName="profile-feed-tab"
           >
-            <LocationDetailsDetails location={location} />
+            <LocationDetails location={location} />
           </Tab>
           <Tab
             eventKey="grades"

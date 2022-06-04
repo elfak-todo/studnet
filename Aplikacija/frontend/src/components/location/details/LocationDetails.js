@@ -8,7 +8,7 @@ import "./LocationDetails.style.css";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
-function LocationDetailsDetails({ location }) {
+function LocationDetails({ location }) {
   const { t } = useTranslation(["locations"]);
   const navigate = useNavigate();
 
@@ -47,14 +47,16 @@ function LocationDetailsDetails({ location }) {
               : location.author.imagePath
           }
           alt="Slika korisnika"
-          className="avatar"
+          className="author-card-image"
           roundedCircle
         />
-        <p>{`${location.author.firstName} ${location.author.lastName}`}</p>
-        <p>{location.author.facultyName}</p>
+        <div>
+          <p className="author-card-name">{`${location.author.firstName} ${location.author.lastName}`}</p>
+          <p>{location.author.facultyName}</p>
+        </div>
       </div>
     </div>
   );
 }
 
-export default LocationDetailsDetails;
+export default LocationDetails;

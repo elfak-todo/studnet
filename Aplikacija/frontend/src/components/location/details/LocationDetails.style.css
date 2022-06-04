@@ -25,6 +25,24 @@
   width: fit-content;
   cursor: pointer;
   padding: 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.author-card * {
+  padding: 0;
+  margin: 0;
+}
+
+.author-card-name {
+  font-weight: bold;
+}
+
+.author-card-image {
+  width: 3rem;
+  height: 3rem;
+  margin-right: 0.5rem;
 }
 
 @media only screen and (min-width: 768px) {

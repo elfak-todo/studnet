@@ -312,7 +312,7 @@ public class StudentController : ControllerBase
 
         if (userDetails == null)
         {
-            return StatusCode(401);
+            return Unauthorized();
         }
 
         if (student == null)
@@ -320,7 +320,10 @@ public class StudentController : ControllerBase
             return BadRequest("StudentRequired");
         }
 
-        if ((await _context.Students.FirstOrDefaultAsync(s => s.Username == student.Username)) != null)
+        var studentWithUsername = await _context.Students
+                    .FirstOrDefaultAsync(s => s.Username == student.Username);
+
+        if (studentWithUsername != null && studentWithUsername.ID != userDetails.ID)
         {
             return BadRequest("UsernameTaken");
         }
@@ -340,7 +343,7 @@ public class StudentController : ControllerBase
         studentInDatabase.ParlamentId = student.ParlamentId;
 
         await _context.SaveChangesAsync();
-        return Ok(studentInDatabase);
+        return await GetStudent(userDetails.ID);
     }
 
     [Route("Password")]
@@ -350,12 +353,17 @@ public class StudentController : ControllerBase
     {
         var student = await _tokenManager.GetStudent(HttpContext.User);
 
+        if (student == null)
+        {
+            return Unauthorized("UserNotFound");
+        }
+
         if (passwords.OldPassword == null || passwords.NewPassword == null)
         {
             return BadRequest("FieldMissing");
         }
 
-        if (student == null || !_passwordManager.verifyPassword(passwords.OldPassword, student.Password))
+        if (!_passwordManager.verifyPassword(passwords.OldPassword, student.Password))
         {
             return BadRequest("BadCredentials");
         }

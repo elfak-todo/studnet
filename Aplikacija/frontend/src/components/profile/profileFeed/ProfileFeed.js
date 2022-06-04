@@ -20,7 +20,7 @@ function ProfileFeed({ studentProp }) {
 
   useEffect(() => {
     if (studentProp) {
-      setUrl(`Student/${studentProp.id}/Posts`);
+      setUrl(`Student/${studentProp.id}`);
     }
   }, [studentProp]);
 
@@ -39,9 +39,9 @@ function ProfileFeed({ studentProp }) {
         tabClassName="profile-feed-tab"
         title={t("misc:posts")}
       >
-        {studentProp && (
+        {studentProp && url && (
           <Feed
-            url={url}
+            url={url + "/Posts"}
             FeedCard={Post}
             AddElementForm={
               student.id === studentProp?.id ? ProfilePostForm : undefined
@@ -54,14 +54,8 @@ function ProfileFeed({ studentProp }) {
         tabClassName="profile-feed-tab"
         title={t("misc:locations")}
       >
-        {studentProp && (
-          <Feed
-            url={`Student/${studentProp.id}/Locations`}
-            FeedCard={LocationTrendingCard}
-            AddElementForm={
-              student.id === studentProp?.id ? ProfilePostForm : undefined
-            }
-          />
+        {studentProp && url && (
+          <Feed url={url + "/Locations"} FeedCard={LocationTrendingCard} />
         )}
       </Tab>
     </Tabs>

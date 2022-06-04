@@ -38,7 +38,11 @@ function ProfileSectionHeader({ studentProp, setStudentProp }) {
   return (
     <Card className="shadow">
       <Card.Header className="profile-header">
-        <Card.Img variant="top" src={studentProp?.facultyImagePath} className="cover-img" />
+        <Card.Img
+          variant="top"
+          src={studentProp?.facultyImagePath}
+          className="cover-img"
+        />
         <Card.ImgOverlay>
           {student?.id === studentProp?.id && (
             <Button
@@ -66,8 +70,8 @@ function ProfileSectionHeader({ studentProp, setStudentProp }) {
         </div>
       </Card.Header>
       <EditProfile
-        student={studentProp}
-        setStudent={setStudentProp}
+        profile={studentProp}
+        setProfile={setStudentProp}
         showEditCover={showEditCover}
         setShowEditCover={setShowEditCover}
       />
