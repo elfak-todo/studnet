@@ -140,6 +140,7 @@ public class EventController : ControllerBase
 
         var EventsSelected = events.Select(e => new
         {
+            id = e.ID,
             ev = e,
             author = new
             {
