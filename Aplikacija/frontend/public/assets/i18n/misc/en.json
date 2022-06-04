@@ -8,5 +8,10 @@
   "parlamentMember": "Parlament Member",
   "universityAdmin": "Unversity Administrator",
   "admin": "Administrator",
-  "nothingToShow": "Nothing to show."
+  "nothingToShow": "Nothing to show.",
+  "filter": "Filter",
+  "filterBtn": "Filter",
+  "search": "Search",
+  "female": "Female",
+  "male": "Male"
 }

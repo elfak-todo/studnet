@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 
 import StudentContext from "./components/studentManager/StudentManager.js";
+import AdminPage from "./pages/AdminPage.js";
 import EventPage from "./pages/EventPage.js";
 import EventsPage from "./pages/EventsPage";
 import HomePage from "./pages/HomePage";
@@ -28,6 +29,7 @@ function AppRoutes() {
       <Route path="/location/create" element={<LocationCreationPage />} />
       <Route path="/student/:studentId" element={<StudentPage />} />
       <Route path="/parlament/:parlamentId" element={<ParlamentPage />} />
+      <Route path="/admin" element={<AdminPage />} />
     </Routes>
   ) : (
     <Routes>
