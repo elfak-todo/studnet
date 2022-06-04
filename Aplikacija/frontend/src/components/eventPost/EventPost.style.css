@@ -1,38 +1,39 @@
-.eventpost { 
-    width: auto;
-    margin: 0 0.5rem;
+.eventpost {
+  width: 75%;
+  margin: 0 auto;
+  max-width: 75%;
 }
 
 .reserve-btn {
-    position: absolute;
+  position: absolute;
 }
 .eventImage {
-    object-position: left;
-    width: auto !important;
-    height: 15rem;
-    margin-right: 10px;
+  object-position: left;
+  width: auto !important;
+  height: 15rem;
+  margin-right: 10px;
 }
 
-.event-text{
-    font-size: medium;
+.event-text {
+  font-size: medium;
 }
-.location{
-    font-weight: bold;
+.location {
+  font-weight: bold;
 }
-.event-title{
-    font-size: xx-large !important;
+.event-title {
+  font-size: xx-large !important;
 }
 .event-type {
-    font-size: small !important;
+  font-size: small !important;
 }
 
 @media screen and (max-width: 780px) {
-    .eventpost { 
-        width: auto;
-        margin: 0px; 
-    }
-    .eventimage {
-        height: 12rem;
-        width: auto;
-    }
+  .eventpost {
+    width: 98%;
+    max-width: 98%;
+  }
+  .eventimage {
+    height: 12rem;
+    width: auto;
+  }
 }

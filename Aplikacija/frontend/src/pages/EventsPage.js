@@ -1,10 +1,10 @@
-import EventFeed from "../components/eventFeed/EventFeed";
-function EventsPage() 
-{
+import EventPost from "../components/eventPost/EventPost.js";
+import Feed from "../components/feed/Feed.js";
 
+function EventsPage() {
   return (
     <div>
-      <EventFeed />
+      <Feed url="Event/Feed" FeedCard={EventPost} />
     </div>
   );
 }
