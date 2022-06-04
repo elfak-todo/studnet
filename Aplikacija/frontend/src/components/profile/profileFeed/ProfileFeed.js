@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { Tabs, Tab } from "react-bootstrap";
 
@@ -9,11 +9,20 @@ import Feed from "../../feed/Feed.js";
 import StudentContext from "../../studentManager/StudentManager.js";
 
 import ProfilePostForm from "../profilePostForm/ProfilePostForm.js";
+import LocationTrendingCard from "../../locationTrendingCard/LocationTrendingCard.js";
 
 function ProfileFeed({ studentProp }) {
   const { t } = useTranslation(["profile", "misc"]);
 
   const { student } = useContext(StudentContext);
+
+  const [url, setUrl] = useState();
+
+  useEffect(() => {
+    if (studentProp) {
+      setUrl(`Student/${studentProp.id}/Posts`);
+    }
+  }, [studentProp]);
 
   return (
     <Tabs fill defaultActiveKey="posts">
@@ -21,7 +30,9 @@ function ProfileFeed({ studentProp }) {
         eventKey="events"
         tabClassName="profile-feed-tab"
         title={t("misc:events")}
-      ></Tab>
+      >
+        <div>DOGAĐAJI</div>
+      </Tab>
       <Tab
         className="mb-5"
         eventKey="posts"
@@ -30,7 +41,7 @@ function ProfileFeed({ studentProp }) {
       >
         {studentProp && (
           <Feed
-            url={`Student/${studentProp.id}/Posts`}
+            url={url}
             FeedCard={Post}
             AddElementForm={
               student.id === studentProp?.id ? ProfilePostForm : undefined
@@ -43,7 +54,15 @@ function ProfileFeed({ studentProp }) {
         tabClassName="profile-feed-tab"
         title={t("misc:locations")}
       >
-        <p> Lokacije </p>
+        {studentProp && (
+          <Feed
+            url={`Student/${studentProp.id}/Locations`}
+            FeedCard={LocationTrendingCard}
+            AddElementForm={
+              student.id === studentProp?.id ? ProfilePostForm : undefined
+            }
+          />
+        )}
       </Tab>
     </Tabs>
   );

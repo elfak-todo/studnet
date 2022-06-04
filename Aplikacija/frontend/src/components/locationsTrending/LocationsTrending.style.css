@@ -1,7 +1,21 @@
-.LocationsTrending {
-  max-width: 100%;
+.locations-trending {
+  width: auto;
+  margin: 0 0.5rem;
 }
 
-.LocationsTrending > h2 {
+.locations-trending > h2 {
   text-align: center;
+}
+
+@media only screen and (min-width: 768px) {
+  .locations-trending {
+    width: 95%;
+    margin: 0 auto;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .locations-trending {
+    width: 80%;
+  }
 }

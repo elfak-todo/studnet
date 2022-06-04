@@ -7,18 +7,17 @@ import {
   Button,
   Form,
   FloatingLabel,
-  Image,
   Spinner,
   CloseButton,
 } from "react-bootstrap";
 
-import defaultPic from "../../../images/defaultProfilePic.jpg";
 import SelectUniversity from "../../selectUniveristy/SelectUniveristy";
 import SelectFaculty from "../../selectFaculty/SelectFaculty";
 import SelectGender from "../../selectGender/SelectGender";
 import PasswordSettings from "../passwordSettings/PasswordSettings";
 
 import "./EditProfile.style.css";
+import EditImage from "../editImage/EditImage.js";
 
 function EditProfile({ student, showEditCover, setShowEditCover }) {
   const { t } = useTranslation(["profile", "register", "misc"]);
@@ -123,19 +122,9 @@ function EditProfile({ student, showEditCover, setShowEditCover }) {
         <CloseButton variant="white" onClick={closeEdit} />
       </Modal.Header>
       <Modal.Body>
+        <EditImage />
+
         <Form noValidate onSubmit={submitHandler}>
-          <div className="add-image-div">
-            <Image
-              fluid
-              src={student?.imagePath === "/" ? defaultPic : student?.imagePath}
-              alt="profile-pic"
-              className="edit-profile-img"
-              roundedCircle
-            ></Image>
-            <div>
-              <Form.Control type="file" size="sm" />
-            </div>
-          </div>
           <hr />
           <Row>
             <Col>

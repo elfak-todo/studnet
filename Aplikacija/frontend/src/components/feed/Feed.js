@@ -1,11 +1,14 @@
 import axios from "axios";
 import { useEffect, useState, useRef, useCallback } from "react";
 import { Container, Card, Spinner } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
 import "./Feed.style.css";
 
 function Feed({ url, FeedCard, AddElementForm }) {
-  const [feed, setFeed] = useState([]);
+  const { t } = useTranslation(["misc"]);
+
+  const [feed, setFeed] = useState(null);
   const [loading, setLoading] = useState(false);
   const [pageNum, setPageNum] = useState(0);
   const [hasMore, setHasMore] = useState(false);
@@ -13,22 +16,35 @@ function Feed({ url, FeedCard, AddElementForm }) {
   const observer = useRef();
 
   useEffect(() => {
-    setLoading(true);
-    axios.get(`${url}/${pageNum}`).then((res) => {
-      if (pageNum === 0) {
-        setFeed(res.data);
-      } else {
-        setFeed((state) => {
-          const f = [...state, ...res.data];
+    setFeed(null);
+    setLoading(false);
+    setPageNum(0);
+    setHasMore(false);
+  }, [url]);
 
-          return Array.from(new Set(f.map((p) => p.id))).map((id) => {
-            return f.find((p) => p.id === id);
+  useEffect(() => {
+    if (url) {
+      setLoading(true);
+      axios.get(`${url}/${pageNum}`).then((res) => {
+        if (pageNum === 0) {
+          setFeed(res.data);
+        } else {
+          setFeed((state) => {
+            if (state) {
+              const f = [...state, ...res.data];
+
+              return Array.from(new Set(f.map((p) => p.id))).map((id) => {
+                return f.find((p) => p.id === id);
+              });
+            } else {
+              return res.data;
+            }
           });
-        });
-      }
-      setHasMore(res.data.length > 0);
-      setLoading(false);
-    });
+        }
+        setHasMore(res.data.length > 0);
+        setLoading(false);
+      });
+    }
   }, [pageNum, url]);
 
   const lastPost = useCallback(
@@ -51,17 +67,20 @@ function Feed({ url, FeedCard, AddElementForm }) {
     <Container fluid className="feed">
       {AddElementForm && <AddElementForm feed={feed} setFeed={setFeed} />}
       <Card className="feed-card">
-        {feed.map((el, i) => {
-          return (
-            <FeedCard
-              key={el.id}
-              feedEl={el}
-              innerRef={feed.length === i + 1 ? lastPost : undefined}
-              feed={feed}
-              setFeed={setFeed}
-            />
-          );
-        })}
+        {feed &&
+          (feed.length > 0 ? (
+            feed.map((el, i) => (
+              <FeedCard
+                key={el.id}
+                feedEl={el}
+                innerRef={feed.length === i + 1 ? lastPost : undefined}
+                feed={feed}
+                setFeed={setFeed}
+              />
+            ))
+          ) : (
+            <div className="m-5 text-center">{t("nothingToShow")}</div>
+          ))}
         {loading && (
           <div className="comments-spinner">
             <Spinner

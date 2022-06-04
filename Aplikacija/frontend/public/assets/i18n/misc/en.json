@@ -7,5 +7,6 @@
   "saveChanges": "Save changes",
   "parlamentMember": "Parlament Member",
   "universityAdmin": "Unversity Administrator",
-  "admin": "Administrator"
+  "admin": "Administrator",
+  "nothingToShow": "Nothing to show."
 }
