@@ -68,9 +68,11 @@ public class EventController : ControllerBase
 
         events = _context.Events.Include(events => events.Organiser)
                                            .Include(e => e.Comments)
+                                           .Include(e=>e.Reservations)
                                            .AsSplitQuery()
                                            .Where(e => (e.Pinned || e.Verified) && e.EndTime > DateTime.Now)
                                            .OrderBy(e => e.TimeOfEvent)
+                                           .ThenBy(e=>e.PublicationTime)
                                            .Take(15);
 
         var EventsSelected = events.Select(e => new
@@ -85,7 +87,6 @@ public class EventController : ControllerBase
                 e.Organiser.ImagePath
             },
             comments = e.Comments!.OrderByDescending(e => e.Pinned)
-                                .ThenByDescending(e => e.Verified)
                                 .ThenByDescending(e => e.PublicationTime)
                                 .Take(3)
                                 .Select(c => new
@@ -117,18 +118,19 @@ public class EventController : ControllerBase
         {
             events = _context.Events.Include(events => events.Organiser)
                                     .Include(e => e.Comments)
+                                    .Include(e => e.Reservations)
                                     .AsSplitQuery()
                                     .Where(e => e.EndTime > DateTime.Now)
                                     .OrderBy(e => e.TimeOfEvent)
                                     .Take(pageSize)
                                     .OrderByDescending(e => e.Pinned)
-                                    .ThenByDescending(e => e.Verified)
                                     .ThenBy(e => e.TimeOfEvent);
         }
         else
         {
             events = _context.Events.Include(e => e.Organiser)
                                     .Include(e => e.Comments)
+                                    .Include(e=> e.Reservations)
                                     .AsSplitQuery()
                                     .Where(e => e.EndTime > DateTime.Now)
                                     .OrderBy(e => e.TimeOfEvent)
@@ -148,7 +150,6 @@ public class EventController : ControllerBase
                 e.Organiser.ImagePath
             },
             comments = e.Comments!.OrderByDescending(e => e.Pinned)
-                                .ThenByDescending(e => e.Verified)
                                 .ThenByDescending(e => e.PublicationTime)
                                 .Take(3)
                                 .Select(c => new

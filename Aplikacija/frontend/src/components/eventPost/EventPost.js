@@ -107,9 +107,14 @@ const badgeColor =[
         {event && !event.paidEvent ?
             <Button variant="free" className="float-end" disabled>{t("NAF")}</Button> 
             :
-            event.ticketsReserved > 0.8 * event.numberOfTickets ?
+            event.ticketsReserved >= 0.8 * event.numberOfTickets ?
               <Button variant="HOT" className="float-end">
                 {t("reserve")}
+              </Button>
+              :
+              event.ticketsReserved === event.numberOfTickets?
+              <Button variant="soldout" className="float-end" disabled>
+                {t("soldout")}
               </Button>
               :
               <Button variant="primary" className="float-end">
