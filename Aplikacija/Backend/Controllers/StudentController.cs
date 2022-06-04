@@ -67,7 +67,7 @@ public class StudentController : ControllerBase
                 universityId = student.University!.ID,
                 facultyName = student.Parlament!.Faculty!.Name,
                 facultyImagePath = student.Parlament!.Faculty!.ImagePath,
-                facultyId = student.Parlament!.ID,
+                parlamentId = student.Parlament!.ID,
                 postCount = student.PublishedPosts!.Count(),
                 locationCount = student.Locations!.Count(),
                 eventCount = student.PublishedEvents!.Count()
@@ -343,7 +343,7 @@ public class StudentController : ControllerBase
         return Ok(studentInDatabase);
     }
 
-    [Route("/Password")]
+    [Route("Password")]
     [Authorize(Roles = "Student")]
     [HttpPut]
     public async Task<ActionResult> ChangePassword([FromBody] ChangePassword passwords)
@@ -357,7 +357,7 @@ public class StudentController : ControllerBase
 
         if (student == null || !_passwordManager.verifyPassword(passwords.OldPassword, student.Password))
         {
-            return Unauthorized("BadCredentials");
+            return BadRequest("BadCredentials");
         }
 
         student.Password = _passwordManager.hashPassword(passwords.NewPassword);

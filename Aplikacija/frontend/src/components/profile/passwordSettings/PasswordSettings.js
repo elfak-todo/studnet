@@ -10,14 +10,16 @@ import {
 } from "react-bootstrap";
 
 import "./PasswordSettings.style.css";
+import axios from "axios";
 
-function PasswordSettings({ student, showPassModal, setShowPassModal }) {
+function PasswordSettings({ showPassModal, setShowPassModal, setShowMessage }) {
   const { t } = useTranslation(["profile", "register"]);
 
   const [loading, setLoading] = useState(false);
 
   const [oldPassInvalid, setOldPassInvalid] = useState(false);
   const [newPassInvalid, setNewPassInvalid] = useState(false);
+  const [oldPassErr, setOldPassErr] = useState("Error");
   const [passError, setPassError] = useState("Error");
 
   const oldPassRef = useRef();
@@ -33,6 +35,7 @@ function PasswordSettings({ student, showPassModal, setShowPassModal }) {
 
     if (oldPass === "") {
       setOldPassInvalid(true);
+      setOldPassErr(t("enterOldPass"));
       proceed = false;
     }
     if (newPass.length < 6) {
@@ -43,9 +46,22 @@ function PasswordSettings({ student, showPassModal, setShowPassModal }) {
 
     if (proceed) {
       setLoading(true);
-      //TODO
-      console.log(oldPass, newPass);
-      closeModal();
+
+      axios
+        .put("Student/Password", {
+          oldPassword: oldPass,
+          newPassword: newPass,
+        })
+        .then(() => {
+          setShowMessage(true);
+          closeModal();
+        })
+        .catch((err) => {
+          if (err.response.data === "BadCredentials") {
+            setOldPassInvalid(true);
+            setOldPassErr(t("oldPassNotValid"));
+          }
+        });
 
       setLoading(false);
     } else return;
@@ -76,7 +92,7 @@ function PasswordSettings({ student, showPassModal, setShowPassModal }) {
               }}
             />
             <Form.Control.Feedback type="invalid">
-              {t("enterOldPass")}
+              {oldPassErr}
             </Form.Control.Feedback>
           </FloatingLabel>
           <FloatingLabel label={t("newPass")} className="mb-2">

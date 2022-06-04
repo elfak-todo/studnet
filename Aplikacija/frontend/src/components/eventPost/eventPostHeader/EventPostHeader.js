@@ -8,7 +8,7 @@ import SettingsDropdown from "../../settingsDropdown/SettingsDropdown";
 import StudentContext from "../../studentManager/StudentManager";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck, faThumbTack } from "@fortawesome/free-solid-svg-icons";
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
 import { Image, Card } from "react-bootstrap";
 
 function EventPostHeader({ author, event, feed, setFeed, setEdit }) {
@@ -88,7 +88,7 @@ function EventPostHeader({ author, event, feed, setFeed, setEdit }) {
   };
 
 
-  const { t, i18n } = useTranslation(["event"]);
+  // const { t, i18n } = useTranslation(["event"]);
 
   
   return (

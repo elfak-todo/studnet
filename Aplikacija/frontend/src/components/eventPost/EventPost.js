@@ -11,7 +11,7 @@ import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 
 function EventPost({ feedEl }) {
   const author = feedEl.author;
-  const comments = feedEl.comments;
+  // const comments = feedEl.comments;
   const event = feedEl.ev;
   console.log(feedEl);
 
@@ -57,7 +57,7 @@ function EventPost({ feedEl }) {
     day: "numeric",
   });
 
-  const badgeColor = ["red", "yellow", "primary", "blue"];
+  // const badgeColor = ["red", "yellow", "primary", "blue"];
 
   return (
     <Card className="eventpost fluid mb-4 shadow rounded">

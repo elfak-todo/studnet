@@ -26,7 +26,7 @@ function StudentPage() {
   }, [studentId]);
 
   return student !== null ? (
-    <ProfileSection student={student} />
+    <ProfileSection student={student} setStudent={setStudent} />
   ) : (
     <ResourceNotFound text={t("studentNotFound")} />
   );
