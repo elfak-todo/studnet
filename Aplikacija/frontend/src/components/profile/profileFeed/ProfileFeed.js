@@ -16,6 +16,8 @@ function ProfileFeed({ studentProp }) {
 
   const { student } = useContext(StudentContext);
 
+  const [openedTab, setOpenedTab] = useState("posts");
+
   const [url, setUrl] = useState();
 
   useEffect(() => {
@@ -25,13 +27,19 @@ function ProfileFeed({ studentProp }) {
   }, [studentProp]);
 
   return (
-    <Tabs fill defaultActiveKey="posts">
+    <Tabs
+      fill
+      defaultActiveKey="posts"
+      onSelect={(key) => {
+        setOpenedTab(key);
+      }}
+    >
       <Tab
         eventKey="events"
         tabClassName="profile-feed-tab"
         title={t("misc:events")}
       >
-        <div>DOGAĐAJI</div>
+        {openedTab === "events" && <div>DOGAĐAJI</div>}
       </Tab>
       <Tab
         className="mb-5"
@@ -39,7 +47,7 @@ function ProfileFeed({ studentProp }) {
         tabClassName="profile-feed-tab"
         title={t("misc:posts")}
       >
-        {studentProp && url && (
+        {openedTab === "posts" && studentProp && url && (
           <Feed
             url={url + "/Posts"}
             FeedCard={Post}
@@ -54,7 +62,7 @@ function ProfileFeed({ studentProp }) {
         tabClassName="profile-feed-tab"
         title={t("misc:locations")}
       >
-        {studentProp && url && (
+        {openedTab === "locations" && studentProp && url && (
           <Feed url={url + "/Locations"} FeedCard={LocationTrendingCard} />
         )}
       </Tab>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Tab, Tabs } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
@@ -12,6 +12,9 @@ import LocationEvents from "./events/LocationEvents.js";
 
 function Location({ location }) {
   const { t } = useTranslation(["locations"]);
+
+  const [openedTab, setOpenedTab] = useState("details");
+
   return (
     location && (
       <div>
@@ -29,9 +32,9 @@ function Location({ location }) {
           className="justify-content-center"
           onSelect={(key) => {
             if (key === "map") {
-              window.dispatchEvent(new Event("resize"));
-              window.scrollTo(0, document.body.scrollHeight);
+              window.scrollTo(0, document.body.scrollHeight + 300);
             }
+            setOpenedTab(key);
           }}
         >
           <Tab
@@ -40,7 +43,7 @@ function Location({ location }) {
             className="p-2 location-tab"
             tabClassName="profile-feed-tab"
           >
-            <LocationDetails location={location} />
+            {openedTab === "details" && <LocationDetails location={location} />}
           </Tab>
           <Tab
             eventKey="grades"
@@ -48,7 +51,7 @@ function Location({ location }) {
             className="p-2 location-tab"
             tabClassName="profile-feed-tab"
           >
-            <LocationGrades location={location} />
+            {openedTab === "grades" && <LocationGrades location={location} />}
           </Tab>
           <Tab
             eventKey="events"
@@ -56,7 +59,7 @@ function Location({ location }) {
             className="p-2 location-tab"
             tabClassName="profile-feed-tab"
           >
-            <LocationEvents location={location} />
+            {openedTab === "events" && <LocationEvents location={location} />}
           </Tab>
           <Tab
             eventKey="map"
@@ -64,7 +67,9 @@ function Location({ location }) {
             className="p-2 location-tab"
             tabClassName="profile-feed-tab"
           >
-            <LocationMap selectedMode mapData={{ loc: [location.details] }} />
+            {openedTab === "map" && (
+              <LocationMap selectedMode mapData={{ loc: [location.details] }} />
+            )}
           </Tab>
         </Tabs>
       </div>

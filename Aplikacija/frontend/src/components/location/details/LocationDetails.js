@@ -3,14 +3,13 @@ import Slider from "react-slick";
 import locationTypes from "../../locationMarker/LocationTypes.js";
 import { Image } from "react-bootstrap";
 
-import defaultPic from "../../../images/defaultProfilePic.jpg";
 import "./LocationDetails.style.css";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { parseDate } from "../../../helpers/DateParser.js";
+import AuthorCard from "../../authorCard/AuthorCard.js";
 
 function LocationDetails({ location }) {
-  const { t } = useTranslation(["locations"]);
-  const navigate = useNavigate();
+  const { t, i18n } = useTranslation(["locations"]);
 
   return (
     <div>
@@ -36,25 +35,8 @@ function LocationDetails({ location }) {
         {location.details.description}
       </p>
       <h3 className="text-center mt-5">Autor</h3>
-      <div
-        className="mx-auto author-card"
-        onClick={(e) => navigate(`/student/${location.author.id}`)}
-      >
-        <Image
-          src={
-            !location.author || location.author.imagePath === "/"
-              ? defaultPic
-              : location.author.imagePath
-          }
-          alt="Slika korisnika"
-          className="author-card-image"
-          roundedCircle
-        />
-        <div>
-          <p className="author-card-name">{`${location.author.firstName} ${location.author.lastName}`}</p>
-          <p>{location.author.facultyName}</p>
-        </div>
-      </div>
+      <h5>{parseDate(location.details.publicationTime, i18n.language)}</h5>
+      <AuthorCard author={location.author} className="mb-5" />
     </div>
   );
 }

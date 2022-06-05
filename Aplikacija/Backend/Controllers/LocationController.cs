@@ -170,4 +170,43 @@ public class LocationController : ControllerBase
 
         return Ok(location);
     }
+
+    [Route("{locationId}/Events/{page}")]
+    [Authorize(Roles = "Student")]
+    [HttpGet]
+    public async Task<ActionResult> GetLocationEvents(int locationId, int page)
+    {
+        //TODO
+
+        //const int pageSize = 10;
+
+        // var userDetails = _tokenManager.GetUserDetails(HttpContext.User);
+
+        // if (userDetails == null)
+        // {
+        //     return BadRequest("BadToken");
+        // }
+
+        await _context.SaveChangesAsync();
+
+        return Ok(Array.Empty<Object>());
+    }
+
+    [Route("{locationId}/Grades/{page}")]
+    [Authorize(Roles = "Student")]
+    [HttpGet]
+    public async Task<ActionResult> GetLocatinGrades(int locationId, int page)
+    {
+        const int pageSize = 10;
+
+        var grades = _context.Grades
+                            .OrderByDescending(g => g.PublicationTime)
+                            .Include(g => g.GradedBy)
+                            .AsSplitQuery()
+                            .Where(g => g.GradedLocationId == locationId)
+                            .Skip(page * pageSize)
+                            .Take(pageSize);
+
+        return Ok(await grades.ToListAsync());
+    }
 }
