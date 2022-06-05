@@ -11,7 +11,12 @@
   "nothingToShow": "Nothing to show.",
   "filter": "Filter",
   "filterBtn": "Filter",
+  "filteredBy": "Filtered by",
   "search": "Search",
+  "searchRes": "Search result for",
+  "searchPlaceholder": "example: Petar Petrović...",
   "female": "Female",
-  "male": "Male"
+  "male": "Male",
+  "ban": "Ban",
+  "promote": "Promote"
 }

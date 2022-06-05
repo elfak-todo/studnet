@@ -46,13 +46,28 @@ public class StudentController : ControllerBase
             return Unauthorized("BadCredentials");
         }
 
-        var university = await _context.Universities.FindAsync(universityId);
+        var university = await _context.Universities
+                    .Where(p => p.ID == parlamentId)
+                    .Select(p =>
+                    new
+                    {
+                        name = p.Name
+                    }).FirstOrDefaultAsync();
+
         if (university == null)
         {
             return BadRequest("UniversityNotFound");
         }
 
-        var parlament = await _context.Parlaments.FindAsync(parlamentId);
+        var parlament = await _context.Parlaments
+                    .Include(p => p.Faculty)
+                    .Where(p => p.ID == parlamentId)
+                    .Select(p =>
+                    new
+                    {
+                        facultyName = p.Faculty!.Name
+                    }).FirstOrDefaultAsync();
+
         if (parlament == null)
         {
             return BadRequest("ParlamentNotFound");
@@ -72,7 +87,62 @@ public class StudentController : ControllerBase
         {
             students = _context.Students.Include(p => p.Parlament)
                                         .Include(p => p.University)
-                                        .Where(p => p.University == university && p.Parlament == parlament)
+                                        .Where(p => p.University!.ID == universityId && p.Parlament!.ID == parlamentId)
+                                        .OrderByDescending(p => p.ID)
+                                        .Skip(page * studentNum)
+                                        .Take(studentNum);
+        }
+
+        var selectedStudents = await students.Select(p => new
+        {
+            id = p.ID,
+            username = p.Username,
+            firstName = p.FirstName,
+            lastName = p.LastName,
+            email = p.Email,
+            role = p.Role,
+            gender = p.Gender,
+            isExchange = p.IsExchange,
+            universityName = p.University!.Name,
+            facultyName = p.Parlament!.Faculty!.Name
+
+        }).ToListAsync();
+
+        return Ok(new { university, parlament, selectedStudents });
+    }
+
+    [Route("GetAllStudents/{page}")]
+    [Authorize(Roles = "Admin")]
+    [HttpGet]
+    public async Task<ActionResult> GetAllStudents(int page)
+    {
+
+        const int studentNum = 20;
+
+        var student = await _tokenManager.GetStudent(HttpContext.User);
+        if (student == null)
+        {
+            return BadRequest("UserNotFound");
+        }
+
+        if ((int)student.Role != 3)
+        {
+            return Unauthorized("BadCredentials");
+        }
+
+        IQueryable<Student> students;
+
+        if (page == 0)
+        {
+            students = _context.Students.Include(p => p.University)
+                                        .Include(p => p.Parlament)
+                                        .OrderByDescending(p => p.ID)
+                                        .Take(studentNum);
+        }
+        else
+        {
+            students = _context.Students.Include(p => p.University)
+                                        .Include(p => p.Parlament)
                                         .OrderByDescending(p => p.ID)
                                         .Skip(page * studentNum)
                                         .Take(studentNum);
@@ -88,10 +158,68 @@ public class StudentController : ControllerBase
             role = p.Role,
             gender = p.Gender,
             isExchange = p.IsExchange,
-            universityId = p.University!.ID,
-            universityName = p.University.Name,
-            parlamentId = p.Parlament!.ID,
-            parlamentName = p.Parlament.Name,
+            universityName = p.University!.Name,
+            facultyName = p.Parlament!.Faculty!.Name
+        });
+
+        return Ok(await selectedStudents.ToListAsync());
+    }
+
+    [Route("GetStudentByName/{page}/{input}")]
+    [Authorize(Roles = "Admin")]
+    [HttpGet]
+    public async Task<ActionResult> GetStudentByName(int page, string input)
+    {
+
+        const int studentNum = 20;
+        string[] arr = input.Split(' ');
+
+        var student = await _tokenManager.GetStudent(HttpContext.User);
+        if (student == null)
+        {
+            return BadRequest("UserNotFound");
+        }
+
+        if ((int)student.Role != 3)
+        {
+            return Unauthorized("BadCredentials");
+        }
+
+        IQueryable<Student> students;
+
+        if (page == 0)
+        {
+            students = _context.Students.Include(p => p.University)
+                                        .Include(s => s.Parlament!)
+                                        .ThenInclude(p => p.Faculty)
+                                        .AsSplitQuery()
+                                        .Where(p => p.FirstName.Contains(arr[0]) || p.LastName.Contains(arr.Count() >= 2? arr[1] : arr[0]))
+                                        .OrderByDescending(p => p.ID)
+                                        .Take(studentNum);
+        }
+        else
+        {
+            students = _context.Students.Include(p => p.University)
+                                        .Include(s => s.Parlament!)
+                                        .ThenInclude(p => p.Faculty)
+                                        .AsSplitQuery()
+                                        .Where(p => p.FirstName.Contains(arr[0]) || p.LastName.Contains(arr[1]))
+                                        .OrderByDescending(p => p.ID)
+                                        .Skip(page * studentNum)
+                                        .Take(studentNum);
+        }
+
+        var selectedStudents = students.Select(p => new
+        {
+            id = p.ID,
+            username = p.Username,
+            firstName = p.FirstName,
+            lastName = p.LastName,
+            email = p.Email,
+            role = p.Role,
+            gender = p.Gender,
+            isExchange = p.IsExchange,
+            universityName = p.University!.Name,
             facultyName = p.Parlament!.Faculty!.Name
         });
 
