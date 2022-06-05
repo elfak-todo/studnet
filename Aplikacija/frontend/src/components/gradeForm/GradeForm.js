@@ -165,7 +165,9 @@ function GradeForm({ metadata }) {
     <div className="grade-form mb-4">
       <Card className="grade-form-card shadow-sm">
         <Card.Header className="d-flex align-items-center justify-content-between ps-3 pe-2">
-          <span>{t("locations:myGrade")}</span>
+          <span>
+            {hasGraded ? t("locations:myGrade") : t("locations:addGrade")}
+          </span>
           <div>
             {hasGraded && editMode && !loading && (
               <Button variant="primary" size="sm" onClick={onDeleteClicked}>
@@ -208,10 +210,7 @@ function GradeForm({ metadata }) {
               disabled={loading}
             />
           ) : (
-            <p
-              className="grade-form-comment gfc-text"
-              style={{ textIndent: "1rem" }}
-            >
+            <p className="grade-form-comment gfc-text">
               {myGrade?.commentText}
             </p>
           )}

@@ -32,5 +32,6 @@
   "gradeDeleteSuccesful": "Location deleted successfully!",
   "gradeDeleteError": "An error ocurred while deleting the grade!",
   "averageGrade": "Average grade: ",
-  "gradeCount": "Grade count: "
+  "gradeCount": "Grade count: ",
+  "addGrade": "Add grade"
 }

@@ -13,24 +13,16 @@
   text-indent: 2rem;
   text-align: justify;
 }
-.location-details-fields {
-  width: 100%;
-  margin-top: 2rem;
-}
 
 @media only screen and (min-width: 768px) {
   .location-details-review {
-    flex-direction: row;
+    flex-direction: column;
     align-items: stretch;
     justify-content: space-between;
     width: 100%;
   }
   .location-details-slider {
     width: 49.5%;
-  }
-  .location-details-fields {
-    width: 49.5%;
-    margin-top: 0;
   }
   .location-details-description {
     margin: 1rem auto;

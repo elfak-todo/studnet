@@ -19,12 +19,17 @@ function Location({ location, setLocation, author }) {
     location && (
       <div>
         <div
-          className="text-center testy mb-3"
+          className="text-center location-cover-image mb-3"
           style={{
             backgroundImage: `url(${location.imagePath})`,
           }}
         >
-          <h1 className="text-center py-5 test2">{location.name}</h1>
+          <h1 className="text-center pt-5 pb-1 location-cover-image-text">
+            {location.name}
+          </h1>
+          <h5 className="text-center pb-5 location-cover-image-text">
+            {location.address}
+          </h5>
         </div>
         <Tabs
           defaultActiveKey="details"

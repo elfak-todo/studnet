@@ -19,5 +19,6 @@
   "male": "Male",
   "fieldsMissing": "Please fill in all the fields.",
   "ban": "Ban",
-  "promote": "Promote"
+  "promote": "Promote",
+  "verified": "Verified"
 }
