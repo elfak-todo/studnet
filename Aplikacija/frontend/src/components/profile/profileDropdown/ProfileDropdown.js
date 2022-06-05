@@ -3,16 +3,12 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { NavDropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faUser,
-  faRightFromBracket,
-} from "@fortawesome/free-solid-svg-icons";
+import { faUser, faRightFromBracket, faGears } from "@fortawesome/free-solid-svg-icons";
 
 import defaultPic from "../../../images/defaultProfilePic.jpg";
 import StudentContext from "../../studentManager/StudentManager.js";
 
 import "./ProfileDropdown.style.css";
-
 
 function ProfileDropdown() {
   const { t } = useTranslation(["navbar"]);
@@ -38,7 +34,9 @@ function ProfileDropdown() {
             alt="user-pic"
             className="avatar"
           ></img>
-          <span className="text-light">{student && student.firstName + " " + student.lastName}</span>
+          <span className="text-light">
+            {student && student.firstName + " " + student.lastName}
+          </span>
         </span>
       }
     >
@@ -46,6 +44,11 @@ function ProfileDropdown() {
         <FontAwesomeIcon icon={faUser} className="comment-like-icon-sm" />
         {t("profile")}
       </NavDropdown.Item>
+      {student?.role === 3 && (
+        <NavDropdown.Item onClick={() => navigate("/admin")}>
+          <FontAwesomeIcon icon={faGears} className="comment-like-icon-sm" /> Admin
+        </NavDropdown.Item>
+      )}
       <NavDropdown.Divider />
       <NavDropdown.Item onClick={logout}>
         <FontAwesomeIcon

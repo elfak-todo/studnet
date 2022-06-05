@@ -4,10 +4,10 @@ import ProfileSectionHeader from "./profileSectionHeader/ProfileSectionHeader";
 import ProfileSectionBody from "./profileSectionBody/ProfileSectionBody";
 import "./ProfileSection.style.css";
 
-function ProfileSection({ student }) {
+function ProfileSection({ student, setStudent }) {
   return (
     <Container className="profile-section-cont">
-      <ProfileSectionHeader studentProp={student} />
+      <ProfileSectionHeader studentProp={student} setStudent={setStudent} />
       <ProfileSectionBody studentProp={student} />
     </Container>
   );

@@ -14,7 +14,7 @@ import EditProfile from "../../editProfile/EditProfile";
 import StudentContext from "../../../studentManager/StudentManager";
 import "./ProfileSectionHeader.style.css";
 
-function ProfileSectionHeader({ studentProp }) {
+function ProfileSectionHeader({ studentProp, setStudentProp }) {
   const { t } = useTranslation(["profile", "misc"]);
 
   const { student } = useContext(StudentContext);
@@ -67,6 +67,7 @@ function ProfileSectionHeader({ studentProp }) {
       </Card.Header>
       <EditProfile
         student={studentProp}
+        setStudent={setStudentProp}
         showEditCover={showEditCover}
         setShowEditCover={setShowEditCover}
       />

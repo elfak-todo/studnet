@@ -1,0 +1,10 @@
+.filter-card {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 500px;
+}
+.filter-heading{
+    font-size: 25px;
+    font-weight: 600;
+    color: #4e54c8;
+}

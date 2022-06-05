@@ -27,6 +27,77 @@ public class StudentController : ControllerBase
         _config = config;
     }
 
+    [Route("GetStudents/{universityId}/{parlamentId}/{page}")]
+    [Authorize(Roles = "Admin")]
+    [HttpGet]
+    public async Task<ActionResult> GetStudents(int page, int parlamentId, int universityId)
+    {
+
+        const int studentNum = 20;
+
+        var student = await _tokenManager.GetStudent(HttpContext.User);
+        if (student == null)
+        {
+            return BadRequest("UserNotFound");
+        }
+
+        if ((int)student.Role != 3)
+        {
+            return Unauthorized("BadCredentials");
+        }
+
+        var university = await _context.Universities.FindAsync(universityId);
+        if (university == null)
+        {
+            return BadRequest("UniversityNotFound");
+        }
+
+        var parlament = await _context.Parlaments.FindAsync(parlamentId);
+        if (parlament == null)
+        {
+            return BadRequest("ParlamentNotFound");
+        }
+
+        IQueryable<Student> students;
+
+        if (page == 0)
+        {
+            students = _context.Students.Include(p => p.Parlament)
+                                        .Include(p => p.University)
+                                        .Where(p => p.University!.ID == universityId && p.Parlament!.ID == parlamentId)
+                                        .OrderByDescending(p => p.ID)
+                                        .Take(studentNum);
+        }
+        else
+        {
+            students = _context.Students.Include(p => p.Parlament)
+                                        .Include(p => p.University)
+                                        .Where(p => p.University == university && p.Parlament == parlament)
+                                        .OrderByDescending(p => p.ID)
+                                        .Skip(page * studentNum)
+                                        .Take(studentNum);
+        }
+
+        var selectedStudents = students.Select(p => new
+        {
+            id = p.ID,
+            username = p.Username,
+            firstName = p.FirstName,
+            lastName = p.LastName,
+            email = p.Email,
+            role = p.Role,
+            gender = p.Gender,
+            isExchange = p.IsExchange,
+            universityId = p.University!.ID,
+            universityName = p.University.Name,
+            parlamentId = p.Parlament!.ID,
+            parlamentName = p.Parlament.Name,
+            facultyName = p.Parlament!.Faculty!.Name
+        });
+
+        return Ok(await selectedStudents.ToListAsync());
+    }
+
     [Route("{studentId}")]
     [Authorize(Roles = "Student")]
     [HttpGet]
@@ -67,7 +138,7 @@ public class StudentController : ControllerBase
                 universityId = student.University!.ID,
                 facultyName = student.Parlament!.Faculty!.Name,
                 facultyImagePath = student.Parlament!.Faculty!.ImagePath,
-                facultyId = student.Parlament!.ID,
+                parlamentId = student.Parlament!.ID,
                 postCount = student.PublishedPosts!.Count(),
                 locationCount = student.Locations!.Count(),
                 eventCount = student.PublishedEvents!.Count()
@@ -343,7 +414,7 @@ public class StudentController : ControllerBase
         return Ok(studentInDatabase);
     }
 
-    [Route("/Password")]
+    [Route("Password")]
     [Authorize(Roles = "Student")]
     [HttpPut]
     public async Task<ActionResult> ChangePassword([FromBody] ChangePassword passwords)
@@ -357,7 +428,7 @@ public class StudentController : ControllerBase
 
         if (student == null || !_passwordManager.verifyPassword(passwords.OldPassword, student.Password))
         {
-            return Unauthorized("BadCredentials");
+            return BadRequest("BadCredentials");
         }
 
         student.Password = _passwordManager.hashPassword(passwords.NewPassword);

@@ -7,5 +7,7 @@
     "newPass": "Nova lozinka",
     "enterOldPass": "Unesite staru lozinku.",
     "enterNewPass": "Unesite novu lozinku.",
+    "oldPassNotValid": "Stara lozinka nije validna.",
+    "passSuccess": "Lozinka je uspešno promenjena",
     "newPost": "Nova objava"
 }

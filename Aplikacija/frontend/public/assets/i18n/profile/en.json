@@ -7,5 +7,7 @@
     "newPass": "New password",
     "enterOldPass": "Enter old password.",
     "enterNewPass": "Enter new password.",
+    "oldPassNotValid": "Old password not valid.",
+    "passSuccess": "Password changed successfully",
     "newPost": "New post"
 }

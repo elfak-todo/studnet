@@ -11,9 +11,8 @@ import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 
 function EventPost({ feedEl, innerRef }) {
   const author = feedEl.author;
-  const comments = feedEl.comments;
+  // const comments = feedEl.comments;
   const event = feedEl.ev;
-  console.log(feedEl);
 
   const { t, i18n } = useTranslation(["event"]);
 

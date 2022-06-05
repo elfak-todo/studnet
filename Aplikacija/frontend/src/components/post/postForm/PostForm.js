@@ -104,7 +104,7 @@ function PostForm({ feed, setFeed }) {
               placeholder={t("postSome")}
               ref={postTextInputRef}
             ></Form.Control>
-            <div className="post-toolbar">
+            { student.role > 0 && <div className="post-toolbar">
               <Form.Check
                 className="form-checks"
                 disabled={anonymous}
@@ -121,7 +121,7 @@ function PostForm({ feed, setFeed }) {
                 ref={pinnedRef}
                 inline
               />
-            </div>
+            </div>}
             <div className="post-toolbar">
               <Button
                 variant="primary"

@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useTranslation } from "react-i18next";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -9,31 +10,30 @@ import {
   FloatingLabel,
   Spinner,
   CloseButton,
+  Alert,
 } from "react-bootstrap";
 
-import SelectUniversity from "../../selectUniveristy/SelectUniveristy";
 import SelectFaculty from "../../selectFaculty/SelectFaculty";
 import SelectGender from "../../selectGender/SelectGender";
 import PasswordSettings from "../passwordSettings/PasswordSettings";
-
-import "./EditProfile.style.css";
 import EditImage from "../editImage/EditImage.js";
 
-function EditProfile({ student, showEditCover, setShowEditCover }) {
+import "./EditProfile.style.css";
+
+function EditProfile({ student, setStudent, showEditCover, setShowEditCover }) {
   const { t } = useTranslation(["profile", "register", "misc"]);
 
   const [loading, setLoading] = useState(false);
   const [showPassModal, setShowPassModal] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
 
   const [firstNameInvalid, setFirstNameInvalid] = useState(false);
   const [lastNameInvalid, setlastNameInvalid] = useState(false);
   const [usernameInvalid, setUsernameInvalid] = useState(false);
   const [usernameTaken, setUsernameTaken] = useState(false);
-  const [universityInvalid, setUniversityInvalid] = useState(false);
   const [facultyInvalid, setFacultyInvalid] = useState(false);
   const [genderInvalid, setGenderInvalid] = useState(false);
 
-  const [selectedUni, setSelectedUni] = useState();
   const [selectedFac, setSelectedFac] = useState();
   const [selectedGend, setSelectedGend] = useState();
 
@@ -43,8 +43,7 @@ function EditProfile({ student, showEditCover, setShowEditCover }) {
   const onExchangeInputRef = useRef();
 
   useEffect(() => {
-    setSelectedUni(student?.universityId + "");
-    setSelectedFac(student?.facultyId + "");
+    setSelectedFac(student?.parlamentId + "");
     setSelectedGend(student?.gender);
   }, [student]);
 
@@ -56,8 +55,7 @@ function EditProfile({ student, showEditCover, setShowEditCover }) {
     const firstName = firstNameInputRef.current.value;
     const lastName = lastNameInputRef.current.value;
     const username = usernameInputRef.current.value;
-    const universityId = Number(selectedUni);
-    const facultyId = Number(selectedFac);
+    const facultyId = selectedFac;
     const gender = selectedGend;
     const onExchange = onExchangeInputRef.current.checked;
 
@@ -73,10 +71,6 @@ function EditProfile({ student, showEditCover, setShowEditCover }) {
       setUsernameInvalid(true);
       proceed = false;
     }
-    if (universityId === 0) {
-      setUniversityInvalid(true);
-      proceed = false;
-    }
     if (facultyId === 0) {
       setFacultyInvalid(true);
       proceed = false;
@@ -86,21 +80,44 @@ function EditProfile({ student, showEditCover, setShowEditCover }) {
       proceed = false;
     }
     if (proceed) {
-      setLoading(true);
-      //TODO
-      const data = {
+      const editedStudent = {
+        ...student,
+        username: username,
         firstName: firstName,
         lastName: lastName,
-        username: username,
-        universityId: universityId,
-        facultyId: facultyId,
         gender: gender,
-        onExchange: onExchange,
+        isExchange: onExchange,
+        parlamentId: Number(facultyId),
       };
+      console.log(student);
+      console.log(editedStudent);
+      if (JSON.stringify(student) === JSON.stringify(editedStudent)) {
+        closeEdit();
+        return;
+      }
 
-      console.log(data);
-
-      closeEdit();
+      setLoading(true);
+      axios
+        .put("Student", {
+          editedStudent,
+        })
+        .then((res) => {
+          console.log(res.data);
+          setStudent(editedStudent);
+          closeEdit();
+        })
+        .catch((err) => {
+          switch (err.response.data) {
+            case "StudentRequired":
+              console.log("StudentRequired");
+              break;
+            case "UsernameTaken":
+              console.log("UsernameTaken");
+              break;
+            default:
+              break;
+          }
+        });
       setLoading(false);
     }
   };
@@ -112,7 +129,7 @@ function EditProfile({ student, showEditCover, setShowEditCover }) {
     setUsernameInvalid(false);
     setGenderInvalid(false);
     setFacultyInvalid(false);
-    setUniversityInvalid(false);
+    setShowMessage(false);
   };
 
   return (
@@ -185,6 +202,17 @@ function EditProfile({ student, showEditCover, setShowEditCover }) {
               {t("changePass")}
             </Button>
           </div>
+          <Alert
+            show={showMessage}
+            variant="success"
+            size="sm"
+            dismissible
+            transition
+            onClose={() => setShowMessage(false)}
+            className="m-2"
+          >
+            {t("passSuccess")}
+          </Alert>
           <Form.Check
             className="mb-2 form-switch"
             defaultChecked={student?.isExchange}
@@ -192,14 +220,8 @@ function EditProfile({ student, showEditCover, setShowEditCover }) {
             label={t("register:onExchange")}
             ref={onExchangeInputRef}
           ></Form.Check>
-          <SelectUniversity
-            selectedUni={selectedUni}
-            setSelectedUni={setSelectedUni}
-            invalid={universityInvalid}
-            setInvalid={setUniversityInvalid}
-          />
           <SelectFaculty
-            selectedUni={selectedUni}
+            selectedUni={student?.universityId}
             selectedFac={selectedFac}
             setSelectedFac={setSelectedFac}
             invalid={facultyInvalid}
@@ -229,7 +251,7 @@ function EditProfile({ student, showEditCover, setShowEditCover }) {
         <PasswordSettings
           showPassModal={showPassModal}
           setShowPassModal={setShowPassModal}
-          student={student}
+          setShowMessage={setShowMessage}
         />
       </Modal.Body>
     </Modal>
