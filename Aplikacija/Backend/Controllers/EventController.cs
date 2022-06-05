@@ -155,14 +155,6 @@ public class EventController : ControllerBase
             id = e.ID,
             liked = e.LikedBy!.Contains(student),
             ev = e,
-            /*
-            reservations = e.Reservations!.Select(r=>new
-                                            {
-                                                r.EventId,
-                                                r.NumberOfTickets
-                                            })
-                                            .Where(r => r.EventId == e.ID),
-            */
             author = new
             {
                 e.Organiser!.ID,

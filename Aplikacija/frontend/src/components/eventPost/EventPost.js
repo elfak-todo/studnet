@@ -9,7 +9,7 @@ import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 
-function EventPost({ feedEl }) {
+function EventPost({ feedEl, innerRef }) {
   const author = feedEl.author;
   const comments = feedEl.comments;
   const event = feedEl.ev;
@@ -59,7 +59,7 @@ function EventPost({ feedEl }) {
 
 
   return (
-    <Card className="eventpost fluid mb-4 shadow rounded">
+    <Card className="eventpost mb-4 shadow rounded" ref={innerRef}>
       <EventPostHeader author={author} event={event}>
         {event.verified && (
           <FontAwesomeIcon
@@ -123,6 +123,7 @@ function EventPost({ feedEl }) {
                 {t("reserve")}
               </Button>
         }
+        
       </Card.Footer>
     </Card>
   );
