@@ -36,7 +36,7 @@ function ProfileSectionHeader({ studentProp, setStudentProp }) {
     }
   };
   return (
-    <Card className="shadow">
+    <Card className="shadow-sm">
       <Card.Header className="profile-header">
         <Card.Img
           variant="top"

@@ -6,11 +6,9 @@ import "./ProfileSectionBody.style.css";
 
 function ProfileSectionBody({ studentProp }) {
   return (
-    <Container className="profile-section-body-cont">
-      <Card className="shadow">
-        <Card.Body>
-          <ProfileFeed studentProp={studentProp} />
-        </Card.Body>
+    <Container className="profile-section-body-cont px-0">
+      <Card className="shadow-sm px-0">
+        <ProfileFeed studentProp={studentProp} />
       </Card>
     </Container>
   );

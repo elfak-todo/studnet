@@ -39,10 +39,9 @@ public class LocationController : ControllerBase
                                 .ThenInclude(p => p!.Faculty)
                                 .Include(l => l.Events!.Where(e => e.EndTime >= DateTime.Now))
                                 .AsSplitQuery()
-                                .Include(l => l.Grades!.OrderByDescending(g => g.PublicationTime))
+                                .Include(l => l.Grades)
                                 .AsSplitQuery()
-                                .Where(l => l.ID == locationId)
-                                .FirstOrDefaultAsync();
+                                .FirstAsync(l => l.ID == locationId);
 
         if (location == null)
         {
@@ -62,8 +61,8 @@ public class LocationController : ControllerBase
                 imagePath = location.Author.ImagePath,
                 facultyName = location.Author.Parlament!.Faculty!.Name
             },
-            events = location.Events,
-            grades = location.Grades
+            eventCount = location.Events!.Count,
+            gradeCount = location.Grades!.Count
         });
     }
 
@@ -190,23 +189,5 @@ public class LocationController : ControllerBase
         await _context.SaveChangesAsync();
 
         return Ok(Array.Empty<Object>());
-    }
-
-    [Route("{locationId}/Grades/{page}")]
-    [Authorize(Roles = "Student")]
-    [HttpGet]
-    public async Task<ActionResult> GetLocatinGrades(int locationId, int page)
-    {
-        const int pageSize = 10;
-
-        var grades = _context.Grades
-                            .OrderByDescending(g => g.PublicationTime)
-                            .Include(g => g.GradedBy)
-                            .AsSplitQuery()
-                            .Where(g => g.GradedLocationId == locationId)
-                            .Skip(page * pageSize)
-                            .Take(pageSize);
-
-        return Ok(await grades.ToListAsync());
     }
 }

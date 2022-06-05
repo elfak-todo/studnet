@@ -16,7 +16,7 @@ function LocationTrendingCard({ feedEl, innerRef }) {
   const navigate = useNavigate();
 
   return (
-    <Card className="LocationTrendingCard mb-4 shadow" ref={innerRef}>
+    <Card className="LocationTrendingCard my-2 shadow-sm" ref={innerRef}>
       <Card.Header className="d-flex justify-content-start">
         <Badge>{location && t(locationTypes[location?.type].name)}</Badge>
         <Badge className="ms-1">

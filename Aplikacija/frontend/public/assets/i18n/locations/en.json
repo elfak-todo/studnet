@@ -24,5 +24,13 @@
   "details": "Details",
   "grades": "Grades",
   "events": "Events",
-  "map": "Map"
+  "map": "Map",
+  "myGrade": "My grade",
+  "enterComment": "Enter comment",
+  "gradingSuccessful": "Location graded successfully!",
+  "gradingError": "An error ocurred while grading!",
+  "gradeDeleteSuccesful": "Location deleted successfully!",
+  "gradeDeleteError": "An error ocurred while deleting the grade!",
+  "averageGrade": "Average grade: ",
+  "gradeCount": "Grade count: "
 }

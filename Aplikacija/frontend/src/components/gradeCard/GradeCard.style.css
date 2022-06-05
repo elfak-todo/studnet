@@ -5,12 +5,12 @@
 }
 .grade-card-body {
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   align-items: center;
 }
 .grade-card-comment {
   flex-grow: 1;
-  margin: 0 0 0 1rem;
+  margin: 2rem 0;
   text-indent: 1rem;
   text-align: justify;
 }
@@ -22,5 +22,8 @@
   }
   .grade-card-body {
     flex-direction: row;
+  }
+  .grade-card-comment {
+    margin: 0 0 0 1rem;
   }
 }

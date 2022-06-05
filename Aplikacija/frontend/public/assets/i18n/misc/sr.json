@@ -13,5 +13,6 @@
   "filterBtn": "Filtriraj",
   "search": "Pretraži",
   "female": "Ženski",
-  "male": "Muški"
+  "male": "Muški",
+  "fieldsMissing": "Molimo popunite sva polja."
 }

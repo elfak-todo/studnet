@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 
 import "./Feed.style.css";
 
-function Feed({ url, FeedCard, AddElementForm }) {
+function Feed({ url, FeedCard, AddElementForm, metadata }) {
   const { t } = useTranslation(["misc"]);
 
   const [feed, setFeed] = useState(null);
@@ -65,7 +65,9 @@ function Feed({ url, FeedCard, AddElementForm }) {
 
   return (
     <Container fluid className="feed">
-      {AddElementForm && <AddElementForm feed={feed} setFeed={setFeed} />}
+      {AddElementForm && (
+        <AddElementForm feed={feed} setFeed={setFeed} metadata={metadata} />
+      )}
       <Card className="feed-card">
         {feed &&
           (feed.length > 0 ? (
@@ -76,6 +78,7 @@ function Feed({ url, FeedCard, AddElementForm }) {
                 innerRef={feed.length === i + 1 ? lastPost : undefined}
                 feed={feed}
                 setFeed={setFeed}
+                metadata={metadata}
               />
             ))
           ) : (

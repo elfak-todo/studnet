@@ -164,6 +164,8 @@ public class StudentController : ControllerBase
         var student = await _context.Students.Where(s => s.Username == creds.Username
                         || s.Email == creds.Username)
                                 .Include(s => s.University)
+                                .Include(s => s.Parlament)
+                                .ThenInclude(p => p!.Faculty)
                                 .FirstOrDefaultAsync();
 
         if (student == null || !_passwordManager.verifyPassword(creds.Password, student.Password))
@@ -190,6 +192,7 @@ public class StudentController : ControllerBase
                 imagePath = student.ImagePath,
                 university = student.University.Name,
                 universityId = student.University.ID,
+                facultyName = student.Parlament!.Faculty!.Name
             }
         );
     }

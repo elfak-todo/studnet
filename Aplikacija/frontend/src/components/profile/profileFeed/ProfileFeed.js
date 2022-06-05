@@ -63,7 +63,10 @@ function ProfileFeed({ studentProp }) {
         title={t("misc:locations")}
       >
         {openedTab === "locations" && studentProp && url && (
-          <Feed url={url + "/Locations"} FeedCard={LocationTrendingCard} />
+          <>
+            <div className="my-3"></div>
+            <Feed url={url + "/Locations"} FeedCard={LocationTrendingCard} />
+          </>
         )}
       </Tab>
     </Tabs>

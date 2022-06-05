@@ -13,5 +13,6 @@
   "filterBtn": "Filter",
   "search": "Search",
   "female": "Female",
-  "male": "Male"
+  "male": "Male",
+  "fieldsMissing": "Please fill in all the fields."
 }
