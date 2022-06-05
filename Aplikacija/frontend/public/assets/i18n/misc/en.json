@@ -11,8 +11,13 @@
   "nothingToShow": "Nothing to show.",
   "filter": "Filter",
   "filterBtn": "Filter",
+  "filteredBy": "Filtered by",
   "search": "Search",
+  "searchRes": "Search result for",
+  "searchPlaceholder": "example: Petar Petrović...",
   "female": "Female",
   "male": "Male",
-  "fieldsMissing": "Please fill in all the fields."
+  "fieldsMissing": "Please fill in all the fields.",
+  "ban": "Ban",
+  "promote": "Promote"
 }

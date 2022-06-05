@@ -8,3 +8,9 @@
     font-weight: 600;
     color: #4e54c8;
 }
+
+@media screen and (max-width: 768px) {
+    .filter-card {
+        width: auto;
+    }
+}

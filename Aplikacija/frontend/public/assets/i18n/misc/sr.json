@@ -11,8 +11,14 @@
   "nothingToShow": "Ništa za prikaz.",
   "filter": "Filter",
   "filterBtn": "Filtriraj",
+  "filteredBy": "Filtrirano po",
   "search": "Pretraži",
+  "searchRes": "Rezultat pretrage za",
+  "searchByName": "Unesi ime studenta",
+  "searchPlaceholder": "primer: Petar Petrović...",
   "female": "Ženski",
   "male": "Muški",
-  "fieldsMissing": "Molimo popunite sva polja."
+  "fieldsMissing": "Molimo popunite sva polja.",
+  "ban": "Banuj",
+  "promote": "Unapredi"
 }

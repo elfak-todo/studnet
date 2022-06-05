@@ -1,27 +1,86 @@
+import axios from "axios";
 import { useTranslation } from "react-i18next";
-import { Card, Container, Form, FormControl, Button } from "react-bootstrap";
+import { useRef, useState } from "react";
+import { Form, FormControl, Button, Alert, Spinner } from "react-bootstrap";
 
 import "./StudentSearch.style.css";
 
-function StudentSearch() {
+function StudentSearch({
+  setStudents,
+  setRefresh,
+  showSearchLabel,
+  setShowSearchLabel,
+}) {
   const { t } = useTranslation(["misc"]);
+
+  const [loading, setLoading] = useState(false);
+  const [searchInput, setSearchInput] = useState();
+
+  const inputRef = useRef();
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const input = inputRef.current.value;
+
+    if (input === "") return;
+    inputRef.current.value = "";
+
+    setSearchInput(input);
+    setLoading(true);
+    axios
+      .get(`Student/GetStudentByName/0/${input}`)
+      .then((res) => {
+        setStudents(res.data);
+        setShowSearchLabel(true);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+        setLoading(false);
+      });
+  };
+
+  const closeSearchLabel = () => {
+    setShowSearchLabel(false);
+    setRefresh(true);
+  };
+
   return (
-    <Container>
-      <Card className="search-card shadow">
-        <Card.Body>
-          <Form className="d-flex">
-            <FormControl
-              type="search"
-              placeholder={t("search")}
-              aria-label="Search"
+    <div className="p-3">
+      <Form className="d-flex" noValidate onSubmit={handleSearch}>
+        <FormControl
+          type="search"
+          placeholder={t("searchPlaceholder")}
+          aria-label="Search"
+          ref={inputRef}
+        />
+        <Button type="submit" className="ms-3">
+          {loading && (
+            <Spinner
+              as="span"
+              animation="border"
+              size="sm"
+              role="status"
+              aria-hidden="true"
             />
-            <Button type="submit" className="ms-3">
-              {t("search")}
-            </Button>
-          </Form>
-        </Card.Body>
-      </Card>
-    </Container>
+          )}
+          {t("search")}
+        </Button>
+      </Form>
+      <div>
+        <hr />
+        <Alert
+          show={showSearchLabel}
+          variant="primary"
+          dismissible
+          transition
+          className="m-2"
+          onClose={closeSearchLabel}
+        >
+          {`${t("searchRes")} ${searchInput}`}
+        </Alert>
+      </div>
+    </div>
   );
 }
 
