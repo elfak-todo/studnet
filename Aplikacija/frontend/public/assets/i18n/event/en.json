@@ -1,13 +1,9 @@
 {
-    "moreDetails": "More details",
-    "moreOptions": "More options",
     "reserve": "Reserve",
-    "post": "Create post",
-    "startsat":"Starts at",
-    "lasts":"Lasts until",
     "NAF":"Free entry",
+    "ticketsLeft": "Tickets left",
+    "ticketPrice": "Ticket price",
     "soldout":"Sold out",
-
     "party": "Party",
     "fieldTrip": "Field trip",
     "sportEvent": "Sports event",
@@ -16,7 +12,27 @@
     "job": "Job fair",
     "play": "Theatre play",
     "art": "Artwork display",
-    "newYears": "New years eve"
+    "newYears": "New years eve",
+    "createEv": "Create Event",
+    "eventType": "Event type",
+    "chooseEvType": "Choose event type",
+    "title": "Title",
+    "enterTitle": "Enter title.",
+    "location": "Location",
+    "enterLoc": "Enter location.",
+    "description": "Description",
+    "enterDesc": "Enter description.",
+    "date": "Starting date & time",
+    "enterDate": "Enter starting date & time.",
+    "endDate": "Ending date & time",
+    "enterEndDate": "Enter ending date & time.",
+    "paidEv": "Paid event",
+    "ticketsNum": "Number of tickets",
+    "enterTickNum": "Enter number of tickets.",
+    "etnerTickPrice": "Enter ticket price",
+    "create": "Create",
+    "verified": "Verified",
+    "pinned": "Pinned"
 
 
 }

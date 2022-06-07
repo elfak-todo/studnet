@@ -13,8 +13,7 @@ function EventCard({ event }) {
       <Card.Body className="text-center">
         <Card.Title className="ev-card-title"> {event.title} </Card.Title>
         <Card.Subtitle className="mt-1">
-          {" "}
-          {parseDate(event.timeOfEvent, i18n.language)}{" "}
+          {parseDate(event.timeOfEvent, i18n.language)}
         </Card.Subtitle>
         <Card.Subtitle className="mt-1"> {event.locationName} </Card.Subtitle>
       </Card.Body>
