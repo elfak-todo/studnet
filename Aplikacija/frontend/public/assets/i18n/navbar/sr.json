@@ -9,5 +9,7 @@
   "english": "Engleski",
   "serbian": "Srpski",
   "search": "Pretraži",
-  "searchPlaceholder": "Pretraga"
+  "searchPlaceholder": "Pretraga",
+  "admin": "Administracija",
+  "moderate": "Moderacija"
 }

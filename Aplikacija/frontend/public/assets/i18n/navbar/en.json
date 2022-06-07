@@ -9,5 +9,7 @@
     "english": "English",
     "serbian": "Serbian",
     "search": "Search",
-    "searchPlaceholder": "Search"
+    "searchPlaceholder": "Search",
+    "admin": "Admin",
+    "moderate": "Moderate"
 }

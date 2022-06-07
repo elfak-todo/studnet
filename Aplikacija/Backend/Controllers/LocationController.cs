@@ -190,4 +190,56 @@ public class LocationController : ControllerBase
 
         return Ok(Array.Empty<Object>());
     }
+
+    [Route("GetAllLocations/{page}")]
+    [Authorize(Roles = "Admin")]
+    [HttpGet]
+
+    public async Task<ActionResult> GetAllLocations(int page)
+    {
+        const int locNum = 20;
+
+        var student = await _tokenManager.GetStudent(HttpContext.User);
+        if (student == null)
+        {
+            return BadRequest("UserNotFound");
+        }
+
+        if ((int)student.Role != 3)
+        {
+            return Unauthorized("BadCredentials");
+        }
+
+        IQueryable<Location> locations;
+
+        if (page==0)
+        {
+            locations = _context.Locations.Include(p => p.University)
+                                          .Include(p => p.Events)
+                                          .OrderByDescending(p => p.ID)
+                                          .Take(locNum);
+        }
+        else
+        {
+            locations = _context.Locations.Include(p=> p.University)
+                                          .Include(p=>p.Events)
+                                          .OrderByDescending(p=>p.ID)
+                                          .Skip(page* locNum)
+                                          .Take(locNum);
+        }
+
+        var selectedLocations = locations.Select(p => new
+        {
+            id = p.ID,
+            name = p.Name,
+            type = p.Type,
+            webpage = p.Webpage,
+            firstName = p.Author.FirstName,
+            lastName = p.Author.LastName,
+            author = p.Author.Username,
+            university = p.University,
+        });
+
+        return Ok(await selectedLocations.ToListAsync());
+    }
 }
