@@ -5,16 +5,23 @@ import EventPostHeader from "./eventPostHeader/EventPostHeader";
 // import LocationCard from "../locationCard/LocationCard";
 import EventTypes from "./EventTypes";
 import { Card, Button, Badge } from "react-bootstrap";
+import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
+import { faCircleCheck, faCropSimple } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 
-function EventPost({ feedEl, innerRef }) {
+function EventPost({ feedEl, innerRef, feed, setFeed }) {
   const author = feedEl.author;
   // const comments = feedEl.comments;
   const event = feedEl.ev;
 
   const { t, i18n } = useTranslation(["event"]);
+
+  const [edit, setEdit] = useState(false);
+
+  const [edited, setEdited] = useState(event.edited);
+  const [loading, setLoading] = useState(false);
 
   const date = new Date(event.timeOfEvent);
   const timeSrp = date.toLocaleTimeString("sr-Latn", {
@@ -39,22 +46,67 @@ function EventPost({ feedEl, innerRef }) {
   const dateEnd = new Date(event.endTime);
   const timeEndSrp = dateEnd.toLocaleTimeString("sr-Latn", {
     hour: "2-digit",
-    minute: "2-digit",
+    minute: "2-digit"
   });
   const timeEndEng = dateEnd.toLocaleTimeString("eng", {
     hour: "2-digit",
-    minute: "2-digit",
+    minute: "2-digit"
   });
   const dateEndSrp = dateEnd.toLocaleString("sr-Latn", {
     year: "numeric",
     month: "long",
-    day: "numeric",
+    day: "numeric"
   });
   const dateEndEng = dateEnd.toLocaleString("eng", {
     year: "numeric",
     month: "long",
-    day: "numeric",
+    day: "numeric"
   });
+
+  const editTitleInputRef = useRef();
+  const editPhotoInputRef = useRef();
+  const editDescriptionInputRef = useRef();
+
+  const handleEdit = (e) => {
+    if (e.keyCode === 13 && e.shiftKey===false)
+      e.preventDefault();
+
+      const editedTitle = editTitleInputRef.current.value;
+      const editedPhoto = editPhotoInputRef.current.value;
+      const editedDescription = editDescriptionInputRef.current.value;
+
+      if (editedTitle === "" && editedPhoto === "" && editedDescription === "") return;
+
+      setLoading(true);
+
+      axios
+        .put("Event/Edit", {
+          id: event.id,
+          title: editedTitle,
+          description: editedDescription,
+          imagePath: editedPhoto,
+          verified: event.verified,
+          pinned: event.pinned,
+        })
+        .then(() => {
+          setLoading(false);
+          setEdited(true);
+          setFeed((prevState) => {
+            return prevState.map((e) => {
+              if (e.event.id === event.id) {
+                e.event.title = editedTitle;
+                e.event.imagePath = editedPhoto;
+                e.event.description = editedDescription;
+              } return e;
+            });
+          });
+        }).catch((err) => {
+          console.log(err.response.data);
+          setLoading(false);
+        });
+
+        setEdit(false);
+  };
 
 
   return (
