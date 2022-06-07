@@ -13,6 +13,7 @@ import LoginPage from "./pages/LoginPage";
 import ParlamentPage from "./pages/ParlamentPage.js";
 import RegisterPage from "./pages/RegisterPage";
 import StudentPage from "./pages/StudentPage.js";
+import ModPage from "./pages/ModPage.js";
 
 function AppRoutes() {
   const { student } = useContext(StudentContext);
@@ -30,6 +31,7 @@ function AppRoutes() {
       <Route path="/student/:studentId" element={<StudentPage />} />
       <Route path="/parlament/:parlamentId" element={<ParlamentPage />} />
       <Route path="/admin" element={<AdminPage />} />
+      <Route path="/mod" element={<ModPage/>} />
     </Routes>
   ) : (
     <Routes>

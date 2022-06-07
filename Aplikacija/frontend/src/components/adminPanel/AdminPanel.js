@@ -5,6 +5,7 @@ import { Card, Container, Tabs, Tab } from "react-bootstrap";
 import StudentFilter from "../studentFilter/StudentFilter.js";
 import StudentSearch from "../studentSearch/StudentSearch.js";
 import StudentTable from "../studentTable/StudentTable.js";
+import { use } from "i18next";
 
 function AdminPanel() {
   const { t } = useTranslation(["misc"]);
@@ -13,6 +14,8 @@ function AdminPanel() {
   const [students, setStudents] = useState(null);
   const [showSearchLabel, setShowSearchLabel] = useState(false);
   const [showFilterLabel, setShowFilterLabel] = useState(false);
+  const [openedTab, setOpenedTab] = useState("admin");
+  const [url, setUrl] = useState();
 
   const onTabSelect = (e) => {
     if (e === "filter") {

@@ -42,12 +42,17 @@ function ProfileDropdown() {
     >
       <NavDropdown.Item onClick={() => navigate("/student/" + student.id)}>
         <FontAwesomeIcon icon={faUser} className="comment-like-icon-sm" />
-        {t("profile")}
+         {t("profile")}
       </NavDropdown.Item>
       {student?.role === 3 && (
         <NavDropdown.Item onClick={() => navigate("/admin")}>
-          <FontAwesomeIcon icon={faGears} className="comment-like-icon-sm" /> Admin
+          <FontAwesomeIcon icon={faGears} className="comment-like-icon-sm" />{t("admin")}
         </NavDropdown.Item>
+      )}
+      {student?.role === 2 && (
+        <NavDropdown.Item onClick={() => navigate("/mod")}>
+        <FontAwesomeIcon icon={faGears} className="comment-like-icon-sm" />{t("moderate")}
+      </NavDropdown.Item>
       )}
       <NavDropdown.Divider />
       <NavDropdown.Item onClick={logout}>
