@@ -39,10 +39,9 @@ public class LocationController : ControllerBase
                                 .ThenInclude(p => p!.Faculty)
                                 .Include(l => l.Events!.Where(e => e.EndTime >= DateTime.Now))
                                 .AsSplitQuery()
-                                .Include(l => l.Grades!.OrderByDescending(g => g.PublicationTime))
+                                .Include(l => l.Grades)
                                 .AsSplitQuery()
-                                .Where(l => l.ID == locationId)
-                                .FirstOrDefaultAsync();
+                                .FirstAsync(l => l.ID == locationId);
 
         if (location == null)
         {
@@ -62,8 +61,8 @@ public class LocationController : ControllerBase
                 imagePath = location.Author.ImagePath,
                 facultyName = location.Author.Parlament!.Faculty!.Name
             },
-            events = location.Events,
-            grades = location.Grades
+            eventCount = location.Events!.Count,
+            gradeCount = location.Grades!.Count
         });
     }
 
@@ -169,5 +168,26 @@ public class LocationController : ControllerBase
         await _context.SaveChangesAsync();
 
         return Ok(location);
+    }
+
+    [Route("{locationId}/Events/{page}")]
+    [Authorize(Roles = "Student")]
+    [HttpGet]
+    public async Task<ActionResult> GetLocationEvents(int locationId, int page)
+    {
+        //TODO
+
+        //const int pageSize = 10;
+
+        // var userDetails = _tokenManager.GetUserDetails(HttpContext.User);
+
+        // if (userDetails == null)
+        // {
+        //     return BadRequest("BadToken");
+        // }
+
+        await _context.SaveChangesAsync();
+
+        return Ok(Array.Empty<Object>());
     }
 }

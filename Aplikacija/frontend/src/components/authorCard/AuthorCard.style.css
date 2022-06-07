@@ -1,0 +1,28 @@
+.author-card {
+  border: solid;
+  border-width: 1px;
+  border-color: lightgray;
+  border-radius: 5px;
+  width: fit-content;
+  padding: 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.author-card * {
+  padding: 0;
+  margin: 0;
+}
+
+.author-card-name {
+  font-weight: bold;
+}
+
+.author-card-image {
+  width: 2.8rem;
+  height: 2.8rem;
+  margin-right: 0.5rem;
+}

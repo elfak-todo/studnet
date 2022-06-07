@@ -110,7 +110,7 @@ function EventPost({ feedEl, innerRef, feed, setFeed }) {
 
 
   return (
-    <Card className="eventpost mb-4 shadow rounded" ref={innerRef}>
+    <Card className="eventpost mb-4 shadow-sm rounded" ref={innerRef}>
       <EventPostHeader author={author} event={event}>
         {event.verified && (
           <FontAwesomeIcon
@@ -120,10 +120,7 @@ function EventPost({ feedEl, innerRef, feed, setFeed }) {
         )}
       </EventPostHeader>
       <Card.Body className="event-card">
-        <Card.Img 
-          variant="top" 
-          className="eventImage" 
-          src={event.imagePath} />
+        <Card.Img variant="top" className="eventImage" src={event.imagePath} />
         <div className="event-text">
           <Card.Title>{event.title} </Card.Title>
           <Badge bg={EventTypes[event.type].name} className="event-type">
@@ -157,24 +154,23 @@ function EventPost({ feedEl, innerRef, feed, setFeed }) {
         </div>
       </Card.Body>
       <Card.Footer>
-        {event && !event.paidEvent ?
-            <Button variant="free" className="float-end" disabled>{t("NAF")}</Button> 
-            :
-            10 * event.ticketsReserved >= 8 * event.numberOfTickets ?
-              <Button variant="HOT" className="float-end">
-                {t("reserve")}
-              </Button>
-              :
-              event.ticketsReserved === event.numberOfTickets?
-              <Button variant="soldout" className="float-end" disabled>
-                {t("soldout")}
-              </Button>
-              :
-              <Button variant="primary" className="float-end">
-                {t("reserve")}
-              </Button>
-        }
-        
+        {event && !event.paidEvent ? (
+          <Button variant="free" className="float-end" disabled>
+            {t("NAF")}
+          </Button>
+        ) : 10 * event.ticketsReserved >= 8 * event.numberOfTickets ? (
+          <Button variant="HOT" className="float-end">
+            {t("reserve")}
+          </Button>
+        ) : event.ticketsReserved === event.numberOfTickets ? (
+          <Button variant="soldout" className="float-end" disabled>
+            {t("soldout")}
+          </Button>
+        ) : (
+          <Button variant="primary" className="float-end">
+            {t("reserve")}
+          </Button>
+        )}
       </Card.Footer>
     </Card>
   );

@@ -1,17 +1,18 @@
 $theme-colors: (
   "primary": #4e54c8,
+  "primary-light": #e3e5ff,
   "party": #ff4f4f,
   "fieldTrip": purple,
   "concert": black,
   "musicFestival": blue,
   "sportEvent": green,
   "art": pink,
-  "job":darkblue,
-  "play":red,
+  "job": darkblue,
+  "play": red,
   "newYears": #4e54c8,
   "free": green,
   "HOT": #ff4800,
-  "soldout": black
+  "soldout": black,
 );
 
 @import "~bootstrap/scss/bootstrap.scss";

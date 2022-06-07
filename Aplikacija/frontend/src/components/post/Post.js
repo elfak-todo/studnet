@@ -62,8 +62,8 @@ function Post({ feedEl, innerRef, feed, setFeed }) {
   };
 
   return (
-    <Container className="mb-3" ref={innerRef}>
-      <Card className="post shadow rounded">
+    <Container className="mb-3 mx-auto px-0" ref={innerRef}>
+      <Card className="post shadow-sm rounded">
         <PostHeader
           author={author}
           post={post}

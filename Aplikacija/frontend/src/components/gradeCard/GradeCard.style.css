@@ -1,0 +1,28 @@
+.grade-card {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+.grade-card-body {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+}
+.grade-card-comment {
+  flex-grow: 1;
+  margin: 2rem 0;
+  text-align: justify;
+}
+
+@media only screen and (min-width: 768px) {
+  .grade-card {
+    max-width: 75%;
+    width: 75%;
+  }
+  .grade-card-body {
+    flex-direction: row;
+  }
+  .grade-card-comment {
+    margin: 0 1rem;
+  }
+}

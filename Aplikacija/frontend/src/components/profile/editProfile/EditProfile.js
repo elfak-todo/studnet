@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useTranslation } from "react-i18next";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import {
   Row,
   Col,
@@ -19,9 +19,12 @@ import PasswordSettings from "../passwordSettings/PasswordSettings";
 import EditImage from "../editImage/EditImage.js";
 
 import "./EditProfile.style.css";
+import StudentContext from "../../studentManager/StudentManager.js";
 
-function EditProfile({ student, setStudent, showEditCover, setShowEditCover }) {
+function EditProfile({ profile, setProfile, showEditCover, setShowEditCover }) {
   const { t } = useTranslation(["profile", "register", "misc"]);
+
+  const { setStudent } = useContext(StudentContext);
 
   const [loading, setLoading] = useState(false);
   const [showPassModal, setShowPassModal] = useState(false);
@@ -43,9 +46,9 @@ function EditProfile({ student, setStudent, showEditCover, setShowEditCover }) {
   const onExchangeInputRef = useRef();
 
   useEffect(() => {
-    setSelectedFac(student?.parlamentId + "");
-    setSelectedGend(student?.gender);
-  }, [student]);
+    setSelectedFac(profile?.parlamentId + "");
+    setSelectedGend(profile?.gender);
+  }, [profile]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -81,29 +84,38 @@ function EditProfile({ student, setStudent, showEditCover, setShowEditCover }) {
     }
     if (proceed) {
       const editedStudent = {
-        ...student,
+        ...profile,
         username: username,
         firstName: firstName,
         lastName: lastName,
         gender: gender,
         isExchange: onExchange,
         parlamentId: Number(facultyId),
+        email: "luka@elfak.rs",
       };
-      console.log(student);
-      console.log(editedStudent);
-      if (JSON.stringify(student) === JSON.stringify(editedStudent)) {
+      if (JSON.stringify(profile) === JSON.stringify(editedStudent)) {
         closeEdit();
         return;
       }
-
       setLoading(true);
       axios
-        .put("Student", {
-          editedStudent,
-        })
+        .put("Student", editedStudent)
         .then((res) => {
-          console.log(res.data);
-          setStudent(editedStudent);
+          setProfile(res.data);
+
+          const newProps = {
+            username: res.data.username,
+            firstName: res.data.firstName,
+            lastName: res.data.lastName,
+            role: res.data.role,
+            imagePath: res.data.imagePath,
+            university: res.data.university,
+            universityId: res.data.universityId,
+          };
+
+          setStudent((s) => {
+            return { ...s, ...newProps };
+          });
           closeEdit();
         })
         .catch((err) => {
@@ -150,7 +162,7 @@ function EditProfile({ student, setStudent, showEditCover, setShowEditCover }) {
                   type="input"
                   placeholder={"Enter first name"}
                   isInvalid={firstNameInvalid}
-                  defaultValue={student?.firstName}
+                  defaultValue={profile?.firstName}
                   ref={firstNameInputRef}
                   onChange={() => {
                     setFirstNameInvalid(false);
@@ -167,7 +179,7 @@ function EditProfile({ student, setStudent, showEditCover, setShowEditCover }) {
                   type="input"
                   placeholder={"Enter last name"}
                   isInvalid={lastNameInvalid}
-                  defaultValue={student?.lastName}
+                  defaultValue={profile?.lastName}
                   ref={lastNameInputRef}
                   onChange={() => {
                     setlastNameInvalid(false);
@@ -184,7 +196,7 @@ function EditProfile({ student, setStudent, showEditCover, setShowEditCover }) {
               type="text"
               placeholder={"Username"}
               isInvalid={usernameInvalid}
-              defaultValue={student?.username}
+              defaultValue={profile?.username}
               ref={usernameInputRef}
               onChange={() => {
                 setUsernameInvalid(false);
@@ -215,13 +227,13 @@ function EditProfile({ student, setStudent, showEditCover, setShowEditCover }) {
           </Alert>
           <Form.Check
             className="mb-2 form-switch"
-            defaultChecked={student?.isExchange}
+            defaultChecked={profile?.isExchange}
             type="switch"
             label={t("register:onExchange")}
             ref={onExchangeInputRef}
           ></Form.Check>
           <SelectFaculty
-            selectedUni={student?.universityId}
+            selectedUni={profile?.universityId}
             selectedFac={selectedFac}
             setSelectedFac={setSelectedFac}
             invalid={facultyInvalid}
@@ -229,7 +241,7 @@ function EditProfile({ student, setStudent, showEditCover, setShowEditCover }) {
           />
           <SelectGender
             selectedGender={(value) => setSelectedGend(value)}
-            defaultValue={student?.gender}
+            defaultValue={profile?.gender}
             invalid={genderInvalid}
             setInvalid={(value) => setGenderInvalid(value)}
           />

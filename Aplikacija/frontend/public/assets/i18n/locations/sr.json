@@ -24,5 +24,14 @@
   "details": "Detalji",
   "grades": "Ocene",
   "events": "Događaji",
-  "map": "Mapa"
+  "map": "Mapa",
+  "myGrade": "Moja ocena",
+  "enterComment": "Unesite komentar",
+  "gradingSuccessful": "Lokacija je uspešno ocenjena!",
+  "gradingError": "Došlo je do greške prilikom ocenjivanja!",
+  "gradeDeleteSuccesful": "Ocena je uspešno obrisana!",
+  "gradeDeleteError": "Došlo je do greške prilikom brisanja ocene!",
+  "averageGrade": "Prosečna ocena: ",
+  "gradeCount": "Broj ocena: ",
+  "addGrade": "Dodaj ocenu"
 }

@@ -8,6 +8,7 @@
   height: 76vh;
   width: 100%;
   max-width: 100%;
+  min-height: 76vh;
 }
 
 @media only screen and (min-width: 768px) {

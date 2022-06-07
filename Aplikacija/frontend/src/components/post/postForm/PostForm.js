@@ -68,7 +68,7 @@ function PostForm({ feed, setFeed }) {
 
   return (
     <Container className="post-form-container">
-      <Card className="shadow">
+      <Card className="shadow-sm">
         <Card.Header>
           <div className="post-form-header">
             <Image
@@ -104,24 +104,26 @@ function PostForm({ feed, setFeed }) {
               placeholder={t("postSome")}
               ref={postTextInputRef}
             ></Form.Control>
-            { student.role > 0 && <div className="post-toolbar">
-              <Form.Check
-                className="form-checks"
-                disabled={anonymous}
-                type="checkbox"
-                label={t("verified")}
-                ref={verifiedRef}
-                inline
-              />
-              <Form.Check
-                className="form-checks"
-                disabled={anonymous}
-                type="checkbox"
-                label={t("pinned")}
-                ref={pinnedRef}
-                inline
-              />
-            </div>}
+            {student.role > 0 && (
+              <div className="post-toolbar">
+                <Form.Check
+                  className="form-checks"
+                  disabled={anonymous}
+                  type="checkbox"
+                  label={t("verified")}
+                  ref={verifiedRef}
+                  inline
+                />
+                <Form.Check
+                  className="form-checks"
+                  disabled={anonymous}
+                  type="checkbox"
+                  label={t("pinned")}
+                  ref={pinnedRef}
+                  inline
+                />
+              </div>
+            )}
             <div className="post-toolbar">
               <Button
                 variant="primary"

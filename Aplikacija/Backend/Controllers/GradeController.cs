@@ -21,66 +21,115 @@ public class GradeController : ControllerBase
         _tokenManager = tokenManager;
     }
 
+    [Route("{locationId}/{page}")]
+    [Authorize(Roles = "Student")]
+    [HttpGet]
+    public async Task<ActionResult> GetLocatinGrades(int locationId, int page)
+    {
+        var userDetails = _tokenManager.GetUserDetails(HttpContext.User);
+
+        if (userDetails == null)
+        {
+            return StatusCode(500);
+        }
+
+        const int pageSize = 10;
+
+        var grades = _context.Grades
+                            .OrderByDescending(g => g.PublicationTime)
+                            .Include(g => g.GradedBy)
+                            .ThenInclude(s => s!.Parlament)
+                            .ThenInclude(p => p!.Faculty)
+                            .AsSplitQuery()
+                            .Where(g => g.GradedLocationId == locationId
+                                    && g.GradedById != userDetails.ID)
+                            .Skip(page * pageSize)
+                            .Take(pageSize);
+
+        var gradesSelected = grades.Select(g => new
+        {
+            id = g.ID,
+            commentText = g.CommentText,
+            value = g.Value,
+            publicationTime = g.PublicationTime,
+            gradedBy = new
+            {
+                id = g.GradedBy!.ID,
+                firstName = g.GradedBy.FirstName,
+                lastName = g.GradedBy.LastName,
+                imagePath = g.GradedBy.ImagePath,
+                facultyName = g.GradedBy.Parlament!.Faculty!.Name,
+                facultyImagePath = g.GradedBy.Parlament!.Faculty!.ImagePath
+            }
+        });
+
+
+        return Ok(await gradesSelected.ToListAsync());
+    }
+
+    [Route("MyGrade/{locationId}")]
+    [Authorize(Roles = "Student")]
+    [HttpGet]
+    public async Task<ActionResult> GetMyLocatinGrade(int locationId)
+    {
+        var userDetails = _tokenManager.GetUserDetails(HttpContext.User);
+
+        if (userDetails == null)
+        {
+            return StatusCode(500);
+        }
+
+        var grade = await _context.Grades
+                            .OrderByDescending(g => g.PublicationTime)
+                            .Include(g => g.GradedBy)
+                            .FirstOrDefaultAsync(g => g.GradedLocationId == locationId && g.GradedById == userDetails.ID);
+        return Ok(grade);
+    }
 
     [Route("")]
     [Authorize(Roles = "Student")]
-    [HttpPost]
-    public async Task<ActionResult> PostGrade([FromBody] Grade grade)
+    [HttpPut]
+    public async Task<ActionResult> CreateOrEditGrade([FromBody] Grade grade)
     {
-        var student = await _tokenManager.GetStudent(HttpContext.User);
+        var user = _tokenManager.GetUserDetails(HttpContext.User);
 
-        if (student == null)
+        if (user == null)
         {
-            return BadRequest("StudentNotFound");
+            return BadRequest("BadToken");
         }
 
-        if (grade.Value == 0)
+        var gradeInDatabase = await _context.Grades
+                    .FirstOrDefaultAsync(g => g.GradedLocationId == grade.GradedLocationId
+                                 && g.GradedById == user.ID);
+
+        if (gradeInDatabase == null)
         {
-            return BadRequest("FieldMissing");
+            gradeInDatabase = new Grade();
+            gradeInDatabase.GradedById = user.ID;
+            gradeInDatabase.GradedLocationId = grade.GradedLocationId;
+            await _context.Grades.AddAsync(gradeInDatabase);
         }
 
-        grade.PublicationTime = DateTime.Now;
-        grade.GradedBy = student;
-        
-        _context.Grades.Add(grade);
+        gradeInDatabase.CommentText = grade.CommentText;
+        gradeInDatabase.Value = grade.Value;
+        gradeInDatabase.PublicationTime = DateTime.Now;
+
         await _context.SaveChangesAsync();
 
-        return Ok(grade);
-    }
-    [Route ("LocationGrade/{locationId}")]
-    [Authorize(Roles = "Student")]
-    [HttpGet]
-    public async Task<ActionResult> GetGrade(int locationId)
-    {
-        var location = await _context.Locations.Include(l => l.Grades!)
-                                            .ThenInclude(g => g.GradedBy)
-                                            .FirstOrDefaultAsync(l => l.ID == locationId);
-        
-        if (location == null)
-        {
-            return BadRequest("LocationNotFound");
-        }
-        if (location.Grades == null)
-        {
-            return Ok(null);
-        }
+        var location = await _context.Locations
+                                .Include(l => l.Grades)
+                                .AsSplitQuery()
+                                .FirstAsync(l => l.ID == gradeInDatabase.GradedLocationId);
 
-        return Ok(location.Grades.OrderByDescending(l => l.PublicationTime)
-                                 .Select(g => new
-                                 {
-                                     grade=g,
-                                     gradedby = new
-                                     {
-                                         g.GradedBy!.ID,
-                                         g.GradedBy.FirstName,
-                                         g.GradedBy.LastName,
-                                         g.GradedBy.Username,
-                                         g.GradedBy.ImagePath
-                                     }
-                                 }));
+        return Ok(new
+        {
+            myGrade = gradeInDatabase,
+            gradeCount = location.Grades!.Count,
+            averageGrade = location.AverageGrade
+        });
     }
 
-    [Route("Delete/{gradeId}")]
+    [Route("{gradeId}")]
     [Authorize(Roles = "Student")]
     [HttpDelete]
     public async Task<ActionResult> DeleteGrade(int gradeId)
@@ -94,7 +143,7 @@ public class GradeController : ControllerBase
 
         var grade = await _context.Grades.Include(g => g.GradedBy)
                                          .FirstOrDefaultAsync(g => g.ID == gradeId);
-        
+
         if (grade == null)
         {
             return BadRequest("GradeNotFound");
@@ -105,39 +154,18 @@ public class GradeController : ControllerBase
             return Forbid("NotAuthor");
         }
 
+        var location = await _context.Locations
+                                            .Include(l => l.Grades)
+                                            .AsSplitQuery()
+                                            .FirstAsync(l => l.ID == grade.GradedLocationId);
+
         _context.Grades.Remove(grade);
         await _context.SaveChangesAsync();
-        return Ok();
-    }
 
-    [Route("Edit")]
-    [Authorize(Roles = "Student")]
-    [HttpPut]
-    public async Task<ActionResult> EditGrade([FromBody] Grade grade)
-    {
-        var user = _tokenManager.GetUserDetails(HttpContext.User);
-
-        if (user == null)
+        return Ok(new
         {
-            return BadRequest("BadToken");
-        }
-
-        var gradeInDatabase = await _context.Grades.FindAsync(grade.ID);
-
-        if (gradeInDatabase == null)
-        {
-            return BadRequest("GradeNotFound");
-        }
-
-        if (grade.GradedBy == null || grade.GradedBy.ID != user.ID)
-        {
-            return Forbid("NotAuthor");
-        }
-
-        gradeInDatabase.CommentText = grade.CommentText;
-        gradeInDatabase.Value = grade.Value;
-        await _context.SaveChangesAsync();
-        
-        return Ok(gradeInDatabase);
+            gradeCount = location.Grades!.Count,
+            averageGrade = location.AverageGrade
+        });
     }
 }

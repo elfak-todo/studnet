@@ -14,7 +14,7 @@ function ProfilePostForm({ feed, setFeed }) {
     <>
       <div className="btn-add-post">
         <Button
-          className="mt-2 float-end"
+          className="mt-3 float-end"
           onClick={() => {
             showPostForm ? setShowPostForm(false) : setShowPostForm(true);
           }}

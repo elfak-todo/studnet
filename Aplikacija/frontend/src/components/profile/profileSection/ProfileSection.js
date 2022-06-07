@@ -7,7 +7,7 @@ import "./ProfileSection.style.css";
 function ProfileSection({ student, setStudent }) {
   return (
     <Container className="profile-section-cont">
-      <ProfileSectionHeader studentProp={student} setStudent={setStudent} />
+      <ProfileSectionHeader studentProp={student} setStudentProp={setStudent} />
       <ProfileSectionBody studentProp={student} />
     </Container>
   );
