@@ -1,7 +1,8 @@
 import React from "react";
+import AddLocation from "../components/addLocation/AddLocation";
 
 function LocationCreationPage() {
-  return <div>LocationCreationPage</div>;
+  return <AddLocation />;
 }
 
 export default LocationCreationPage;

@@ -76,7 +76,7 @@ public class EventController : ControllerBase
                                            .AsSplitQuery()
                                            .Where(e => (e.Pinned || e.Verified) && e.EndTime > DateTime.Now)
                                            .OrderBy(e => e.TimeOfEvent)
-                                           .ThenBy(e=>e.PublicationTime)
+                                           .ThenBy(e => e.PublicationTime)
                                            .Take(15);
 
         var EventsSelected = events.Select(e => new
@@ -105,7 +105,7 @@ public class EventController : ControllerBase
                                         e.Organiser.ImagePath
                                     }
                                 }),
-            
+
         });
         return Ok(await EventsSelected.ToListAsync());
     }
@@ -116,7 +116,7 @@ public class EventController : ControllerBase
     public async Task<ActionResult> GetFeed(int page)
     {
         const int pageSize = 20;
-        
+
         var student = await _tokenManager.GetStudent(HttpContext.User);
         if (student == null)
         {
@@ -216,7 +216,7 @@ public class EventController : ControllerBase
         eventInDatabase.PaidEvent = ev.PaidEvent;
         eventInDatabase.NumberOfTickets = ev.NumberOfTickets;
         eventInDatabase.TicketPrice = ev.TicketPrice;
-        eventInDatabase.Reservations=ev.Reservations;
+        eventInDatabase.Reservations = ev.Reservations;
 
         if ((int)user.Role >= (int)Role.ParlamentMember)
         {
@@ -292,5 +292,46 @@ public class EventController : ControllerBase
 
         await _context.SaveChangesAsync();
         return Ok(ev);
+    }
+
+    [Route("SetLiked/{eventId}/{liked}")]
+    [Authorize(Roles = "Student")]
+    [HttpPut]
+    public async Task<ActionResult> SetLiked(int eventId, bool liked)
+    {
+        var userDetails = _tokenManager.GetUserDetails(HttpContext.User);
+
+        if (userDetails == null)
+        {
+            return BadRequest("BadToken");
+        }
+
+        var ev = await _context.Events.FindAsync(eventId);
+
+        if (ev == null)
+        {
+            return BadRequest("EventNotFound");
+        }
+
+        var student = await _context.Students.Include(s => s.LikedEvents)
+                                        .Where(s => s.ID == userDetails.ID)
+                                        .FirstOrDefaultAsync();
+
+        if (student == null)
+        {
+            return BadRequest("UserNotFound");
+        }
+
+        if (liked)
+        {
+            student.LikedEvents!.Add(ev);
+        }
+        else
+        {
+            student.LikedEvents!.Remove(ev);
+        }
+
+        await _context.SaveChangesAsync();
+        return Ok(liked);
     }
 }

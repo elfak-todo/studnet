@@ -193,7 +193,7 @@ public class StudentController : ControllerBase
                                         .Include(s => s.Parlament!)
                                         .ThenInclude(p => p.Faculty)
                                         .AsSplitQuery()
-                                        .Where(p => p.FirstName.Contains(arr[0]) || p.LastName.Contains(arr.Count() >= 2? arr[1] : arr[0]))
+                                        .Where(p => p.FirstName.Contains(arr[0]) || p.LastName.Contains(arr.Count() >= 2 ? arr[1] : arr[0]))
                                         .OrderByDescending(p => p.ID)
                                         .Take(studentNum);
         }
@@ -320,6 +320,8 @@ public class StudentController : ControllerBase
                 imagePath = student.ImagePath,
                 university = student.University.Name,
                 universityId = student.University.ID,
+                universityLongitude = student.University.Longitude,
+                universityLatitude = student.University.Latitude,
                 facultyName = student.Parlament!.Faculty!.Name
             }
         );

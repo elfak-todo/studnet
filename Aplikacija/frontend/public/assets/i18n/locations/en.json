@@ -33,5 +33,7 @@
   "gradeDeleteError": "An error ocurred while deleting the grade!",
   "averageGrade": "Average grade: ",
   "gradeCount": "Grade count: ",
-  "addGrade": "Add grade"
+  "addGrade": "Add grade",
+  "addLocation": "Add location",
+  "editLocation": "Edit location"
 }

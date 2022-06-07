@@ -33,5 +33,7 @@
   "gradeDeleteError": "Došlo je do greške prilikom brisanja ocene!",
   "averageGrade": "Prosečna ocena: ",
   "gradeCount": "Broj ocena: ",
-  "addGrade": "Dodaj ocenu"
+  "addGrade": "Dodaj ocenu",
+  "addLocation": "Dodaj lokaciju",
+  "editLocation": "Izmeni lokaciju"
 }

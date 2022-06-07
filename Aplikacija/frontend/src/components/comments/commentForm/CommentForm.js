@@ -25,8 +25,9 @@ function CommentForm({ post, comments, setComments, feed, setFeed }) {
       commentInputRef.current.value = "";
 
       axios
-        .post("Comment/Post/" + post.id, {
+        .post("Comment/Post/", {
           text: commentText,
+          commentedPostId: post.id,
         })
         .then((res) => {
           setComments([...comments, res.data]);
