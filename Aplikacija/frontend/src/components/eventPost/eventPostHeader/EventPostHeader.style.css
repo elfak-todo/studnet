@@ -2,34 +2,26 @@
     display: flex;
     justify-content: left;
     align-items: center;
-    margin: 10px;
-}
-.event-header-name {
-    margin: 0px;
-    padding: 0px;
-}
-.event-header-faculty {
-    padding: 0px;
-    margin: 0px;
-    font-size: small;
-}
-.event-header-time {
-    margin-left: auto;
-    padding: 0px;
-    font-size: x-small;
-}
-.event-header-verify {
-    font-size: 20px;
-    color: #4CAF50;
-    margin-left: 5px;
-}
-.event-header-pinned {
-    font-size: 18px;
-    color: #4e54c8;
-    margin-right: 20px;
 }
 .event-profile-pic {
-    height: 50px;
-    width: 50px;
-    margin-right: 10px;
+    width: 60px;
+}
+.author-name {
+    font-size: larger;
+    margin: 0;
+    padding: 0;
+}
+.author-fac{
+    margin: 0;
+    padding: 0;
+}
+.date-time-txt {
+    font-size: small;
+    margin: 0;
+    padding: 0;
+}
+.ev-settings{
+    font-size: 20px;
+    color: #4e54c8;
+    cursor: pointer;
 }

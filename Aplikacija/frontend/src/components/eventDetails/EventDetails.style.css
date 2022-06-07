@@ -1,0 +1,23 @@
+.ev-desc-img {
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+.desc-div {
+    display: flex;
+    flex-direction: row;
+}
+.desc-title-ev {
+    font-size: 40px;
+    font-weight: 650;
+    margin: 0;
+    padding: 0;
+}
+.desc-div-ev {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100% !important;
+    width: 100% !important;
+}
