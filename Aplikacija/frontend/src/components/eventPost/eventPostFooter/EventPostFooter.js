@@ -1,39 +1,50 @@
-import "./EventPostFooter.style.css";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faThumbsUp, faComment } from "@fortawesome/free-solid-svg-icons";
+import {
+  faThumbsUp as faThumbsUpRegular,
+  faComment as faCommentRegular,
+} from "@fortawesome/free-regular-svg-icons";
 import { Card, Button } from "react-bootstrap";
-// import { Navigate } from "react-router-dom";
 
-function EventPostFooter({ counters }) {
-  const { t } = useTranslation(["post"]);
+import "./EventPostFooter.style.css";
+
+function EventPostFooter({ event }) {
+  const { t } = useTranslation(["post", "event"]);
+
+  const navigate = useNavigate();
 
   return (
     <div className="event-post-footer">
       <div className="align-row">
         <div className="center-items">
-          <FontAwesomeIcon icon={faThumbsUp} className="like-comment-icon-sm" />
-          <Card.Text> {counters.likeCount} </Card.Text>
+          <FontAwesomeIcon
+            icon={faThumbsUpRegular}
+            className="like-comment-icon-sm"
+          />
+          <Card.Text> {event.likeCount} </Card.Text>
         </div>
         <div className="center-items">
-          <FontAwesomeIcon icon={faComment} className="like-comment-icon-sm" />
-          <Card.Text> {counters.commentCount} </Card.Text>
+          <FontAwesomeIcon
+            icon={faCommentRegular}
+            className="like-comment-icon-sm"
+          />
+          {/* TODO */}
+          <Card.Text> 0 </Card.Text>
         </div>
       </div>
+      {event.paidEvent && (
+        <Button onClick={() => navigate(`/event`)}>
+          {t("event:reserve")}
+        </Button>
+      )}
       <div className="align-row">
         <div className="center-items">
-          <FontAwesomeIcon icon={faThumbsUp} className="like-comment-icon" />
+          <FontAwesomeIcon
+            icon={faThumbsUpRegular}
+            className="like-comment-icon"
+          />
           <Card.Text> {t("like")} </Card.Text>
-        </div>
-        <div className="center-items">
-          <FontAwesomeIcon icon={faComment} className="like-comment-icon" />
-          <Card.Text> {t("comment")} </Card.Text>
-        </div>
-        <div>
-          <Button className="float-end" variant="primary">
-            {" "}
-            {t("reserve")}
-          </Button>
         </div>
       </div>
     </div>

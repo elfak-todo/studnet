@@ -23,7 +23,7 @@ function AppRoutes() {
       <Route path="/register" element={<Navigate replace to="/home" />} />
       <Route path="/home" element={<HomePage />} />
       <Route path="/events" element={<EventsPage />} />
-      <Route path="/event/:eventId" element={<EventPage />} />
+      <Route path="/event" element={<EventPage />} />
       <Route path="/locations" element={<LocationsPage />} />
       <Route path="/location/:locationId" element={<LocationPage />} />
       <Route path="/location/create" element={<LocationCreationPage />} />
