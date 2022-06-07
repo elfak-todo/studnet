@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Backend.Models
 {
@@ -17,9 +18,11 @@ namespace Backend.Models
 
         #region Relations
 
+        [JsonIgnore]
         public Student? ReservedBy { get; set; }
         public int? ReservedById { get; set; }
 
+        [JsonIgnore]
         public Event? Event { get; set; }
         public int? EventId { get; set; }
 

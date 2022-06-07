@@ -25,7 +25,11 @@ function AddLocation({ initialLocation }) {
         longitude: student.universityLongitude,
       });
     }
-  }, [initialLocation]);
+  }, [
+    initialLocation,
+    student.universityLatitude,
+    student.universityLongitude,
+  ]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -40,10 +44,18 @@ function AddLocation({ initialLocation }) {
     location && (
       <Form noValidate onSubmit={submitHandler}>
         <div className="add-location-body">
-          <AddLocationForm location={location} setLocation={setLocation} />
-          <AddLocationMap location={location} setLocation={setLocation} />
+          <AddLocationForm
+            location={location}
+            setLocation={setLocation}
+            state={state}
+          />
+          <AddLocationMap
+            location={location}
+            setLocation={setLocation}
+            state={state}
+          />
         </div>
-        <div className="d-flex justify-content-center my-3">
+        <div className="d-flex justify-content-center mt-3 mb-5">
           <Button variant="primary" type="submit" size="md">
             {state.loading && (
               <Spinner

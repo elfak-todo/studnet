@@ -7,17 +7,18 @@ import locationTypes from "../../locationMarker/LocationTypes";
 import addLocationIcon from "../../../images/locationMarkers/add-location.png";
 import shadowIcon from "../../../images/locationMarkers/shadow.png";
 
-function AddLocationMap({ location, setLocation }) {
+function AddLocationMap({ location, setLocation, state }) {
   const markerRef = useRef(null);
   const [icon, setIcon] = useState(null);
 
   useEffect(() => {
-    const i = location.type
-      ? locationTypes[location.type].icon
-      : {
-          iconUrl: addLocationIcon,
-          iconRetinaUrl: addLocationIcon,
-        };
+    const i =
+      location.type && Number(location.type) !== -1
+        ? locationTypes[location.type].icon
+        : {
+            iconUrl: addLocationIcon,
+            iconRetinaUrl: addLocationIcon,
+          };
 
     setIcon(
       new L.icon({

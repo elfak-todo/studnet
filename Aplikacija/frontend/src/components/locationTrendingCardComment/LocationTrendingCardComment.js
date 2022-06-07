@@ -1,6 +1,8 @@
 import React from "react";
 import { Image, OverlayTrigger, Tooltip } from "react-bootstrap";
 
+import defaultPic from "../../images/defaultProfilePic.jpg";
+
 function LocationTrendingCardComment({ grade }) {
   return (
     <OverlayTrigger
@@ -10,7 +12,11 @@ function LocationTrendingCardComment({ grade }) {
     >
       <div className="LocationTrendingCardGrade">
         <Image
-          src={grade.gradedBy.imagePath}
+          src={
+            !grade.gradedBy || grade.gradedBy.imagePath === "/"
+              ? defaultPic
+              : grade.gradedBy.imagePath
+          }
           alt="a"
           width="40px"
           height="40px"

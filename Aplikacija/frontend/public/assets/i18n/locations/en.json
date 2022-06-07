@@ -16,6 +16,7 @@
   "confectionery": "Confectionery",
   "shop": "Shop",
   "skatePark": "Skate park",
+  "university": "University",
   "recentGrades": "Recent grades",
   "trendingLocations": "Trending locations",
   "dontSeeYourLocation": "Don't see your favourite location? Suggest it ",
@@ -35,5 +36,15 @@
   "gradeCount": "Grade count: ",
   "addGrade": "Add grade",
   "addLocation": "Add location",
-  "editLocation": "Edit location"
+  "editLocation": "Edit location",
+  "locationCreation": "Location creation",
+  "locationUpdate": "Location editing",
+  "locationName": "Location name",
+  "address": "Address",
+  "description": "Description",
+  "chooseType": "Choose location type",
+  "type": "Type",
+  "photo": "Location photo",
+  "verified": "Verified",
+  "webpage": "Webpage"
 }

@@ -115,71 +115,45 @@ public class EventController : ControllerBase
     [HttpGet]
     public async Task<ActionResult> GetFeed(int page)
     {
-        const int pageSize = 20;
+        const int pageSize = 10;
 
         var student = await _tokenManager.GetStudent(HttpContext.User);
         if (student == null)
         {
             return BadRequest("UserNotFound");
         }
-        IQueryable<Event> events;
 
-        if (page == 0)
-        {
-            events = _context.Events.Include(events => events.Organiser)
-                                    .Include(e => e.Comments)
-                                    .Include(e => e.LikedBy)
-                                    //.Include(e=> e.Reservations)
-                                    .AsSplitQuery()
-                                    .Where(e => e.EndTime > DateTime.Now)
-                                    .OrderBy(e => e.TimeOfEvent)
-                                    .Take(pageSize)
-                                    .OrderByDescending(e => e.Pinned)
-                                    .ThenBy(e => e.TimeOfEvent);
-        }
-        else
-        {
-            events = _context.Events.Include(e => e.Organiser)
-                                    .Include(e => e.Comments)
-                                    .Include(e => e.LikedBy)
-                                    //.Include(e => e.Reservations)
-                                    .AsSplitQuery()
-                                    .Where(e => e.EndTime > DateTime.Now)
-                                    .OrderBy(e => e.TimeOfEvent)
-                                    .Skip(page * pageSize)
-                                    .Take(pageSize);
-        }
+        var events = _context.Events.Include(e => e.Organiser)
+                    .ThenInclude(o => o!.Parlament)
+                    .ThenInclude(p => p!.Faculty)
+                    .Include(e => e.Comments)
+                    .Include(e => e.LikedBy)
+                    .Include(e => e.Reservations)
+                    .AsSplitQuery()
+                    .Where(e => e.EndTime > DateTime.Now && e.UniversityId == student.UniversityId)
+                    .OrderByDescending(e => e.Pinned)
+                    .ThenBy(e => e.TimeOfEvent)
+                    .Skip(page * pageSize)
+                    .Take(pageSize);
 
-        var EventsSelected = events.Select(e => new
+
+        var eventsSelected = events.Select(e => new
         {
             id = e.ID,
-            liked = e.LikedBy!.Contains(student),
             ev = e,
+            liked = e.LikedBy!.Contains(student),
             author = new
             {
                 e.Organiser!.ID,
                 e.Organiser.FirstName,
                 e.Organiser.LastName,
                 e.Organiser.Username,
-                e.Organiser.ImagePath
-            },
-            comments = e.Comments!.OrderByDescending(e => e.Pinned)
-                                .ThenByDescending(e => e.PublicationTime)
-                                .Take(3)
-                                .Select(c => new
-                                {
-                                    comment = c,
-                                    author = new
-                                    {
-                                        e.Organiser!.ID,
-                                        e.Organiser.FirstName,
-                                        e.Organiser.LastName,
-                                        e.Organiser.Username,
-                                        e.Organiser.ImagePath
-                                    }
-                                }),
+                e.Organiser.ImagePath,
+                facultyName = e.Organiser.Parlament!.Faculty!.Name,
+                facultyImagePath = e.Organiser.Parlament!.Faculty!.ImagePath
+            }
         });
-        return Ok(await EventsSelected.ToListAsync());
+        return Ok(await eventsSelected.ToListAsync());
     }
 
     [Route("Edit")]

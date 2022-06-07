@@ -89,38 +89,18 @@ public class PostController : ControllerBase
             return BadRequest("UserNotFound");
         }
 
-        IQueryable<Post> posts;
-
-        if (page == 0)
-        {
-            posts = _context.Posts.Include(p => p.Author!)
-                                .ThenInclude(a => a.Parlament!)
-                                .ThenInclude(p => p.Faculty)
-                                .Include(p => p.Comments!)
-                                .ThenInclude(c => c.LikedBy)
-                                .Include(p => p.LikedBy)
-                                .AsSplitQuery()
-                                .Where(p => p.UniversityId == student.UniversityId)
-                                .OrderByDescending(p => p.PublicationTime)
-                                .Take(pageSize)
-                                .OrderByDescending(p => p.Pinned)
-                                .ThenByDescending(p => p.Verified)
-                                .ThenByDescending(p => p.PublicationTime);
-        }
-        else
-        {
-            posts = _context.Posts.Include(p => p.Author!)
-                                .ThenInclude(a => a.Parlament!)
-                                .ThenInclude(p => p.Faculty)
-                                .Include(p => p.Comments!)
-                                .ThenInclude(c => c.LikedBy)
-                                .Include(p => p.LikedBy)
-                                .AsSplitQuery()
-                                .Where(p => p.UniversityId == student.UniversityId)
-                                .OrderByDescending(p => p.PublicationTime)
-                                .Skip(page * pageSize)
-                                .Take(pageSize);
-        }
+        var posts = _context.Posts.Include(p => p.Author!)
+                            .ThenInclude(a => a.Parlament!)
+                            .ThenInclude(p => p.Faculty)
+                            .Include(p => p.Comments!)
+                            .ThenInclude(c => c.LikedBy)
+                            .Include(p => p.LikedBy)
+                            .AsSplitQuery()
+                            .Where(p => p.UniversityId == student.UniversityId)
+                            .OrderByDescending(p => p.Pinned)
+                            .ThenByDescending(p => p.PublicationTime)
+                            .Skip(page * pageSize)
+                            .Take(pageSize);
 
         var postsSelected = posts.Select(p => new
         {

@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Backend.Models
 {
@@ -83,9 +84,9 @@ namespace Backend.Models
         {
             get
             {
-                if (Reservations !=null)
+                if (Reservations != null && NumberOfTickets > 0)
                 {
-                    return (float)TicketsReserved/(float)NumberOfTickets;
+                    return (float)TicketsReserved / (float)NumberOfTickets;
                 }
                 return 0;
             }
@@ -97,22 +98,29 @@ namespace Backend.Models
 
         #region Relations
 
+        [JsonIgnore]
         public Location? Location { get; set; }
         public int? LocationId { get; set; }
 
+        [JsonIgnore]
         public Student? Organiser { get; set; }
         public int? OrganiserId { get; set; }
 
+        [JsonIgnore]
         public Parlament? OrganisingParlament { get; set; }
         public int? OrganisingParlamentId { get; set; }
 
+        [JsonIgnore]
         public University? University { get; set; }
         public int? UniversityId { get; set; }
 
+        [JsonIgnore]
         public List<Comment>? Comments { get; set; }
 
+        [JsonIgnore]
         public List<Student>? LikedBy { get; set; }
 
+        [JsonIgnore]
         public List<Reservation>? Reservations { get; set; }
 
         #endregion Relations

@@ -16,6 +16,7 @@
   "confectionery": "Poslastičara",
   "shop": "Prodavnica",
   "skatePark": "Skejt park",
+  "university": "Univerzitet",
   "recentGrades": "Skorašnje recenzije",
   "trendingLocations": "Lokacije u trendu",
   "dontSeeYourLocation": "Ne vidite svoju omiljenu lokaciju? Predložite je ",
@@ -35,5 +36,16 @@
   "gradeCount": "Broj ocena: ",
   "addGrade": "Dodaj ocenu",
   "addLocation": "Dodaj lokaciju",
-  "editLocation": "Izmeni lokaciju"
+  "editLocation": "Izmeni lokaciju",
+  "locationCreation": "Kreiranje lokacije",
+  "locationUpdate": "Ažuriranje lokacije",
+  "locationName": "Ime lokacije",
+  "address": "Adresa",
+  "description": "Opis",
+  "chooseType": "Izaberite tip",
+  "type": "Tip",
+  "photo": "Fotografija lokacije",
+  "photoGallery": "Galerija",
+  "verified": "Verifikovana",
+  "webpage": "Web stranica"
 }

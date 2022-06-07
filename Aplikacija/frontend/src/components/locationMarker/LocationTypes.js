@@ -14,6 +14,7 @@ import doctorIcon from "../../images/locationMarkers/doctor.png";
 import confectioneryIcon from "../../images/locationMarkers/confectionery.png";
 import shopIcon from "../../images/locationMarkers/shop.png";
 import skateParkIcon from "../../images/locationMarkers/skate-park.png";
+import uniIcon from "../../images/locationMarkers/univeristy.png";
 
 const locationTypes = [
   {
@@ -22,6 +23,7 @@ const locationTypes = [
       iconUrl: cafeIcon,
       iconRetinaUrl: cafeIcon,
     },
+    minRole: 0,
   },
   {
     name: "club",
@@ -29,6 +31,7 @@ const locationTypes = [
       iconUrl: clubIcon,
       iconRetinaUrl: clubIcon,
     },
+    minRole: 0,
   },
   {
     name: "brewery",
@@ -36,6 +39,7 @@ const locationTypes = [
       iconUrl: breweryIcon,
       iconRetinaUrl: breweryIcon,
     },
+    minRole: 0,
   },
   {
     name: "bar",
@@ -43,6 +47,7 @@ const locationTypes = [
       iconUrl: barIcon,
       iconRetinaUrl: barIcon,
     },
+    minRole: 0,
   },
   {
     name: "restoraunt",
@@ -50,6 +55,7 @@ const locationTypes = [
       iconUrl: restorauntIcon,
       iconRetinaUrl: restorauntIcon,
     },
+    minRole: 0,
   },
   {
     name: "tavern",
@@ -57,6 +63,7 @@ const locationTypes = [
       iconUrl: tavernIcon,
       iconRetinaUrl: tavernIcon,
     },
+    minRole: 0,
   },
   {
     name: "gym",
@@ -64,6 +71,7 @@ const locationTypes = [
       iconUrl: gymIcon,
       iconRetinaUrl: gymIcon,
     },
+    minRole: 0,
   },
   {
     name: "library",
@@ -71,6 +79,7 @@ const locationTypes = [
       iconUrl: libraryIcon,
       iconRetinaUrl: libraryIcon,
     },
+    minRole: 0,
   },
   {
     name: "faculty",
@@ -78,6 +87,7 @@ const locationTypes = [
       iconUrl: facultyIcon,
       iconRetinaUrl: facultyIcon,
     },
+    minRole: 2,
   },
   {
     name: "basketballCourt",
@@ -85,6 +95,7 @@ const locationTypes = [
       iconUrl: basketballCourtIcon,
       iconRetinaUrl: basketballCourtIcon,
     },
+    minRole: 0,
   },
   {
     name: "footballField",
@@ -92,6 +103,7 @@ const locationTypes = [
       iconUrl: footballFieldIcon,
       iconRetinaUrl: footballFieldIcon,
     },
+    minRole: 0,
   },
   {
     name: "bowlingAlley",
@@ -99,6 +111,7 @@ const locationTypes = [
       iconUrl: bowlingAlleyIcon,
       iconRetinaUrl: bowlingAlleyIcon,
     },
+    minRole: 0,
   },
   {
     name: "doctor",
@@ -106,6 +119,7 @@ const locationTypes = [
       iconUrl: doctorIcon,
       iconRetinaUrl: doctorIcon,
     },
+    minRole: 0,
   },
   {
     name: "confectionery",
@@ -113,6 +127,7 @@ const locationTypes = [
       iconUrl: confectioneryIcon,
       iconRetinaUrl: confectioneryIcon,
     },
+    minRole: 0,
   },
   {
     name: "shop",
@@ -120,6 +135,7 @@ const locationTypes = [
       iconUrl: shopIcon,
       iconRetinaUrl: shopIcon,
     },
+    minRole: 0,
   },
   {
     name: "skatePark",
@@ -127,6 +143,15 @@ const locationTypes = [
       iconUrl: skateParkIcon,
       iconRetinaUrl: skateParkIcon,
     },
+    minRole: 0,
+  },
+  {
+    name: "university",
+    icon: {
+      iconUrl: uniIcon,
+      iconRetinaUrl: uniIcon,
+    },
+    minRole: 3,
   },
 ];
 
