@@ -3,13 +3,11 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import AddLocation from "../components/addLocation/AddLocation";
 
+import LoadingSpinner from "../components/loadingSpinner/LoadingSpinner";
+
 function LocationEditPage() {
   const { locationId } = useParams();
   const [initialLocation, setInitialLocation] = useState();
-
-  useEffect(() => {
-    console.log(initialLocation);
-  }, [initialLocation]);
 
   useEffect(() => {
     axios
@@ -28,7 +26,11 @@ function LocationEditPage() {
       });
   }, [locationId]);
 
-  return <AddLocation initialLocation={initialLocation} />;
+  return initialLocation ? (
+    <AddLocation initialLocation={initialLocation} />
+  ) : (
+    <LoadingSpinner />
+  );
 }
 
 export default LocationEditPage;

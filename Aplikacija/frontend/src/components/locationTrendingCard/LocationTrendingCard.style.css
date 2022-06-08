@@ -5,6 +5,8 @@
 
 .LocationTrendingCardImage {
   margin-bottom: 1rem;
+  aspect-ratio: 1500 / 822;
+  object-fit: cover;
 }
 
 .LocationTrendingCardGrades {
@@ -29,6 +31,17 @@
   margin: 0;
 }
 
+.no-location-grades {
+  width: 100%;
+  text-align: center;
+  border-radius: 5px;
+  padding: 1rem;
+  margin: 0.3rem 0;
+  border-style: solid;
+  border-width: 1px;
+  border-color: lightgray;
+}
+
 @media only screen and (min-width: 768px) {
   .LocationTrendingCardBody {
     display: flex;
@@ -44,6 +57,7 @@
   }
   .LocationTrendingCardText {
     margin-left: 1rem;
+    flex-grow: 1;
   }
   .LocationTrendingCardGrades {
     display: flex;

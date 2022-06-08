@@ -74,7 +74,6 @@ function Comment({
               } else return c;
             });
           });
-          console.log(editedText);
         })
         .catch((err) => {
           console.log(err.response.data);

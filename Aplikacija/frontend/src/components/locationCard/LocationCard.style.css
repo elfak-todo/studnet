@@ -15,6 +15,11 @@
   visibility: visible;
 }
 
+.location-card-image {
+  aspect-ratio: 1500 / 822;
+  object-fit: cover;
+}
+
 @media only screen and (max-width: 768px) {
   .location-card {
     width: auto;

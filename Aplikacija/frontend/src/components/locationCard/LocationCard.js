@@ -8,6 +8,7 @@ import locationTypes from "../locationMarker/LocationTypes.js";
 
 import "./LocationCard.style.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import defaultLocationImage from "../../images/defaultLocation.jpg";
 
 function LocationCard({ openedLocation, setOpenedLocation }) {
   const navigate = useNavigate();
@@ -25,9 +26,13 @@ function LocationCard({ openedLocation, setOpenedLocation }) {
           <Badge>
             {openedLocation && t(locationTypes[openedLocation?.type].name)}
           </Badge>
-          <Badge className="ms-1">
-            {openedLocation && openedLocation.averageGrade.toFixed(1)} ★
-          </Badge>
+          {openedLocation && (
+            <Badge className="ms-1">
+              {openedLocation.averageGrade !== -1
+                ? openedLocation.averageGrade.toFixed(1) + " ★"
+                : t("locations:noGradesShort")}
+            </Badge>
+          )}
           {openedLocation?.verified && (
             <FontAwesomeIcon
               className="post-header-verify"
@@ -42,7 +47,15 @@ function LocationCard({ openedLocation, setOpenedLocation }) {
           }}
         />
       </Card.Header>
-      <Card.Img variant="top" src={openedLocation?.imagePath} />
+      <Card.Img
+        variant="top"
+        src={
+          openedLocation?.imagePath && openedLocation.imagePath !== "/"
+            ? openedLocation?.imagePath
+            : defaultLocationImage
+        }
+        className="location-card-image"
+      />
       <Card.Body>
         <Card.Title>{openedLocation?.name}</Card.Title>
         <Card.Text>

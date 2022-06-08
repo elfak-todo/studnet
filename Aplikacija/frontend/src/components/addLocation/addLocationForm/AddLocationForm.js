@@ -6,7 +6,13 @@ import "./AddLocationForm.style.css";
 import locationTypes from "../../locationMarker/LocationTypes";
 import StudentContext from "../../studentManager/StudentManager";
 
-function AddLocationForm({ location, setLocation, state }) {
+function AddLocationForm({
+  location,
+  setLocation,
+  state,
+  imageRef,
+  imageGalleryRef,
+}) {
   const { t } = useTranslation(["locations"]);
 
   const [inputStatus, setInputStatus] = useState({});
@@ -67,13 +73,17 @@ function AddLocationForm({ location, setLocation, state }) {
           <FloatingLabel label={t("type")}>
             <Form.Select
               isInvalid={inputStatus.typeInvalid}
-              value={location.type || -1}
+              value={
+                location.type !== undefined && location.type !== null
+                  ? location.type
+                  : -1
+              }
               onChange={(e) => {
                 setInputStatus((s) => {
                   return { ...s, typeInvalid: false };
                 });
                 setLocation((l) => {
-                  return { ...l, type: e.target.value };
+                  return { ...l, type: Number(e.target.value) };
                 });
               }}
             >
@@ -161,7 +171,7 @@ function AddLocationForm({ location, setLocation, state }) {
       </Row>
       <Row className="mb-2">
         <Col>
-          <Form.Control type="file" accept="image/*" size="md" />
+          <Form.Control type="file" accept="image/*" size="md" ref={imageRef} />
         </Col>
       </Row>
       <Row className="mb-1">
@@ -169,7 +179,13 @@ function AddLocationForm({ location, setLocation, state }) {
       </Row>
       <Row className="mb-2">
         <Col>
-          <Form.Control type="file" accept="image/*" size="md" multiple />
+          <Form.Control
+            type="file"
+            accept="image/*"
+            size="md"
+            multiple
+            ref={imageGalleryRef}
+          />
         </Col>
       </Row>
     </Container>

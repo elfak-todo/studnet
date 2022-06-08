@@ -41,9 +41,7 @@ function GradeForm({ metadata }) {
   const [currentGrade, setCurrentGrade] = useState(0);
 
   useEffect(() => {
-    console.log("USE EFFECT");
     if (location) {
-      console.log("USE EFFECT - LOCATION TRUE");
       axios.get(`Grade/MyGrade/${location.id}`).then((res) => {
         if (res.data && res.data !== "") {
           setMyGrade(res.data);
@@ -61,7 +59,6 @@ function GradeForm({ metadata }) {
   }, [location]);
 
   const onEditClicked = (e) => {
-    console.log("ON EDIT CLICKED");
     if (loading) {
       return;
     }
@@ -90,7 +87,6 @@ function GradeForm({ metadata }) {
   };
 
   const putGrade = () => {
-    console.log("PUT GRADE");
     setLoading(true);
     axios
       .put("Grade", myGrade)
@@ -122,7 +118,6 @@ function GradeForm({ metadata }) {
   };
 
   const onDeleteClicked = (e) => {
-    console.log("ON DELETE CLICKED");
     setLoading(true);
     axios
       .delete(`Grade/${myGrade.id}`)
@@ -156,7 +151,6 @@ function GradeForm({ metadata }) {
   };
 
   const onCancelClicked = (e) => {
-    console.log("ON CANCEL CLICKED");
     setEditMode(false);
     setCurrentGrade(myGrade.value);
   };

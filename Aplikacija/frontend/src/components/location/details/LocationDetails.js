@@ -16,24 +16,30 @@ function LocationDetails({ location, author }) {
       <div className="location-details-fields text-center my-4">
         <h4>
           <Badge>{t("locations:" + locationTypes[location.type].name)}</Badge>
-          <Badge className="ms-1">{location.averageGrade.toFixed(1)} ★</Badge>
+          <Badge className="ms-1">
+            {location.averageGrade !== -1
+              ? location.averageGrade.toFixed(1) + " ★"
+              : t("locations:noGradesShort")}
+          </Badge>
           <Badge className="ms-1">
             {location.verified && t("misc:verified")}
           </Badge>
         </h4>
       </div>
-      <Slider
-        autoplay
-        autoplaySpeed={6000}
-        dots
-        slidesToScroll={1}
-        slidesToShow={1}
-        className="location-details-slider mx-auto"
-      >
-        {location.imageGallery.map((s) => (
-          <Image src={s} alt="Slika događaja" key={s} />
-        ))}
-      </Slider>
+      {location.imageGallery.length > 0 && location.imageGallery[0] !== "" && (
+        <Slider
+          autoplay
+          autoplaySpeed={6000}
+          dots
+          slidesToScroll={1}
+          slidesToShow={1}
+          className="location-details-slider mx-auto"
+        >
+          {location.imageGallery.map((s) => (
+            <Image src={s} alt="Slika događaja" key={s} />
+          ))}
+        </Slider>
+      )}
 
       <h3 className="text-center mt-5">Opis</h3>
       <p className="location-details-description">{location.description}</p>

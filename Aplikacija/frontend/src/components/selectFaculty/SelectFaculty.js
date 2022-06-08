@@ -23,8 +23,8 @@ function SelectFaculty({
           setOptions(result.data);
           setClearSelect(false);
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          console.log(err);
         });
     }
   }, [selectedUni]);

@@ -28,8 +28,8 @@ function PostHeader({ author, post, feed, setFeed, setEdit }) {
       .then(() => {
         setFeed(feed.filter((p) => p.post.id !== post.id));
       })
-      .catch((error) => {
-        console.log(error.response.data);
+      .catch((err) => {
+        console.log(err.response.data);
       });
   };
 
@@ -101,7 +101,9 @@ function PostHeader({ author, post, feed, setFeed, setEdit }) {
             <Popover>
               <ProfileHoverCard studentProp={author} />
             </Popover>
-          ) : <></>
+          ) : (
+            <></>
+          )
         }
       >
         <Image

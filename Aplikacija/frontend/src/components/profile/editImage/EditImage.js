@@ -24,7 +24,6 @@ function EditImage() {
 
       const image = new FormData();
       image.append("image", imageRef.current.files[0]);
-      console.log(imageRef.current.files[0]);
       axios
         .put("Student/Image", image, {
           headers: {
@@ -32,7 +31,6 @@ function EditImage() {
           },
         })
         .then((res) => {
-          console.log(res);
           setStudent((student) => {
             return { ...student, imagePath: res.data };
           });

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Tab, Tabs } from "react-bootstrap";
+import React, { useContext, useState } from "react";
+import { Button, Tab, Tabs } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
 import "./Location.style.css";
@@ -9,11 +9,24 @@ import LocationMap from "../locationMap/LocationMap.js";
 import LocationGrades from "./grades/LocationGrades.js";
 import LocationDetails from "./details/LocationDetails.js";
 import LocationEvents from "./events/LocationEvents.js";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPen } from "@fortawesome/free-solid-svg-icons";
+import StudentContext from "../studentManager/StudentManager";
+import { useNavigate } from "react-router-dom";
+
+import defaultLocationImage from "../../images/defaultLocation.jpg";
 
 function Location({ location, setLocation, author }) {
   const { t } = useTranslation(["locations"]);
+  const navigate = useNavigate();
 
   const [openedTab, setOpenedTab] = useState("details");
+
+  const { student } = useContext(StudentContext);
+
+  const handleEditLocation = () => {
+    navigate("/location/edit/" + location.id);
+  };
 
   return (
     location && (
@@ -21,11 +34,24 @@ function Location({ location, setLocation, author }) {
         <div
           className="text-center location-cover-image mb-3"
           style={{
-            backgroundImage: `url(${location.imagePath})`,
+            backgroundImage:
+              location?.imagePath && location.imagePath !== "/"
+                ? `url(${location.imagePath})`
+                : `url(${defaultLocationImage})`,
           }}
         >
           <h1 className="text-center pt-5 pb-1 location-cover-image-text">
             {location.name}
+            {(student.role >= 2 || student.Id === author.Id) && (
+              <Button
+                variant="primary"
+                size="sm"
+                className="ms-2"
+                onClick={handleEditLocation}
+              >
+                <FontAwesomeIcon icon={faPen} />
+              </Button>
+            )}
           </h1>
           <h5 className="text-center pb-5 location-cover-image-text">
             {location.address}

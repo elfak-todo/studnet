@@ -49,6 +49,7 @@ public class CommentController : ControllerBase
                         .ThenBy(p => p.PublicationTime)
                         .Select(c => new
                         {
+                            id = c.ID,
                             comment = c,
                             liked = c.LikedBy!.Contains(student),
                             author = c.Anonymous && c.AuthorId != student.ID ?

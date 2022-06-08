@@ -47,5 +47,7 @@
   "photo": "Fotografija lokacije",
   "photoGallery": "Galerija",
   "verified": "Verifikovana",
-  "webpage": "Web stranica"
+  "webpage": "Web stranica",
+  "noGrades": "Ova lokacija još uvek nije ocenjena.",
+  "noGradesShort": "Nema ocena"
 }

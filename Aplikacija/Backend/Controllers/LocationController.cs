@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 using Backend.Models;
 using Backend.Services;
+using Backend.Data;
+using System.Text.Json;
 
 namespace Backend.Controllers;
 
@@ -15,10 +17,14 @@ public class LocationController : ControllerBase
     private Context _context;
     private IAccessTokenManager _tokenManager;
 
-    public LocationController(Context context, IAccessTokenManager tokenManager)
+    private IImageManager _imageManager;
+
+    public LocationController(Context context, IAccessTokenManager tokenManager,
+                         IImageManager imageManager)
     {
         _context = context;
         _tokenManager = tokenManager;
+        _imageManager = imageManager;
     }
 
     [Route("{locationId}")]
@@ -129,14 +135,14 @@ public class LocationController : ControllerBase
         }
 
         var locations = await _context.Locations
-                            .Include(l => l.Grades!.OrderByDescending(g => g.PublicationTime))
-                            .ThenInclude(g => g.GradedBy)
-                            .AsSplitQuery()
-                            .Where(l => l.UniversityId == user.UniversityId)
-                            .OrderByDescending(l => l.Grades!.Count())
-                            .Skip(page * pageSize)
-                            .Take(pageSize)
-                            .ToListAsync();
+                        .Include(l => l.Grades!.OrderByDescending(g => g.PublicationTime))
+                        .ThenInclude(g => g.GradedBy)
+                        .AsSplitQuery()
+                        .Where(l => l.UniversityId == user.UniversityId)
+                        .OrderByDescending(l => l.Grades!.Count())
+                        .Skip(page * pageSize)
+                        .Take(pageSize)
+                        .ToListAsync();
 
         locations.ForEach(l =>
         {
@@ -150,7 +156,8 @@ public class LocationController : ControllerBase
     [Route("")]
     [Authorize(Roles = "Student")]
     [HttpPost]
-    public async Task<ActionResult> PostLocation([FromBody] Location location)
+    public async Task<ActionResult> CreateLocation(
+                            [FromForm] PostLocationModel request)
     {
         var user = _tokenManager.GetUserDetails(HttpContext.User);
 
@@ -159,14 +166,153 @@ public class LocationController : ControllerBase
             return StatusCode(500);
         }
 
+        if (request.location == null)
+        {
+            return StatusCode(500, "NoLocation");
+        }
+
+        LocationDetails? addLocation = JsonSerializer.Deserialize<LocationDetails>(request.location);
+
+        if (addLocation == null)
+        {
+            return BadRequest("LocationNotValid");
+        }
+
+        Location location = new Location();
+
+        location.Address = addLocation.address!;
+        location.Description = addLocation.description!;
+        location.Latitude = addLocation.latitude!;
+        location.Longitude = addLocation.longitude!;
+        location.Name = addLocation.name!;
+        location.Type = addLocation.type!;
+        location.Webpage = addLocation.webpage!;
+
         location.AuthorId = user.ID;
         location.UniversityId = user.UniversityId;
         location.Events = new List<Event>();
         location.Grades = new List<Grade>();
+        location.PublicationTime = DateTime.Now;
+
+        if (user.Role == Role.Student)
+        {
+            location.Verified = false;
+            location.Parlament = null;
+        }
+
+        if (request.image != null)
+        {
+            location.ImagePath =
+                await _imageManager.SaveImage(request.image, "/images/locations/");
+        }
+
+        if (request.imageGallery != null && request.imageGallery.Count > 0)
+        {
+            foreach (IFormFile img in request.imageGallery)
+            {
+                var imagePath = await _imageManager.SaveImage(img, "/images/locationGallery/");
+                if (imagePath != null)
+                {
+                    location.ImageGallery.Add(imagePath);
+                }
+            }
+        }
 
         _context.Add(location);
         await _context.SaveChangesAsync();
+        return Ok(location);
+    }
 
+    [Route("{locationId}")]
+    [Authorize(Roles = "Student")]
+    [HttpPatch]
+    public async Task<ActionResult> EditLocation(
+                            [FromForm] PostLocationModel request, int locationId)
+    {
+        var user = _tokenManager.GetUserDetails(HttpContext.User);
+
+        if (user == null)
+        {
+            return StatusCode(500);
+        }
+
+        if (request.location == null)
+        {
+            return StatusCode(500, "NoLocation");
+        }
+
+        LocationDetails? addLocation = JsonSerializer.Deserialize<LocationDetails>(request.location);
+
+        if (addLocation == null)
+        {
+            return BadRequest("LocationNotValid");
+        }
+
+        var location = await _context.Locations.FindAsync(locationId);
+
+        if (location == null)
+        {
+            return BadRequest("LocationNotFound");
+        }
+
+        if (user.Role < Role.AdminUni && location.AuthorId != user.ID)
+        {
+            return Forbid("NotAuthor");
+        }
+
+        location.Address = addLocation.address!;
+        location.Description = addLocation.description!;
+        location.Latitude = addLocation.latitude!;
+        location.Longitude = addLocation.longitude!;
+        location.Name = addLocation.name!;
+        location.Type = addLocation.type!;
+        location.Webpage = addLocation.webpage!;
+
+        if (user.Role == Role.Student)
+        {
+            location.Verified = false;
+            location.Parlament = null;
+        }
+
+        if (request.image != null)
+        {
+            if (location.ImagePath != null && location.ImagePath != "")
+            {
+                _imageManager.DeleteImage(location.ImagePath);
+            }
+            location.ImagePath =
+                await _imageManager.SaveImage(request.image, "/images/locations/");
+        }
+
+        if (request.imageGallery == null)
+        {
+            Console.WriteLine("NULL");
+        }
+        else
+        {
+            Console.WriteLine(request.imageGallery.Count);
+        }
+
+        if (request.imageGallery != null && request.imageGallery.Count > 0)
+        {
+            foreach (var s in location.ImageGallery)
+            {
+                _imageManager.DeleteImage(s);
+            }
+
+            var images = new List<String>();
+
+            foreach (var img in request.imageGallery)
+            {
+                var imagePath = await _imageManager.SaveImage(img, "/images/locationGallery/");
+                if (imagePath != null)
+                {
+                    images.Add(imagePath);
+                }
+            }
+            location.ImageGallery = images;
+        }
+        await _context.SaveChangesAsync();
         return Ok(location);
     }
 

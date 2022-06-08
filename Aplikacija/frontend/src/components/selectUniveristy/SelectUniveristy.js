@@ -19,8 +19,8 @@ function SelectUniversity({
       .then((result) => {
         setOptions(result.data);
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((err) => {
+        console.log(err);
       });
   }, []);
 

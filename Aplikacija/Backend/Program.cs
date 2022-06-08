@@ -10,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<IAccessTokenManager, AccessTokenManager>();
 builder.Services.AddScoped<IPasswordManager, PasswordManager>();
+builder.Services.AddScoped<IImageManager, ImageManager>();
 
 builder.Services.AddControllers();
 

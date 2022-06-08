@@ -46,5 +46,7 @@
   "type": "Type",
   "photo": "Location photo",
   "verified": "Verified",
-  "webpage": "Webpage"
+  "webpage": "Webpage",
+  "noGrades": "This location is not yet graded.",
+  "noGradesShort": "No grades"
 }
