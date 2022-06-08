@@ -212,7 +212,7 @@ public class LocationController : ControllerBase
 
         IQueryable<Location> locations;
 
-        if (page==0)
+        if (page == 0)
         {
             locations = _context.Locations.Include(p => p.University)
                                           .Include(p => p.Events)
@@ -221,10 +221,10 @@ public class LocationController : ControllerBase
         }
         else
         {
-            locations = _context.Locations.Include(p=> p.University)
-                                          .Include(p=>p.Events)
-                                          .OrderByDescending(p=>p.ID)
-                                          .Skip(page* locNum)
+            locations = _context.Locations.Include(p => p.University)
+                                          .Include(p => p.Events)
+                                          .OrderByDescending(p => p.ID)
+                                          .Skip(page * locNum)
                                           .Take(locNum);
         }
 
@@ -234,7 +234,7 @@ public class LocationController : ControllerBase
             name = p.Name,
             type = p.Type,
             webpage = p.Webpage,
-            firstName = p.Author.FirstName,
+            firstName = p.Author!.FirstName,
             lastName = p.Author.LastName,
             author = p.Author.Username,
             university = p.University,

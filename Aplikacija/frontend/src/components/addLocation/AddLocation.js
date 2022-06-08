@@ -6,6 +6,8 @@ import "./AddLocation.style.css";
 import AddLocationForm from "./addLocationForm/AddLocationForm";
 import AddLocationMap from "./addLocationMap/AddLocationMap";
 import StudentContext from "../studentManager/StudentManager";
+import { faClockRotateLeft } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function AddLocation({ initialLocation }) {
   const { t } = useTranslation(["locations"]);
@@ -25,11 +27,7 @@ function AddLocation({ initialLocation }) {
         longitude: student.universityLongitude,
       });
     }
-  }, [
-    initialLocation,
-    student.universityLatitude,
-    student.universityLongitude,
-  ]);
+  }, [initialLocation, student]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -37,7 +35,12 @@ function AddLocation({ initialLocation }) {
       setState((s) => {
         return { ...s, loading: true };
       });
+      console.log(location);
     }
+  };
+
+  const resetHandler = (e) => {
+    setLocation(initialLocation);
   };
 
   return (
@@ -56,6 +59,16 @@ function AddLocation({ initialLocation }) {
           />
         </div>
         <div className="d-flex justify-content-center mt-3 mb-5">
+          <Button
+            variant="primary"
+            type="button"
+            size="md"
+            className="me-2"
+            onClick={resetHandler}
+          >
+            <FontAwesomeIcon icon={faClockRotateLeft} />
+          </Button>
+
           <Button variant="primary" type="submit" size="md">
             {state.loading && (
               <Spinner
