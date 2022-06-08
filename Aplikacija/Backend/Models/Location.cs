@@ -22,7 +22,8 @@ namespace Backend.Models
         Doctor,
         Confectionery,
         Shop,
-        SkatePark
+        SkatePark,
+        University
     }
 
     [Table("Location")]
@@ -38,7 +39,7 @@ namespace Backend.Models
         [MaxLength(2048)]
         public string Description { get; set; } = String.Empty;
 
-        [MaxLength(1024)]
+        [MaxLength(256)]
         public string Address { get; set; } = String.Empty;
 
         public LocationType Type { get; set; }

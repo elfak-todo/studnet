@@ -64,10 +64,10 @@ public class CommentController : ControllerBase
                         }));
     }
 
-    [Route("Post/{postId}")]
+    [Route("Post")]
     [Authorize(Roles = "Student")]
     [HttpPost]
-    public async Task<ActionResult> PostComment([FromBody] Comment comment, int postId)
+    public async Task<ActionResult> PostComment([FromBody] Comment comment)
     {
         var userDetails = _tokenManager.GetUserDetails(HttpContext.User);
 
@@ -86,19 +86,40 @@ public class CommentController : ControllerBase
             return BadRequest("StudentNotFound");
         }
 
-        var post = await _context.Posts.Include(p => p.Author!)
-                                    .ThenInclude(a => a.Parlament)
-                                    .Include(p => p.Comments!)
-                                    .FirstOrDefaultAsync(p => p.ID == postId);
+        Post? post = null;
+        Event? ev = null;
 
-        if (post == null)
+        if (comment.CommentedPostId != null)
         {
-            return BadRequest("PostNotFound");
+            post = await _context.Posts.Include(p => p.Author!)
+                                        .ThenInclude(a => a.Parlament)
+                                        .Include(p => p.Comments!)
+                                        .FirstOrDefaultAsync(p => p.ID == comment.CommentedPostId);
+
+            if (post == null)
+            {
+                return BadRequest("PostNotFound");
+            }
+        }
+        else if (comment.CommentedEventId != null)
+        {
+            ev = await _context.Events.Include(p => p.Organiser!)
+                            .ThenInclude(a => a.Parlament)
+                            .Include(p => p.Comments!)
+                            .FirstOrDefaultAsync(p => p.ID == comment.CommentedPostId);
+
+            if (ev == null)
+            {
+                return BadRequest("EventNotFound");
+            }
+        }
+        else
+        {
+            return BadRequest("NoPostOrEvent");
         }
 
         comment.PublicationTime = DateTime.Now;
         comment.Author = student;
-        comment.CommentedPost = post;
         comment.Edited = false;
         comment.LikedBy = new List<Student>();
 
@@ -108,17 +129,28 @@ public class CommentController : ControllerBase
             comment.Pinned = false;
         }
 
-        if (student != post.Author || !post.Anonymous)
+        if (post != null)
+        {
+            comment.Anonymous = student == post.Author && post.Anonymous;
+            comment.CommentedPost = post;
+            if (post.Comments == null)
+            {
+                post.Comments = new List<Comment>();
+            }
+            post.Comments.Add(comment);
+        }
+        else if (ev != null)
         {
             comment.Anonymous = false;
+
+            comment.CommentedEvent = ev;
+            if (ev.Comments == null)
+            {
+                ev.Comments = new List<Comment>();
+            }
+            ev.Comments.Add(comment);
         }
 
-        if (post.Comments == null)
-        {
-            post.Comments = new List<Comment>();
-        }
-
-        post.Comments.Add(comment);
         await _context.SaveChangesAsync();
         return Ok(new
         {
