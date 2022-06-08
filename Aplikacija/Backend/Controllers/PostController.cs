@@ -107,6 +107,8 @@ public class PostController : ControllerBase
             id = p.ID,
             post = p,
             liked = p.LikedBy!.Contains(student),
+            verified = p.Verified,
+            pinned = p.Pinned,
             author = p.Anonymous && p.AuthorId != student.ID ? null : new
             {
                 p.Author!.ID,

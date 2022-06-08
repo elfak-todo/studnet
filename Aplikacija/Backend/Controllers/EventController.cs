@@ -142,6 +142,8 @@ public class EventController : ControllerBase
             id = e.ID,
             ev = e,
             liked = e.LikedBy!.Contains(student),
+            verified = e.Verified,
+            pinned = e.Pinned,
             author = new
             {
                 e.Organiser!.ID,

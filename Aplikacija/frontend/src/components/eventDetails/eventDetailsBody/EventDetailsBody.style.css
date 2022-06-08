@@ -1,0 +1,15 @@
+.tickets-txt {
+    display: flex;
+    flex-direction: column;
+}
+.reserve-form-div {
+    display: flex;
+    align-items: center;
+    width: 100% !important;
+    height: 100% !important;
+}
+.reserve-form-title {
+    font-weight: 600;
+    font-size: larger;
+    color: #4e54c8;
+}
