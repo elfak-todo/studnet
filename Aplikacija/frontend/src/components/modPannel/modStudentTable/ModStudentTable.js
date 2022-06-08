@@ -14,7 +14,7 @@ function StudentTable({ students, setStudents, refresh, setRefresh }) {
   useEffect(() => {
     if (!refresh) return;
     axios
-      .get("Student/GetAllStudents/0")
+      .get("Student/GetAllStudentsMod/0")
       .then((res) => {
         setStudents(res.data);
         setRefresh(false);
@@ -47,7 +47,6 @@ function StudentTable({ students, setStudents, refresh, setRefresh }) {
             "",
             "name",
             "username",
-            "email",
             "university",
             "faculty",
             "role",

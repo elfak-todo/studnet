@@ -49,7 +49,7 @@ function ProfileDropdown() {
           <FontAwesomeIcon icon={faGears} className="comment-like-icon-sm" />{t("admin")}
         </NavDropdown.Item>
       )}
-      {student?.role === 2 && (
+      {(student?.role === 1 || student?.role === 2) && (
         <NavDropdown.Item onClick={() => navigate("/mod")}>
         <FontAwesomeIcon icon={faGears} className="comment-like-icon-sm" />{t("moderate")}
       </NavDropdown.Item>
