@@ -1,41 +1,38 @@
-import { Container, Card, Image, Badge } from "react-bootstrap";
+import { Container, Card, Image, ProgressBar } from "react-bootstrap";
 
 import elektrijada from "../../images/events/elektrijada.jpg";
+import EventDetailsHeader from "./eventDetailsHeader/EventDetailsHeader";
+import EventDetailsBody from "./eventDetailsBody/EventDetailsBody";
+import EventDetailsOrganiser from "./eventDetailsOrganiser/EventDetailsOrganiser";
 import "./EventDetails.style.css";
 
 function EventDetails() {
   return (
-    <Container>
-      <Card className="ev-desc-card">
-        <div className="d-flex">
-          <div className="d-flex justify-content-center">
-            <Image src={elektrijada} alt="event-img" thumbnail />
+    <Container className="mb-3 mt-3 mx-auto px-0">
+      <Card className="shadow">
+        <div className="main-div">
+          <div className="img-ev-div">
+            <Image src={elektrijada} alt="event-img" className="event-img" />
           </div>
           <Container className="m-0 p-0" fluid>
-            <Card>
+            <Card className="card-ev">
+              <Card.Header>
+                <EventDetailsHeader />
+                <ProgressBar
+                  variant="primary"
+                  now={70}
+                  label="60% Reserved"
+                  animated
+                />
+              </Card.Header>
               <Card.Body>
-                <div className="desc-div-ev">
-                  <div className="d-flex align-items-center">
-                    <Card.Text className="desc-title-ev">Elektrijada</Card.Text>
-                    <div>
-                      <Badge bg="party" className="ms-2 p-2">
-                        Party
-                      </Badge>
-                    </div>
-                  </div>
-
-                  <Card.Text className="m-0 p-0">
-                    Starts at June 25, 2022, 04:17 PM{" "}
-                  </Card.Text>
-                  <Card.Text className="m-0 p-0">
-                    Ends at June 25, 2022, 04:17 PM{" "}
-                  </Card.Text>
-                </div>
+                <EventDetailsBody />
               </Card.Body>
             </Card>
           </Container>
         </div>
       </Card>
+      <EventDetailsOrganiser />
     </Container>
   );
 }

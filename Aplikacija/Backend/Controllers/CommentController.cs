@@ -51,6 +51,8 @@ public class CommentController : ControllerBase
                         {
                             id = c.ID,
                             comment = c,
+                            verified = c.Verified,
+                            pinned = c.Pinned,
                             liked = c.LikedBy!.Contains(student),
                             author = c.Anonymous && c.AuthorId != student.ID ?
                             null : new

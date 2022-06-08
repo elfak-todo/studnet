@@ -13,10 +13,14 @@ function StudentSettings({studentProp}) {
 
   return student.role === 3 && student.id !== studentProp?.id ? (
     <NavDropdown title={<FontAwesomeIcon icon={faGear} className="settings-icon" />} className="ms-auto">
-      <NavDropdown.Item> {t("ban")}</NavDropdown.Item>
-      <NavDropdown.Item> {t("promote")}</NavDropdown.Item>
+      <NavDropdown.Item /*TODO onClick={()}*/> {t("ban")}</NavDropdown.Item>
+      <NavDropdown.Item /*TODO onClick={()}*/> {t("promote")}</NavDropdown.Item>
     </NavDropdown>
-  ) : null;
+  ) : student.role > 0 && student.id !== studentProp?.id? (
+      <NavDropdown title={<FontAwesomeIcon icon={faGear} className="settings-icon" />} className="ms-auto">
+      <NavDropdown.Item /*TODO onClick={()}*/> {t("promote")}</NavDropdown.Item>
+      </NavDropdown>
+  ): null
 }
 
 export default StudentSettings;

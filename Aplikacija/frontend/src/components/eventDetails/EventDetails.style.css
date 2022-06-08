@@ -1,23 +1,27 @@
-.ev-desc-img {
-    width:100%;
-    height:100%;
-    object-fit:cover;
-}
-.desc-div {
+.main-div {
     display: flex;
     flex-direction: row;
+    justify-content: flex-start;
 }
-.desc-title-ev {
-    font-size: 40px;
-    font-weight: 650;
-    margin: 0;
-    padding: 0;
+.img-ev-div {
+    width: 40rem !important;
+    height: 40rem !important;
 }
-.desc-div-ev {
+.card-ev {
+    width: inherit !important;
+    height: 100%;
+}
+.ev-elements {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100% !important;
-    width: 100% !important;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
 }
+  
+@media screen and (max-width: 780px) {
+    .main-div{
+      flex-wrap: wrap;
+    }
+}
+  

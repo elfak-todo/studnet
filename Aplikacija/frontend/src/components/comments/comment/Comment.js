@@ -20,6 +20,7 @@ import {
 import { parseDate } from "../../../helpers/DateParser.js";
 import StudentContext from "../../studentManager/StudentManager";
 import defaultPic from "../../../images/defaultProfilePic.jpg";
+import anonymousPic from "../../../images/anonymous.jpg";
 import SettingsDropdown from "../../settingsDropdown/SettingsDropdown";
 import ProfileHoverCard from "../../profile/profileHoverCard/ProfileHoverCard.js";
 
@@ -32,7 +33,6 @@ function Comment({
   setComments,
   post,
   isLiked,
-  feed,
   setFeed,
 }) {
   const { t, i18n } = useTranslation(["post"]);
@@ -82,63 +82,6 @@ function Comment({
     }
   };
 
-  const handleDelete = () => {
-    axios
-      .delete("Comment/Delete/" + comment.id)
-      .then((res) => {
-        setComments(comments.filter((com) => com.comment.id !== comment.id));
-
-        setFeed((prevState) => {
-          return prevState.map((p) => {
-            if (p.post.id === post.id) {
-              p.post.commentCount = p.post.commentCount - 1;
-              return p;
-            } else return p;
-          });
-        });
-      })
-      .catch((error) => {
-        console.log(error.response.data);
-      });
-  };
-
-  const handlePinn = () => {
-    axios
-      .put("Comment/SetPinned/" + comment.id + "/" + !pinned)
-      .then((res) => {
-        setPinned(res.data.pinned);
-        setComments((prevState) => {
-          return prevState.map((p) => {
-            if (p.comment.id === comment.id) {
-              p.comment.pinned = !pinned;
-              return p;
-            } else return p;
-          });
-        });
-      })
-      .catch((err) => {
-        console.log(err.response.data);
-      });
-  };
-  const handleVerify = () => {
-    axios
-      .put("Comment/SetVerified/" + comment.id + "/" + !verified)
-      .then((res) => {
-        setVerified(res.data.verified);
-        setComments((prevState) => {
-          return prevState.map((p) => {
-            if (p.comment.id === comment.id) {
-              p.comment.verified = !verified;
-              return p;
-            } else return p;
-          });
-        });
-      })
-      .catch((err) => {
-        console.log(err.response.data);
-      });
-  };
-
   const handleLike = () => {
     if (loading) return;
 
@@ -169,25 +112,6 @@ function Comment({
       });
   };
 
-  const handleSelectedAction = (keyEvent) => {
-    switch (keyEvent) {
-      case "delete":
-        handleDelete();
-        break;
-      case "verify":
-        handleVerify();
-        break;
-      case "pinn":
-        handlePinn();
-        break;
-      case "edit":
-        setEdit(true);
-        break;
-      default:
-        break;
-    }
-  };
-
   return (
     <Container className="comment-header">
       <OverlayTrigger
@@ -206,9 +130,9 @@ function Comment({
       >
         <Image
           src={
-            (author !== null && author.imagePath === "/") ||
-            author === null ||
-            author.imagePath === "/"
+            author === null || (author.id === student.id && comment.anonymous)
+              ? anonymousPic
+              : author.imagePath === "/"
               ? defaultPic
               : author.imagePath
           }
@@ -225,7 +149,7 @@ function Comment({
               : author.firstName + " " + author.lastName}
           </Card.Text>
           <Card.Text className="comment-faculty">
-            {author.facultyName}
+            {author !== null && author.facultyName}
           </Card.Text>
           <div>
             {comment.verified && (
@@ -244,10 +168,18 @@ function Comment({
           {student.role === 3 ||
           (student !== null && author !== null && student.id === author.id) ? (
             <SettingsDropdown
-              selectedAction={handleSelectedAction}
-              pinned={pinned}
-              verified={verified}
+              postType="Comment"
+              post={comment}
               author={author}
+              feed={comments}
+              setFeed={setComments}
+              verified={verified}
+              setVerified={setVerified}
+              pinned={pinned}
+              setPinned={setPinned}
+              setEdit={setEdit}
+              setPostFeed={setFeed}
+              commentedPost={post}
               className="comment-settings"
             />
           ) : null}

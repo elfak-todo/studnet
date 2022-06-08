@@ -22,7 +22,7 @@ function EventForm() {
   const [paidEv, setPaidEv] = useState(false);
 
   return (
-    <Container className="ev-form-cont">
+    <Container className="ev-form-cont p-3 mx-auto px-0">
       <Card className="shadow">
         <Card.Header>
           <Card.Title className="ev-form-title">{t("createEv")}</Card.Title>
@@ -98,7 +98,7 @@ function EventForm() {
                 )}
               </Col>
 
-              <Col>
+              <Col sm={6}>
                 <Form.Control
                   as="textarea"
                   rows={10}

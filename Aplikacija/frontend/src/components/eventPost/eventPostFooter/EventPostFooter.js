@@ -33,11 +33,9 @@ function EventPostFooter({ event }) {
           <Card.Text> 0 </Card.Text>
         </div>
       </div>
-      {event.paidEvent && (
         <Button onClick={() => navigate(`/event`)}>
-          {t("event:reserve")}
+          {t("event:moreDetails")}
         </Button>
-      )}
       <div className="align-row">
         <div className="center-items">
           <FontAwesomeIcon

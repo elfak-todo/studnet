@@ -9,7 +9,7 @@ import CommentSection from "../comments/commentSection/CommentSection";
 
 import "./Post.style.css";
 
-function Post({ feedEl, innerRef, feed, setFeed }) {
+function Post({ feedEl, innerRef, feed, setFeed, pinned, verified}) {
   const author = feedEl.author;
   const comments = feedEl.comments;
   const post = feedEl.post;
@@ -70,6 +70,8 @@ function Post({ feedEl, innerRef, feed, setFeed }) {
           feed={feed}
           setFeed={setFeed}
           setEdit={setEdit}
+          pinnedProp={pinned}
+          verifiedProp={verified}
         />
         <Card.Body>
           {edit ? (
