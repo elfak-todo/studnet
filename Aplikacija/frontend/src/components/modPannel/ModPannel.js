@@ -1,6 +1,6 @@
 import "./ModPannel.style.css";
 import StudentFilter from "../studentFilter/StudentFilter";
-import StudentSearch from "../studentSearch/StudentSearch";
+import ModStudentSearch from "./modStudentSearch/ModStudentSearch";
 import ModStudentTable from "./modStudentTable/ModStudentTable";
 
 import { useTranslation } from "react-i18next";
@@ -54,7 +54,7 @@ function ModPannel() {
                 tabClassName="profile-feed-tab"
                 title={t("misc:search")}
                 >
-                <StudentSearch
+                <ModStudentSearch
                     setStudents={setStudents}
                     setRefresh={setRefresh}
                     showSearchLabel={showSearchLabel}

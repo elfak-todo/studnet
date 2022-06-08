@@ -1,0 +1,15 @@
+.student-thead {
+    background-color: #4e54c8 !important;
+    color: white;
+}
+.forms {
+    display: flex;
+    justify-content: left;
+    align-items: flex-end;
+}
+
+@media screen and (max-width: 1200px) {
+    .forms {
+        flex-wrap: wrap;
+    }
+}
