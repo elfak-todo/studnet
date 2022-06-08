@@ -187,26 +187,53 @@ public class StudentController : ControllerBase
 
         IQueryable<Student> students;
 
-        if (page == 0)
+        if (arr.Count() > 1)
         {
-            students = _context.Students.Include(p => p.University)
-                                        .Include(s => s.Parlament!)
-                                        .ThenInclude(p => p.Faculty)
-                                        .AsSplitQuery()
-                                        .Where(p => p.FirstName.Contains(arr[0]) || p.LastName.Contains(arr.Count() >= 2 ? arr[1] : arr[0]))
-                                        .OrderByDescending(p => p.ID)
-                                        .Take(studentNum);
+            if (page == 0)
+            {
+                students = _context.Students.Include(p => p.University)
+                                            .Include(s => s.Parlament!)
+                                            .ThenInclude(p => p.Faculty)
+                                            .AsSplitQuery()
+                                            .Where(p => p.FirstName.Contains(arr[0]) && p.LastName.Contains(arr[1]))
+                                            .OrderByDescending(p => p.ID)
+                                            .Take(studentNum);
+            }
+            else
+            {
+                students = _context.Students.Include(p => p.University)
+                                            .Include(s => s.Parlament!)
+                                            .ThenInclude(p => p.Faculty)
+                                            .AsSplitQuery()
+                                            .Where(p => p.FirstName.Contains(arr[0]) && p.LastName.Contains(arr[1]))
+                                            .OrderByDescending(p => p.ID)
+                                            .Skip(page * studentNum)
+                                            .Take(studentNum);
+            }
         }
-        else
+        else 
         {
-            students = _context.Students.Include(p => p.University)
-                                        .Include(s => s.Parlament!)
-                                        .ThenInclude(p => p.Faculty)
-                                        .AsSplitQuery()
-                                        .Where(p => p.FirstName.Contains(arr[0]) || p.LastName.Contains(arr[1]))
-                                        .OrderByDescending(p => p.ID)
-                                        .Skip(page * studentNum)
-                                        .Take(studentNum);
+            if (page == 0)
+            {
+                students = _context.Students.Include(p => p.University)
+                                            .Include(s => s.Parlament!)
+                                            .ThenInclude(p => p.Faculty)
+                                            .AsSplitQuery()
+                                            .Where(p => p.FirstName.Contains(arr[0]) || p.LastName.Contains(arr[0]) || p.Username.Contains(arr[0]))
+                                            .OrderByDescending(p => p.ID)
+                                            .Take(studentNum);
+            }
+            else
+            {
+                students = _context.Students.Include(p => p.University)
+                                            .Include(s => s.Parlament!)
+                                            .ThenInclude(p => p.Faculty)
+                                            .AsSplitQuery()
+                                            .Where(p => p.FirstName.Contains(arr[0]) || p.LastName.Contains(arr[0]) || p.Username.Contains(arr[0]))
+                                            .OrderByDescending(p => p.ID)
+                                            .Skip(page * studentNum)
+                                            .Take(studentNum);
+            }
         }
 
         var selectedStudents = students.Select(p => new
@@ -299,27 +326,54 @@ public class StudentController : ControllerBase
         }
 
         IQueryable<Student> students;
-
-        if (page == 0)
+        
+        if (arr.Count() > 1)
         {
-            students = _context.Students.Include(p => p.University)
-                                        .Include(s => s.Parlament!)
-                                        .ThenInclude(p => p.Faculty)
-                                        .AsSplitQuery()
-                                        .Where(p => p.FirstName.Contains(arr[0]) || p.LastName.Contains(arr.Count() >= 2? arr[1] : arr[0]))
-                                        .OrderByDescending(p => p.ID)
-                                        .Take(studentNum);
+            if (page == 0)
+            {
+                students = _context.Students.Include(p => p.University)
+                                            .Include(s => s.Parlament!)
+                                            .ThenInclude(p => p.Faculty)
+                                            .AsSplitQuery()
+                                            .Where(p => p.FirstName.Contains(arr[0]) && p.LastName.Contains(arr[1]))
+                                            .OrderByDescending(p => p.ID)
+                                            .Take(studentNum);
+            }
+            else
+            {
+                students = _context.Students.Include(p => p.University)
+                                            .Include(s => s.Parlament!)
+                                            .ThenInclude(p => p.Faculty)
+                                            .AsSplitQuery()
+                                            .Where(p => p.FirstName.Contains(arr[0]) && p.LastName.Contains(arr[1]))
+                                            .OrderByDescending(p => p.ID)
+                                            .Skip(page * studentNum)
+                                            .Take(studentNum);
+            }
         }
-        else
+        else 
         {
-            students = _context.Students.Include(p => p.University)
-                                        .Include(s => s.Parlament!)
-                                        .ThenInclude(p => p.Faculty)
-                                        .AsSplitQuery()
-                                        .Where(p => p.FirstName.Contains(arr[0]) || p.LastName.Contains(arr[1]))
-                                        .OrderByDescending(p => p.ID)
-                                        .Skip(page * studentNum)
-                                        .Take(studentNum);
+            if (page == 0)
+            {
+                students = _context.Students.Include(p => p.University)
+                                            .Include(s => s.Parlament!)
+                                            .ThenInclude(p => p.Faculty)
+                                            .AsSplitQuery()
+                                            .Where(p => p.FirstName.Contains(arr[0]) || p.LastName.Contains(arr[0]) || p.Username.Contains(arr[0]))
+                                            .OrderByDescending(p => p.ID)
+                                            .Take(studentNum);
+            }
+            else
+            {
+                students = _context.Students.Include(p => p.University)
+                                            .Include(s => s.Parlament!)
+                                            .ThenInclude(p => p.Faculty)
+                                            .AsSplitQuery()
+                                            .Where(p => p.FirstName.Contains(arr[0]) || p.LastName.Contains(arr[0]) || p.Username.Contains(arr[0]))
+                                            .OrderByDescending(p => p.ID)
+                                            .Skip(page * studentNum)
+                                            .Take(studentNum);
+            }
         }
 
         var selectedStudents = students.Select(p => new
