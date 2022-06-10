@@ -5,7 +5,8 @@
     align-items: center;
 }
 .edit-profile-img {
-    width: 10rem;
+    width: 10rem !important;
+    height: 10rem !important;
     margin-bottom: 10px;
 }
 .center-button {

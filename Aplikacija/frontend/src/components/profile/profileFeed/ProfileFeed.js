@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { Tabs, Tab } from "react-bootstrap";
 
 import Post from "../../post/Post.js";
+import EventPost from "../../eventPost/EventPost.js"
 import "./ProfileFeed.style.css";
 import Feed from "../../feed/Feed.js";
 import StudentContext from "../../studentManager/StudentManager.js";
@@ -39,7 +40,12 @@ function ProfileFeed({ studentProp }) {
         tabClassName="profile-feed-tab"
         title={t("misc:events")}
       >
-        {openedTab === "events" && <div>DOGAĐAJI</div>}
+        {openedTab === "events" && studentProp && url && (
+          <Feed
+            url={url + "/Events"}
+            FeedCard={EventPost}
+          />
+        )}
       </Tab>
       <Tab
         className="mb-5"

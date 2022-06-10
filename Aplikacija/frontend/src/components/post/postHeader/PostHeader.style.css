@@ -34,7 +34,8 @@
     margin-right: 10px;
 }
 .popover {
-   min-height: 28rem;
+    min-width: 18rem !important;
+    min-height: 23rem !important;
 }
 .settings-icon {
     font-size: 20px;

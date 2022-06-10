@@ -9,6 +9,7 @@ import StudentContext from "../studentManager/StudentManager";
 
 function SettingsDropdown({
   postType,
+  commentType,
   post,
   author,
   feed,
@@ -35,8 +36,11 @@ function SettingsDropdown({
 
           setPostFeed((prevState) => {
             return prevState.map((p) => {
-              if (p.post.id === commentedPost.id) {
-                p.post.commentCount = p.post.commentCount - 1;
+              if (p.id === commentedPost.id) {
+                if (commentType === "post")
+                  p.post.commentCount = p.post.commentCount - 1;
+                else if (commentType === "event")
+                  p.ev.commentCount = p.ev.commentCount - 1;
                 return p;
               } else return p;
             });

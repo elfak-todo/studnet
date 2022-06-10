@@ -27,6 +27,7 @@ import ProfileHoverCard from "../../profile/profileHoverCard/ProfileHoverCard.js
 import "./Comment.style.css";
 
 function Comment({
+  commentType,
   author,
   comment,
   comments,
@@ -130,7 +131,8 @@ function Comment({
       >
         <Image
           src={
-            author === null || (author.id === student.id && comment.anonymous)
+            (author === null && comment.anonymous) ||
+            (author.id === student.id && comment.anonymous)
               ? anonymousPic
               : author.imagePath === "/"
               ? defaultPic
@@ -144,12 +146,12 @@ function Comment({
       <Container className="m-0 p-0">
         <div className="text-row">
           <Card.Text className="comment-name">
-            {author === null
+            {author === null || (author?.id === student.id && comment.anonymous)
               ? t("anonymous")
               : author.firstName + " " + author.lastName}
           </Card.Text>
           <Card.Text className="comment-faculty">
-            {author !== null && author.facultyName}
+            {author !== null && !comment.anonymous && author.facultyName}
           </Card.Text>
           <div>
             {comment.verified && (
@@ -169,6 +171,7 @@ function Comment({
           (student !== null && author !== null && student.id === author.id) ? (
             <SettingsDropdown
               postType="Comment"
+              commentType={commentType}
               post={comment}
               author={author}
               feed={comments}

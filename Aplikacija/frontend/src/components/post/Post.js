@@ -9,7 +9,7 @@ import CommentSection from "../comments/commentSection/CommentSection";
 
 import "./Post.style.css";
 
-function Post({ feedEl, innerRef, feed, setFeed, pinned, verified}) {
+function Post({ feedEl, innerRef, feed, setFeed, pinned, verified }) {
   const author = feedEl.author;
   const comments = feedEl.comments;
   const post = feedEl.post;
@@ -113,6 +113,8 @@ function Post({ feedEl, innerRef, feed, setFeed, pinned, verified}) {
         </Card.Body>
         <Card.Footer className="p-0">
           <CommentSection
+            postType="post"
+            commentType="post"
             author={author}
             topComments={comments}
             post={post}

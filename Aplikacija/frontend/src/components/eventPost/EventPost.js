@@ -4,6 +4,7 @@ import "./EventPost.style.css";
 import EventPostHeader from "./eventPostHeader/EventPostHeader";
 import EventPostBody from "./eventPostBody/EventPostBody";
 import EventPostFooter from "./eventPostFooter/EventPostFooter";
+import CommentSection from "../comments/commentSection/CommentSection";
 
 function EventPost({ feedEl, innerRef, feed, setFeed, verified, pinned }) {
   return (
@@ -32,12 +33,28 @@ function EventPost({ feedEl, innerRef, feed, setFeed, verified, pinned }) {
               <Card.Body>
                 <div className="ev-elements">
                   <EventPostBody event={feedEl.ev} />
-                  <EventPostFooter event={feedEl.ev} />
+                  <EventPostFooter
+                    event={feedEl.ev}
+                    isLiked={feedEl.liked}
+                    feed={feed}
+                    setFeed={setFeed}
+                  />
                 </div>
               </Card.Body>
             </Card>
           </Container>
         </div>
+        <Card.Footer className="p-0">
+          <CommentSection
+            postType="event"
+            commentType="event"
+            author={feedEl.author}
+            topComments={[]}
+            post={feedEl.ev}
+            feed={feed}
+            setFeed={setFeed}
+          />
+        </Card.Footer>
       </Card>
     </Container>
   );

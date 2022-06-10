@@ -116,7 +116,7 @@ public class CommentController : ControllerBase
             ev = await _context.Events.Include(p => p.Organiser!)
                             .ThenInclude(a => a.Parlament)
                             .Include(p => p.Comments!)
-                            .FirstOrDefaultAsync(p => p.ID == comment.CommentedPostId);
+                            .FirstOrDefaultAsync(p => p.ID == comment.CommentedEventId);
 
             if (ev == null)
             {

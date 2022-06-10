@@ -10,7 +10,14 @@ import Comment from "../comment/Comment";
 
 import "./CommentSection.style.css";
 
-function CommentSection({ topComments, post, feed, setFeed }) {
+function CommentSection({
+  postType,
+  commentType,
+  topComments,
+  post,
+  feed,
+  setFeed,
+}) {
   const { t } = useTranslation(["post"]);
 
   const [comments, setComments] = useState(topComments);
@@ -21,7 +28,7 @@ function CommentSection({ topComments, post, feed, setFeed }) {
   function seeMoreComments() {
     if (!noComments) {
       setLoading(true);
-      axios.get("Comment/PostOrEvent?postId=" + post.id).then((res) => {
+      axios.get(`Comment/PostOrEvent?${postType}Id=${post.id}`).then((res) => {
         if (res.data.length === 0) {
           setNoComments(true);
           setLoading(false);
@@ -39,10 +46,12 @@ function CommentSection({ topComments, post, feed, setFeed }) {
 
   function seeLessComments() {
     const l = [];
-    comments.forEach((c) => {
-      topComments.forEach((e) => {
-        if (e.comment.id === c.comment.id) l.push(e);
-      });
+    comments?.forEach((c) => {
+      if (topComments !== null) {
+          topComments.forEach((e) => {
+            if (e.comment.id === c.comment.id) l.push(e);
+          });
+      }
     });
     setComments(l);
     setLessComments(false);
@@ -51,10 +60,11 @@ function CommentSection({ topComments, post, feed, setFeed }) {
   return (
     <div>
       <CommentForm
+        postType={postType}
         post={post}
         comments={comments}
         setComments={setComments}
-        feed={feed}
+        setNoComments={setNoComments}
         setFeed={setFeed}
       />
       {comments !== null
@@ -69,6 +79,7 @@ function CommentSection({ topComments, post, feed, setFeed }) {
               post={post}
               feed={feed}
               setFeed={setFeed}
+              commentType={commentType}
             />
           ))
         : null}

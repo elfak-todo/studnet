@@ -41,6 +41,18 @@ namespace Backend.Models
                     return 0;
             }
         }
+        [NotMapped]
+        public int CommentCount
+        {
+            get
+            {
+                if (Comments != null)
+                {
+                    return Comments.Count();
+                }
+                return 0;
+            }
+        }
 
         [MaxLength(128)]
         public string Title { get; set; } = String.Empty;

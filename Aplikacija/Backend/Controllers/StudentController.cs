@@ -211,7 +211,7 @@ public class StudentController : ControllerBase
                                             .Take(studentNum);
             }
         }
-        else 
+        else
         {
             if (page == 0)
             {
@@ -326,7 +326,7 @@ public class StudentController : ControllerBase
         }
 
         IQueryable<Student> students;
-        
+
         if (arr.Count() > 1)
         {
             if (page == 0)
@@ -351,7 +351,7 @@ public class StudentController : ControllerBase
                                             .Take(studentNum);
             }
         }
-        else 
+        else
         {
             if (page == 0)
             {
@@ -658,20 +658,47 @@ public class StudentController : ControllerBase
     [HttpGet]
     public async Task<ActionResult> GetStudentEvents(int studentId, int page)
     {
-        //TODO
+        const int pageSize = 10;
 
-        //const int pageSize = 10;
+        var student = await _tokenManager.GetStudent(HttpContext.User);
+        if (student == null)
+        {
+            return BadRequest("UserNotFound");
+        }
 
-        // var userDetails = _tokenManager.GetUserDetails(HttpContext.User);
+        var events = _context.Events.Include(p => p.Organiser!)
+                                .ThenInclude(a => a.Parlament!)
+                                .ThenInclude(p => p.Faculty)
+                                .Include(p => p.Comments!)
+                                .ThenInclude(c => c.LikedBy)
+                                .Include(p => p.LikedBy)
+                                .AsSplitQuery()
+                                .Where(p => p.OrganiserId == studentId)
+                                .OrderByDescending(p => p.PublicationTime)
+                                .Skip(page * pageSize)
+                                .Take(pageSize);
 
-        // if (userDetails == null)
-        // {
-        //     return BadRequest("BadToken");
-        // }
 
-        await _context.SaveChangesAsync();
+        var eventsSelected = events.Select(p => new
+        {
+            id = p.ID,
+            ev = p,
+            liked = p.LikedBy!.Contains(student),
+            verified = p.Verified,
+            pinned = p.Pinned,
+            author = new
+            {
+                p.Organiser!.ID,
+                p.Organiser.FirstName,
+                p.Organiser.LastName,
+                p.Organiser.Username,
+                p.Organiser.ImagePath,
+                facultyName = p.Organiser.Parlament!.Faculty!.Name,
+                facultyImagePath = p.Organiser.Parlament!.Faculty!.ImagePath
+            },
+        });
 
-        return Ok(Array.Empty<Object>());
+        return Ok(await eventsSelected.ToListAsync());
     }
 
     [Route("")]

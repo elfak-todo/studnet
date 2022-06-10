@@ -4,7 +4,8 @@
     align-items: center;
 }
 .event-profile-pic {
-    width: 60px;
+    width: 60px !important;
+    height: 60px !important;
 }
 .author-name {
     font-size: larger;

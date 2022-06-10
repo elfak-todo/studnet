@@ -12,8 +12,9 @@ import {
 import defaultPic from "../../../../images/defaultProfilePic.jpg";
 import EditProfile from "../../editProfile/EditProfile";
 import StudentContext from "../../../studentManager/StudentManager";
-import "./ProfileSectionHeader.style.css";
 import StudentSettings from "../../../studentSettings/StudentSettings";
+
+import "./ProfileSectionHeader.style.css";
 
 function ProfileSectionHeader({ studentProp, setStudentProp }) {
   const { t } = useTranslation(["profile", "misc"]);
@@ -77,7 +78,7 @@ function ProfileSectionHeader({ studentProp, setStudentProp }) {
         setShowEditCover={setShowEditCover}
       />
       <Card.Body>
-        <div className="d-flex">
+        <div>
         <div className="header-desc">
           <h2 className="text-name">
             {`${studentProp?.firstName} ${studentProp?.lastName}`}
