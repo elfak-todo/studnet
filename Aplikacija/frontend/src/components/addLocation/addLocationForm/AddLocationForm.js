@@ -29,6 +29,7 @@ function AddLocationForm({
           <FloatingLabel label={t("locationName")}>
             <Form.Control
               type="input"
+              placeholder="Location name"
               value={location.name || ""}
               isInvalid={inputStatus.nameInvalid}
               onChange={(e) => {
@@ -51,6 +52,7 @@ function AddLocationForm({
           <FloatingLabel label={t("address")}>
             <Form.Control
               type="input"
+              placeholder="Address"
               value={location.address || ""}
               isInvalid={inputStatus.addressInvalid}
               onChange={(e) => {
@@ -73,6 +75,7 @@ function AddLocationForm({
           <FloatingLabel label={t("type")}>
             <Form.Select
               isInvalid={inputStatus.typeInvalid}
+              placeholder="Type"
               value={
                 location.type !== undefined && location.type !== null
                   ? location.type
@@ -127,6 +130,7 @@ function AddLocationForm({
           <FloatingLabel label={t("webpage")}>
             <Form.Control
               type="input"
+              placeholder="Web page"
               value={location.webpage || ""}
               isInvalid={inputStatus.webpageInvalid}
               onChange={(e) => {
