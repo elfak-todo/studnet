@@ -276,40 +276,45 @@ public class LocationController : ControllerBase
 
         if (request.image != null)
         {
+            var imagePath = await _imageManager.SaveImage(request.image, "/images/locations/");
+
+            if (imagePath == "UnsupportedFileType")
+            {
+                return BadRequest("UnsupportedFileType");
+            }
+
             if (location.ImagePath != null && location.ImagePath != "")
             {
                 _imageManager.DeleteImage(location.ImagePath);
             }
-            location.ImagePath =
-                await _imageManager.SaveImage(request.image, "/images/locations/");
-        }
 
-        if (request.imageGallery == null)
-        {
-            Console.WriteLine("NULL");
-        }
-        else
-        {
-            Console.WriteLine(request.imageGallery.Count);
+            location.ImagePath = imagePath;
         }
 
         if (request.imageGallery != null && request.imageGallery.Count > 0)
         {
-            foreach (var s in location.ImageGallery)
-            {
-                _imageManager.DeleteImage(s);
-            }
-
             var images = new List<String>();
 
             foreach (var img in request.imageGallery)
             {
                 var imagePath = await _imageManager.SaveImage(img, "/images/locationGallery/");
+
+                if (imagePath == "UnsupportedFileType")
+                {
+                    return BadRequest("UnsupportedFileType");
+                }
+
                 if (imagePath != null)
                 {
                     images.Add(imagePath);
                 }
             }
+
+            foreach (var s in location.ImageGallery)
+            {
+                _imageManager.DeleteImage(s);
+            }
+
             location.ImageGallery = images;
         }
         await _context.SaveChangesAsync();
@@ -321,20 +326,46 @@ public class LocationController : ControllerBase
     [HttpGet]
     public async Task<ActionResult> GetLocationEvents(int locationId, int page)
     {
-        //TODO
+        const int pageSize = 10;
 
-        //const int pageSize = 10;
+        var student = await _tokenManager.GetStudent(HttpContext.User);
+        if (student == null)
+        {
+            return BadRequest("UserNotFound");
+        }
 
-        // var userDetails = _tokenManager.GetUserDetails(HttpContext.User);
+        var events = _context.Events.Include(p => p.Organiser!)
+                                .ThenInclude(a => a.Parlament!)
+                                .ThenInclude(p => p.Faculty)
+                                .Include(p => p.Comments!)
+                                .ThenInclude(c => c.LikedBy)
+                                .Include(p => p.LikedBy)
+                                .AsSplitQuery()
+                                .Where(p => p.LocationId == locationId)
+                                .OrderByDescending(p => p.PublicationTime)
+                                .Skip(page * pageSize)
+                                .Take(pageSize);
 
-        // if (userDetails == null)
-        // {
-        //     return BadRequest("BadToken");
-        // }
+        var eventsSelected = events.Select(p => new
+        {
+            id = p.ID,
+            ev = p,
+            liked = p.LikedBy!.Contains(student),
+            verified = p.Verified,
+            pinned = p.Pinned,
+            author = new
+            {
+                p.Organiser!.ID,
+                p.Organiser.FirstName,
+                p.Organiser.LastName,
+                p.Organiser.Username,
+                p.Organiser.ImagePath,
+                facultyName = p.Organiser.Parlament!.Faculty!.Name,
+                facultyImagePath = p.Organiser.Parlament!.Faculty!.ImagePath
+            },
+        });
 
-        await _context.SaveChangesAsync();
-
-        return Ok(Array.Empty<Object>());
+        return Ok(await eventsSelected.ToListAsync());
     }
 
     [Route("GetAllLocations/{page}")]

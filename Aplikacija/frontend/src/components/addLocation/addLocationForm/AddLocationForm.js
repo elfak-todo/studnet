@@ -171,7 +171,12 @@ function AddLocationForm({
       </Row>
       <Row className="mb-2">
         <Col>
-          <Form.Control type="file" accept="image/*" size="md" ref={imageRef} />
+          <Form.Control
+            type="file"
+            accept="image/png, image/jpeg"
+            size="md"
+            ref={imageRef}
+          />
         </Col>
       </Row>
       <Row className="mb-1">

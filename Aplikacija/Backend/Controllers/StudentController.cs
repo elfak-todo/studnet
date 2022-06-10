@@ -17,14 +17,16 @@ public class StudentController : ControllerBase
     private IAccessTokenManager _tokenManager;
     private IPasswordManager _passwordManager;
     private IConfiguration _config;
+    private IImageManager _imageManager;
 
     public StudentController(Context context, IConfiguration config,
-            IAccessTokenManager tokenManager, IPasswordManager passwordManager)
+            IAccessTokenManager tokenManager, IPasswordManager passwordManager, IImageManager imageManager)
     {
         _context = context;
         _tokenManager = tokenManager;
         _passwordManager = passwordManager;
         _config = config;
+        _imageManager = imageManager;
     }
 
     [Route("GetStudents/{universityId}/{parlamentId}/{page}")]
@@ -782,31 +784,27 @@ public class StudentController : ControllerBase
             return BadRequest("ImageRequired");
         }
 
-        string[] allowedContentType = new string[] { ".png", ".jpg", ".jpeg" };
-
-        string extension = Path.GetExtension(image.FileName);
-
-        if (!allowedContentType.Contains(extension))
-        {
-            return BadRequest("UnsupportedFileType");
-        }
-
         var student = await _tokenManager.GetStudent(HttpContext.User);
         if (student == null)
         {
             return BadRequest("UserNotFound");
         }
 
-        var fileName = Path.GetRandomFileName();
-        var imagePath = "/images/users/" + fileName + extension;
+        var imagePath = await _imageManager.SaveImage(image, "/images/users/");
 
-        using (var stream = System.IO.File.Create(_config["Files:StaticPath"] + imagePath))
+        if (imagePath == "UnsupportedFileType")
         {
-            await image.CopyToAsync(stream);
-            student.ImagePath = imagePath;
-            await _context.SaveChangesAsync();
-            return Ok(imagePath);
+            return BadRequest("UnsupportedFileType");
         }
+
+        if (student.ImagePath != null && student.ImagePath != "")
+        {
+            _imageManager.DeleteImage(student.ImagePath);
+        }
+
+        student.ImagePath = imagePath;
+        await _context.SaveChangesAsync();
+        return Ok(imagePath);
     }
 }
 

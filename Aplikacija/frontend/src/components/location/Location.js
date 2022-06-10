@@ -92,7 +92,9 @@ function Location({ location, setLocation, author }) {
             className="p-2 location-tab"
             tabClassName="profile-feed-tab"
           >
-            {openedTab === "events" && <LocationEvents location={location} />}
+            {openedTab === "events" && location && (
+              <LocationEvents location={location} />
+            )}
           </Tab>
           <Tab
             eventKey="map"

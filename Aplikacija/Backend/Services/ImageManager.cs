@@ -9,7 +9,7 @@ namespace Backend.Services
 
     public class ImageManager : IImageManager
     {
-        private string[] allowedContentType = new string[] { ".png", ".jpg", ".jpeg" };
+        private string[] allowedExtensions = new string[] { ".png", ".jpg", ".jpeg" };
 
         private IConfiguration _config;
 
@@ -22,9 +22,9 @@ namespace Backend.Services
         {
             string extension = Path.GetExtension(image.FileName);
 
-            if (!allowedContentType.Contains(extension))
+            if (!allowedExtensions.Contains(extension))
             {
-                return null;
+                return "UnsupportedFileType";
             }
 
             var fileName = Path.GetRandomFileName();

@@ -1,10 +1,10 @@
 import React from "react";
 
 import Feed from "../../feed/Feed";
-import EventCard from "../../eventCard/EventCard";
+import EventPost from "../../eventPost/EventPost";
 
 function LocationEvents({ location }) {
-  return <Feed url={`Location/${location.id}/Events`} FeedCard={EventCard} />;
+  return <Feed url={`Location/${location.id}/Events`} FeedCard={EventPost} />;
 }
 
 export default LocationEvents;

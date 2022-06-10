@@ -122,10 +122,10 @@ function EditProfile({ profile, setProfile, showEditCover, setShowEditCover }) {
           setLoading(false);
           switch (err.response.data) {
             case "StudentRequired":
-              console.log("StudentRequired");
+              //TODO
               break;
             case "UsernameTaken":
-              console.log("UsernameTaken");
+              //TODO
               break;
             default:
               break;

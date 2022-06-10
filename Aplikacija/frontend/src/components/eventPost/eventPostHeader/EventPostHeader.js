@@ -26,9 +26,7 @@ function EventPostHeader({
   const [pinned, setPinned] = useState(pinnedProp);
   const [verified, setVerified] = useState(verifiedProp);
 
-  const [edit, setEdit] = useState(false);
-
-  console.log(edit);
+  const [, /*edit*/ setEdit] = useState(false);
 
   return (
     <div className="event-header">
