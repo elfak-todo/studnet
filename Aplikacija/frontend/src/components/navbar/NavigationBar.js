@@ -4,8 +4,7 @@ import { Container, Navbar, Nav } from "react-bootstrap";
 
 import "./NavigationBar.style.css";
 
-import logo from "../../images/logoSmall.png";
-
+import logoSmall from "../../images/smallLogo.png";
 import ProfileDropdown from "../profile/profileDropdown/ProfileDropdown";
 import SelectLanguage from "../selectLanguage/SelectLanguage";
 
@@ -18,10 +17,10 @@ function NavigationBar() {
       <Container fluid className="p-1">
         <Navbar.Brand as={Link} to="/home">
           <img
-            src={logo}
+            src={logoSmall}
             className="logo d-inline-block align-top"
             alt="Logo"
-            style={{ height: "1.6rem", width: "auto", marginLeft: "1rem" }}
+            style={{ height: "1.8rem", width: "auto", marginLeft: "1rem" }}
           />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
