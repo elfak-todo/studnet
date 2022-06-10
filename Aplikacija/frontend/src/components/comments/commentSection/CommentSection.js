@@ -21,7 +21,7 @@ function CommentSection({ topComments, post, feed, setFeed }) {
   function seeMoreComments() {
     if (!noComments) {
       setLoading(true);
-      axios.get("Comment/GetPostComments/" + post.id).then((res) => {
+      axios.get("Comment/PostOrEvent?postId=" + post.id).then((res) => {
         if (res.data.length === 0) {
           setNoComments(true);
           setLoading(false);

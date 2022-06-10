@@ -21,10 +21,10 @@ public class CommentController : ControllerBase
         _tokenManager = tokenManager;
     }
 
-    [Route("GetPostComments/{postId}")]
+    [Route("PostOrEvent")]
     [Authorize(Roles = "Student")]
     [HttpGet]
-    public async Task<ActionResult> GetPostComments(int postId)
+    public async Task<ActionResult> GetPostOrEventComments([FromQuery] int? postId, [FromQuery] int? eventId)
     {
         var student = await _tokenManager.GetStudent(HttpContext.User);
 
@@ -33,11 +33,18 @@ public class CommentController : ControllerBase
             return StatusCode(500, "StudentNotFound");
         }
 
+        if (postId == null && eventId == null)
+        {
+            return BadRequest("PostOrEventIdMissing");
+        }
+
         var comments = _context.Comments.Include(c => c.Author!)
                                 .ThenInclude(a => a.Parlament!)
                                 .ThenInclude(p => p.Faculty)
                                 .Include(c => c.LikedBy)
-                                .Where(c => c.CommentedPostId == postId);
+                                .Where(c => postId != null
+                                    ? c.CommentedPostId == postId
+                                    : c.CommentedEventId == eventId);
 
         if (comments == null)
         {
