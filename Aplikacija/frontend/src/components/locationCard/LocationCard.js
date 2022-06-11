@@ -10,7 +10,12 @@ import "./LocationCard.style.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import defaultLocationImage from "../../images/defaultLocation.jpg";
 
-function LocationCard({ openedLocation, setOpenedLocation }) {
+function LocationCard({
+  openedLocation,
+  setOpenedLocation,
+  selectMode,
+  onLocationSelected,
+}) {
   const navigate = useNavigate();
   const { t } = useTranslation(["locations"]);
 
@@ -66,13 +71,27 @@ function LocationCard({ openedLocation, setOpenedLocation }) {
         </Card.Text>
       </Card.Body>
       <Card.Footer className="">
-        <Button
-          className="float-end"
-          variant="primary"
-          onClick={(e) => navigate("/location/" + openedLocation.id)}
-        >
-          {t("moreDetails")}
-        </Button>
+        {selectMode ? (
+          <Button
+            className="float-end"
+            variant="primary"
+            onClick={(e) => {
+              if (onLocationSelected) {
+                onLocationSelected(openedLocation);
+              }
+            }}
+          >
+            {t("select")}
+          </Button>
+        ) : (
+          <Button
+            className="float-end"
+            variant="primary"
+            onClick={(e) => navigate("/location/" + openedLocation.id)}
+          >
+            {t("moreDetails")}
+          </Button>
+        )}
       </Card.Footer>
     </Card>
   );

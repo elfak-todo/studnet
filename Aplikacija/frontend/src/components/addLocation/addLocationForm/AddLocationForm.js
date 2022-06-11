@@ -12,6 +12,7 @@ function AddLocationForm({
   state,
   imageRef,
   imageGalleryRef,
+  displayTitle,
 }) {
   const { t } = useTranslation(["locations"]);
 
@@ -21,9 +22,11 @@ function AddLocationForm({
 
   return (
     <Container className="add-location-form">
-      <h4 className="mb-4 text-center">
-        {state.edit ? t("locationUpdate") : t("locationCreation")}
-      </h4>
+      {displayTitle && (
+        <h4 className="mb-4 text-center">
+          {state.edit ? t("locationUpdate") : t("locationCreation")}
+        </h4>
+      )}
       <Row className="mb-2">
         <Col>
           <FloatingLabel label={t("locationName")}>

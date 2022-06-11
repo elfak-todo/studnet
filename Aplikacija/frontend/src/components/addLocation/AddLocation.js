@@ -11,7 +11,12 @@ import StudentContext from "../studentManager/StudentManager";
 import { faClockRotateLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-function AddLocation({ initialLocation }) {
+function AddLocation({
+  initialLocation,
+  redirect = true,
+  displayTitle = true,
+  onLocationAdded,
+}) {
   const { t } = useTranslation(["locations"]);
   const navigate = useNavigate();
 
@@ -61,7 +66,9 @@ function AddLocation({ initialLocation }) {
             },
           })
           .then((res) => {
-            navigate(`/location/${res.data.id}`);
+            if (redirect) {
+              navigate(`/location/${res.data.id}`);
+            }
           });
       } else {
         axios
@@ -71,7 +78,12 @@ function AddLocation({ initialLocation }) {
             },
           })
           .then((res) => {
-            navigate(`/location/${res.data.id}`);
+            if (onLocationAdded) {
+              onLocationAdded(res.data);
+            }
+            if (redirect) {
+              navigate(`/location/${res.data.id}`);
+            }
           });
       }
     }
@@ -91,6 +103,7 @@ function AddLocation({ initialLocation }) {
             state={state}
             imageRef={imageRef}
             imageGalleryRef={imageGalleryRef}
+            displayTitle={displayTitle}
           />
           <AddLocationMap
             location={location}
@@ -98,7 +111,7 @@ function AddLocation({ initialLocation }) {
             state={state}
           />
         </div>
-        <div className="d-flex justify-content-center mt-3 mb-5">
+        <div className="d-flex justify-content-center mt-3 mb-3">
           {state.edit && (
             <Button
               variant="primary"

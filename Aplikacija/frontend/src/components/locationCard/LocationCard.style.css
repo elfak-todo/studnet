@@ -1,8 +1,8 @@
 .location-card {
-  position: relative;
+  position: absolute !important;
   z-index: 1000;
   width: 28rem;
-  left: calc(100vw - 34rem);
+  right: 4rem !important;
   opacity: 0;
   transform: translateY(-68vh);
   transition: opacity 0.25s ease, transform 0.25s ease;
@@ -22,10 +22,11 @@
 
 @media only screen and (max-width: 768px) {
   .location-card {
+    position: relative !important;
     width: auto;
-    right: 0;
-    left: 0;
-    top: 5rem;
+    right: 0 !important;
+    left: 0 !important;
+    top: 6rem !important;
     transform: translateY(-80vh);
   }
   .location-card.visible {

@@ -48,5 +48,6 @@
   "verified": "Verified",
   "webpage": "Webpage",
   "noGrades": "This location is not yet graded.",
-  "noGradesShort": "No grades"
+  "noGradesShort": "No grades",
+  "select": "Select"
 }

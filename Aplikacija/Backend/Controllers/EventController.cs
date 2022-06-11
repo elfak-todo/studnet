@@ -217,14 +217,19 @@ public class EventController : ControllerBase
             return BadRequest("BadToken");
         }
 
-        var ev = await _context.Events.FirstOrDefaultAsync(e => e.ID == eventId);
+        var ev = await _context.Events
+                            .Include(e => e.Comments)
+                            .Include(e => e.Reservations)
+                            .AsSplitQuery()
+                            .FirstOrDefaultAsync(e => e.ID == eventId);
 
         if (ev == null)
         {
-            return BadRequest("PostNotFound");
+            return BadRequest("EventNotFound");
         }
 
-        if (ev.OrganiserId == null || ev.OrganiserId != user.ID)
+        if (user.Role < Role.AdminUni
+            && (ev.OrganiserId == null || ev.OrganiserId != user.ID))
         {
             return Forbid("NotAuthor");
         }
@@ -243,7 +248,7 @@ public class EventController : ControllerBase
 
         if (ev == null)
         {
-            return BadRequest("PostNotFound");
+            return BadRequest("EventNotFound");
         }
 
         ev.Verified = verified;

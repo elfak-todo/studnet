@@ -6,7 +6,12 @@ import LocationUniversity from "../locationMarker/LocationUniversity.js";
 import { useState } from "react";
 import LocationCard from "../locationCard/LocationCard.js";
 
-function LocationMap({ mapData, selectedMode }) {
+function LocationMap({
+  mapData,
+  selectedMode = false,
+  selectMode = false,
+  onLocationSelected,
+}) {
   const [openedLocation, setOpenedLocation] = useState(null);
 
   return (
@@ -41,6 +46,8 @@ function LocationMap({ mapData, selectedMode }) {
           <LocationCard
             openedLocation={openedLocation}
             setOpenedLocation={setOpenedLocation}
+            selectMode={selectMode}
+            onLocationSelected={onLocationSelected}
           />
         )}
       </div>
