@@ -15,7 +15,7 @@
   "newYears": "Doček nove godine",
   "createEv": "Kreiraj događaj",
   "eventType": "Tip događaja",
-  "chooseEvType": "Izaberi tip događaja",
+  "chooseEvType": "Izaberi tip događaja.",
   "title": "Naslov",
   "enterTitle": "Unesi naslov događaja.",
   "location": "Lokacija",
@@ -37,5 +37,6 @@
   "addLocation": "Kreiraj novu",
   "addLocationTitle": "Kreiranje lokacije",
   "selectLocation": "Izaberi",
-  "selectLocationTitle": "Izaberi lokaciju"
+  "selectLocationTitle": "Izaberi lokaciju",
+  "addPicture": "Dodaj sliku"
 }

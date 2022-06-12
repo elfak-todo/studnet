@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import {
   Card,
   Container,
@@ -10,6 +10,7 @@ import {
   Button,
   Modal,
   CloseButton,
+  Spinner,
 } from "react-bootstrap";
 
 import "./EventForm.style.css";
@@ -23,25 +24,94 @@ function EventForm() {
 
   const { student } = useContext(StudentContext);
 
-  const [paidEv, setPaidEv] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [addLocationShown, setAddLocationShown] = useState(false);
   const [selectLocationShown, setSelectLocationShown] = useState(false);
   const [selectedLoc, setSelectedLoc] = useState(null);
 
+  const [typeInvalid, setTylpeInvalid] = useState(false);
+  const [titleInvalid, setTitleInvalid] = useState(false);
+  const [locInvalid, setLocInvalid] = useState(false);
+  const [startDateInvalid, setStartDateInvalid] = useState(false);
+  const [endDateInvalid, setEndDateInvalid] = useState(false);
+  const [numTicketsInvalid, setNumTicketsInvalid] = useState(false);
+  const [ticketPriceInvalid, setTicketPriceInvalid] = useState(false);
+  const [descInvalid, setDescInvalid] = useState(false);
+
+  const [paidEv, setPaidEv] = useState(false);
+  const [selectedType, setSelectedType] = useState(null);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  const titleRef = useRef();
+  const ticketNumRef = useRef();
+  const ticketPriceRef = useRef();
+  const descRef = useRef();
+  const verifiedRef = useRef();
+  const pinnedRef = useRef();
+
   const onLocationAdded = (location) => {
-    console.log("Location created");
     setSelectedLoc(location);
     setAddLocationShown(false);
-    //TODO šta god hoćeš radi sa selectedLoc
-    //mislim da je naraso ovaj fajl sad dosta hahaha
-    //ostavljam nezavršeno stilizovanje ovih dugmića :* nerasumem kolone
   };
 
   const onLocationSelected = (location) => {
-    console.log("Location selected");
     setSelectedLoc(location);
     setSelectLocationShown(false);
+  };
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+
+    const title = titleRef.current.value;
+    const ticketNum = paidEv ? ticketNumRef.current.value : null;
+    const ticketPrice = paidEv ? ticketPriceRef.current.value : null;
+    const description = descRef.current.value;
+    const pinned = student.role !== 0 ? pinnedRef.current.checked : false;
+    const verified = student.role !== 0 ? verifiedRef.current.checked : false;
+
+    let proceed = true;
+
+    if (selectedType === null || selectedType === "0") {
+      setTylpeInvalid(true);
+      proceed = false;
+    }
+    if (title === "" || title.length > 128) {
+      setTitleInvalid(true);
+      proceed = false;
+    }
+    if (selectedLoc === null) {
+      setLocInvalid(true);
+      proceed = false;
+    }
+    if (startDate === null) {
+      setStartDateInvalid(true);
+      proceed = false;
+    }
+    if (endDate === null) {
+      setEndDateInvalid(true);
+      proceed = false;
+    }
+    if (paidEv && (ticketNum === "" || ticketNum > 5000)) {
+      setNumTicketsInvalid(true);
+      proceed = false;
+    }
+    if (paidEv && (ticketNum === "" || ticketPrice > 10000)) {
+      setTicketPriceInvalid(true);
+      proceed = false;
+    }
+    if (description === "" || description.length > 2048) {
+      setDescInvalid(true);
+      proceed = false;
+    }
+    if (proceed) {
+      // TODO
+      setLoading(true);
+      console.log(verified);
+      console.log(pinned);
+      console.log(selectedLoc);
+      setLoading(false);
+    }
   };
 
   return (
@@ -52,57 +122,82 @@ function EventForm() {
             <Card.Title className="ev-form-title">{t("createEv")}</Card.Title>
           </Card.Header>
           <Card.Body>
-            <Form>
+            <Form onSubmit={submitHandler}>
               <Row>
                 <Col>
-                  <EventSelectType />
+                  <EventSelectType
+                    setSelectedType={setSelectedType}
+                    isInvalid={typeInvalid}
+                    setInvalid={setTylpeInvalid}
+                  />
                   <FloatingLabel label={t("title")} className="mb-2">
-                    <Form.Control type="input" placeholder={"Event title"} />
+                    <Form.Control
+                      type="input"
+                      placeholder={"Event title"}
+                      isInvalid={titleInvalid}
+                      ref={titleRef}
+                      onChange={() => setTitleInvalid(false)}
+                    />
                     <Form.Control.Feedback type="invalid">
                       {t("enterTitle")}
                     </Form.Control.Feedback>
                   </FloatingLabel>
-                  <Row className="align-items-center p-0">
-                    <Col sm={7}>
+                  <Row>
+                    <Col>
                       <FloatingLabel label={t("location")} className="mb-2">
                         <Form.Control
-                          type="text"
+                          className="button-in"
                           placeholder={"Location"}
                           value={selectedLoc?.name}
+                          isInvalid={locInvalid}
                           readOnly
                         ></Form.Control>
                         <Form.Control.Feedback type="invalid">
-                          {t("enterTitle")}
+                          {t("enterLoc")}
                         </Form.Control.Feedback>
+                        <div
+                          className={
+                            !locInvalid
+                              ? "location-buttons"
+                              : "location-buttons-invalid"
+                          }
+                        >
+                          <Button
+                            variant="outline-primary"
+                            size="sm"
+                            className="me-3"
+                            onClick={() => {
+                              setSelectLocationShown(true);
+                              setLocInvalid(false);
+                            }}
+                          >
+                            {t("selectLocation")}
+                          </Button>
+                          <Button
+                            variant="outline-primary"
+                            size="sm"
+                            onClick={() => {
+                              setAddLocationShown(true);
+                              setLocInvalid(false);
+                            }}
+                          >
+                            {t("addLocation")}
+                          </Button>
+                        </div>
                       </FloatingLabel>
-                    </Col>
-                    <Col sm={2}>
-                      <Button
-                        variant="primary"
-                        type="button"
-                        size="md"
-                        className="mb-2"
-                        onClick={() => setSelectLocationShown(true)}
-                      >
-                        {t("selectLocation")}
-                      </Button>
-                    </Col>
-                    <Col sm={3}>
-                      <Button
-                        variant="primary"
-                        type="button"
-                        size="md"
-                        className="mb-2"
-                        onClick={() => setAddLocationShown(true)}
-                      >
-                        {t("addLocation")}
-                      </Button>
                     </Col>
                   </Row>
                   <Row>
                     <Col>
                       <FloatingLabel label={t("date")} className="mb-2">
-                        <Form.Control type="datetime-local"></Form.Control>
+                        <Form.Control
+                          type="datetime-local"
+                          isInvalid={startDateInvalid}
+                          onChange={(v) => {
+                            setStartDate(v.target.value);
+                            setStartDateInvalid(false);
+                          }}
+                        ></Form.Control>
                         <Form.Control.Feedback type="invalid">
                           {t("enterDate")}
                         </Form.Control.Feedback>
@@ -110,7 +205,14 @@ function EventForm() {
                     </Col>
                     <Col>
                       <FloatingLabel label={t("endDate")} className="mb-2">
-                        <Form.Control type="datetime-local"></Form.Control>
+                        <Form.Control
+                          type="datetime-local"
+                          isInvalid={endDateInvalid}
+                          onChange={(v) => {
+                            setEndDate(v.target.value);
+                            setEndDateInvalid(false);
+                          }}
+                        ></Form.Control>
                         <Form.Control.Feedback type="invalid">
                           {t("enterEndDate")}
                         </Form.Control.Feedback>
@@ -122,7 +224,7 @@ function EventForm() {
                     type="switch"
                     label={t("paidEv")}
                     onChange={() => {
-                      paidEv === true ? setPaidEv(false) : setPaidEv(true);
+                      paidEv ? setPaidEv(false) : setPaidEv(true);
                     }}
                   ></Form.Check>
                   {paidEv && (
@@ -131,7 +233,10 @@ function EventForm() {
                         <FloatingLabel label={t("ticketsNum")} className="mb-2">
                           <Form.Control
                             type="number"
-                            placeholder={"Tickets number"}
+                            placeholder="Tickets number"
+                            isInvalid={numTicketsInvalid}
+                            ref={ticketNumRef}
+                            onChange={() => setNumTicketsInvalid(false)}
                           />
                           <Form.Control.Feedback type="invalid">
                             {t("enterTickNum")}
@@ -140,12 +245,15 @@ function EventForm() {
                       </Col>
                       <Col>
                         <FloatingLabel
-                          label={t("ticketPrice")}
+                          label={t("ticketPrice") + " (RSD)"}
                           className="mb-2"
                         >
                           <Form.Control
                             type="number"
-                            placeholder={"Tickets price"}
+                            placeholder="Tickets price"
+                            isInvalid={ticketPriceInvalid}
+                            ref={ticketPriceRef}
+                            onChange={() => setTicketPriceInvalid(false)}
                           />
                           <Form.Control.Feedback type="invalid">
                             {t("etnerTickPrice")}
@@ -157,11 +265,20 @@ function EventForm() {
                 </Col>
 
                 <Col sm={6}>
+                  <Form.Label> {t("addPicture")} </Form.Label>
+                  <Form.Control
+                    type="file"
+                    size="sm"
+                    className="mb-2"
+                  ></Form.Control>
                   <Form.Control
                     as="textarea"
                     rows={10}
                     type="input"
                     placeholder={t("description")}
+                    ref={descRef}
+                    isInvalid={descInvalid}
+                    onChange={() => setDescInvalid(false)}
                   />
                   <Form.Control.Feedback type="invalid">
                     {t("enterDesc")}
@@ -172,18 +289,31 @@ function EventForm() {
                         className="form-checks"
                         type="checkbox"
                         label={t("verified")}
+                        ref={verifiedRef}
                         inline
                       />
                       <Form.Check
                         className="form-checks"
                         type="checkbox"
                         label={t("pinned")}
+                        ref={pinnedRef}
                         inline
                       />
                     </div>
                   )}
                   <div className="d-flex justify-content-end mt-2">
-                    <Button type="submit">{t("create")}</Button>
+                    <Button type="submit">
+                      {loading && (
+                        <Spinner
+                          as="span"
+                          animation="border"
+                          size="sm"
+                          role="status"
+                          aria-hidden="true"
+                        />
+                      )}
+                      {t("create")}
+                    </Button>
                   </div>
                 </Col>
               </Row>
