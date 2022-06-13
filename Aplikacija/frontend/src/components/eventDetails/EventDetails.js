@@ -1,38 +1,44 @@
+import { useTranslation } from "react-i18next";
 import { Container, Card, Image, ProgressBar } from "react-bootstrap";
 
-import elektrijada from "../../images/events/elektrijada.jpg";
+import noImage from "../../images/no-image.jpg";
 import EventDetailsHeader from "./eventDetailsHeader/EventDetailsHeader";
 import EventDetailsBody from "./eventDetailsBody/EventDetailsBody";
 import EventDetailsOrganiser from "./eventDetailsOrganiser/EventDetailsOrganiser";
 import "./EventDetails.style.css";
 
-function EventDetails() {
+function EventDetails({ event }) {
+  const { t } = useTranslation(["event"]);
   return (
     <Container className="mb-3 mt-3 mx-auto px-0">
       <Card className="shadow">
         <div className="main-div">
           <div className="img-ev-div">
-            <Image src={elektrijada} alt="event-img" className="event-img" />
+            <Image
+              src={event.ev.imagePath === "/" ? noImage : event.ev.imagePath}
+              alt="event-img"
+              className="event-img"
+            />
           </div>
           <Container className="m-0 p-0" fluid>
             <Card className="card-ev">
               <Card.Header>
-                <EventDetailsHeader />
+                <EventDetailsHeader event={event.ev} />
                 <ProgressBar
                   variant="primary"
-                  now={70}
-                  label="60% Reserved"
+                  now={event.ev.spaceTaken * 100}
+                  label={`${event.ev.spaceTaken * 100} % ${t("reserved")}`}
                   animated
                 />
               </Card.Header>
               <Card.Body>
-                <EventDetailsBody />
+                <EventDetailsBody event={event.ev} />
               </Card.Body>
             </Card>
           </Container>
         </div>
       </Card>
-      <EventDetailsOrganiser />
+      <EventDetailsOrganiser event={event.ev} author={event.author} />
     </Container>
   );
 }

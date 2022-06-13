@@ -22,7 +22,7 @@ function EventPage() {
       });
 
     axios.get(`Reservation/Event/${eventId}/0`).then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
     });
   }, [eventId]);
 

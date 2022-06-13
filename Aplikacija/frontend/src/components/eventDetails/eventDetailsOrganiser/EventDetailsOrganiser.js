@@ -3,7 +3,7 @@ import { Card, Image } from "react-bootstrap";
 import luka from "../../../images/luka.jpg";
 import "./EventDetailsOrganiser.style.css";
 
-function EventDetailsOrganiser() {
+function EventDetailsOrganiser({ event, author }) {
   return (
     <Card className="mt-3">
       <div className="organiser-div">
