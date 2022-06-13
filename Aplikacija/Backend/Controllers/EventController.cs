@@ -21,6 +21,48 @@ public class EventController : ControllerBase
         _tokenManager = tokenManager;
     }
 
+    [Route("{eventId}")]
+    [Authorize(Roles = "Student")]
+    [HttpGet]
+    public async Task<ActionResult> GetEvent(int eventId)
+    {
+        var student = await _tokenManager.GetStudent(HttpContext.User);
+        if (student == null)
+        {
+            return BadRequest("UserNotFound");
+        }
+
+        var ev = _context.Events.Include(e => e.Location)
+                                    .Include(e => e.Organiser)
+                                    .Include(e => e.OrganisingParlament)
+                                    .ThenInclude(e => e!.Faculty)
+                                    .Include(e => e.Comments)
+                                    .Include(e => e.LikedBy)
+                                    .Include(e => e.Reservations)
+                                    .AsSplitQuery();
+
+        var evSelected = ev.Select(e => new
+        {
+            id = e.ID,
+            ev = e,
+            liked = e.LikedBy!.Contains(student),
+            verified = e.Verified,
+            pinned = e.Pinned,
+            author = new
+            {
+                e.Organiser!.ID,
+                e.Organiser.FirstName,
+                e.Organiser.LastName,
+                e.Organiser.Username,
+                e.Organiser.ImagePath,
+                facultyName = e.OrganisingParlament!.Faculty!.Name,
+                facultyImagePath = e.OrganisingParlament!.Faculty!.ImagePath
+            },
+        });
+
+        return Ok(await evSelected.ToListAsync());
+    }
+
     [Route("")]
     [Authorize(Roles = "Student")]
     [HttpPost]
@@ -135,7 +177,6 @@ public class EventController : ControllerBase
                     .ThenBy(e => e.TimeOfEvent)
                     .Skip(page * pageSize)
                     .Take(pageSize);
-
 
         var eventsSelected = events.Select(e => new
         {
@@ -314,5 +355,35 @@ public class EventController : ControllerBase
 
         await _context.SaveChangesAsync();
         return Ok(liked);
+    }
+
+    [Route("{eventId}/Cancel")]
+    [Authorize(Roles = "Student")]
+    [HttpPatch]
+    public async Task<ActionResult> CancelEvent(int eventId)
+    {
+        var userDetails = _tokenManager.GetUserDetails(HttpContext.User);
+
+        if (userDetails == null)
+        {
+            return StatusCode(500);
+        }
+
+        var ev = await _context.Events.FindAsync(eventId);
+
+        if (ev == null)
+        {
+            return BadRequest("EventNotFound");
+        }
+
+        if (userDetails.Role < Role.AdminUni && ev.OrganiserId != userDetails.ID)
+        {
+            return Forbid();
+        }
+
+        ev.Canceled = true;
+
+        await _context.SaveChangesAsync();
+        return Ok();
     }
 }

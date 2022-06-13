@@ -1,30 +1,32 @@
-// import axios from "axios";
-// import React, { useEffect, useState } from "react";
-// import { useParams } from "react-router-dom";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 import EventDetails from "../components/eventDetails/EventDetails";
 
 function EventPage() {
-  // const eventId = useParams().eventId;
+  const eventId = useParams().eventId;
 
-  // const [event, setEvent] = useState(undefined);
+  const [event, setEvent] = useState(undefined);
 
-  // useEffect(() => {
-  //   axios
-  //     .get(`Event/${eventId}`)
-  //     .then((res) => {
-  //       setEvent(res.data);
-  //     })
-  //     .catch((err) => {
-  //       if (err.response?.status === 404) {
-  //         setEvent(null);
-  //       }
-  //     });
-  // }, [eventId]);
+  useEffect(() => {
+    axios
+      .get(`Event/${eventId}`)
+      .then((res) => {
+        setEvent(res.data);
+      })
+      .catch((err) => {
+        if (err.response?.status === 404) {
+          setEvent(null);
+        }
+      });
 
-  // return event && <div>Event {eventId}</div>;
+    axios.get(`Reservation/Event/${eventId}/0`).then((res) => {
+      console.log(res.data);
+    });
+  }, [eventId]);
 
-  return <EventDetails />
+  return event && <EventDetails event={event} />;
 }
 
 export default EventPage;

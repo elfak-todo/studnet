@@ -78,6 +78,8 @@ namespace Backend.Models
         [Range(0, 5000)]
         public int NumberOfTickets { get; set; } = 0;
 
+        public bool Canceled { get; set; } = false;
+
         [NotMapped]
         public int TicketsReserved
         {

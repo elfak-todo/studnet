@@ -16,7 +16,7 @@ function EventPostFooter({ event, isLiked, feed, setFeed }) {
   const { t } = useTranslation(["post", "event"]);
 
   const navigate = useNavigate();
-  
+
   const [liked, setLiked] = useState(isLiked);
   const [loading, setLoading] = useState(false);
 
@@ -51,39 +51,39 @@ function EventPostFooter({ event, isLiked, feed, setFeed }) {
 
   return (
     <div>
-      <hr/>
-    <div className="event-post-footer">
-      <div className="align-row">
-        <div className="center-items">
-          <FontAwesomeIcon
-            icon={faThumbsUpRegular}
-            className="like-comment-icon-sm"
-          />
-          <Card.Text> {event.likeCount} </Card.Text>
+      <hr />
+      <div className="event-post-footer">
+        <div className="align-row">
+          <div className="center-items">
+            <FontAwesomeIcon
+              icon={faThumbsUpRegular}
+              className="like-comment-icon-sm"
+            />
+            <Card.Text> {event.likeCount} </Card.Text>
+          </div>
+          <div className="center-items">
+            <FontAwesomeIcon
+              icon={faCommentRegular}
+              className="like-comment-icon-sm"
+            />
+            <Card.Text> {event.commentCount} </Card.Text>
+          </div>
         </div>
-        <div className="center-items">
-          <FontAwesomeIcon
-            icon={faCommentRegular}
-            className="like-comment-icon-sm"
-          />
-          <Card.Text> {event.commentCount} </Card.Text>
+        <Button onClick={() => navigate(`/event/${event.id}`)}>
+          {t("event:moreDetails")}
+        </Button>
+        <div className="align-row">
+          <div className="center-items" onClick={handleLike}>
+            <FontAwesomeIcon
+              icon={liked ? faThumbsUp : faThumbsUpRegular}
+              className="like-comment-icon"
+            />
+            <Card.Text className={liked ? "liked-text" : "like-text"}>
+              {t("like")}
+            </Card.Text>
+          </div>
         </div>
       </div>
-      <Button onClick={() => navigate(`/event`)}>
-        {t("event:moreDetails")}
-      </Button>
-      <div className="align-row">
-        <div className="center-items" onClick={handleLike}>
-          <FontAwesomeIcon
-            icon={liked ? faThumbsUp : faThumbsUpRegular}
-            className="like-comment-icon"
-          />
-          <Card.Text className={liked ? "liked-text" : "like-text"}>
-            {t("like")}
-          </Card.Text>
-        </div>
-      </div>
-    </div>
     </div>
   );
 }

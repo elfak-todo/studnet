@@ -12,7 +12,12 @@ namespace Backend.Models
         [Key]
         public int ID { get; set; }
 
+        [Range(1, 10)]
         public int NumberOfTickets { get; set; } = 1;
+
+        public DateTime ReservationTime { get; set; }
+
+        public bool Canceled { get; set; } = false;
 
         #endregion Props
 
