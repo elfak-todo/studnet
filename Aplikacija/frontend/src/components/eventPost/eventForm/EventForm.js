@@ -18,9 +18,10 @@ import EventSelectType from "./eventSelectType/EventSelectType";
 import StudentContext from "../../studentManager/StudentManager";
 import AddLocation from "../../addLocation/AddLocation";
 import SelectLocation from "../../selectLocation/SelectLocation";
+import InfoTooltip from "../../infoTooltip/InfoTooltip";
 
 function EventForm() {
-  const { t } = useTranslation(["event"]);
+  const { t } = useTranslation(["event", "info"]);
 
   const { student } = useContext(StudentContext);
 
@@ -139,7 +140,7 @@ function EventForm() {
                       onChange={() => setTitleInvalid(false)}
                     />
                     <Form.Control.Feedback type="invalid">
-                      {t("enterTitle")}
+                      {t("enterTitle")} <InfoTooltip text={t("info:title")}/>
                     </Form.Control.Feedback>
                   </FloatingLabel>
                   <Row>
@@ -153,7 +154,7 @@ function EventForm() {
                           readOnly
                         ></Form.Control>
                         <Form.Control.Feedback type="invalid">
-                          {t("enterLoc")}
+                          {t("enterLoc")} <InfoTooltip text={t("info:location")}/>
                         </Form.Control.Feedback>
                         <div
                           className={
@@ -199,7 +200,7 @@ function EventForm() {
                           }}
                         ></Form.Control>
                         <Form.Control.Feedback type="invalid">
-                          {t("enterDate")}
+                          {t("enterDate")} <InfoTooltip text={t("info:startDate")}/>
                         </Form.Control.Feedback>
                       </FloatingLabel>
                     </Col>
@@ -214,7 +215,7 @@ function EventForm() {
                           }}
                         ></Form.Control>
                         <Form.Control.Feedback type="invalid">
-                          {t("enterEndDate")}
+                          {t("enterEndDate")} <InfoTooltip text={t("info:endDate")}/>
                         </Form.Control.Feedback>
                       </FloatingLabel>
                     </Col>
@@ -239,7 +240,7 @@ function EventForm() {
                             onChange={() => setNumTicketsInvalid(false)}
                           />
                           <Form.Control.Feedback type="invalid">
-                            {t("enterTickNum")}
+                            {t("enterTickNum")} <InfoTooltip text={t("info:ticketNum")}/>
                           </Form.Control.Feedback>
                         </FloatingLabel>
                       </Col>
@@ -256,7 +257,7 @@ function EventForm() {
                             onChange={() => setTicketPriceInvalid(false)}
                           />
                           <Form.Control.Feedback type="invalid">
-                            {t("etnerTickPrice")}
+                            {t("etnerTickPrice")} <InfoTooltip text={t("info:ticketPrice")}/>
                           </Form.Control.Feedback>
                         </FloatingLabel>
                       </Col>
@@ -265,7 +266,7 @@ function EventForm() {
                 </Col>
 
                 <Col sm={6}>
-                  <Form.Label> {t("addPicture")} </Form.Label>
+                  <Form.Label> {t("addPicture")} <InfoTooltip text={t("info:pic")}/></Form.Label>
                   <Form.Control
                     type="file"
                     size="sm"
@@ -281,7 +282,7 @@ function EventForm() {
                     onChange={() => setDescInvalid(false)}
                   />
                   <Form.Control.Feedback type="invalid">
-                    {t("enterDesc")}
+                    {t("enterDesc")} <InfoTooltip text={t("info:desc")}/>
                   </Form.Control.Feedback>
                   {student.role > 0 && (
                     <div className="d-flex justify-content-end">
