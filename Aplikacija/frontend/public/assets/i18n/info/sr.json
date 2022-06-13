@@ -1,0 +1,10 @@
+{
+    "title": "Naslov ne sme biti duži od 128 karaktera.",
+    "location": "Izaberite lokaciju ili kreirajte novu.",
+    "startDate": "Unesite datum i vreme početka događaja.",
+    "endDate": "Unesite datum i vreme završetka događaja.",
+    "ticketNum": "Maksimalni broj karata je 5000.",
+    "ticketPrice": "Cena karte u RSD (dinar). Cena karte ne sme biti veća od 5000 RSD.",
+    "pic": "Podržani formati slike su JPEG i PNG.",
+    "desc": "Opis ne sme biti duži od 2048 karaktera."
+}
