@@ -1,6 +1,7 @@
 import { Card, Container, Image } from "react-bootstrap";
 
 import "./EventPost.style.css";
+import noImage from "../../images/no-image.jpg"
 import EventPostHeader from "./eventPostHeader/EventPostHeader";
 import EventPostBody from "./eventPostBody/EventPostBody";
 import EventPostFooter from "./eventPostFooter/EventPostFooter";
@@ -13,7 +14,7 @@ function EventPost({ feedEl, innerRef, feed, setFeed, verified, pinned }) {
         <div className="event-desc">
           <div className="event-img-div">
             <Image
-              src={feedEl.ev.imagePath}
+              src={feedEl.ev.imagePath === "/" ? noImage : feedEl.ev.imagePath}
               alt="event-img"
               className="event-img"
             />

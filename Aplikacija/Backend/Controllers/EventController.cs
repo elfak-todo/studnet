@@ -36,7 +36,8 @@ public class EventController : ControllerBase
             return BadRequest("UserNotFound");
         }
 
-        var ev = _context.Events.Include(e => e.Location)
+        var ev = _context.Events.Where(e => e.ID == eventId)
+                                    .Include(e => e.Location)
                                     .Include(e => e.Organiser)
                                     .Include(e => e.OrganisingParlament)
                                     .ThenInclude(e => e!.Faculty)
@@ -64,7 +65,7 @@ public class EventController : ControllerBase
             },
         });
 
-        return Ok(await evSelected.ToListAsync());
+        return Ok(await evSelected.FirstAsync());
     }
 
     [Route("")]

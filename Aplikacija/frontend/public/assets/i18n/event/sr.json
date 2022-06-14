@@ -1,5 +1,7 @@
 {
   "reserve": "Rezerviši",
+  "makeRes": "Rezerviši karte",
+  "reserved": "Rezervisano",
   "NAF": "Ulaz besplatan",
   "soldout": "Rasprodato",
   "ticketsLeft": "Preostali broj karata",
@@ -38,5 +40,7 @@
   "addLocationTitle": "Kreiranje lokacije",
   "selectLocation": "Izaberi",
   "selectLocationTitle": "Izaberi lokaciju",
-  "addPicture": "Dodaj sliku"
+  "addPicture": "Dodaj sliku",
+  "starts": "Počinje",
+  "ends": "Završava se"
 }

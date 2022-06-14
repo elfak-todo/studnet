@@ -1,5 +1,7 @@
 {
   "reserve": "Reserve",
+  "makeRes": "Make a reservation",
+  "reserved": "Reserved",
   "NAF": "Free entry",
   "ticketsLeft": "Tickets left",
   "ticketPrice": "Ticket price",
@@ -38,5 +40,7 @@
   "addLocationTitle": "Add location",
   "selectLocation": "Select",
   "selectLocationTitle": "Select location",
-  "addPicture": "Add picture"
+  "addPicture": "Add picture",
+  "starts": "Starts",
+  "ends": "Ends"
 }

@@ -21,7 +21,7 @@ import SelectLocation from "../../selectLocation/SelectLocation";
 import InfoTooltip from "../../infoTooltip/InfoTooltip";
 import axios from "axios";
 
-function EventForm() {
+function EventForm({ feed, setFeed }) {
   const { t } = useTranslation(["event", "info"]);
 
   const { student } = useContext(StudentContext);
@@ -67,8 +67,8 @@ function EventForm() {
     e.preventDefault();
 
     const title = titleRef.current.value;
-    const ticketNum = paidEv ? ticketNumRef.current.value : null;
-    const ticketPrice = paidEv ? ticketPriceRef.current.value : null;
+    const ticketNum = paidEv ? ticketNumRef.current.value : 0;
+    const ticketPrice = paidEv ? ticketPriceRef.current.value : 0;
     const description = descRef.current.value;
     const pinned = student.role !== 0 ? pinnedRef.current.checked : false;
     const verified = student.role !== 0 ? verifiedRef.current.checked : false;
@@ -137,7 +137,7 @@ function EventForm() {
           },
         })
         .then((res) => {
-          console.log(res);
+          setFeed([res.data, ...feed]);
         })
         .finally(() => {
           setLoading(false);
