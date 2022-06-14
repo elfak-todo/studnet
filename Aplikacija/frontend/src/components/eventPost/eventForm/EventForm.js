@@ -179,7 +179,7 @@ function EventForm({ feed, setFeed }) {
                         <Form.Control
                           className="button-in"
                           placeholder={"Location"}
-                          value={selectedLoc?.name}
+                          value={selectedLoc?.name || ""}
                           isInvalid={locInvalid}
                           readOnly
                         ></Form.Control>
