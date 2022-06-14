@@ -51,6 +51,7 @@ function EventForm({ feed, setFeed }) {
   const descRef = useRef();
   const verifiedRef = useRef();
   const pinnedRef = useRef();
+  const imageRef = useRef();
 
   const onLocationAdded = (location) => {
     setSelectedLoc(location);
@@ -108,29 +109,37 @@ function EventForm({ feed, setFeed }) {
     }
     if (proceed) {
       setLoading(true);
+
+      const event = {
+        pinned,
+        verified,
+        title,
+        description,
+        type: Number(selectedType - 1),
+        timeOfEvent: startDate,
+        endTime: endDate,
+        locationId: selectedLoc.id,
+        paidEvent: paidEv,
+        numberOfTickets: Number(ticketNum),
+        ticketPrice: Number(ticketPrice),
+      };
+
+      const formData = new FormData();
+      formData.set("ev", JSON.stringify(event));
+      if (imageRef.current.files.length > 0) {
+        formData.set("image", imageRef.current.files[0]);
+      }
+
       axios
-        .post(`Event`, {
-          verified: verified,
-          pinned: pinned,
-          type: Number(selectedType),
-          title: title,
-          description: description,
-          timeOfEvent: startDate,
-          endTime: endDate,
-          locationName: selectedLoc.name,
-          imagePath: "/",
-          paidEvent: paidEv,
-          numberOfTickets: 0,
-          ticketPrice: 0,
-          locationId: selectedLoc.id,
+        .post("Event", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         })
         .then((res) => {
           setFeed([res.data, ...feed]);
-          setLoading(false);
-          console.log(res.data);
         })
-        .catch((err) => {
-          console.log(err.response.data);
+        .finally(() => {
           setLoading(false);
         });
     }
@@ -139,7 +148,7 @@ function EventForm({ feed, setFeed }) {
   return (
     <>
       <Container className="ev-form-cont p-3 mx-auto px-0">
-        <Card className="shadow">
+        <Card className="shadow-sm">
           <Card.Header>
             <Card.Title className="ev-form-title">{t("createEv")}</Card.Title>
           </Card.Header>
@@ -170,7 +179,7 @@ function EventForm({ feed, setFeed }) {
                         <Form.Control
                           className="button-in"
                           placeholder={"Location"}
-                          value={selectedLoc?.name}
+                          value={selectedLoc?.name || ""}
                           isInvalid={locInvalid}
                           readOnly
                         ></Form.Control>
@@ -300,6 +309,7 @@ function EventForm({ feed, setFeed }) {
                     type="file"
                     size="sm"
                     className="mb-2"
+                    ref={imageRef}
                   ></Form.Control>
                   <Form.Control
                     as="textarea"

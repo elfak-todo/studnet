@@ -1,26 +1,33 @@
-.my-card {
-    width: 15rem;
-    height: 25rem;
-    transition: transform 450ms;
+.hot-event-card {
+  width: auto;
+  text-align: center;
+  font-weight: bold;
+  background-color: var(--bs-primary-light);
+  border-radius: 0.6rem;
+  cursor: pointer;
+  margin: 1.2rem 0.5rem;
+  transition: transform 450ms;
 }
-.card-img {
-    height: 18rem;
-    background-size: cover;
+.hot-event-card:hover {
+  transform: scale(1.08);
 }
-.my-card:hover {
-    transform: scale(1.08);
+.hot-event-card-img {
+  width: auto;
+  aspect-ratio: 3/4;
+  background-repeat: no-repeat;
+  background-size: cover !important;
+  background-position: center;
+  border-radius: 0.6rem 0.6rem 0 0;
 }
-.ev-card-title {
-    font-weight: 600;
+.hot-event-card-desc {
+  padding: 0.5rem;
 }
-
-@media screen and (max-width: 780px) {
-    .my-card {
-        width: auto;
-        transition: transform 450ms;
-    }
-    .card-img {
-        width: auto;
-        height: 25rem;
-    }
+.hot-event-card-title {
+  font-weight: bold;
+}
+@media screen and (max-width: 600px) {
+  .hot-event-card {
+    border-radius: 0.6rem;
+    margin: 0.5rem;
+  }
 }
