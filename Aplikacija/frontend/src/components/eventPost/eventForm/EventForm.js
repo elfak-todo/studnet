@@ -19,6 +19,7 @@ import StudentContext from "../../studentManager/StudentManager";
 import AddLocation from "../../addLocation/AddLocation";
 import SelectLocation from "../../selectLocation/SelectLocation";
 import InfoTooltip from "../../infoTooltip/InfoTooltip";
+import axios from "axios";
 
 function EventForm() {
   const { t } = useTranslation(["event", "info"]);
@@ -50,6 +51,7 @@ function EventForm() {
   const descRef = useRef();
   const verifiedRef = useRef();
   const pinnedRef = useRef();
+  const imageRef = useRef();
 
   const onLocationAdded = (location) => {
     setSelectedLoc(location);
@@ -106,19 +108,47 @@ function EventForm() {
       proceed = false;
     }
     if (proceed) {
-      // TODO
       setLoading(true);
-      console.log(verified);
-      console.log(pinned);
-      console.log(selectedLoc);
-      setLoading(false);
+
+      const event = {
+        pinned,
+        verified,
+        title,
+        description,
+        type: Number(selectedType - 1),
+        timeOfEvent: startDate,
+        endTime: endDate,
+        locationId: selectedLoc.id,
+        paidEvent: paidEv,
+        numberOfTickets: Number(ticketNum),
+        ticketPrice: Number(ticketPrice),
+      };
+
+      const formData = new FormData();
+      formData.set("ev", JSON.stringify(event));
+      if (imageRef.current.files.length > 0) {
+        formData.set("image", imageRef.current.files[0]);
+      }
+
+      axios
+        .post("Event", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          console.log(res);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     }
   };
 
   return (
     <>
       <Container className="ev-form-cont p-3 mx-auto px-0">
-        <Card className="shadow">
+        <Card className="shadow-sm">
           <Card.Header>
             <Card.Title className="ev-form-title">{t("createEv")}</Card.Title>
           </Card.Header>
@@ -140,7 +170,7 @@ function EventForm() {
                       onChange={() => setTitleInvalid(false)}
                     />
                     <Form.Control.Feedback type="invalid">
-                      {t("enterTitle")} <InfoTooltip text={t("info:title")}/>
+                      {t("enterTitle")} <InfoTooltip text={t("info:title")} />
                     </Form.Control.Feedback>
                   </FloatingLabel>
                   <Row>
@@ -154,7 +184,8 @@ function EventForm() {
                           readOnly
                         ></Form.Control>
                         <Form.Control.Feedback type="invalid">
-                          {t("enterLoc")} <InfoTooltip text={t("info:location")}/>
+                          {t("enterLoc")}{" "}
+                          <InfoTooltip text={t("info:location")} />
                         </Form.Control.Feedback>
                         <div
                           className={
@@ -200,7 +231,8 @@ function EventForm() {
                           }}
                         ></Form.Control>
                         <Form.Control.Feedback type="invalid">
-                          {t("enterDate")} <InfoTooltip text={t("info:startDate")}/>
+                          {t("enterDate")}{" "}
+                          <InfoTooltip text={t("info:startDate")} />
                         </Form.Control.Feedback>
                       </FloatingLabel>
                     </Col>
@@ -215,7 +247,8 @@ function EventForm() {
                           }}
                         ></Form.Control>
                         <Form.Control.Feedback type="invalid">
-                          {t("enterEndDate")} <InfoTooltip text={t("info:endDate")}/>
+                          {t("enterEndDate")}{" "}
+                          <InfoTooltip text={t("info:endDate")} />
                         </Form.Control.Feedback>
                       </FloatingLabel>
                     </Col>
@@ -240,7 +273,8 @@ function EventForm() {
                             onChange={() => setNumTicketsInvalid(false)}
                           />
                           <Form.Control.Feedback type="invalid">
-                            {t("enterTickNum")} <InfoTooltip text={t("info:ticketNum")}/>
+                            {t("enterTickNum")}{" "}
+                            <InfoTooltip text={t("info:ticketNum")} />
                           </Form.Control.Feedback>
                         </FloatingLabel>
                       </Col>
@@ -257,7 +291,8 @@ function EventForm() {
                             onChange={() => setTicketPriceInvalid(false)}
                           />
                           <Form.Control.Feedback type="invalid">
-                            {t("etnerTickPrice")} <InfoTooltip text={t("info:ticketPrice")}/>
+                            {t("etnerTickPrice")}{" "}
+                            <InfoTooltip text={t("info:ticketPrice")} />
                           </Form.Control.Feedback>
                         </FloatingLabel>
                       </Col>
@@ -266,11 +301,15 @@ function EventForm() {
                 </Col>
 
                 <Col sm={6}>
-                  <Form.Label> {t("addPicture")} <InfoTooltip text={t("info:pic")}/></Form.Label>
+                  <Form.Label>
+                    {" "}
+                    {t("addPicture")} <InfoTooltip text={t("info:pic")} />
+                  </Form.Label>
                   <Form.Control
                     type="file"
                     size="sm"
                     className="mb-2"
+                    ref={imageRef}
                   ></Form.Control>
                   <Form.Control
                     as="textarea"
@@ -282,7 +321,7 @@ function EventForm() {
                     onChange={() => setDescInvalid(false)}
                   />
                   <Form.Control.Feedback type="invalid">
-                    {t("enterDesc")} <InfoTooltip text={t("info:desc")}/>
+                    {t("enterDesc")} <InfoTooltip text={t("info:desc")} />
                   </Form.Control.Feedback>
                   {student.role > 0 && (
                     <div className="d-flex justify-content-end">

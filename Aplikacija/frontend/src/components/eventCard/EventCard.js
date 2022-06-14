@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { Card } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 import { parseDate } from "../../helpers/DateParser.js";
 import "./EventCard.style.css";
@@ -7,18 +7,28 @@ import "./EventCard.style.css";
 function EventCard({ event }) {
   const { i18n } = useTranslation(["post"]);
 
+  const navigate = useNavigate();
+
+  const onEventClicked = (e) => {
+    navigate(`/event/${event.id}`);
+  };
+
   return (
     event && (
-      <Card className="my-card shadow m-4" bg="primary" text="white">
-        <Card.Img variant="top" src={event.imagePath} className="card-img" />
-        <Card.Body className="text-center">
-          <Card.Title className="ev-card-title"> {event.title} </Card.Title>
-          <Card.Subtitle className="mt-1">
+      <div className="hot-event-card shadow-sm" onClick={onEventClicked}>
+        <div
+          className="hot-event-card-img"
+          style={{ backgroundImage: `url(${event.imagePath})` }}
+        ></div>
+        <div className="hot-event-card-desc">
+          <h5 className="hot-event-card-title">{event.title}</h5>
+          <h6>
             {parseDate(event.timeOfEvent, i18n.language)}
-          </Card.Subtitle>
-          <Card.Subtitle className="mt-1"> {event.locationName} </Card.Subtitle>
-        </Card.Body>
-      </Card>
+            <br />
+            {event.locationName}
+          </h6>
+        </div>
+      </div>
     )
   );
 }
