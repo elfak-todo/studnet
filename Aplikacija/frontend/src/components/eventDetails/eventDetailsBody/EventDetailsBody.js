@@ -16,31 +16,37 @@ function EventDetailsBody({ event }) {
           <p>{event.description}</p>
           <hr />
           <div className="tickets-txt">
-            <strong className="mb-0">{`${t("ticketPrice")}: ${event.ticketPrice} RSD`}</strong>
-            <strong className="mb-0">{`${t("ticketsLeft")}: ${event.numberOfTickets - event.ticketsReserved}`}</strong>
+            <strong className="mb-0">{`${t("ticketPrice")}: ${
+              event.ticketPrice
+            } RSD`}</strong>
+            <strong className="mb-0">{`${t("ticketsLeft")}: ${
+              event.numberOfTickets - event.ticketsReserved
+            }`}</strong>
           </div>
         </Card.Body>
       </Card>
-      <Card style={{ width: "20rem" }} className="mt-5">
-        <Card.Header className="reserve-form-title">
-          {t("makeRes")}
-        </Card.Header>
-        <Card.Body>
-          <Form>
-            <div className="reserve-form-div">
-              <FloatingLabel label={t("ticketsNum")} className="mb-2">
-                <Form.Control type="number" placeholder={"Tickets number"} />
-                <Form.Control.Feedback type="invalid">
-                  {t("enterTickNum")}
-                </Form.Control.Feedback>
-              </FloatingLabel>
-              <Button variant="primary" type="submit" className="ms-3">
-                {t("reserve")}
-              </Button>
-            </div>
-          </Form>
-        </Card.Body>
-      </Card>
+      {event.organisingParlamentId !== null && (
+        <Card style={{ width: "20rem" }} className="mt-5">
+          <Card.Header className="reserve-form-title">
+            {t("makeRes")}
+          </Card.Header>
+          <Card.Body>
+            <Form>
+              <div className="reserve-form-div">
+                <FloatingLabel label={t("ticketsNum")} className="mb-2">
+                  <Form.Control type="number" placeholder={"Tickets number"} />
+                  <Form.Control.Feedback type="invalid">
+                    {t("enterTickNum")}
+                  </Form.Control.Feedback>
+                </FloatingLabel>
+                <Button variant="primary" type="submit" className="ms-3">
+                  {t("reserve")}
+                </Button>
+              </div>
+            </Form>
+          </Card.Body>
+        </Card>
+      )}
     </div>
   );
 }

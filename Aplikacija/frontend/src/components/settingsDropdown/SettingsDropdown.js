@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
@@ -23,9 +24,11 @@ function SettingsDropdown({
   commentedPost,
   className,
 }) {
-  const { t } = useTranslation(["post"]);
+  const { t } = useTranslation(["post", "event"]);
 
   const { student } = useContext(StudentContext);
+
+  const navigate = useNavigate();
 
   const handleDelete = () => {
     axios
@@ -46,11 +49,15 @@ function SettingsDropdown({
             });
           });
         } else {
+          if (setFeed === null) {
+            navigate("/events");
+            return;
+          }
           setFeed(feed.filter((p) => p.id !== post.id));
         }
       })
       .catch((error) => {
-        console.log(error.response.data);
+        console.log(error);
       });
   };
 
@@ -69,6 +76,7 @@ function SettingsDropdown({
             });
           });
         } else {
+          if (setFeed === null) return;
           setFeed((prevState) => {
             return prevState.map((p) => {
               if (p.id === post.id) {
@@ -80,7 +88,7 @@ function SettingsDropdown({
         }
       })
       .catch((err) => {
-        console.log(err.response.data);
+        console.log(err);
       });
   };
 
@@ -99,6 +107,7 @@ function SettingsDropdown({
             });
           });
         } else {
+          if (setFeed === null) return;
           setFeed((prevState) => {
             return prevState.map((p) => {
               if (p.id === post.id) {
@@ -110,9 +119,14 @@ function SettingsDropdown({
         }
       })
       .catch((err) => {
-        console.log(err.response.data);
+        console.log(err);
       });
   };
+
+  const handleCancel = () => {
+    if(postType !== "Event") return;
+    console.log("Cancel hehe");
+  }
 
   const handleSelectedAction = (keyEvent) => {
     switch (keyEvent) {
@@ -128,11 +142,13 @@ function SettingsDropdown({
       case "edit":
         setEdit(true);
         break;
+      case "cancel":
+        handleCancel();
+        break;
       default:
         break;
     }
   };
-
   return (
     <NavDropdown
       onSelect={handleSelectedAction}
@@ -155,6 +171,11 @@ function SettingsDropdown({
             {!pinned ? t("pin") : t("unpin")}
           </NavDropdown.Item>
         </>
+      )}
+      {postType === "Event" && author.id === student.id && (
+        <NavDropdown.Item eventKey="cancel">
+          {t("event:cancel")}
+        </NavDropdown.Item>
       )}
       <NavDropdown.Item eventKey="delete"> {t("delete")} </NavDropdown.Item>
     </NavDropdown>

@@ -1,3 +1,16 @@
 .event-title {
     font-weight: 700;
 }
+.ev-details-settings {
+    display: flex;
+    justify-content: flex-end;
+    font-size: 20px;
+    color: #4e54c8;
+    cursor: pointer;
+}
+.ev-details-top {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100% !important;
+}

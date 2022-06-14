@@ -15,7 +15,7 @@ function EventDetails({ event }) {
         <div className="main-div">
           <div className="img-ev-div">
             <Image
-              src={event.ev.imagePath === "/" ? noImage : event.ev.imagePath}
+              src={event.ev.imagePath === "" ? noImage : event.ev.imagePath}
               alt="event-img"
               className="event-img"
             />
@@ -23,13 +23,15 @@ function EventDetails({ event }) {
           <Container className="m-0 p-0" fluid>
             <Card className="card-ev">
               <Card.Header>
-                <EventDetailsHeader event={event.ev} />
-                <ProgressBar
-                  variant="primary"
-                  now={event.ev.spaceTaken * 100}
-                  label={`${event.ev.spaceTaken * 100} % ${t("reserved")}`}
-                  animated
-                />
+                <EventDetailsHeader event={event.ev} author={event.author} />
+                {event.ev.organisingParlamentId !== null && (
+                  <ProgressBar
+                    variant="primary"
+                    now={event.ev.spaceTaken * 100}
+                    label={`${event.ev.spaceTaken * 100} % ${t("reserved")}`}
+                    animated
+                  />
+                )}
               </Card.Header>
               <Card.Body>
                 <EventDetailsBody event={event.ev} />

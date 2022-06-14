@@ -10,7 +10,6 @@ import CommentSection from "../comments/commentSection/CommentSection";
 
 function EventPost({ feedEl, innerRef, feed, setFeed, verified, pinned }) {
   const { t } = useTranslation(["event"]);
-  console.log(feedEl);
   return (
     <Container className="mb-3 mt-3 mx-auto px-0" ref={innerRef}>
       <Card className="shadow">
@@ -22,7 +21,7 @@ function EventPost({ feedEl, innerRef, feed, setFeed, verified, pinned }) {
         <div className="event-desc">
           <div className="event-img-div">
             <Image
-              src={feedEl.ev.imagePath === "/" ? noImage : feedEl.ev.imagePath}
+              src={feedEl.ev.imagePath === "" ? noImage : feedEl.ev.imagePath}
               alt="event-img"
               className="event-img"
             />

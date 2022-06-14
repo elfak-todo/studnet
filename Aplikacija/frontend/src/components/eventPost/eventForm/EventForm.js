@@ -138,6 +138,8 @@ function EventForm({ feed, setFeed }) {
         })
         .then((res) => {
           setFeed([res.data, ...feed]);
+          e.target.reset();
+          setSelectedLoc(null);
         })
         .finally(() => {
           setLoading(false);
