@@ -19,8 +19,9 @@ import StudentContext from "../../studentManager/StudentManager";
 import AddLocation from "../../addLocation/AddLocation";
 import SelectLocation from "../../selectLocation/SelectLocation";
 import InfoTooltip from "../../infoTooltip/InfoTooltip";
+import axios from "axios";
 
-function EventForm() {
+function EventForm({ feed, setFeed }) {
   const { t } = useTranslation(["event", "info"]);
 
   const { student } = useContext(StudentContext);
@@ -65,8 +66,8 @@ function EventForm() {
     e.preventDefault();
 
     const title = titleRef.current.value;
-    const ticketNum = paidEv ? ticketNumRef.current.value : null;
-    const ticketPrice = paidEv ? ticketPriceRef.current.value : null;
+    const ticketNum = paidEv ? ticketNumRef.current.value : 0;
+    const ticketPrice = paidEv ? ticketPriceRef.current.value : 0;
     const description = descRef.current.value;
     const pinned = student.role !== 0 ? pinnedRef.current.checked : false;
     const verified = student.role !== 0 ? verifiedRef.current.checked : false;
@@ -106,12 +107,32 @@ function EventForm() {
       proceed = false;
     }
     if (proceed) {
-      // TODO
       setLoading(true);
-      console.log(verified);
-      console.log(pinned);
-      console.log(selectedLoc);
-      setLoading(false);
+      axios
+        .post(`Event`, {
+          verified: verified,
+          pinned: pinned,
+          type: Number(selectedType),
+          title: title,
+          description: description,
+          timeOfEvent: startDate,
+          endTime: endDate,
+          locationName: selectedLoc.name,
+          imagePath: "/",
+          paidEvent: paidEv,
+          numberOfTickets: 0,
+          ticketPrice: 0,
+          locationId: selectedLoc.id,
+        })
+        .then((res) => {
+          setFeed([res.data, ...feed]);
+          setLoading(false);
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log(err.response.data);
+          setLoading(false);
+        });
     }
   };
 
@@ -140,7 +161,7 @@ function EventForm() {
                       onChange={() => setTitleInvalid(false)}
                     />
                     <Form.Control.Feedback type="invalid">
-                      {t("enterTitle")} <InfoTooltip text={t("info:title")}/>
+                      {t("enterTitle")} <InfoTooltip text={t("info:title")} />
                     </Form.Control.Feedback>
                   </FloatingLabel>
                   <Row>
@@ -154,7 +175,8 @@ function EventForm() {
                           readOnly
                         ></Form.Control>
                         <Form.Control.Feedback type="invalid">
-                          {t("enterLoc")} <InfoTooltip text={t("info:location")}/>
+                          {t("enterLoc")}{" "}
+                          <InfoTooltip text={t("info:location")} />
                         </Form.Control.Feedback>
                         <div
                           className={
@@ -200,7 +222,8 @@ function EventForm() {
                           }}
                         ></Form.Control>
                         <Form.Control.Feedback type="invalid">
-                          {t("enterDate")} <InfoTooltip text={t("info:startDate")}/>
+                          {t("enterDate")}{" "}
+                          <InfoTooltip text={t("info:startDate")} />
                         </Form.Control.Feedback>
                       </FloatingLabel>
                     </Col>
@@ -215,7 +238,8 @@ function EventForm() {
                           }}
                         ></Form.Control>
                         <Form.Control.Feedback type="invalid">
-                          {t("enterEndDate")} <InfoTooltip text={t("info:endDate")}/>
+                          {t("enterEndDate")}{" "}
+                          <InfoTooltip text={t("info:endDate")} />
                         </Form.Control.Feedback>
                       </FloatingLabel>
                     </Col>
@@ -240,7 +264,8 @@ function EventForm() {
                             onChange={() => setNumTicketsInvalid(false)}
                           />
                           <Form.Control.Feedback type="invalid">
-                            {t("enterTickNum")} <InfoTooltip text={t("info:ticketNum")}/>
+                            {t("enterTickNum")}{" "}
+                            <InfoTooltip text={t("info:ticketNum")} />
                           </Form.Control.Feedback>
                         </FloatingLabel>
                       </Col>
@@ -257,7 +282,8 @@ function EventForm() {
                             onChange={() => setTicketPriceInvalid(false)}
                           />
                           <Form.Control.Feedback type="invalid">
-                            {t("etnerTickPrice")} <InfoTooltip text={t("info:ticketPrice")}/>
+                            {t("etnerTickPrice")}{" "}
+                            <InfoTooltip text={t("info:ticketPrice")} />
                           </Form.Control.Feedback>
                         </FloatingLabel>
                       </Col>
@@ -266,7 +292,10 @@ function EventForm() {
                 </Col>
 
                 <Col sm={6}>
-                  <Form.Label> {t("addPicture")} <InfoTooltip text={t("info:pic")}/></Form.Label>
+                  <Form.Label>
+                    {" "}
+                    {t("addPicture")} <InfoTooltip text={t("info:pic")} />
+                  </Form.Label>
                   <Form.Control
                     type="file"
                     size="sm"
@@ -282,7 +311,7 @@ function EventForm() {
                     onChange={() => setDescInvalid(false)}
                   />
                   <Form.Control.Feedback type="invalid">
-                    {t("enterDesc")} <InfoTooltip text={t("info:desc")}/>
+                    {t("enterDesc")} <InfoTooltip text={t("info:desc")} />
                   </Form.Control.Feedback>
                   {student.role > 0 && (
                     <div className="d-flex justify-content-end">
