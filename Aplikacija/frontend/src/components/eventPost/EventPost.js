@@ -1,16 +1,24 @@
+import { useTranslation } from "react-i18next";
 import { Card, Container, Image } from "react-bootstrap";
 
 import "./EventPost.style.css";
-import noImage from "../../images/no-image.jpg"
+import noImage from "../../images/no-image.jpg";
 import EventPostHeader from "./eventPostHeader/EventPostHeader";
 import EventPostBody from "./eventPostBody/EventPostBody";
 import EventPostFooter from "./eventPostFooter/EventPostFooter";
 import CommentSection from "../comments/commentSection/CommentSection";
 
 function EventPost({ feedEl, innerRef, feed, setFeed, verified, pinned }) {
+  const { t } = useTranslation(["event"]);
+  console.log(feedEl);
   return (
     <Container className="mb-3 mt-3 mx-auto px-0" ref={innerRef}>
       <Card className="shadow">
+        {feedEl.ev.organisingParlamentId !== null && (
+          <div className="parlament-div">
+            <span className="parlament-text ms-2">{t("orgByPar")}</span>
+          </div>
+        )}
         <div className="event-desc">
           <div className="event-img-div">
             <Image
