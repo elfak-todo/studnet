@@ -22,6 +22,8 @@ function SettingsDropdown({
   setEdit,
   setPostFeed,
   commentedPost,
+  canceled,
+  setCanceled,
   className,
 }) {
   const { t } = useTranslation(["post", "event"]);
@@ -124,9 +126,16 @@ function SettingsDropdown({
   };
 
   const handleCancel = () => {
-    if(postType !== "Event") return;
-    console.log("Cancel hehe");
-  }
+    if (postType !== "Event") return;
+    axios
+      .patch(`Event/${post.id}/Cancel`)
+      .then(() => {
+        setCanceled(!canceled);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const handleSelectedAction = (keyEvent) => {
     switch (keyEvent) {
@@ -159,7 +168,7 @@ function SettingsDropdown({
         </div>
       }
     >
-      {author?.id === student.id && (
+      {author?.id === student.id && !canceled && (
         <NavDropdown.Item eventKey="edit"> {t("edit")} </NavDropdown.Item>
       )}
       {student.role !== 0 && (
@@ -172,11 +181,13 @@ function SettingsDropdown({
           </NavDropdown.Item>
         </>
       )}
-      {postType === "Event" && author.id === student.id && (
+      {postType === "Event" &&
+      !canceled &&
+      (author.id === student.id || student.role === 3) ? (
         <NavDropdown.Item eventKey="cancel">
           {t("event:cancel")}
         </NavDropdown.Item>
-      )}
+      ) : null}
       <NavDropdown.Item eventKey="delete"> {t("delete")} </NavDropdown.Item>
     </NavDropdown>
   );
