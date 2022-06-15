@@ -1,10 +1,13 @@
 import { useTranslation } from "react-i18next";
-import { Card, FloatingLabel, Form, Button } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 
 import "./EventDetailsBody.style.css";
+import EventReserveForm from "../eventReserveForm/EventReserveForm";
+import { useState } from "react";
 
 function EventDetailsBody({ event }) {
   const { t } = useTranslation(["event"]);
+  const[ticketsReserved, setTicketsReserved] = useState(event.ticketsReserved);
 
   return (
     <div>
@@ -20,32 +23,13 @@ function EventDetailsBody({ event }) {
               event.ticketPrice
             } RSD`}</strong>
             <strong className="mb-0">{`${t("ticketsLeft")}: ${
-              event.numberOfTickets - event.ticketsReserved
+              event.numberOfTickets - ticketsReserved
             }`}</strong>
           </div>
         </Card.Body>
       </Card>
-      {event.organisingParlamentId !== null && (
-        <Card style={{ width: "20rem" }} className="mt-5">
-          <Card.Header className="reserve-form-title">
-            {t("makeRes")}
-          </Card.Header>
-          <Card.Body>
-            <Form>
-              <div className="reserve-form-div">
-                <FloatingLabel label={t("ticketsNum")} className="mb-2">
-                  <Form.Control type="number" placeholder={"Tickets number"} />
-                  <Form.Control.Feedback type="invalid">
-                    {t("enterTickNum")}
-                  </Form.Control.Feedback>
-                </FloatingLabel>
-                <Button variant="primary" type="submit" className="ms-3">
-                  {t("reserve")}
-                </Button>
-              </div>
-            </Form>
-          </Card.Body>
-        </Card>
+      {event.organisingParlamentId !== null && event.verified && (
+        <EventReserveForm event={event} setTicketsReserved={setTicketsReserved}/>
       )}
     </div>
   );

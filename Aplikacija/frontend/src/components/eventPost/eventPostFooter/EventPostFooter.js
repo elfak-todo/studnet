@@ -12,7 +12,7 @@ import { Card, Button } from "react-bootstrap";
 
 import "./EventPostFooter.style.css";
 
-function EventPostFooter({ event, isLiked, feed, setFeed }) {
+function EventPostFooter({ event, isLiked, feed, setFeed, canceled }) {
   const { t } = useTranslation(["post", "event"]);
 
   const navigate = useNavigate();
@@ -45,7 +45,7 @@ function EventPostFooter({ event, isLiked, feed, setFeed }) {
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err.response.data);
+        console.log(err);
       });
   };
 
@@ -69,7 +69,10 @@ function EventPostFooter({ event, isLiked, feed, setFeed }) {
             <Card.Text> {event.commentCount} </Card.Text>
           </div>
         </div>
-        <Button onClick={() => navigate(`/event/${event.id}`)}>
+        <Button
+          disabled={canceled}
+          onClick={() => navigate(`/event/${event.id}`)}
+        >
           {t("event:moreDetails")}
         </Button>
         <div className="align-row">

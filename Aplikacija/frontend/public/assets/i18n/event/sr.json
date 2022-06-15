@@ -1,4 +1,5 @@
 {
+  "editEvent": "Izmeni događaj",
   "reserve": "Rezerviši",
   "cancel": "Otkaži događaj",
   "makeRes": "Rezerviši karte",
@@ -33,6 +34,7 @@
   "paidEv": "Plaćeni događaj",
   "ticketsNum": "Broj karata",
   "enterTickNum": "Unesite broj karata.",
+  "maxTicketNum": "Maksimalni broj karata po studentu je 10.",
   "etnerTickPrice": "Unesite cenu karte",
   "create": "Kreiraj",
   "verified": "Verifikovan",

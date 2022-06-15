@@ -266,21 +266,6 @@ function EventForm({ feed, setFeed }) {
                   {paidEv && (
                     <Row>
                       <Col>
-                        <FloatingLabel label={t("ticketsNum")} className="mb-2">
-                          <Form.Control
-                            type="number"
-                            placeholder="Tickets number"
-                            isInvalid={numTicketsInvalid}
-                            ref={ticketNumRef}
-                            onChange={() => setNumTicketsInvalid(false)}
-                          />
-                          <Form.Control.Feedback type="invalid">
-                            {t("enterTickNum")}{" "}
-                            <InfoTooltip text={t("info:ticketNum")} />
-                          </Form.Control.Feedback>
-                        </FloatingLabel>
-                      </Col>
-                      <Col>
                         <FloatingLabel
                           label={t("ticketPrice") + " (RSD)"}
                           className="mb-2"
@@ -297,6 +282,26 @@ function EventForm({ feed, setFeed }) {
                             <InfoTooltip text={t("info:ticketPrice")} />
                           </Form.Control.Feedback>
                         </FloatingLabel>
+                      </Col>
+                      <Col>
+                        {student.role > 0 && (
+                          <FloatingLabel
+                            label={t("ticketsNum")}
+                            className="mb-2"
+                          >
+                            <Form.Control
+                              type="number"
+                              placeholder="Tickets number"
+                              isInvalid={numTicketsInvalid}
+                              ref={ticketNumRef}
+                              onChange={() => setNumTicketsInvalid(false)}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              {t("enterTickNum")}{" "}
+                              <InfoTooltip text={t("info:ticketNum")} />
+                            </Form.Control.Feedback>
+                          </FloatingLabel>
+                        )}
                       </Col>
                     </Row>
                   )}

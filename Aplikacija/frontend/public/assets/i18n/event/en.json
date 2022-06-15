@@ -1,4 +1,5 @@
 {
+  "editEvent": "Edit event",
   "reserve": "Reserve",
   "cancel": "Cancel event",
   "makeRes": "Make a reservation",
@@ -33,6 +34,7 @@
   "paidEv": "Paid event",
   "ticketsNum": "Number of tickets",
   "enterTickNum": "Enter number of tickets.",
+  "maxTicketNum": "The maximum number of tickets per student is 10.",
   "etnerTickPrice": "Enter ticket price",
   "create": "Create",
   "verified": "Verified",

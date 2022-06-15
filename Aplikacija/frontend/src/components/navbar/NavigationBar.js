@@ -13,7 +13,7 @@ function NavigationBar() {
   const location = useLocation();
 
   return location.pathname !== "/" && location.pathname !== "/register" ? (
-    <Navbar sticky collapseOnSelect expand="md" bg="primary" variant="dark">
+    <Navbar sticky="top" collapseOnSelect expand="md" bg="primary" variant="dark">
       <Container fluid className="p-1">
         <Navbar.Brand as={Link} to="/home">
           <img
