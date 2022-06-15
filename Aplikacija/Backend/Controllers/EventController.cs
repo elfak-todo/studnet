@@ -53,6 +53,7 @@ public class EventController : ControllerBase
             liked = e.LikedBy!.Contains(student),
             verified = e.Verified,
             pinned = e.Pinned,
+            location = e.Location,
             author = new
             {
                 e.Organiser!.ID,
@@ -238,6 +239,7 @@ public class EventController : ControllerBase
                     .Include(e => e.Comments)
                     .Include(e => e.LikedBy)
                     .Include(e => e.Reservations)
+                    .Include(e => e.Location)
                     .AsSplitQuery()
                     .Where(e => e.EndTime > DateTime.Now && e.UniversityId == student.UniversityId)
                     .OrderByDescending(e => e.Pinned)
@@ -252,6 +254,7 @@ public class EventController : ControllerBase
             liked = e.LikedBy!.Contains(student),
             verified = e.Verified,
             pinned = e.Pinned,
+            location = e.Location,
             author = new
             {
                 e.Organiser!.ID,
