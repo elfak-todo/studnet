@@ -10,10 +10,12 @@ import EventPostHeader from "./eventPostHeader/EventPostHeader";
 import EventPostBody from "./eventPostBody/EventPostBody";
 import EventPostFooter from "./eventPostFooter/EventPostFooter";
 import CommentSection from "../comments/commentSection/CommentSection";
+import ImagePreview from "../ImagePreview/ImagePreview";
 
 function EventPost({ feedEl, innerRef, feed, setFeed, verified, pinned }) {
   const { t, i18n } = useTranslation(["event"]);
   const [canceled, setCanceled] = useState(feedEl.ev.canceled);
+  const [showFullImage, setShowFullImage] = useState(false);
 
   return (
     <Container className="mb-3 mt-3 mx-auto px-0" ref={innerRef}>
@@ -29,6 +31,9 @@ function EventPost({ feedEl, innerRef, feed, setFeed, verified, pinned }) {
               src={feedEl.ev.imagePath === "" ? noImage : feedEl.ev.imagePath}
               alt="event-img"
               className="event-img"
+              onClick={() =>
+                feedEl.ev.imagePath !== "" && setShowFullImage(true)
+              }
             />
             {canceled && (
               <Image
@@ -55,7 +60,7 @@ function EventPost({ feedEl, innerRef, feed, setFeed, verified, pinned }) {
               </Card.Header>
               <Card.Body>
                 <div className="ev-elements">
-                  <EventPostBody event={feedEl.ev} />
+                  <EventPostBody event={feedEl.ev} location={feedEl.location} />
                   <EventPostFooter
                     event={feedEl.ev}
                     isLiked={feedEl.liked}
@@ -80,6 +85,11 @@ function EventPost({ feedEl, innerRef, feed, setFeed, verified, pinned }) {
           />
         </Card.Footer>
       </Card>
+      <ImagePreview
+        img={feedEl.ev.imagePath}
+        showFullImage={showFullImage}
+        setShowFullImage={setShowFullImage}
+      />
     </Container>
   );
 }

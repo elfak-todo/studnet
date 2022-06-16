@@ -3,16 +3,25 @@
     height: 100%;
 }
 .ev-badges {
+    margin-top: 10px;
     display: flex;
     justify-content: flex-start;
 }
 .ev-desc {
     margin-top: 10px;
 }
+.location-icon-btn {
+    margin-left: 10px;
+    font-size: x-large;
+    color: #4e54c8;
+}
 
 @media screen and (max-width: 780px) {
     .ev-info {
         text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
     .ev-badges {
         justify-content: center;

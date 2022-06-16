@@ -1,4 +1,5 @@
 {
+  "eventNotFound": "Requested event doesn't exist!",
   "editEvent": "Edit event",
   "reserve": "Reserve",
   "cancel": "Cancel event",
@@ -46,5 +47,8 @@
   "selectLocationTitle": "Select location",
   "addPicture": "Add picture",
   "starts": "Starts",
-  "ends": "Ends"
+  "ends": "Ends",
+  "seeOnMap": "See on map",
+  "startsAt": "Starts At",
+  "Date": "Date"
 }

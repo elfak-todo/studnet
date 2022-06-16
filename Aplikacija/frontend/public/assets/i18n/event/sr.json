@@ -1,4 +1,5 @@
 {
+  "locationNotFound": "Traženi događaj ne postoji!",
   "editEvent": "Izmeni događaj",
   "reserve": "Rezerviši",
   "cancel": "Otkaži događaj",
@@ -46,5 +47,8 @@
   "selectLocationTitle": "Izaberi lokaciju",
   "addPicture": "Dodaj sliku",
   "starts": "Počinje",
-  "ends": "Završava se"
+  "ends": "Završava se",
+  "seeOnMap": "Vidi na mapi",
+  "startsAt": "Počinje u",
+  "Date": "Datum"
 }

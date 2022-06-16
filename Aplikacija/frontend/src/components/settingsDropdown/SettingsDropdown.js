@@ -52,7 +52,7 @@ function SettingsDropdown({
           });
         } else {
           if (setFeed === null) {
-            navigate("/events");
+            navigate("/events", { replace: true });
             return;
           }
           setFeed(feed.filter((p) => p.id !== post.id));
@@ -130,6 +130,10 @@ function SettingsDropdown({
     axios
       .patch(`Event/${post.id}/Cancel`)
       .then(() => {
+        if (setFeed === null) {
+          navigate("/events", { replace: true });
+          return;
+        }
         setCanceled(!canceled);
       })
       .catch((err) => {

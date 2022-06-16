@@ -1,18 +1,16 @@
 $theme-colors: (
   "primary": #4e54c8,
   "primary-light": #e3e5ff,
-  "party": #ff4f4f,
-  "fieldTrip": purple,
-  "concert": black,
-  "musicFestival": blue,
-  "sportEvent": green,
-  "art": pink,
-  "job": darkblue,
-  "play": red,
-  "newYears": #4e54c8,
-  "free": green,
-  "HOT": #ff4800,
-  "soldout": black,
+  "party": #FE5D5E,
+  "fieldTrip": #FFC259,
+  "concert": #F9F871,
+  "musicFestival": #FF5A91,
+  "sportEvent": #C44CB6,
+  "art": #00A37E,
+  "job": #FF896C,
+  "play": #00C19D,
+  "newYears": #4E54C8,
+  "HOT": #474554
 );
 
 @import "~bootstrap/scss/bootstrap.scss";

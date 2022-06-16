@@ -135,7 +135,7 @@ function EventFormEdit({ event, location, edit, setEdit, feed, setFeed }) {
           },
         })
         .then((res) => {
-          setFeed([res.data, ...feed]);
+          feed !== null && setFeed([res.data, ...feed]);
           setEdit(false);
         })
         .finally(() => {

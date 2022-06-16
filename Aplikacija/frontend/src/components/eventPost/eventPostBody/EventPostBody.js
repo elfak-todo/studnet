@@ -1,21 +1,38 @@
 import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTicket } from "@fortawesome/free-solid-svg-icons";
-import { Card, Badge } from "react-bootstrap";
+import { faTicket, faMapLocationDot } from "@fortawesome/free-solid-svg-icons";
+import { Card, Badge, Button } from "react-bootstrap";
 
 import "./EventPostBody.style.css";
 import EventTypes from "../EventTypes";
-import { parseDate } from "../../../helpers/DateParser.js";
+import { justTime, justDate } from "../../../helpers/DateParser.js";
 
-function EventPostBody({ event }) {
+function EventPostBody({ event, location }) {
   const { t, i18n } = useTranslation(["event"]);
 
   return (
     <div className="ev-body-div">
       <div className="ev-info">
-      <h4> {event.title} </h4>
-      <Card.Text className="mb-1"> {parseDate(event.timeOfEvent, i18n.language)}</Card.Text>
-      <Card.Text className="mb-1"> {event.locationName}</Card.Text>
+        <h4> {event.title} </h4>
+        <div className="d-flex align-items-center">
+          <strong>{`${t("Date")}: `}</strong>
+          <p className="mb-0 ms-2">
+            {justDate(event.timeOfEvent, i18n.language)}
+          </p>
+        </div>
+        <div className="d-flex align-items-center">
+          <strong>{`${t("startsAt")}: `}</strong>
+          <p className="mb-0 ms-2">
+            {justTime(event.timeOfEvent, i18n.language)}
+          </p>
+        </div>
+        <div className="d-flex align-items-center">
+          <strong>{`${t("location")}: `}</strong>
+          <p className="mb-0 ms-2 p-0"> {location.name}</p>
+          <Button variant="outline-primary" size="sm" className="ms-2">
+            <FontAwesomeIcon icon={faMapLocationDot} /> {t("seeOnMap")}
+          </Button>
+        </div>
       </div>
       <div className="ev-badges">
         <Badge bg={EventTypes[event.type].name} className="p-2">
@@ -23,7 +40,6 @@ function EventPostBody({ event }) {
         </Badge>
         {event.paidEvent ? (
           <>
-            {/* TODO */}
             <Badge className="ms-2 p-2">
               <FontAwesomeIcon icon={faTicket} className="me-1" />
               {`${t("ticketsLeft")} ${
@@ -35,12 +51,18 @@ function EventPostBody({ event }) {
               {`${t("ticketPrice")} ${event.ticketPrice} RSD`}
             </Badge>
           </>
-        ) : <Badge bg="success" className="ms-2 p-2">
-        <FontAwesomeIcon icon={faTicket} className="me-1" />
-        {t("NAF")}
-      </Badge> }
+        ) : (
+          <Badge bg="success" className="ms-2 p-2">
+            <FontAwesomeIcon icon={faTicket} className="me-1" />
+            {t("NAF")}
+          </Badge>
+        )}
       </div>
-      <Card.Text className="ev-desc"> {event.description} </Card.Text>
+      <Card.Text className="ev-desc">
+        {event.description.length > 369
+          ? event.description?.substring(0, 370) + "..."
+          : event.description}
+      </Card.Text>
     </div>
   );
 }

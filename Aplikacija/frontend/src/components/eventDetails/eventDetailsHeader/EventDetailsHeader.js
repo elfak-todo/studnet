@@ -8,16 +8,17 @@ import eventTypes from "../../eventPost/EventTypes";
 import StudentContext from "../../studentManager/StudentManager";
 import { parseDate } from "../../../helpers/DateParser.js";
 import SettingsDropdown from "../../settingsDropdown/SettingsDropdown";
+import EventFormEdit from "../../eventPost/eventFormEdit/EventFormEdit";
 import "./EventDetailsHeader.style.css";
 
-function EventDetailsHeader({ event, author }) {
+function EventDetailsHeader({ event, author, location }) {
   const { t, i18n } = useTranslation(["event"]);
 
   const { student } = useContext(StudentContext);
 
   const [verified, setVerified] = useState(event.verified);
   const [pinned, setPinned] = useState(event.pinned);
-  const [, /*edit*/ setEdit] = useState(false);
+  const [edit, setEdit] = useState(false);
 
   return (
     <div className="details-text">
@@ -45,6 +46,7 @@ function EventDetailsHeader({ event, author }) {
             setVerified={setVerified}
             pinned={pinned}
             setPinned={setPinned}
+            edit={edit}
             setEdit={setEdit}
             className="ev-details-settings"
           />
@@ -56,8 +58,8 @@ function EventDetailsHeader({ event, author }) {
         i18n.language
       )}`}</h4>
       <h4>{`${t("ends")} ${parseDate(event.endTime, i18n.language)}`}</h4>
-      {/* TODO */}
-      <h4>{`${t("location")} Niska tvrdjava`}</h4>
+      <h4>{`${t("location")} ${location.name}`}</h4>
+      <EventFormEdit event={event} location={location} edit={edit} setEdit={setEdit} feed={null} setFeed={null}/>
     </div>
   );
 }
