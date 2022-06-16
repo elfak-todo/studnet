@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useTranslation } from "react-i18next";
 import { useContext, useRef, useState } from "react";
 import {
@@ -19,7 +20,6 @@ import StudentContext from "../../studentManager/StudentManager";
 import AddLocation from "../../addLocation/AddLocation";
 import SelectLocation from "../../selectLocation/SelectLocation";
 import InfoTooltip from "../../infoTooltip/InfoTooltip";
-import axios from "axios";
 
 function EventForm({ feed, setFeed }) {
   const { t } = useTranslation(["event", "info"]);
@@ -309,7 +309,6 @@ function EventForm({ feed, setFeed }) {
 
                 <Col sm={6}>
                   <Form.Label>
-                    {" "}
                     {t("addPicture")} <InfoTooltip text={t("info:pic")} />
                   </Form.Label>
                   <Form.Control

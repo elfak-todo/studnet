@@ -2,19 +2,25 @@ import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck, faThumbTack } from "@fortawesome/free-solid-svg-icons";
-import { Image, Card, OverlayTrigger, Popover, Modal, CloseButton } from "react-bootstrap";
+import {
+  Image,
+  Card,
+  OverlayTrigger,
+  Popover,
+} from "react-bootstrap";
 
 import "./EventPostHeader.style.css";
 import defaultPic from "../../../images/defaultProfilePic.jpg";
 import SettingsDropdown from "../../settingsDropdown/SettingsDropdown";
 import StudentContext from "../../studentManager/StudentManager";
 import { parseDate } from "../../../helpers/DateParser.js";
-import EventForm from "../eventForm/EventForm.js";
 import ProfileHoverCard from "../../profile/profileHoverCard/ProfileHoverCard";
+import EventFormEdit from "../eventFormEdit/EventFormEdit";
 
 function EventPostHeader({
   author,
   event,
+  location,
   feed,
   setFeed,
   verifiedProp,
@@ -22,7 +28,7 @@ function EventPostHeader({
   canceled,
   setCanceled,
 }) {
-  const { t, i18n } = useTranslation(["event"]);
+  const { i18n } = useTranslation(["event"]);
 
   const { student } = useContext(StudentContext);
 
@@ -82,17 +88,7 @@ function EventPostHeader({
           className="ev-settings"
         />
       ) : null}
-      <Modal show={edit} size="lg" centered backdrop="static">
-        <Modal.Header style={{ backgroundColor: "#4e54c8" }}>
-          <Modal.Title style={{ color: "white" }}>
-            {t("editEvent")}
-          </Modal.Title>
-          <CloseButton variant="white" onClick={() => setEdit(false)} />
-        </Modal.Header>
-        <Modal.Body>
-          <EventForm event={event} feed={feed} setFeed={setFeed}/>
-        </Modal.Body>
-      </Modal>
+      <EventFormEdit event={event} location={location} edit={edit} setEdit={setEdit} feed={feed} setFeed={setFeed}/>
     </div>
   );
 }

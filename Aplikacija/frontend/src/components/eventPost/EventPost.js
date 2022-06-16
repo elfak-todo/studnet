@@ -13,7 +13,6 @@ import CommentSection from "../comments/commentSection/CommentSection";
 
 function EventPost({ feedEl, innerRef, feed, setFeed, verified, pinned }) {
   const { t, i18n } = useTranslation(["event"]);
-  
   const [canceled, setCanceled] = useState(feedEl.ev.canceled);
 
   return (
@@ -45,6 +44,7 @@ function EventPost({ feedEl, innerRef, feed, setFeed, verified, pinned }) {
                 <EventPostHeader
                   author={feedEl.author}
                   event={feedEl.ev}
+                  location={feedEl.location}
                   feed={feed}
                   setFeed={setFeed}
                   verifiedProp={verified}
