@@ -151,6 +151,13 @@ public class EventController : ControllerBase
             ev.ImagePath = imagePath != null ? imagePath : "/";
         }
 
+        var loc = await _context.Locations.FindAsync(eventDetails.locationId);
+
+        if (loc == null)
+        {
+            return BadRequest("LocationNotFound");
+        }
+
         _context.Events.Add(ev);
         await _context.SaveChangesAsync();
 
@@ -161,6 +168,7 @@ public class EventController : ControllerBase
             liked = false,
             verified = ev.Verified,
             pinned = ev.Pinned,
+            location = loc,
             author = new
             {
                 student.ID,
