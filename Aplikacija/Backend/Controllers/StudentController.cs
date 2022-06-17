@@ -668,18 +668,18 @@ public class StudentController : ControllerBase
             return BadRequest("UserNotFound");
         }
 
-        var events = _context.Events.Include(p => p.Organiser!)
-                                .ThenInclude(a => a.Parlament!)
+        var events = _context.Events.Include(e => e.Organiser!)
+                                .ThenInclude(o => o.Parlament!)
                                 .ThenInclude(p => p.Faculty)
-                                .Include(p => p.Comments!)
+                                .Include(e => e.Comments!)
                                 .ThenInclude(c => c.LikedBy)
-                                .Include(p => p.LikedBy)
+                                .Include(e => e.LikedBy)
+                                .Include(e => e.Location)
                                 .AsSplitQuery()
-                                .Where(p => p.OrganiserId == studentId)
-                                .OrderByDescending(p => p.PublicationTime)
+                                .Where(e => e.OrganiserId == studentId)
+                                .OrderByDescending(e => e.PublicationTime)
                                 .Skip(page * pageSize)
                                 .Take(pageSize);
-
 
         var eventsSelected = events.Select(p => new
         {
@@ -688,6 +688,7 @@ public class StudentController : ControllerBase
             liked = p.LikedBy!.Contains(student),
             verified = p.Verified,
             pinned = p.Pinned,
+            location = p.Location,
             author = new
             {
                 p.Organiser!.ID,

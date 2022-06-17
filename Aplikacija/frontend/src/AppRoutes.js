@@ -15,6 +15,7 @@ import RegisterPage from "./pages/RegisterPage";
 import StudentPage from "./pages/StudentPage.js";
 import ModPage from "./pages/ModPage.js";
 import LocationEditPage from "./pages/LocationEditPage.js";
+import ResourceNotFound from "./components/resourceNotFound/ResourceNotFound.js";
 
 function AppRoutes() {
   const { student } = useContext(StudentContext);
@@ -34,6 +35,7 @@ function AppRoutes() {
       <Route path="/parlament/:parlamentId" element={<ParlamentPage />} />
       <Route path="/admin" element={<AdminPage />} />
       <Route path="/mod" element={<ModPage />} />
+      <Route path="*" element={<ResourceNotFound />} />
     </Routes>
   ) : (
     <Routes>

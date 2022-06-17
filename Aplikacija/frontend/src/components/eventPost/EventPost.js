@@ -12,7 +12,15 @@ import EventPostFooter from "./eventPostFooter/EventPostFooter";
 import CommentSection from "../comments/commentSection/CommentSection";
 import ImagePreview from "../ImagePreview/ImagePreview";
 
-function EventPost({ feedEl, innerRef, feed, setFeed, verified, pinned }) {
+function EventPost({
+  feedEl,
+  innerRef,
+  feed,
+  setFeed,
+  verified,
+  pinned,
+  metadata,
+}) {
   const { t, i18n } = useTranslation(["event"]);
   const [canceled, setCanceled] = useState(feedEl.ev.canceled);
   const [showFullImage, setShowFullImage] = useState(false);
@@ -60,7 +68,11 @@ function EventPost({ feedEl, innerRef, feed, setFeed, verified, pinned }) {
               </Card.Header>
               <Card.Body>
                 <div className="ev-elements">
-                  <EventPostBody event={feedEl.ev} location={feedEl.location} />
+                  <EventPostBody
+                    event={feedEl.ev}
+                    location={feedEl.location}
+                    hideMapButton={metadata?.hideMapButton}
+                  />
                   <EventPostFooter
                     event={feedEl.ev}
                     isLiked={feedEl.liked}

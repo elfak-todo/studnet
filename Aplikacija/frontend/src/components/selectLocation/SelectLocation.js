@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-import LocatioNMap from "../locationMap/LocationMap";
+import LocationMap from "../locationMap/LocationMap";
 
 function SelectLocation({ onLocationSelected }) {
   const [mapData, setMapData] = useState(null);
@@ -13,7 +13,7 @@ function SelectLocation({ onLocationSelected }) {
   }, []);
 
   return (
-    <LocatioNMap
+    <LocationMap
       mapData={mapData}
       selectMode
       onLocationSelected={onLocationSelected}

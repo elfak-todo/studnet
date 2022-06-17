@@ -26,6 +26,7 @@ function PostHeader({
 
   const { student } = useContext(StudentContext);
 
+  const [popupShown, setPopupShown] = useState(false);
   const [pinned, setPinned] = useState(pinnedProp);
   const [verified, setVerified] = useState(verifiedProp);
 
@@ -33,11 +34,14 @@ function PostHeader({
     <div className="post-header">
       <OverlayTrigger
         rootClose
-        trigger="click"
+        show={popupShown}
         placement="right"
         overlay={
           !post.anonymous ? (
-            <Popover>
+            <Popover
+              onMouseEnter={(e) => setPopupShown(true)}
+              onMouseLeave={(e) => setPopupShown(false)}
+            >
               <ProfileHoverCard studentProp={author} />
             </Popover>
           ) : (
@@ -56,6 +60,8 @@ function PostHeader({
           alt="user-pic"
           className="post-profile-pic"
           roundedCircle
+          onMouseEnter={(e) => setPopupShown(true)}
+          onMouseLeave={(e) => setPopupShown(false)}
         />
       </OverlayTrigger>
       <div>

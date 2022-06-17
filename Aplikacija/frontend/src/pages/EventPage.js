@@ -4,7 +4,8 @@ import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
 import EventDetails from "../components/eventDetails/EventDetails";
-import ResourceNotFound from "../components/resourceNotFound/ResourceNotFound.js";
+import ResourceNotFound from "../components/resourceNotFound/ResourceNotFound";
+import LoadingSpinner from "../components/loadingSpinner/LoadingSpinner";
 
 function EventPage() {
   const eventId = useParams().eventId;
@@ -28,10 +29,14 @@ function EventPage() {
     axios.get(`Reservation/Event/${eventId}/0`).then((res) => {});
   }, [eventId]);
 
-  return event && event?.canceled ? (
-    <EventDetails event={event} />
+  return event !== undefined ? (
+    event != null && !event?.canceled ? (
+      <EventDetails event={event} />
+    ) : (
+      <ResourceNotFound text={t("eventNotFound")} />
+    )
   ) : (
-    <ResourceNotFound text={t("eventNotFound")} />
+    <LoadingSpinner />
   );
 }
 

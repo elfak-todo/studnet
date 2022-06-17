@@ -10,6 +10,7 @@ function LocationMap({
   mapData,
   selectedMode = false,
   selectMode = false,
+  showCards = true,
   onLocationSelected,
 }) {
   const [openedLocation, setOpenedLocation] = useState(null);
@@ -42,7 +43,7 @@ function LocationMap({
             />
           ))}
         </MapContainer>
-        {!selectedMode && (
+        {showCards && (
           <LocationCard
             openedLocation={openedLocation}
             setOpenedLocation={setOpenedLocation}

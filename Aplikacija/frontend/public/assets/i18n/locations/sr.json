@@ -50,5 +50,9 @@
   "webpage": "Web stranica",
   "noGrades": "Ova lokacija još uvek nije ocenjena.",
   "noGradesShort": "Nema ocena",
-  "select": "Izaberi"
+  "select": "Izaberi",
+  "delete": "Obriši",
+  "deleteLocationTitle": "Brisanje lokacije",
+  "deleteLocationBody": "Da li ste sigurni da želite da obrišete ovu lokaciju?",
+  "cancel": "Odustani"
 }

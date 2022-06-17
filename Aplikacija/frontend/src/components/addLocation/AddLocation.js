@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Button, Form, Spinner } from "react-bootstrap";
+import { Button, Form, Modal, Spinner } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +8,10 @@ import "./AddLocation.style.css";
 import AddLocationForm from "./addLocationForm/AddLocationForm";
 import AddLocationMap from "./addLocationMap/AddLocationMap";
 import StudentContext from "../studentManager/StudentManager";
-import { faClockRotateLeft } from "@fortawesome/free-solid-svg-icons";
+import {
+  faClockRotateLeft,
+  faTrashCan,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function AddLocation({
@@ -19,6 +22,8 @@ function AddLocation({
 }) {
   const { t } = useTranslation(["locations"]);
   const navigate = useNavigate();
+
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const [state, setState] = useState({ edit: false });
   const [location, setLocation] = useState(null);
@@ -93,51 +98,89 @@ function AddLocation({
     setLocation(initialLocation);
   };
 
+  const deleteHandler = () => {
+    axios.delete(`Location/${location.id}`).then((res) => {
+      navigate("/locations");
+    });
+  };
+
   return (
     location && (
-      <Form noValidate onSubmit={submitHandler}>
-        <div className="add-location-body">
-          <AddLocationForm
-            location={location}
-            setLocation={setLocation}
-            state={state}
-            imageRef={imageRef}
-            imageGalleryRef={imageGalleryRef}
-            displayTitle={displayTitle}
-          />
-          <AddLocationMap
-            location={location}
-            setLocation={setLocation}
-            state={state}
-          />
-        </div>
-        <div className="d-flex justify-content-center mt-3 mb-3">
-          {state.edit && (
-            <Button
-              variant="primary"
-              type="button"
-              size="md"
-              className="me-2"
-              onClick={resetHandler}
-            >
-              <FontAwesomeIcon icon={faClockRotateLeft} />
-            </Button>
-          )}
-
-          <Button variant="primary" type="submit" size="md">
-            {state.loading && (
-              <Spinner
-                as="span"
-                animation="border"
-                size="sm"
-                role="status"
-                aria-hidden="true"
-              />
+      <>
+        <Form noValidate onSubmit={submitHandler}>
+          <div className="add-location-body">
+            <AddLocationForm
+              location={location}
+              setLocation={setLocation}
+              state={state}
+              imageRef={imageRef}
+              imageGalleryRef={imageGalleryRef}
+              displayTitle={displayTitle}
+            />
+            <AddLocationMap
+              location={location}
+              setLocation={setLocation}
+              state={state}
+            />
+          </div>
+          <div className="d-flex justify-content-center mt-3 mb-3">
+            {state.edit && (
+              <>
+                <Button
+                  variant="primary"
+                  type="button"
+                  size="md"
+                  className="me-2"
+                  onClick={() => setShowDeleteConfirm(true)}
+                >
+                  <FontAwesomeIcon icon={faTrashCan} />
+                </Button>
+                <Button
+                  variant="primary"
+                  type="button"
+                  size="md"
+                  className="me-2"
+                  onClick={resetHandler}
+                >
+                  <FontAwesomeIcon icon={faClockRotateLeft} />
+                </Button>
+              </>
             )}
-            {state.edit ? t("editLocation") : t("addLocation")}
-          </Button>
-        </div>
-      </Form>
+            <Button variant="primary" type="submit" size="md">
+              {state.loading && (
+                <Spinner
+                  as="span"
+                  animation="border"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                />
+              )}
+              {state.edit ? t("editLocation") : t("addLocation")}
+            </Button>
+          </div>
+        </Form>
+        <Modal
+          show={showDeleteConfirm}
+          onHide={() => setShowDeleteConfirm(false)}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>{t("deleteLocationTitle")}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>{t("deleteLocationBody")}</Modal.Body>
+          <Modal.Footer>
+            <Button
+              variant="secondary"
+              onClick={() => setShowDeleteConfirm(false)}
+            >
+              {t("cancel")}
+            </Button>
+            <Button variant="primary" onClick={deleteHandler}>
+              {t("delete")}
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </>
     )
   );
 }

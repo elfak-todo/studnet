@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import AddLocation from "../components/addLocation/AddLocation";
 
 import LoadingSpinner from "../components/loadingSpinner/LoadingSpinner";
+import ResourceNotFound from "../components/resourceNotFound/ResourceNotFound";
 
 function LocationEditPage() {
   const { locationId } = useParams();
@@ -26,10 +27,14 @@ function LocationEditPage() {
       });
   }, [locationId]);
 
-  return initialLocation ? (
-    <AddLocation initialLocation={initialLocation} />
+  return initialLocation !== null ? (
+    initialLocation !== undefined ? (
+      <AddLocation initialLocation={initialLocation} />
+    ) : (
+      <LoadingSpinner />
+    )
   ) : (
-    <LoadingSpinner />
+    <ResourceNotFound />
   );
 }
 

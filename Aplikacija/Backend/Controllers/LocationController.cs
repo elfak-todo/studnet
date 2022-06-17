@@ -47,7 +47,7 @@ public class LocationController : ControllerBase
                                 .AsSplitQuery()
                                 .Include(l => l.Grades)
                                 .AsSplitQuery()
-                                .FirstAsync(l => l.ID == locationId);
+                                .FirstOrDefaultAsync(l => l.ID == locationId);
 
         if (location == null)
         {
@@ -321,6 +321,40 @@ public class LocationController : ControllerBase
         return Ok(location);
     }
 
+    [Route("{locationId}")]
+    [Authorize(Roles = "Student")]
+    [HttpDelete]
+    public async Task<ActionResult> DeleteLocation(int locationId)
+    {
+        var user = _tokenManager.GetUserDetails(HttpContext.User);
+
+        if (user == null)
+        {
+            return StatusCode(500);
+        }
+
+        var location = await _context.Locations
+                                .Include(l => l.Events!)
+                                .ThenInclude(e => e.Reservations)
+                                .Include(l => l.Grades)
+                                .AsSplitQuery()
+                                .FirstOrDefaultAsync(l => l.ID == locationId);
+
+        if (location == null)
+        {
+            return NotFound("LocationNotFound");
+        }
+
+        if (user.Role < Role.AdminUni && user.ID != location.AuthorId)
+        {
+            return Forbid("NotAuthor");
+        }
+
+        _context.Locations.Remove(location);
+        await _context.SaveChangesAsync();
+        return Ok();
+    }
+
     [Route("{locationId}/Events/{page}")]
     [Authorize(Roles = "Student")]
     [HttpGet]
@@ -334,14 +368,15 @@ public class LocationController : ControllerBase
             return BadRequest("UserNotFound");
         }
 
-        var events = _context.Events.Include(p => p.Organiser!)
-                                .ThenInclude(a => a.Parlament!)
+        var events = _context.Events.Include(e => e.Organiser!)
+                                .ThenInclude(o => o.Parlament!)
                                 .ThenInclude(p => p.Faculty)
-                                .Include(p => p.Comments!)
+                                .Include(e => e.Comments!)
                                 .ThenInclude(c => c.LikedBy)
-                                .Include(p => p.LikedBy)
+                                .Include(e => e.LikedBy)
+                                .Include(e => e.Location)
                                 .AsSplitQuery()
-                                .Where(p => p.LocationId == locationId)
+                                .Where(e => e.LocationId == locationId)
                                 .OrderByDescending(p => p.PublicationTime)
                                 .Skip(page * pageSize)
                                 .Take(pageSize);
@@ -353,6 +388,7 @@ public class LocationController : ControllerBase
             liked = p.LikedBy!.Contains(student),
             verified = p.Verified,
             pinned = p.Pinned,
+            location = p.Location,
             author = new
             {
                 p.Organiser!.ID,

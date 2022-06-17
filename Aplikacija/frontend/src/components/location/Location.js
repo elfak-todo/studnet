@@ -103,7 +103,11 @@ function Location({ location, setLocation, author }) {
             tabClassName="profile-feed-tab"
           >
             {openedTab === "map" && (
-              <LocationMap selectedMode mapData={{ loc: [location] }} />
+              <LocationMap
+                selectedMode
+                mapData={{ loc: [location] }}
+                showCards={false}
+              />
             )}
           </Tab>
         </Tabs>
