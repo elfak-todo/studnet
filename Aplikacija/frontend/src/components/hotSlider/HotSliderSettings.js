@@ -6,6 +6,7 @@ export const SETTINGS = {
   initialSlide: 0,
   arrows: true,
   dots: false,
+  autoplay: true,
   responsive: [
     {
       breakpoint: 1300,

@@ -1,18 +1,18 @@
-.feed-spinner{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 100px;
+.feed-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 100px;
 }
 .feed-card {
-    border: none !important;
+  border: none !important;
 }
 
 @media screen and (max-width: 780px) {
-    .feed{
-        margin-left: 0px !important;
-        margin-right: 0px !important;
-        padding-left: 0px !important;
-        padding-right: 0px !important;
-    }
+  .feed {
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+  }
 }

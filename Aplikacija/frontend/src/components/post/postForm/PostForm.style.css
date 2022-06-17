@@ -1,29 +1,33 @@
 .post-form-container {
-    width: 800px !important;
-    margin-bottom: 20px;
+  /*width: 800px !important;*/
+  margin-bottom: 2rem;
+  padding: 0 !important;
+}
+.post-form-card {
+  background: var(--bs-primary-light) !important;
 }
 .post-form-header {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .profile-pic {
-    height: 60px;
-    width: 60px;
+  height: 60px;
+  width: 60px;
 }
 .post-toolbar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .form-checks .form-check-input:checked {
-    background-color: #4e54c8!important;
-    border-color: #4e54c8 !important;
+  background-color: #4e54c8 !important;
+  border-color: #4e54c8 !important;
 }
 
 @media only screen and (max-width: 768px) {
-    .post-form-container {
-      width: auto !important;
-    }
+  .post-form-container {
+    width: auto !important;
   }
+}

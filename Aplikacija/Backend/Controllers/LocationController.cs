@@ -125,7 +125,7 @@ public class LocationController : ControllerBase
     [HttpGet]
     public async Task<ActionResult> GetTrendingLocations(int page)
     {
-        const int pageSize = 10;
+        const int pageSize = 15;
 
         var user = _tokenManager.GetUserDetails(HttpContext.User);
 

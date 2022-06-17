@@ -197,35 +197,7 @@ public class EventController : ControllerBase
                                            .ThenBy(e => e.PublicationTime)
                                            .Take(15);
 
-        var EventsSelected = events.Select(e => new
-        {
-            ev = e,
-            author = new
-            {
-                e.Organiser!.ID,
-                e.Organiser.FirstName,
-                e.Organiser.LastName,
-                e.Organiser.Username,
-                e.Organiser.ImagePath
-            },
-            comments = e.Comments!.OrderByDescending(e => e.Pinned)
-                                .ThenByDescending(e => e.PublicationTime)
-                                .Take(3)
-                                .Select(c => new
-                                {
-                                    comment = c,
-                                    author = new
-                                    {
-                                        e.Organiser!.ID,
-                                        e.Organiser.FirstName,
-                                        e.Organiser.LastName,
-                                        e.Organiser.Username,
-                                        e.Organiser.ImagePath
-                                    }
-                                }),
-
-        });
-        return Ok(await EventsSelected.ToListAsync());
+        return Ok(await events.ToListAsync());
     }
 
     [Route("Feed/{page}")]

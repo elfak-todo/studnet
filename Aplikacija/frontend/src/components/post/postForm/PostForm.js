@@ -68,7 +68,7 @@ function PostForm({ feed, setFeed }) {
 
   return (
     <Container className="post-form-container">
-      <Card className="shadow-sm">
+      <Card className="shadow-sm post-form-card">
         <Card.Header>
           <div className="post-form-header">
             <Image
@@ -105,7 +105,7 @@ function PostForm({ feed, setFeed }) {
               ref={postTextInputRef}
             ></Form.Control>
             {student.role > 0 && (
-              <div className="post-toolbar">
+              <div className="post-toolbar mt-1">
                 <Form.Check
                   className="form-checks"
                   disabled={anonymous}

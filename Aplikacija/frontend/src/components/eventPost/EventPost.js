@@ -27,7 +27,7 @@ function EventPost({
 
   return (
     <Container className="mb-3 mt-3 mx-auto px-0" ref={innerRef}>
-      <Card className="shadow">
+      <Card className={"shadow" + (pinned && " pinned")}>
         {feedEl.ev.organisingParlamentId !== null && feedEl.ev.verified && (
           <div className="parlament-div">
             <span className="parlament-text ms-2">{t("orgByPar")}</span>
@@ -52,7 +52,7 @@ function EventPost({
             )}
           </div>
           <Container className="m-0 p-0" fluid>
-            <Card className="ev-card-neki">
+            <Card className={"ev-card-neki" + (pinned && " pinned")}>
               <Card.Header>
                 <EventPostHeader
                   author={feedEl.author}

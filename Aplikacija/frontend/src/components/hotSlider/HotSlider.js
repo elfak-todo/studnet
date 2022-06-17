@@ -4,34 +4,35 @@ import "slick-carousel/slick/slick-theme.css";
 import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 
-import { SETTINGS } from "./EventSliderSettings";
-import EventCard from "../eventCard/EventCard";
+import { SETTINGS } from "./HotSliderSettings";
+import HotCard from "../hotCard/HotCard";
 
-import "./EventSlider.style.css";
+import "./HotSlider.style.css";
 
-function EventSlider() {
+function HotSlider({ url, navigateUrl, title }) {
   const [feed, setFeed] = useState([]);
 
   useEffect(() => {
     axios
-      .get("Event/Hot")
+      .get(url)
       .then((res) => {
         setFeed(res.data);
       })
       .catch((err) => {
         console.log(err.response.data);
       });
-  }, []);
+  }, [url]);
 
   return (
-    <div className="hot-events-container">
+    <div className="hot-cards-container">
+      <h3 className="ms-3 mt-3">{title}</h3>
       <Slider {...SETTINGS}>
         {feed.map((e) => (
-          <EventCard key={e.ev.id} event={e.ev} />
+          <HotCard key={e.id} element={e} navigateUrl={navigateUrl} />
         ))}
       </Slider>
     </div>
   );
 }
 
-export default EventSlider;
+export default HotSlider;

@@ -119,9 +119,9 @@ public class PostController : ControllerBase
                 facultyName = p.Author.Parlament!.Faculty!.Name,
                 facultyImagePath = p.Author.Parlament!.Faculty!.ImagePath
             },
-            comments = p.Comments!.OrderByDescending(p => p.Pinned)
-                    .ThenByDescending(p => p.Verified)
-                    .ThenByDescending(p => p.PublicationTime)
+            comments = p.Comments!
+                    .Where(p => p.Pinned)
+                    .OrderByDescending(p => p.PublicationTime)
                     .Take(3)
                     .Select(c => new
                     {

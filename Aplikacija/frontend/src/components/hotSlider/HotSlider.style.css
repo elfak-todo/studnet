@@ -6,12 +6,12 @@
   right: 3% !important;
   z-index: 1;
 }
-.hot-events-container {
+.hot-cards-container {
   margin: 0 0.5rem 1rem 0;
 }
 
 @media screen and (max-width: 600px) {
-  .hot-events-container {
+  .hot-cards-container {
     margin: 0.2rem;
   }
 }

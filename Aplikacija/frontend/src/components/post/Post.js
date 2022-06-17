@@ -63,7 +63,7 @@ function Post({ feedEl, innerRef, feed, setFeed, pinned, verified }) {
 
   return (
     <Container className="mb-3 mx-auto px-0" ref={innerRef}>
-      <Card className="post shadow-sm rounded">
+      <Card className={"post shadow-sm rounded" + (pinned && " pinned")}>
         <PostHeader
           author={author}
           post={post}
