@@ -1,7 +1,8 @@
 import axios from "axios";
 import { useRef, useState } from "react";
-import { Button, Card, FloatingLabel, Form } from "react-bootstrap";
+import { Button, FloatingLabel, Form } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
+import MyReservation from "../myReservation/MyReservation";
 
 import "./EventReserveForm.style.css";
 
@@ -36,37 +37,34 @@ function EventReserveForm({ event, setTicketsReserved }) {
       })
       .then((res) => {
         e.target.reset();
-        setTicketsReserved(state => state += Number(ticketNum));
+        setTicketsReserved((state) => (state += Number(ticketNum)));
       })
       .catch((err) => {
         console.log(err);
       });
   };
   return (
-    <Card style={{ width: "25rem" }} className="mt-3 mb-3 ms-3">
-      <Card.Header className="reserve-form-title">{t("makeRes")}</Card.Header>
-      <Card.Body>
-        <Form noValidate onSubmit={handleReserve}>
-          <div className="reserve-form-div">
-            <FloatingLabel label={t("ticketsNum")} className="mb-2">
-              <Form.Control
-                type="number"
-                placeholder={"Tickets number"}
-                isInvalid={invalid}
-                ref={ticketNumRef}
-                onChange={() => setInvalid(false)}
-              />
-              <Form.Control.Feedback type="invalid">
-                {errMessage}
-              </Form.Control.Feedback>
-            </FloatingLabel>
-            <Button variant="primary" type="submit" className="ms-3">
-              {t("reserve")}
-            </Button>
-          </div>
-        </Form>
-      </Card.Body>
-    </Card>
+      <Form noValidate onSubmit={handleReserve}>
+        <div className="reserve-form-div">
+          <FloatingLabel label={t("ticketsNum")} className="mb-2">
+            <Form.Control
+              type="number"
+              placeholder={"Tickets number"}
+              isInvalid={invalid}
+              ref={ticketNumRef}
+              onChange={() => setInvalid(false)}
+            />
+            <Form.Control.Feedback type="invalid">
+              {errMessage}
+            </Form.Control.Feedback>
+          </FloatingLabel>
+          <Button variant="primary" type="submit" className="ms-3 mb-1">
+            {t("reserve")}
+          </Button>
+        </div>
+        <hr/>
+        <MyReservation />
+      </Form>
   );
 }
 

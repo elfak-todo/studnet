@@ -1,6 +1,16 @@
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Container, Card, Image, ProgressBar, Button } from "react-bootstrap";
+import {
+  Container,
+  Card,
+  Image,
+  ProgressBar,
+  Button,
+  Modal,
+  CloseButton,
+} from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
 
 import noImage from "../../images/no-image.jpg";
 import EventDetailsHeader from "./eventDetailsHeader/EventDetailsHeader";
@@ -8,21 +18,24 @@ import EventDetailsBody from "./eventDetailsBody/EventDetailsBody";
 import EventDetailsOrganiser from "./eventDetailsOrganiser/EventDetailsOrganiser";
 import ImagePreview from "../ImagePreview/ImagePreview";
 import EventReserveForm from "./eventReserveForm/EventReserveForm";
-import MyReservation from "./myReservation/MyReservation";
 import StudentContext from "../studentManager/StudentManager";
 import ReservationTable from "./reservationTable/ReservationTable";
+import LocationMap from "../locationMap/LocationMap";
 import "./EventDetails.style.css";
+
 
 function EventDetails({ event }) {
   const { t } = useTranslation(["event"]);
 
   const { student } = useContext(StudentContext);
 
+  const [showReserveForm, setShowReserveForm] = useState(false);
   const [showFullImage, setShowFullImage] = useState(false);
   const [showTable, setShowTable] = useState(false);
   const [ticketsReserved, setTicketsReserved] = useState(
     event.ev.ticketsReserved
   );
+  const scrollRef = useRef();
 
   return (
     <Container className="mb-3 mt-3 mx-auto px-0">
@@ -48,6 +61,9 @@ function EventDetails({ event }) {
                   event={event.ev}
                   location={event.location}
                   author={event.author}
+                  scrollRef={scrollRef}
+                  setShowReserveForm={setShowReserveForm}
+                  setShowTable={setShowTable}
                 />
                 {event.ev.organisingParlamentId !== null && (
                   <ProgressBar
@@ -67,36 +83,59 @@ function EventDetails({ event }) {
             </Card>
           </Container>
         </div>
-        <div className="d-flex justify-content-center">
-          {event.ev.organisingParlamentId !== null && event.ev.verified && (
-            <EventReserveForm
-              event={event.ev}
-              setTicketsReserved={setTicketsReserved}
-            />
-          )}
-          <MyReservation />
+        <div className="p-2">
+          <LocationMap mapData={{ loc: [event.location] }} selectedMode />
         </div>
+        <div className="d-flex justify-content-center"></div>
         {event.ev.organisingParlamentId !== null &&
           event.ev.verified &&
           event.author.id === student.id && (
             <div className="d-flex justify-content-center mb-2">
               <Button
                 variant="primary"
+                ref={scrollRef}
                 onClick={() =>
                   showTable ? setShowTable(false) : setShowTable(true)
                 }
               >
                 {showTable ? t("hideResList") : t("seeResList")}
+                <FontAwesomeIcon
+                  icon={showTable ? faAngleUp : faAngleDown}
+                  className="ms-2"
+                />
               </Button>
             </div>
           )}
-        {showTable && <ReservationTable event={event.ev} />}
+        {showTable && (
+          <ReservationTable event={event.ev} scrollRef={scrollRef} />
+        )}
       </Card>
       <ImagePreview
         img={event.ev.imagePath}
         showFullImage={showFullImage}
         setShowFullImage={setShowFullImage}
       />
+      <Modal
+        show={showReserveForm}
+        onHide={() => setShowReserveForm(false)}
+        centered
+      >
+        <Modal.Header style={{ backgroundColor: "#4e54c8" }}>
+          <Modal.Title style={{ color: "white" }}>{t("makeRes")}</Modal.Title>
+          <CloseButton
+            variant="white"
+            onClick={() => setShowReserveForm(false)}
+          />
+        </Modal.Header>
+        <Modal.Body>
+          {event.ev.organisingParlamentId !== null && event.ev.verified && (
+            <EventReserveForm
+              event={event.ev}
+              setTicketsReserved={setTicketsReserved}
+            />
+          )}
+        </Modal.Body>
+      </Modal>
     </Container>
   );
 }

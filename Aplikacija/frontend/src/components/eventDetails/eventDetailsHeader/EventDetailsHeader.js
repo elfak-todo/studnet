@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { useContext, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck, faThumbTack } from "@fortawesome/free-solid-svg-icons";
-import { Badge } from "react-bootstrap";
+import { Badge, Button } from "react-bootstrap";
 
 import eventTypes from "../../eventPost/EventTypes";
 import StudentContext from "../../studentManager/StudentManager";
@@ -11,7 +11,14 @@ import SettingsDropdown from "../../settingsDropdown/SettingsDropdown";
 import EventFormEdit from "../../eventPost/eventFormEdit/EventFormEdit";
 import "./EventDetailsHeader.style.css";
 
-function EventDetailsHeader({ event, author, location }) {
+function EventDetailsHeader({
+  event,
+  author,
+  location,
+  scrollRef,
+  setShowReserveForm,
+  setShowTable,
+}) {
   const { t, i18n } = useTranslation(["event"]);
 
   const { student } = useContext(StudentContext);
@@ -51,6 +58,32 @@ function EventDetailsHeader({ event, author, location }) {
             className="ev-details-settings"
           />
         ) : null}
+      </div>
+      <div className="float-end end-buttons-div">
+        <div>
+          <Button
+            className="mt-3"
+            size="md"
+            onClick={() => setShowReserveForm(true)}
+          >
+            {t("reserve")}
+          </Button>
+        </div>
+        {event.organisingParlamentId !== null &&
+          event.verified &&
+          author.id === student.id && (
+            <Button
+              variant="outline-primary"
+              size="sm"
+              className="mt-2"
+              onClick={() => {
+                setShowTable(true);
+                window.scrollTo(0, scrollRef.current.offsetTop);
+              }}
+            >
+              {t("seeResList")}
+            </Button>
+          )}
       </div>
       <h2 className="event-title"> {event.title} </h2>
       <h4 className="m-0">

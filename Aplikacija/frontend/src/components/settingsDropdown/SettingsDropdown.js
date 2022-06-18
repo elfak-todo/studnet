@@ -3,7 +3,14 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEllipsisV,
+  faBan,
+  faTrashCan,
+  faPen,
+  faThumbTack,
+  faCircleCheck,
+} from "@fortawesome/free-solid-svg-icons";
 import { NavDropdown } from "react-bootstrap";
 
 import StudentContext from "../studentManager/StudentManager";
@@ -173,14 +180,19 @@ function SettingsDropdown({
       }
     >
       {author?.id === student.id && !canceled && (
-        <NavDropdown.Item eventKey="edit"> {t("edit")} </NavDropdown.Item>
+        <NavDropdown.Item eventKey="edit">
+          <FontAwesomeIcon icon={faPen} style={{color: "#5bc0de"}} className="me-2" />
+          {t("edit")}
+        </NavDropdown.Item>
       )}
       {student.role !== 0 && (
         <>
           <NavDropdown.Item eventKey="verify">
+            <FontAwesomeIcon icon={faCircleCheck} style={{color: "#5cb85c"}} className="me-2" />
             {!verified ? t("verify") : t("unverify")}
           </NavDropdown.Item>
           <NavDropdown.Item eventKey="pinn">
+            <FontAwesomeIcon icon={faThumbTack} style={{color: "#4e54c8"}} className="me-2" />
             {!pinned ? t("pin") : t("unpin")}
           </NavDropdown.Item>
         </>
@@ -189,10 +201,14 @@ function SettingsDropdown({
       !canceled &&
       (author.id === student.id || student.role === 3) ? (
         <NavDropdown.Item eventKey="cancel">
+          <FontAwesomeIcon icon={faBan} style={{color: "#d9534f"}} className="me-2" />
           {t("event:cancel")}
         </NavDropdown.Item>
       ) : null}
-      <NavDropdown.Item eventKey="delete"> {t("delete")} </NavDropdown.Item>
+      <NavDropdown.Item eventKey="delete">
+        <FontAwesomeIcon icon={faTrashCan} style={{color: "#d9534f"}} className="me-2" />
+        {t("delete")}
+      </NavDropdown.Item>
     </NavDropdown>
   );
 }

@@ -6,7 +6,7 @@ import "./MyReservation.style.css";
 
 function MyReservation() {
   return (
-    <Alert show={false} variant="primary" transition className="m-2">
+    <Alert show={true} variant="primary" transition className="m-2">
       <Alert.Heading>
         My reservation
         <FontAwesomeIcon icon={faPen} className="float-end edit-icon" />
