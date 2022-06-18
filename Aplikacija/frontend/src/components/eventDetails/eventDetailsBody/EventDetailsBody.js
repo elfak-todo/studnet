@@ -2,12 +2,9 @@ import { useTranslation } from "react-i18next";
 import { Card } from "react-bootstrap";
 
 import "./EventDetailsBody.style.css";
-import EventReserveForm from "../eventReserveForm/EventReserveForm";
-import { useState } from "react";
 
-function EventDetailsBody({ event }) {
+function EventDetailsBody({ event, ticketsReserved }) {
   const { t } = useTranslation(["event"]);
-  const[ticketsReserved, setTicketsReserved] = useState(event.ticketsReserved);
 
   return (
     <div>
@@ -28,9 +25,6 @@ function EventDetailsBody({ event }) {
           </div>
         </Card.Body>
       </Card>
-      {event.organisingParlamentId !== null && event.verified && (
-        <EventReserveForm event={event} setTicketsReserved={setTicketsReserved}/>
-      )}
     </div>
   );
 }

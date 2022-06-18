@@ -134,3 +134,9 @@ export const parseDate = (databaseDate, language) => {
     return dEng;
   }
 };
+
+export const isInThePast = (date) => {
+  const today = new Date();
+
+  return date < today;
+};

@@ -25,8 +25,6 @@ function EventPage() {
           setEvent(null);
         }
       });
-
-    axios.get(`Reservation/Event/${eventId}/0`).then((res) => {});
   }, [eventId]);
 
   return event !== undefined ? (

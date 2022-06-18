@@ -6,6 +6,8 @@
   "makeRes": "Rezerviši karte",
   "reserved": "Rezervisano",
   "orgByPar": "Organizovano od strane parlamenta",
+  "organiser": "Organizator",
+  "postedBy": "Objavio",
   "NAF": "Ulaz besplatan",
   "soldout": "Rasprodato",
   "ticketsLeft": "Preostali broj karata",
@@ -47,8 +49,17 @@
   "selectLocationTitle": "Izaberi lokaciju",
   "addPicture": "Dodaj sliku",
   "starts": "Počinje",
+  "eventIsOver": "Događaj se završio",
   "ends": "Završava se",
   "seeOnMap": "Vidi na mapi",
   "startsAt": "Počinje u",
-  "Date": "Datum"
+  "Date": "Datum",
+  "name": "Ime i prezime",
+  "username": "Korisničko ime",
+  "faculty": "Fakultet",
+  "timeOfReservation": "Vreme rezervacije",
+  "seeResList": "Vidi rezervacije",
+  "hideResList": "Sakrij rezervacije",
+  "download": "Preuzmi podatke",
+  "loadMore": "Učitaj više"
 }

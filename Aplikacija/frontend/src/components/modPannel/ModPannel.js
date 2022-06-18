@@ -14,7 +14,7 @@ function ModPannel() {
     const [students, setStudents] = useState(null);
     const [showSearchLabel, setShowSearchLabel] = useState(false);
     const [showFilterLabel, setShowFilterLabel] = useState(false);
-    const [openedTab, setOpenedTab] = useState("mod");
+    // const [openedTab, setOpenedTab] = useState("mod");
 
     const onTabSelect = (e) => {
         if (e === "filter") {

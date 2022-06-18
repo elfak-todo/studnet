@@ -53,13 +53,26 @@ function EventDetailsHeader({ event, author, location }) {
         ) : null}
       </div>
       <h2 className="event-title"> {event.title} </h2>
-      <h4 className="m-0">{`${t("starts")} ${parseDate(
-        event.timeOfEvent,
-        i18n.language
-      )}`}</h4>
-      <h4>{`${t("ends")} ${parseDate(event.endTime, i18n.language)}`}</h4>
-      <h4>{`${t("location")} ${location.name}`}</h4>
-      <EventFormEdit event={event} location={location} edit={edit} setEdit={setEdit} feed={null} setFeed={null}/>
+      <h4 className="m-0">
+        <strong className="me-2">{t("starts")}</strong>
+        {parseDate(event.timeOfEvent, i18n.language)}
+      </h4>
+      <h4>
+        <strong className="me-2">{t("ends")}</strong>
+        {parseDate(event.endTime, i18n.language)}
+      </h4>
+      <h4>
+        <strong className="me-2">{t("location")}</strong>
+        {location.name}
+      </h4>
+      <EventFormEdit
+        event={event}
+        location={location}
+        edit={edit}
+        setEdit={setEdit}
+        feed={null}
+        setFeed={null}
+      />
     </div>
   );
 }

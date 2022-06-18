@@ -33,7 +33,7 @@ function EventPostBody({ event, location, hideMapButton = false }) {
           </div>
           <div className="d-flex align-items-center">
             <strong>{`${t("location")}: `}</strong>
-            <p className="mb-0 ms-2 p-0"> {location.name}</p>
+            <p className="mb-0 ms-2 p-0"> {location?.name}</p>
             {!hideMapButton && (
               <Button
                 variant="outline-primary"

@@ -56,6 +56,30 @@ public class ReservationController : ControllerBase
         return Ok(await rSelected.ToListAsync());
     }
 
+    [Route("eventReservations/{eventId}")]
+    [Authorize(Roles = "ParlamentMember")]
+    [HttpGet]
+    public async Task<ActionResult> ExportReservations(int eventId)
+    {
+
+        var reservations = _context.Reservations
+                                .Include(r => r.ReservedBy)
+                                .ThenInclude(s => s!.Parlament)
+                                .ThenInclude(p => p!.Faculty)
+                                .Where(r => r.EventId == eventId);
+
+        var rSelected = reservations.Select(r => new
+        {
+            Name = r.ReservedBy!.FirstName + " " + r.ReservedBy.LastName,
+            Username = r.ReservedBy.Username,
+            FacultyName = r.ReservedBy.Parlament!.Faculty!.Name,
+            Tickets = r.NumberOfTickets,
+            Time = r.ReservationTime,
+        });
+
+        return Ok(await rSelected.ToListAsync());
+    }
+
     [Route("")]
     [Authorize(Roles = "Student")]
     [HttpPost]

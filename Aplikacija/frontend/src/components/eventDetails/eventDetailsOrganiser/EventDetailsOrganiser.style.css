@@ -1,5 +1,6 @@
 .organiser-img {
-    width: 10rem;
+    width: 6rem;
+    height: 6rem;
 }
 .organiser-card {
     border: none!important;
@@ -8,4 +9,15 @@
     display:  flex;
     flex-direction: column;
     align-items: center;
+}
+.org-parlament-div {
+    height: 2.2 rem;
+    background-color: #4e54c8;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.org-parlament-text {
+    font-size: 18px;
 }

@@ -28,7 +28,8 @@
     "react-slick": "^0.29.0",
     "sass": "^1.52.1",
     "slick-carousel": "^1.8.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "xlsx": "^0.18.5"
   },
   "overrides": {
     "autoprefixer": "10.4.5"

@@ -43,7 +43,7 @@ function EventReserveForm({ event, setTicketsReserved }) {
       });
   };
   return (
-    <Card style={{ width: "20rem" }} className="mt-5">
+    <Card style={{ width: "25rem" }} className="mt-3 mb-3 ms-3">
       <Card.Header className="reserve-form-title">{t("makeRes")}</Card.Header>
       <Card.Body>
         <Form noValidate onSubmit={handleReserve}>
