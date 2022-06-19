@@ -23,7 +23,7 @@ function ReservationTable({ event }) {
     axios
       .get(`Reservation/Event/${event.id}/${pageNum}`)
       .then((res) => {
-        if (pageNum === 0) setStudents(res.data);
+        if (pageNum === 0) setStudents(res.data.length === 0 ? null : res.data);
         else {
           setStudents((state) => {
             if (state) return [...state, ...res.data];
@@ -123,9 +123,13 @@ function ReservationTable({ event }) {
             style={{ color: "#4e54c8" }}
           />
         )}
-        <p className="load-more" onClick={loadMore}>
-          {t("loadMore")} <FontAwesomeIcon icon={faAngleDown} />
-        </p>
+        {students !== null ? (
+          <p className="load-more" onClick={loadMore}>
+            {t("loadMore")} <FontAwesomeIcon icon={faAngleDown} />
+          </p>
+        ) : (
+          <p className="load-more">{t("nothingToShow")}</p>
+        )}
       </div>
     </>
   );

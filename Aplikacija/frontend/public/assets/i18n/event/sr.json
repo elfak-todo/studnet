@@ -61,5 +61,9 @@
   "seeResList": "Vidi rezervacije",
   "hideResList": "Sakrij rezervacije",
   "download": "Preuzmi podatke",
-  "loadMore": "Učitaj više"
+  "loadMore": "Učitaj više",
+  "myRes": "Moja rezervacija",
+  "cancelRes": "Otkaži rezervaciju",
+  "saveChanges": "Sačuvaj izmene",
+  "nothingToShow": "Ništa za prikaz"
 }

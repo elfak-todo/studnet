@@ -61,5 +61,9 @@
   "seeResList": "See reservations",
   "hideResList": "Hide reservations",
   "download": "Download data",
-  "loadMore": "Load more"
+  "loadMore": "Load more",
+  "myRes": "My reservation",
+  "cancelRes": "Cancel reservation",
+  "saveChanges": "Save Changes",
+  "nothingToShow": "Nothing to show"
 }

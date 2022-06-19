@@ -111,7 +111,7 @@ public class ReservationController : ControllerBase
         return Ok(res);
     }
 
-    [Route("")]
+    [Route("Edit")]
     [Authorize(Roles = "Student")]
     [HttpPatch]
     public async Task<ActionResult> EditReservation([FromBody] Reservation res)

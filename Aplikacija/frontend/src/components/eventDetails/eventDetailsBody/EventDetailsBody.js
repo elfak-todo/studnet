@@ -5,7 +5,6 @@ import "./EventDetailsBody.style.css";
 
 function EventDetailsBody({ event, ticketsReserved }) {
   const { t } = useTranslation(["event"]);
-
   return (
     <Card bg="primary-light" className="ev-body-card">
       <Card.Header>

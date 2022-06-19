@@ -60,7 +60,7 @@ function EventPostHeader({
         <Card.Text className="author-name">
           {`${author.firstName} ${author.lastName}`}
         </Card.Text>
-        <Card.Text className="author-fac"> Elektronski Fakultet </Card.Text>
+        <Card.Text className="author-fac"> {author.facultyName} </Card.Text>
         <Card.Text className="date-time-txt">
           {parseDate(event.publicationTime, i18n.language)}
         </Card.Text>

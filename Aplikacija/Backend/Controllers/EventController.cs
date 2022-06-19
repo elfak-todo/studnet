@@ -35,6 +35,11 @@ public class EventController : ControllerBase
         {
             return BadRequest("UserNotFound");
         }
+        var res = await _context.Reservations
+                                 .Include(r => r.ReservedBy)
+                                 .ThenInclude(s => s!.Parlament)
+                                 .ThenInclude(p => p!.Faculty)
+                                 .Where(r => r.EventId == eventId && r.ReservedById == student.ID).FirstOrDefaultAsync();
 
         var ev = _context.Events.Where(e => e.ID == eventId)
                                     .Include(e => e.Location)
@@ -54,6 +59,7 @@ public class EventController : ControllerBase
             verified = e.Verified,
             pinned = e.Pinned,
             location = e.Location,
+            reservation = res,
             author = new
             {
                 e.Organiser!.ID,
@@ -61,6 +67,7 @@ public class EventController : ControllerBase
                 e.Organiser.LastName,
                 e.Organiser.Username,
                 e.Organiser.ImagePath,
+                parlamentName = e.OrganisingParlament!.Name,
                 facultyName = e.OrganisingParlament!.Faculty!.Name,
                 facultyImagePath = e.OrganisingParlament!.Faculty!.ImagePath
             },

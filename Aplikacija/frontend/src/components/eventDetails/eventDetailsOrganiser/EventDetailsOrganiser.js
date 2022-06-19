@@ -12,8 +12,7 @@ function EventDetailsOrganiser({ event, author }) {
       {event.organisingParlamentId !== null && event.verified && (
         <div className="org-parlament-div">
           <h4 className="m-0"> {t("orgByPar")}</h4>
-          {/* TODO */}
-          <p className="mb-1 org-parlament-text">{`${author.facultyName}, SPEF`}</p>
+          <p className="mb-1 org-parlament-text">{`${author.facultyName}, ${author.parlamentName}`}</p>
         </div>
       )}
       <div className="organiser-div">

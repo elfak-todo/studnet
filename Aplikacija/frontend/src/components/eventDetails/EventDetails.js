@@ -23,7 +23,6 @@ import ReservationTable from "./reservationTable/ReservationTable";
 import LocationMap from "../locationMap/LocationMap";
 import "./EventDetails.style.css";
 
-
 function EventDetails({ event }) {
   const { t } = useTranslation(["event"]);
 
@@ -35,6 +34,7 @@ function EventDetails({ event }) {
   const [ticketsReserved, setTicketsReserved] = useState(
     event.ev.ticketsReserved
   );
+  const [reservation, setReservation] = useState(event.reservation);
   const scrollRef = useRef();
 
   return (
@@ -131,6 +131,8 @@ function EventDetails({ event }) {
           {event.ev.organisingParlamentId !== null && event.ev.verified && (
             <EventReserveForm
               event={event.ev}
+              reservation={reservation}
+              setReservation={setReservation}
               setTicketsReserved={setTicketsReserved}
             />
           )}
