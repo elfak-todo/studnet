@@ -17,14 +17,16 @@ public class StudentController : ControllerBase
     private IAccessTokenManager _tokenManager;
     private IPasswordManager _passwordManager;
     private IConfiguration _config;
+    private IImageManager _imageManager;
 
     public StudentController(Context context, IConfiguration config,
-            IAccessTokenManager tokenManager, IPasswordManager passwordManager)
+            IAccessTokenManager tokenManager, IPasswordManager passwordManager, IImageManager imageManager)
     {
         _context = context;
         _tokenManager = tokenManager;
         _passwordManager = passwordManager;
         _config = config;
+        _imageManager = imageManager;
     }
 
     [Route("GetStudents/{universityId}/{parlamentId}/{page}")]
@@ -213,7 +215,7 @@ public class StudentController : ControllerBase
                                             .Take(studentNum);
             }
         }
-        else 
+        else
         {
             if (page == 0)
             {
@@ -328,7 +330,7 @@ public class StudentController : ControllerBase
         }
 
         IQueryable<Student> students;
-        
+
         if (arr.Count() > 1)
         {
             if (page == 0)
@@ -355,7 +357,7 @@ public class StudentController : ControllerBase
                                             .Take(studentNum);
             }
         }
-        else 
+        else
         {
             if (page == 0)
             {
@@ -662,20 +664,48 @@ public class StudentController : ControllerBase
     [HttpGet]
     public async Task<ActionResult> GetStudentEvents(int studentId, int page)
     {
-        //TODO
+        const int pageSize = 10;
 
-        //const int pageSize = 10;
+        var student = await _tokenManager.GetStudent(HttpContext.User);
+        if (student == null)
+        {
+            return BadRequest("UserNotFound");
+        }
 
-        // var userDetails = _tokenManager.GetUserDetails(HttpContext.User);
+        var events = _context.Events.Include(e => e.Organiser!)
+                                .ThenInclude(o => o.Parlament!)
+                                .ThenInclude(p => p.Faculty)
+                                .Include(e => e.Comments!)
+                                .ThenInclude(c => c.LikedBy)
+                                .Include(e => e.LikedBy)
+                                .Include(e => e.Location)
+                                .AsSplitQuery()
+                                .Where(e => e.OrganiserId == studentId)
+                                .OrderByDescending(e => e.PublicationTime)
+                                .Skip(page * pageSize)
+                                .Take(pageSize);
 
-        // if (userDetails == null)
-        // {
-        //     return BadRequest("BadToken");
-        // }
+        var eventsSelected = events.Select(p => new
+        {
+            id = p.ID,
+            ev = p,
+            liked = p.LikedBy!.Contains(student),
+            verified = p.Verified,
+            pinned = p.Pinned,
+            location = p.Location,
+            author = new
+            {
+                p.Organiser!.ID,
+                p.Organiser.FirstName,
+                p.Organiser.LastName,
+                p.Organiser.Username,
+                p.Organiser.ImagePath,
+                facultyName = p.Organiser.Parlament!.Faculty!.Name,
+                facultyImagePath = p.Organiser.Parlament!.Faculty!.ImagePath
+            },
+        });
 
-        await _context.SaveChangesAsync();
-
-        return Ok(Array.Empty<Object>());
+        return Ok(await eventsSelected.ToListAsync());
     }
 
     [Route("")]
@@ -759,31 +789,27 @@ public class StudentController : ControllerBase
             return BadRequest("ImageRequired");
         }
 
-        string[] allowedContentType = new string[] { ".png", ".jpg", ".jpeg" };
-
-        string extension = Path.GetExtension(image.FileName);
-
-        if (!allowedContentType.Contains(extension))
-        {
-            return BadRequest("UnsupportedFileType");
-        }
-
         var student = await _tokenManager.GetStudent(HttpContext.User);
         if (student == null)
         {
             return BadRequest("UserNotFound");
         }
 
-        var fileName = Path.GetRandomFileName();
-        var imagePath = "/images/users/" + fileName + extension;
+        var imagePath = await _imageManager.SaveImage(image, "/images/users/");
 
-        using (var stream = System.IO.File.Create(_config["Files:StaticPath"] + imagePath))
+        if (imagePath == "UnsupportedFileType")
         {
-            await image.CopyToAsync(stream);
-            student.ImagePath = imagePath;
-            await _context.SaveChangesAsync();
-            return Ok(imagePath);
+            return BadRequest("UnsupportedFileType");
         }
+
+        if (student.ImagePath != null && student.ImagePath != "")
+        {
+            _imageManager.DeleteImage(student.ImagePath);
+        }
+
+        student.ImagePath = imagePath;
+        await _context.SaveChangesAsync();
+        return Ok(imagePath);
     }
     
     /*

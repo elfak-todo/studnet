@@ -46,5 +46,12 @@
   "type": "Type",
   "photo": "Location photo",
   "verified": "Verified",
-  "webpage": "Webpage"
+  "webpage": "Webpage",
+  "noGrades": "This location is not yet graded.",
+  "noGradesShort": "No grades",
+  "select": "Select",
+  "delete": "Delete",
+  "deleteLocationTitle": "Location deletion",
+  "deleteLocationBody": "Are you sure you want to delete this location?",
+  "cancel": "Cancel"
 }

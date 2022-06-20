@@ -78,6 +78,9 @@ namespace Backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
+                    b.Property<bool>("Canceled")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(2048)
@@ -191,8 +194,8 @@ namespace Backend.Migrations
 
                     b.Property<string>("Address")
                         .IsRequired()
-                        .HasMaxLength(1024)
-                        .HasColumnType("nvarchar(1024)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<int?>("AuthorId")
                         .HasColumnType("int");
@@ -330,11 +333,17 @@ namespace Backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
+                    b.Property<bool>("Canceled")
+                        .HasColumnType("bit");
+
                     b.Property<int?>("EventId")
                         .HasColumnType("int");
 
                     b.Property<int>("NumberOfTickets")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("ReservationTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<int?>("ReservedById")
                         .HasColumnType("int");
@@ -409,6 +418,8 @@ namespace Backend.Migrations
                     b.HasIndex("ParlamentId");
 
                     b.HasIndex("UniversityId");
+
+                    b.HasIndex("Username");
 
                     b.ToTable("Student");
                 });

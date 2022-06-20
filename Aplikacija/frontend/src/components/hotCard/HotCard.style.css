@@ -1,0 +1,33 @@
+.hot-card {
+  width: auto;
+  text-align: center;
+  font-weight: bold;
+  background-color: var(--bs-primary-light);
+  border-radius: 0.6rem;
+  cursor: pointer;
+  margin: 1.2rem 0.5rem;
+  transition: transform 450ms;
+}
+.hot-card:hover {
+  transform: scale(1.08);
+}
+.hot-card-img {
+  width: auto;
+  aspect-ratio: 1;
+  background-repeat: no-repeat;
+  background-size: cover !important;
+  background-position: center;
+  border-radius: 0.6rem 0.6rem 0 0;
+}
+.hot-card-desc {
+  padding: 0.5rem;
+}
+.hot-card-title {
+  font-weight: bold;
+}
+@media screen and (max-width: 600px) {
+  .hot-card {
+    border-radius: 0.6rem;
+    margin: 0.5rem;
+  }
+}

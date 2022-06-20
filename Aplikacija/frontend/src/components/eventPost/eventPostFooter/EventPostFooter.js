@@ -1,6 +1,9 @@
+import axios from "axios";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import {
   faThumbsUp as faThumbsUpRegular,
   faComment as faCommentRegular,
@@ -9,42 +12,79 @@ import { Card, Button } from "react-bootstrap";
 
 import "./EventPostFooter.style.css";
 
-function EventPostFooter({ event }) {
+function EventPostFooter({ event, isLiked, feed, setFeed, canceled }) {
   const { t } = useTranslation(["post", "event"]);
 
   const navigate = useNavigate();
 
+  const [liked, setLiked] = useState(isLiked);
+  const [loading, setLoading] = useState(false);
+
+  const handleLike = () => {
+    if (loading) return;
+
+    setLoading(true);
+
+    axios
+      .put(`Event/SetLiked/${event.id}/${!liked}`)
+      .then((res) => {
+        setLiked(res.data);
+        setFeed(
+          feed.map((p) => {
+            if (p.id === event.id) {
+              if (res.data) {
+                p.ev.likeCount = p.ev.likeCount + 1;
+              } else {
+                if (p.ev.likeCount > 0) p.ev.likeCount = p.ev.likeCount - 1;
+              }
+              return p;
+            } else return p;
+          })
+        );
+
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
-    <div className="event-post-footer">
-      <div className="align-row">
-        <div className="center-items">
-          <FontAwesomeIcon
-            icon={faThumbsUpRegular}
-            className="like-comment-icon-sm"
-          />
-          <Card.Text> {event.likeCount} </Card.Text>
+    <div>
+      <hr />
+      <div className="event-post-footer">
+        <div className="align-row">
+          <div className="center-items">
+            <FontAwesomeIcon
+              icon={faThumbsUpRegular}
+              className="like-comment-icon-sm"
+            />
+            <Card.Text> {event.likeCount} </Card.Text>
+          </div>
+          <div className="center-items">
+            <FontAwesomeIcon
+              icon={faCommentRegular}
+              className="like-comment-icon-sm"
+            />
+            <Card.Text> {event.commentCount} </Card.Text>
+          </div>
         </div>
-        <div className="center-items">
-          <FontAwesomeIcon
-            icon={faCommentRegular}
-            className="like-comment-icon-sm"
-          />
-          {/* TODO */}
-          <Card.Text> 0 </Card.Text>
-        </div>
-      </div>
-      {event.paidEvent && (
-        <Button onClick={() => navigate(`/event`)}>
-          {t("event:reserve")}
+        <Button
+          disabled={canceled}
+          onClick={() => navigate(`/event/${event.id}`)}
+        >
+          {t("event:moreDetails")}
         </Button>
-      )}
-      <div className="align-row">
-        <div className="center-items">
-          <FontAwesomeIcon
-            icon={faThumbsUpRegular}
-            className="like-comment-icon"
-          />
-          <Card.Text> {t("like")} </Card.Text>
+        <div className="align-row">
+          <div className="center-items" onClick={handleLike}>
+            <FontAwesomeIcon
+              icon={liked ? faThumbsUp : faThumbsUpRegular}
+              className="like-comment-icon"
+            />
+            <Card.Text className={liked ? "liked-text" : "like-text"}>
+              {t("like")}
+            </Card.Text>
+          </div>
         </div>
       </div>
     </div>

@@ -1,7 +1,51 @@
 .ev-form-cont {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 .ev-form-title {
-    font-weight: 700 !important;
-    color: #4e54c8;
+  font-weight: 700 !important;
+  color: #4e54c8;
+}
+
+.location-modal {
+  width: 98vw !important;
+  min-width: 98vw !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.location-modal-body {
+  padding: 0 !important;
+}
+.button-in {
+  position: relative;
+}
+.location-buttons {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 20px;
+}
+.location-buttons-invalid {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 30px;
+  margin-bottom: 25px;
+}
+
+@media only screen and (min-width: 768px) {
+  .location-modal {
+    width: 90vw !important;
+    min-width: 90vw !important;
+  }
 }

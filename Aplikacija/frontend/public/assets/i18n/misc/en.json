@@ -20,5 +20,7 @@
   "fieldsMissing": "Please fill in all the fields.",
   "ban": "Ban",
   "promote": "Promote",
-  "verified": "Verified"
+  "verified": "Verified",
+  "trendingLocations": "Trending locations:",
+  "trendingEvents": "Trending events:"
 }

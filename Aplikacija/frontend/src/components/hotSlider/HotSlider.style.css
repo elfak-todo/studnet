@@ -1,0 +1,17 @@
+.slick-prev {
+  left: 3% !important;
+  z-index: 1;
+}
+.slick-next {
+  right: 3% !important;
+  z-index: 1;
+}
+.hot-cards-container {
+  margin: 0 0.5rem 1rem 0;
+}
+
+@media screen and (max-width: 600px) {
+  .hot-cards-container {
+    margin: 0.2rem;
+  }
+}

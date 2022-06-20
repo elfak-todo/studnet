@@ -20,6 +20,23 @@ export const timeEng = (databaseDate) => {
   return time;
 };
 
+export const justTime = (databaseDate, lang) => {
+  const date = new Date(databaseDate);
+
+  const timeSrb = date.toLocaleTimeString("sr-Latn", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  const timeEng = date.toLocaleTimeString("eng", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  if (lang === "sr") return timeSrb;
+  else if (lang === "en") return timeEng;
+};
+
 export const dateSrp = (databaseDate) => {
   const date = new Date(databaseDate);
 
@@ -32,6 +49,25 @@ export const dateSrp = (databaseDate) => {
   });
 
   return dateSerbian;
+};
+
+export const justDate = (databaseDate, lang) => {
+  const date = new Date(databaseDate);
+
+  const dateSerbian = date.toLocaleString("sr-Latn", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  const dateEnglish = date.toLocaleString("eng", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  if (lang === "sr") return dateSerbian;
+  else if (lang === "en") return dateEnglish;
 };
 
 export const dateEng = (databaseDate) => {
@@ -97,4 +133,10 @@ export const parseDate = (databaseDate, language) => {
   } else {
     return dEng;
   }
+};
+
+export const isInThePast = (date) => {
+  const today = new Date();
+
+  return date < today;
 };

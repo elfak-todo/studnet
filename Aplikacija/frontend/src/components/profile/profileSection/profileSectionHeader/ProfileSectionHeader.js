@@ -12,8 +12,9 @@ import {
 import defaultPic from "../../../../images/defaultProfilePic.jpg";
 import EditProfile from "../../editProfile/EditProfile";
 import StudentContext from "../../../studentManager/StudentManager";
-import "./ProfileSectionHeader.style.css";
 import StudentSettings from "../../../studentSettings/StudentSettings";
+
+import "./ProfileSectionHeader.style.css";
 
 function ProfileSectionHeader({ studentProp, setStudentProp }) {
   const { t } = useTranslation(["profile", "misc"]);
@@ -77,29 +78,31 @@ function ProfileSectionHeader({ studentProp, setStudentProp }) {
         setShowEditCover={setShowEditCover}
       />
       <Card.Body>
-        <div className="d-flex">
-        <div className="header-desc">
-          <h2 className="text-name">
-            {`${studentProp?.firstName} ${studentProp?.lastName}`}
-          </h2>
-          <h4 className="m-0"> {studentProp?.universityName} </h4>
-          <Card.Text> {studentProp?.facultyName} </Card.Text>
-          <div className="header-badges">
-            <Badge className="p-2">
-              <FontAwesomeIcon icon={faClipboard} className="me-1" />
-              {`${t("misc:posts")} ${studentProp?.postCount}`}
-            </Badge>
-            <Badge className="ms-1 p-2">
-              <FontAwesomeIcon icon={faCalendar} className="me-1" />
-              {`${t("misc:events")} ${studentProp?.eventCount}`}
-            </Badge>
-            <Badge className="ms-1 p-2">
-              <FontAwesomeIcon icon={faMap} className="me-1" />
-              {`${t("misc:locations")} ${studentProp?.locationCount}`}
-            </Badge>
-          </div>
+        <div className="float-end">
+          <StudentSettings studentProp={studentProp} />
         </div>
-        <StudentSettings studentProp={studentProp}/>
+        <div>
+          <div className="header-desc">
+            <h2 className="text-name">
+              {`${studentProp?.firstName} ${studentProp?.lastName}`}
+            </h2>
+            <h4 className="m-0"> {studentProp?.universityName} </h4>
+            <Card.Text> {studentProp?.facultyName} </Card.Text>
+            <div className="header-badges">
+              <Badge className="p-2">
+                <FontAwesomeIcon icon={faClipboard} className="me-1" />
+                {`${t("misc:posts")} ${studentProp?.postCount}`}
+              </Badge>
+              <Badge className="ms-1 p-2">
+                <FontAwesomeIcon icon={faCalendar} className="me-1" />
+                {`${t("misc:events")} ${studentProp?.eventCount}`}
+              </Badge>
+              <Badge className="ms-1 p-2">
+                <FontAwesomeIcon icon={faMap} className="me-1" />
+                {`${t("misc:locations")} ${studentProp?.locationCount}`}
+              </Badge>
+            </div>
+          </div>
         </div>
       </Card.Body>
     </Card>

@@ -9,7 +9,7 @@ import CommentSection from "../comments/commentSection/CommentSection";
 
 import "./Post.style.css";
 
-function Post({ feedEl, innerRef, feed, setFeed }) {
+function Post({ feedEl, innerRef, feed, setFeed, pinned, verified }) {
   const author = feedEl.author;
   const comments = feedEl.comments;
   const post = feedEl.post;
@@ -63,13 +63,15 @@ function Post({ feedEl, innerRef, feed, setFeed }) {
 
   return (
     <Container className="mb-3 mx-auto px-0" ref={innerRef}>
-      <Card className="post shadow-sm rounded">
+      <Card className={"post shadow-sm rounded" + (pinned && " pinned")}>
         <PostHeader
           author={author}
           post={post}
           feed={feed}
           setFeed={setFeed}
           setEdit={setEdit}
+          pinnedProp={pinned}
+          verifiedProp={verified}
         />
         <Card.Body>
           {edit ? (
@@ -111,6 +113,8 @@ function Post({ feedEl, innerRef, feed, setFeed }) {
         </Card.Body>
         <Card.Footer className="p-0">
           <CommentSection
+            postType="post"
+            commentType="post"
             author={author}
             topComments={comments}
             post={post}

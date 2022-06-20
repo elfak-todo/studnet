@@ -6,16 +6,13 @@ const eventTypes=[
         name:"fieldTrip",
     },
     {
-        name:"concert",
-    },
-    {
-        name:"musicFestival",
-    },
-    {
         name:"sportEvent",
     },
     {
-        name:"job"
+        name:"concert",
+    },
+    {
+        name:"job",
     },
     {
         name:"play"

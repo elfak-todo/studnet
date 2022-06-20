@@ -107,6 +107,8 @@ public class PostController : ControllerBase
             id = p.ID,
             post = p,
             liked = p.LikedBy!.Contains(student),
+            verified = p.Verified,
+            pinned = p.Pinned,
             author = p.Anonymous && p.AuthorId != student.ID ? null : new
             {
                 p.Author!.ID,
@@ -117,9 +119,9 @@ public class PostController : ControllerBase
                 facultyName = p.Author.Parlament!.Faculty!.Name,
                 facultyImagePath = p.Author.Parlament!.Faculty!.ImagePath
             },
-            comments = p.Comments!.OrderByDescending(p => p.Pinned)
-                    .ThenByDescending(p => p.Verified)
-                    .ThenByDescending(p => p.PublicationTime)
+            comments = p.Comments!
+                    .Where(p => p.Pinned)
+                    .OrderByDescending(p => p.PublicationTime)
                     .Take(3)
                     .Select(c => new
                     {

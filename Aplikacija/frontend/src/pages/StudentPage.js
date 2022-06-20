@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 
 import ResourceNotFound from "../components/resourceNotFound/ResourceNotFound.js";
 import ProfileSection from "../components/profile/profileSection/ProfileSection.js";
+import LoadingSpinner from "../components/loadingSpinner/LoadingSpinner";
 
 function StudentPage() {
   const { t } = useTranslation(["students"]);
@@ -26,7 +27,11 @@ function StudentPage() {
   }, [studentId]);
 
   return student !== null ? (
-    <ProfileSection student={student} setStudent={setStudent} />
+    student !== undefined ? (
+      <ProfileSection student={student} setStudent={setStudent} />
+    ) : (
+      <LoadingSpinner />
+    )
   ) : (
     <ResourceNotFound text={t("studentNotFound")} />
   );

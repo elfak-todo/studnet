@@ -1,0 +1,10 @@
+{
+    "title": "The title must not be longer than 128 characters.",
+    "location": "Choose a location or create a new one.",
+    "startDate": "Enter the start time of the event.",
+    "endDate": "Enter the end time of the event",
+    "ticketNum": "The maximum number of tickets is 5000.",
+    "ticketPrice": "Ticket price in RSD. The ticket price must not exceed 5000 RSD.",
+    "pic": "Supported image formats are JPEG and PNG",
+    "desc": "Description must not be longer than 2048 characters."
+}

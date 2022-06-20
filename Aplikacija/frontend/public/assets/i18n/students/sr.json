@@ -1,3 +1,5 @@
 {
-  "studentNotFound": "Traženi student ne postoji!"
+  "studentNotFound": "Traženi student ne postoji!",
+  "unsupportedFileType": "Format fotografije nije podržan! Podržani formati: .jpg .jpeg .png.",
+  "noImagesSelected": "Molimo izaberite fotografiju za otpremanje."
 }

@@ -7,7 +7,7 @@ import "./CommentForm.style.css";
 import defaultPic from "../../../images/defaultProfilePic.jpg";
 import StudentContext from "../../studentManager/StudentManager";
 
-function CommentForm({ post, comments, setComments, feed, setFeed }) {
+function CommentForm({ postType, post, comments, setComments, setNoComments, setFeed }) {
   const { t } = useTranslation(["post"]);
 
   const { student } = useContext(StudentContext);
@@ -24,31 +24,44 @@ function CommentForm({ post, comments, setComments, feed, setFeed }) {
 
       commentInputRef.current.value = "";
 
+      const postComment = {
+        text: commentText,
+        commentedPostId: post.id,
+      };
+
+      const eventComment = {
+        text: commentText,
+        commentedEventId: post.id,
+      };
+
+      let comm = null;
+      if (postType === "post") comm = postComment;
+      else if (postType === "event") comm = eventComment;
+
       axios
-        .post("Comment/Post/", {
-          text: commentText,
-          commentedPostId: post.id,
-        })
+        .post("Comment/Post/", comm)
         .then((res) => {
           setComments([...comments, res.data]);
-
+          setNoComments(false);
           setFeed((prevState) => {
             return prevState.map((p) => {
-              if (p.post.id === post.id) {
-                p.post.commentCount = p.post.commentCount + 1;
+              if (p.id === post.id) {
+                if (postType === "event")
+                  p.ev.commentCount = p.ev.commentCount + 1;
+                else p.post.commentCount = p.post.commentCount + 1;
                 return p;
               } else return p;
             });
           });
         })
         .catch((error) => {
-          console.log(error.response.data);
+          console.log(error);
         });
     }
   };
 
   return (
-    <Container className="mb-2 mt-2">
+    <Container className="mb-2 mt-2 ms-2">
       <div className="leave-comm">
         <Image
           src={student.imagePath === "/" ? defaultPic : student.imagePath}

@@ -1,3 +1,5 @@
 {
-  "studentNotFound": "Requested student doesn't exist!"
+  "studentNotFound": "Requested student doesn't exist!",
+  "unsupportedFileType": "Photot format is not supported! Supported formats: .jpg .jpeg .png.",
+  "noImagesSelected": "Please select an image to upload."
 }

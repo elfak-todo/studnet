@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Container, FloatingLabel, Form, Row, Col } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
@@ -6,30 +6,41 @@ import "./AddLocationForm.style.css";
 import locationTypes from "../../locationMarker/LocationTypes";
 import StudentContext from "../../studentManager/StudentManager";
 
-function AddLocationForm({ location, setLocation, state }) {
+function AddLocationForm({
+  location,
+  setLocation,
+  state,
+  imageRef,
+  imageGalleryRef,
+  displayTitle,
+}) {
   const { t } = useTranslation(["locations"]);
 
   const [inputStatus, setInputStatus] = useState({});
-
-  const nameRef = useRef();
 
   const { student } = useContext(StudentContext);
 
   return (
     <Container className="add-location-form">
-      <h4 className="mb-4 text-center">
-        {state.edit ? t("locationUpdate") : t("locationCreation")}
-      </h4>
+      {displayTitle && (
+        <h4 className="mb-4 text-center">
+          {state.edit ? t("locationUpdate") : t("locationCreation")}
+        </h4>
+      )}
       <Row className="mb-2">
         <Col>
           <FloatingLabel label={t("locationName")}>
             <Form.Control
               type="input"
+              placeholder="Location name"
+              value={location.name || ""}
               isInvalid={inputStatus.nameInvalid}
-              ref={nameRef}
-              onChange={() => {
+              onChange={(e) => {
                 setInputStatus((s) => {
                   return { ...s, nameInvalid: false };
+                });
+                setLocation((l) => {
+                  return { ...l, name: e.target.value };
                 });
               }}
             />
@@ -44,12 +55,15 @@ function AddLocationForm({ location, setLocation, state }) {
           <FloatingLabel label={t("address")}>
             <Form.Control
               type="input"
-              value={location.name}
-              isInvalid={inputStatus.nameInvalid}
-              ref={nameRef}
-              onChange={() => {
+              placeholder="Address"
+              value={location.address || ""}
+              isInvalid={inputStatus.addressInvalid}
+              onChange={(e) => {
                 setInputStatus((s) => {
-                  return { ...s, nameInvalid: false };
+                  return { ...s, addressInvalid: false };
+                });
+                setLocation((l) => {
+                  return { ...l, address: e.target.value };
                 });
               }}
             />
@@ -63,14 +77,20 @@ function AddLocationForm({ location, setLocation, state }) {
         <Col>
           <FloatingLabel label={t("type")}>
             <Form.Select
-              isInvalid={false}
-              value={location.type}
+              isInvalid={inputStatus.typeInvalid}
+              placeholder="Type"
+              value={
+                location.type !== undefined && location.type !== null
+                  ? location.type
+                  : -1
+              }
               onChange={(e) => {
-                setLocation((l) => {
-                  return { ...l, type: e.target.value };
+                setInputStatus((s) => {
+                  return { ...s, typeInvalid: false };
                 });
-
-                //setInvalid(false);
+                setLocation((l) => {
+                  return { ...l, type: Number(e.target.value) };
+                });
               }}
             >
               <option key={-1} value={-1}>
@@ -95,10 +115,15 @@ function AddLocationForm({ location, setLocation, state }) {
           <Col>
             <Form.Check
               inline
+              checked={location.verified || false}
               className="my-3"
               type="switch"
               label={t("verified")}
-              ref={null}
+              onChange={(e) => {
+                setLocation((l) => {
+                  return { ...l, verified: e.target.checked };
+                });
+              }}
             ></Form.Check>
           </Col>
         ) : null}
@@ -108,12 +133,15 @@ function AddLocationForm({ location, setLocation, state }) {
           <FloatingLabel label={t("webpage")}>
             <Form.Control
               type="input"
-              value={location.name}
-              isInvalid={inputStatus.nameInvalid}
-              ref={nameRef}
-              onChange={() => {
+              placeholder="Web page"
+              value={location.webpage || ""}
+              isInvalid={inputStatus.webpageInvalid}
+              onChange={(e) => {
                 setInputStatus((s) => {
-                  return { ...s, nameInvalid: false };
+                  return { ...s, webpageInvalid: false };
+                });
+                setLocation((l) => {
+                  return { ...l, webpage: e.target.value };
                 });
               }}
             />
@@ -128,13 +156,15 @@ function AddLocationForm({ location, setLocation, state }) {
           <Form.Control
             as="textarea"
             placeholder={t("description")}
-            value={location.name}
-            isInvalid={inputStatus.nameInvalid}
+            value={location.description || ""}
+            isInvalid={inputStatus.descriptionInvalid}
             rows={6}
-            ref={nameRef}
-            onChange={() => {
+            onChange={(e) => {
               setInputStatus((s) => {
-                return { ...s, nameInvalid: false };
+                return { ...s, descriptionInvalid: false };
+              });
+              setLocation((l) => {
+                return { ...l, description: e.target.value };
               });
             }}
           />
@@ -148,7 +178,12 @@ function AddLocationForm({ location, setLocation, state }) {
       </Row>
       <Row className="mb-2">
         <Col>
-          <Form.Control type="file" accept="image/*" size="md" ref={null} />
+          <Form.Control
+            type="file"
+            accept="image/png, image/jpeg"
+            size="md"
+            ref={imageRef}
+          />
         </Col>
       </Row>
       <Row className="mb-1">
@@ -160,8 +195,8 @@ function AddLocationForm({ location, setLocation, state }) {
             type="file"
             accept="image/*"
             size="md"
-            ref={null}
             multiple
+            ref={imageGalleryRef}
           />
         </Col>
       </Row>

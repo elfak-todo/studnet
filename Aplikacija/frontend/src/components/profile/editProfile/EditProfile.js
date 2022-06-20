@@ -102,7 +102,7 @@ function EditProfile({ profile, setProfile, showEditCover, setShowEditCover }) {
         .put("Student", editedStudent)
         .then((res) => {
           setProfile(res.data);
-
+          setLoading(false);
           const newProps = {
             username: res.data.username,
             firstName: res.data.firstName,
@@ -119,18 +119,18 @@ function EditProfile({ profile, setProfile, showEditCover, setShowEditCover }) {
           closeEdit();
         })
         .catch((err) => {
+          setLoading(false);
           switch (err.response.data) {
             case "StudentRequired":
-              console.log("StudentRequired");
+              //TODO
               break;
             case "UsernameTaken":
-              console.log("UsernameTaken");
+              //TODO
               break;
             default:
               break;
           }
         });
-      setLoading(false);
     }
   };
 

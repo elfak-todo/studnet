@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace Backend.Models
 {
-    public enum EventTypes
+    public enum EventType
     {
         Party = 0,
         Field_trip,
@@ -41,6 +41,18 @@ namespace Backend.Models
                     return 0;
             }
         }
+        [NotMapped]
+        public int CommentCount
+        {
+            get
+            {
+                if (Comments != null)
+                {
+                    return Comments.Count();
+                }
+                return 0;
+            }
+        }
 
         [MaxLength(128)]
         public string Title { get; set; } = String.Empty;
@@ -48,7 +60,7 @@ namespace Backend.Models
         [MaxLength(2048)]
         public string Description { get; set; } = String.Empty;
 
-        public EventTypes Type { get; set; }
+        public EventType Type { get; set; }
 
         public DateTime PublicationTime { get; set; }
 
@@ -56,8 +68,8 @@ namespace Backend.Models
 
         public DateTime? EndTime { get; set; }
 
-        [MaxLength(128)]
-        public string? LocationName { get; set; }
+        // [MaxLength(128)]
+        // public string? LocationName { get; set; }
 
         public string ImagePath { get; set; } = String.Empty;
 
@@ -65,6 +77,8 @@ namespace Backend.Models
 
         [Range(0, 5000)]
         public int NumberOfTickets { get; set; } = 0;
+
+        public bool Canceled { get; set; } = false;
 
         [NotMapped]
         public int TicketsReserved

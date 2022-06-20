@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useTranslation } from "react-i18next";
 import { useContext, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,94 +13,40 @@ import StudentContext from "../../studentManager/StudentManager";
 import "./PostHeader.style.css";
 import ProfileHoverCard from "../../profile/profileHoverCard/ProfileHoverCard.js";
 
-function PostHeader({ author, post, feed, setFeed, setEdit }) {
+function PostHeader({
+  author,
+  post,
+  feed,
+  setFeed,
+  setEdit,
+  pinnedProp,
+  verifiedProp,
+}) {
   const { t, i18n } = useTranslation(["post"]);
 
   const { student } = useContext(StudentContext);
 
-  const [pinned, setPinned] = useState(post.pinned);
-  const [verified, setVerified] = useState(post.verified);
-
-  const handleDelete = () => {
-    axios
-      .delete("Post/Delete/" + post.id)
-      .then(() => {
-        setFeed(feed.filter((p) => p.post.id !== post.id));
-      })
-      .catch((error) => {
-        console.log(error.response.data);
-      });
-  };
-
-  const handlePinn = () => {
-    axios
-      .put("Post/SetPinned/" + post.id + "/" + !pinned)
-      .then((res) => {
-        setPinned(res.data.pinned);
-        setFeed((prevState) => {
-          return prevState.map((p) => {
-            if (p.post.id === post.id) {
-              p.post.pinned = !pinned;
-              return p;
-            } else return p;
-          });
-        });
-      })
-      .catch((err) => {
-        console.log(err.response.data);
-      });
-  };
-
-  const handleVerify = () => {
-    axios
-      .put("Post/SetVerified/" + post.id + "/" + !verified)
-      .then((res) => {
-        setVerified(res.data.verified);
-        setFeed((prevState) => {
-          return prevState.map((p) => {
-            if (p.post.id === post.id) {
-              p.post.verified = !verified;
-              return p;
-            } else return p;
-          });
-        });
-      })
-      .catch((err) => {
-        console.log(err.response.data);
-      });
-  };
-
-  const handleSelectedAction = (keyEvent) => {
-    switch (keyEvent) {
-      case "delete":
-        handleDelete();
-        break;
-      case "verify":
-        handleVerify();
-        break;
-      case "pinn":
-        handlePinn();
-        break;
-      case "edit":
-        setEdit(true);
-        break;
-      default:
-        break;
-    }
-  };
+  const [popupShown, setPopupShown] = useState(false);
+  const [pinned, setPinned] = useState(pinnedProp);
+  const [verified, setVerified] = useState(verifiedProp);
 
   return (
     <div className="post-header">
       <OverlayTrigger
         rootClose
-        trigger="click"
+        show={popupShown}
         placement="right"
         overlay={
           !post.anonymous ? (
-            <Popover>
+            <Popover
+              onMouseEnter={(e) => setPopupShown(true)}
+              onMouseLeave={(e) => setPopupShown(false)}
+            >
               <ProfileHoverCard studentProp={author} />
             </Popover>
-          ) : <></>
+          ) : (
+            <></>
+          )
         }
       >
         <Image
@@ -115,6 +60,8 @@ function PostHeader({ author, post, feed, setFeed, setEdit }) {
           alt="user-pic"
           className="post-profile-pic"
           roundedCircle
+          onMouseEnter={(e) => setPopupShown(true)}
+          onMouseLeave={(e) => setPopupShown(false)}
         />
       </OverlayTrigger>
       <div>
@@ -130,19 +77,25 @@ function PostHeader({ author, post, feed, setFeed, setEdit }) {
           {parseDate(post.publicationTime, i18n.language)}
         </Card.Text>
       </div>
-      {post.verified && (
+      {verified && (
         <FontAwesomeIcon icon={faCircleCheck} className="post-header-verify" />
       )}
-      {post.pinned && (
+      {pinned && (
         <FontAwesomeIcon icon={faThumbTack} className="post-header-pinned" />
       )}
       {student.role === 3 ||
       (student !== null && author !== null && student.id === author.id) ? (
         <SettingsDropdown
-          selectedAction={handleSelectedAction}
-          verified={verified}
-          pinned={pinned}
+          postType="Post"
+          post={post}
           author={author}
+          feed={feed}
+          setFeed={setFeed}
+          verified={verified}
+          setVerified={setVerified}
+          pinned={pinned}
+          setPinned={setPinned}
+          setEdit={setEdit}
           className="settings-icon"
         />
       ) : null}

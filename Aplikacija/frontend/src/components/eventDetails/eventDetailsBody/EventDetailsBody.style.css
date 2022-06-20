@@ -1,0 +1,19 @@
+.tickets-txt-div {
+    width: 100% !important;
+}
+.tickets-txt {
+    display: flex;
+    flex-direction: column;
+}
+.ev-body-card {
+    width: 100% !important;
+    height: 100% !important;
+}
+.bottom-txt-desc {
+    width: 100% !important;
+    height: 100%!important;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+}

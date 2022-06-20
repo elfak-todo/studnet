@@ -11,12 +11,16 @@
 .bg-picture {
   height: inherit;
   width: inherit;
+  border-bottom: solid;
+  border-width: 5px;
+  border-color: #4e54c8;
 }
 .profile-picture {
+  width: 8rem !important;
+  height: 8rem !important;
   border: solid;
   border-width: 5px;
   border-color: #4e54c8;
-  width: 8rem;
 }
 .parent-pic-div {
   width: inherit;

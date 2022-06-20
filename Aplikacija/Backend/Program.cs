@@ -10,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<IAccessTokenManager, AccessTokenManager>();
 builder.Services.AddScoped<IPasswordManager, PasswordManager>();
+builder.Services.AddScoped<IImageManager, ImageManager>();
 
 builder.Services.AddControllers();
 
@@ -68,12 +69,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
     app.Urls.Add("https://localhost:7246");
     app.Urls.Add("http://localhost:5000");
-    //app.Urls.Add("http://192.168.1.35:5000");
-    //app.Urls.Add("https://192.168.1.35:7246");
-    //app.Urls.Add("http://192.168.100.2:5000");
-    //app.Urls.Add("https://192.168.100.2:7246");
-    app.Urls.Add("http://192.168.1.101:5000");
-    app.Urls.Add("https://192.168.1.101:7246");
+    // app.Urls.Add("http://192.168.1.35:5000");
+    // app.Urls.Add("https://192.168.1.35:7246");
+    app.Urls.Add("http://192.168.100.2:5000");
+    app.Urls.Add("https://192.168.100.2:7246");
+    // app.Urls.Add("http://192.168.1.101:5000");
+    // app.Urls.Add("https://192.168.1.101:7246");
 }
 
 //app.UseHttpsRedirection();

@@ -1,5 +1,6 @@
 .avatar {
-  width: 30px;
+  width: 30px !important;
+  height: 30px !important;
   border-radius: 50%;
   margin-right: 5px;
 }

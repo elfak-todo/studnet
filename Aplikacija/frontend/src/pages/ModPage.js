@@ -12,7 +12,7 @@ function ModPage() {
 
   return (
     <>
-      {student.role === 1 ? (
+      {student.role >= 1 ? (
         <ModPannel />
       ) : (
         <ResourceNotFound text={t("resNotFound")} />

@@ -47,5 +47,12 @@
   "photo": "Fotografija lokacije",
   "photoGallery": "Galerija",
   "verified": "Verifikovana",
-  "webpage": "Web stranica"
+  "webpage": "Web stranica",
+  "noGrades": "Ova lokacija još uvek nije ocenjena.",
+  "noGradesShort": "Nema ocena",
+  "select": "Izaberi",
+  "delete": "Obriši",
+  "deleteLocationTitle": "Brisanje lokacije",
+  "deleteLocationBody": "Da li ste sigurni da želite da obrišete ovu lokaciju?",
+  "cancel": "Odustani"
 }

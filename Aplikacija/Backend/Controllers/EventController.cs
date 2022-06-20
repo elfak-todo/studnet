@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 using Backend.Models;
 using Backend.Services;
+using Backend.Data;
+using System.Text.Json;
 
 namespace Backend.Controllers;
 
@@ -12,56 +14,179 @@ namespace Backend.Controllers;
 [Route("[controller]")]
 public class EventController : ControllerBase
 {
-    private Context _context;
-    private IAccessTokenManager _tokenManager;
+    private readonly Context _context;
+    private readonly IAccessTokenManager _tokenManager;
+    private readonly IImageManager _imageManager;
 
-    public EventController(Context context, IAccessTokenManager tokenManager)
+    public EventController(Context context, IAccessTokenManager tokenManager, IImageManager imageManager)
     {
         _context = context;
         _tokenManager = tokenManager;
+        _imageManager = imageManager;
+    }
+
+    [Route("{eventId}")]
+    [Authorize(Roles = "Student")]
+    [HttpGet]
+    public async Task<ActionResult> GetEvent(int eventId)
+    {
+        var student = await _tokenManager.GetStudent(HttpContext.User);
+        if (student == null)
+        {
+            return BadRequest("UserNotFound");
+        }
+        var res = await _context.Reservations
+                                 .Include(r => r.ReservedBy)
+                                 .ThenInclude(s => s!.Parlament)
+                                 .ThenInclude(p => p!.Faculty)
+                                 .Where(r => r.EventId == eventId && r.ReservedById == student.ID).FirstOrDefaultAsync();
+
+        var ev = _context.Events.Where(e => e.ID == eventId)
+                                    .Include(e => e.Location)
+                                    .Include(e => e.Organiser)
+                                    .Include(e => e.OrganisingParlament)
+                                    .ThenInclude(e => e!.Faculty)
+                                    .Include(e => e.Comments)
+                                    .Include(e => e.LikedBy)
+                                    .Include(e => e.Reservations)
+                                    .AsSplitQuery();
+
+        var evSelected = ev.Select(e => new
+        {
+            id = e.ID,
+            ev = e,
+            liked = e.LikedBy!.Contains(student),
+            verified = e.Verified,
+            pinned = e.Pinned,
+            location = e.Location,
+            reservation = res,
+            author = new
+            {
+                e.Organiser!.ID,
+                e.Organiser.FirstName,
+                e.Organiser.LastName,
+                e.Organiser.Username,
+                e.Organiser.ImagePath,
+                parlamentName = e.OrganisingParlament!.Name,
+                facultyName = e.OrganisingParlament!.Faculty!.Name,
+                facultyImagePath = e.OrganisingParlament!.Faculty!.ImagePath
+            },
+        });
+
+        return Ok(await evSelected.FirstAsync());
     }
 
     [Route("")]
     [Authorize(Roles = "Student")]
     [HttpPost]
-    public async Task<ActionResult> PostEvent([FromBody] Event ev)
+    public async Task<ActionResult> CreateEvent([FromForm] PostEventModel request)
     {
         var userDetails = _tokenManager.GetUserDetails(HttpContext.User);
 
-        var student = await _context.Students.Include(s => s.Parlament!)
-                                        .ThenInclude(p => p.Faculty)
-                                        .Where(s => s.ID == userDetails!.ID)
-                                        .FirstOrDefaultAsync();
+        if (userDetails == null)
+        {
+            return BadRequest("BadToken");
+        }
 
+        var student = await _context.Students
+                            .Include(s => s.Parlament)
+                            .ThenInclude(p => p!.Faculty)
+                            .FirstOrDefaultAsync(s => s.ID == userDetails.ID);
 
         if (student == null)
         {
-            return BadRequest("StudentNotFound");
+            return BadRequest("UserNotFound");
         }
 
-        if (ev.LocationId == null)
+        if (request.ev == null)
         {
-            return BadRequest("FieldMissing");
+            return StatusCode(500, "NoEvent");
+        }
+
+        EventDetails? eventDetails = JsonSerializer.Deserialize<EventDetails>(request.ev);
+
+        if (eventDetails == null)
+        {
+            return BadRequest("EventDetailsDeserializationError");
+        }
+
+        Event ev = new Event();
+
+        ev.Title = eventDetails.title;
+        ev.Description = eventDetails.description;
+        ev.Type = eventDetails.type;
+        ev.TimeOfEvent = eventDetails.timeOfEvent;
+        ev.EndTime = eventDetails.endTime;
+        ev.LocationId = eventDetails.locationId;
+        ev.PaidEvent = eventDetails.paidEvent;
+        ev.NumberOfTickets = eventDetails.numberOfTickets;
+        ev.TicketPrice = eventDetails.ticketPrice;
+
+        if (student.Role == Role.Student)
+        {
+            ev.Pinned = false;
+            ev.Verified = false;
+        }
+        else
+        {
+            ev.Pinned = eventDetails.pinned;
+            ev.Verified = eventDetails.verified;
         }
 
         ev.PublicationTime = DateTime.Now;
         ev.Organiser = student;
+        ev.UniversityId = student.UniversityId;
+
         ev.Comments = new List<Comment>();
         ev.LikedBy = new List<Student>();
         ev.Reservations = new List<Reservation>();
-        ev.OrganisingParlamentId = student.ParlamentId;
-        ev.UniversityId = student.UniversityId;
 
-        if ((int)student.Role < (int)Role.ParlamentMember)
+        if (student.Role > Role.Student && eventDetails.verified)
         {
-            ev.Verified = false;
-            ev.Pinned = false;
+            ev.OrganisingParlamentId = student.ParlamentId;
+        }
+
+        if (request.image != null)
+        {
+            var imagePath = await _imageManager.SaveImage(request.image, "/images/events/");
+
+            if (imagePath == "UnsupportedFileType")
+            {
+                return BadRequest("UnsupportedFileType");
+            }
+
+            ev.ImagePath = imagePath != null ? imagePath : "/";
+        }
+
+        var loc = await _context.Locations.FindAsync(eventDetails.locationId);
+
+        if (loc == null)
+        {
+            return BadRequest("LocationNotFound");
         }
 
         _context.Events.Add(ev);
         await _context.SaveChangesAsync();
 
-        return Ok(ev);
+        return Ok(new
+        {
+            id = ev.ID,
+            ev,
+            liked = false,
+            verified = ev.Verified,
+            pinned = ev.Pinned,
+            location = loc,
+            author = new
+            {
+                student.ID,
+                student.FirstName,
+                student.LastName,
+                student.Username,
+                student.ImagePath,
+                facultyName = student.Parlament!.Faculty!.Name,
+                facultyImagePath = student.Parlament!.Faculty!.ImagePath
+            }
+        });
     }
 
     [Route("Hot")]
@@ -79,35 +204,7 @@ public class EventController : ControllerBase
                                            .ThenBy(e => e.PublicationTime)
                                            .Take(15);
 
-        var EventsSelected = events.Select(e => new
-        {
-            ev = e,
-            author = new
-            {
-                e.Organiser!.ID,
-                e.Organiser.FirstName,
-                e.Organiser.LastName,
-                e.Organiser.Username,
-                e.Organiser.ImagePath
-            },
-            comments = e.Comments!.OrderByDescending(e => e.Pinned)
-                                .ThenByDescending(e => e.PublicationTime)
-                                .Take(3)
-                                .Select(c => new
-                                {
-                                    comment = c,
-                                    author = new
-                                    {
-                                        e.Organiser!.ID,
-                                        e.Organiser.FirstName,
-                                        e.Organiser.LastName,
-                                        e.Organiser.Username,
-                                        e.Organiser.ImagePath
-                                    }
-                                }),
-
-        });
-        return Ok(await EventsSelected.ToListAsync());
+        return Ok(await events.ToListAsync());
     }
 
     [Route("Feed/{page}")]
@@ -129,6 +226,7 @@ public class EventController : ControllerBase
                     .Include(e => e.Comments)
                     .Include(e => e.LikedBy)
                     .Include(e => e.Reservations)
+                    .Include(e => e.Location)
                     .AsSplitQuery()
                     .Where(e => e.EndTime > DateTime.Now && e.UniversityId == student.UniversityId)
                     .OrderByDescending(e => e.Pinned)
@@ -136,12 +234,14 @@ public class EventController : ControllerBase
                     .Skip(page * pageSize)
                     .Take(pageSize);
 
-
         var eventsSelected = events.Select(e => new
         {
             id = e.ID,
             ev = e,
             liked = e.LikedBy!.Contains(student),
+            verified = e.Verified,
+            pinned = e.Pinned,
+            location = e.Location,
             author = new
             {
                 e.Organiser!.ID,
@@ -185,7 +285,6 @@ public class EventController : ControllerBase
         eventInDatabase.TimeOfEvent = ev.TimeOfEvent;
         eventInDatabase.Type = ev.Type;
         eventInDatabase.EndTime = ev.EndTime;
-        eventInDatabase.LocationName = ev.LocationName;
         eventInDatabase.ImagePath = ev.ImagePath;
         eventInDatabase.PaidEvent = ev.PaidEvent;
         eventInDatabase.NumberOfTickets = ev.NumberOfTickets;
@@ -215,14 +314,19 @@ public class EventController : ControllerBase
             return BadRequest("BadToken");
         }
 
-        var ev = await _context.Events.FirstOrDefaultAsync(e => e.ID == eventId);
+        var ev = await _context.Events
+                            .Include(e => e.Comments)
+                            .Include(e => e.Reservations)
+                            .AsSplitQuery()
+                            .FirstOrDefaultAsync(e => e.ID == eventId);
 
         if (ev == null)
         {
-            return BadRequest("PostNotFound");
+            return BadRequest("EventNotFound");
         }
 
-        if (ev.OrganiserId == null || ev.OrganiserId != user.ID)
+        if (user.Role < Role.AdminUni
+            && (ev.OrganiserId == null || ev.OrganiserId != user.ID))
         {
             return Forbid("NotAuthor");
         }
@@ -241,7 +345,7 @@ public class EventController : ControllerBase
 
         if (ev == null)
         {
-            return BadRequest("PostNotFound");
+            return BadRequest("EventNotFound");
         }
 
         ev.Verified = verified;
@@ -307,5 +411,35 @@ public class EventController : ControllerBase
 
         await _context.SaveChangesAsync();
         return Ok(liked);
+    }
+
+    [Route("{eventId}/Cancel")]
+    [Authorize(Roles = "Student")]
+    [HttpPatch]
+    public async Task<ActionResult> CancelEvent(int eventId)
+    {
+        var userDetails = _tokenManager.GetUserDetails(HttpContext.User);
+
+        if (userDetails == null)
+        {
+            return StatusCode(500);
+        }
+
+        var ev = await _context.Events.FindAsync(eventId);
+
+        if (ev == null)
+        {
+            return BadRequest("EventNotFound");
+        }
+
+        if (userDetails.Role < Role.AdminUni && ev.OrganiserId != userDetails.ID)
+        {
+            return Forbid();
+        }
+
+        ev.Canceled = true;
+
+        await _context.SaveChangesAsync();
+        return Ok();
     }
 }

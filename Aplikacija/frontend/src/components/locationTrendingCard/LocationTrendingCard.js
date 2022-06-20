@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./LocationTrendingCard.style.css";
 import locationTypes from "../locationMarker/LocationTypes.js";
 import LocationTrendingCardComment from "../locationTrendingCardComment/LocationTrendingCardComment.js";
+import defaultLocationImage from "../../images/defaultLocation.jpg";
 
 function LocationTrendingCard({ feedEl, innerRef }) {
   const location = feedEl;
@@ -19,9 +20,13 @@ function LocationTrendingCard({ feedEl, innerRef }) {
     <Card className="LocationTrendingCard my-2 shadow-sm" ref={innerRef}>
       <Card.Header className="d-flex justify-content-start">
         <Badge>{location && t(locationTypes[location?.type].name)}</Badge>
-        <Badge className="ms-1">
-          {location && location.averageGrade.toFixed(1)} ★
-        </Badge>
+        {location && (
+          <Badge className="ms-1">
+            {location.averageGrade !== -1
+              ? location.averageGrade.toFixed(1) + " ★"
+              : t("locations:noGradesShort")}
+          </Badge>
+        )}
         <Badge className="ms-1">{location && location.gradeCount} 💬</Badge>
         {location.verified && (
           <FontAwesomeIcon
@@ -34,7 +39,11 @@ function LocationTrendingCard({ feedEl, innerRef }) {
         <Card.Img
           variant="top"
           className="LocationTrendingCardImage"
-          src={location?.imagePath}
+          src={
+            location?.imagePath && location.imagePath !== "/"
+              ? location?.imagePath
+              : defaultLocationImage
+          }
         />
         <div className="LocationTrendingCardText">
           <Card.Title>{location?.name}</Card.Title>
@@ -46,9 +55,13 @@ function LocationTrendingCard({ feedEl, innerRef }) {
           </Card.Text>
           <Card.Title>{t("recentGrades")}:</Card.Title>
           <div className="LocationTrendingCardGrades">
-            {location?.grades?.map((g) => (
-              <LocationTrendingCardComment key={g.id} grade={g} />
-            ))}
+            {location?.grades?.length > 0 ? (
+              location?.grades?.map((g) => (
+                <LocationTrendingCardComment key={g.id} grade={g} />
+              ))
+            ) : (
+              <p className="no-location-grades">{t("noGrades")}</p>
+            )}
           </div>
         </div>
       </Card.Body>

@@ -1,0 +1,10 @@
+.reserve-form-div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.reserve-form-title {
+    font-weight: 600;
+    font-size: larger;
+    color: #4e54c8;
+}

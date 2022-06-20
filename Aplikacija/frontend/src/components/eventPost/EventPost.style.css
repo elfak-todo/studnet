@@ -1,11 +1,24 @@
 .event-img-div {
-  width: 30rem;
-  height: 30rem;
+  position: relative;
+  width: 30rem !important;
+  height: 30rem !important;
 }
 .event-img {
   width:100%;
   height:100%;
   object-fit:cover;
+  cursor: pointer;
+}
+.cancel-img {
+  position: absolute;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display: block;
+  z-index: 999;
+  left: 0; right: 0; bottom: 0; top:0;
+  margin-left: auto;
+  margin-right: auto;
 }
 .event-desc{
   display: flex;
@@ -22,6 +35,15 @@
   justify-content: space-between;
   width: 100%;
   height: 100%;
+}
+.parlament-div {
+  height: 2rem;
+  background-color: #4e54c8;
+}
+.parlament-text {
+  color:white;
+  font-weight: 600;
+  font-size: larger;
 }
 
 @media screen and (max-width: 780px) {

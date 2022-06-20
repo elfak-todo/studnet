@@ -7,7 +7,7 @@ import ResourceNotFound from "../components/resourceNotFound/ResourceNotFound.js
 
 function LocationPage() {
   const { t } = useTranslation(["locations"]);
-  const locationId = useParams().locationId;
+  const { locationId } = useParams();
 
   const [location, setLocation] = useState(undefined);
   const [author, setAuthor] = useState(undefined);

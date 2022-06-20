@@ -78,6 +78,8 @@ function Feed({ url, FeedCard, AddElementForm, metadata }) {
                 innerRef={feed.length === i + 1 ? lastPost : undefined}
                 feed={feed}
                 setFeed={setFeed}
+                pinned={el.pinned}
+                verified={el.verified}
                 metadata={metadata}
               />
             ))

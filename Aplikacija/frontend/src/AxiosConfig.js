@@ -15,7 +15,6 @@ function AxiosConfig() {
         return response;
       },
       (error) => {
-        console.log(error);
         if (error.response.status === 401) {
           //TODO eventualno ovde može da se prikaže obaveštenje da je token istekao
           setStudent(null);

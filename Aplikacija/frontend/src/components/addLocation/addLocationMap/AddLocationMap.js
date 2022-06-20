@@ -13,7 +13,9 @@ function AddLocationMap({ location, setLocation, state }) {
 
   useEffect(() => {
     const i =
-      location.type && Number(location.type) !== -1
+      location.type !== undefined &&
+      location.type !== null &&
+      Number(location.type) !== -1
         ? locationTypes[location.type].icon
         : {
             iconUrl: addLocationIcon,

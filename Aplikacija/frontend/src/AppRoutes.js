@@ -14,6 +14,8 @@ import ParlamentPage from "./pages/ParlamentPage.js";
 import RegisterPage from "./pages/RegisterPage";
 import StudentPage from "./pages/StudentPage.js";
 import ModPage from "./pages/ModPage.js";
+import LocationEditPage from "./pages/LocationEditPage.js";
+import ResourceNotFound from "./components/resourceNotFound/ResourceNotFound.js";
 
 function AppRoutes() {
   const { student } = useContext(StudentContext);
@@ -24,14 +26,16 @@ function AppRoutes() {
       <Route path="/register" element={<Navigate replace to="/home" />} />
       <Route path="/home" element={<HomePage />} />
       <Route path="/events" element={<EventsPage />} />
-      <Route path="/event" element={<EventPage />} />
+      <Route path="/event/:eventId" element={<EventPage />} />
       <Route path="/locations" element={<LocationsPage />} />
       <Route path="/location/:locationId" element={<LocationPage />} />
       <Route path="/location/create" element={<LocationCreationPage />} />
+      <Route path="/location/edit/:locationId" element={<LocationEditPage />} />
       <Route path="/student/:studentId" element={<StudentPage />} />
       <Route path="/parlament/:parlamentId" element={<ParlamentPage />} />
       <Route path="/admin" element={<AdminPage />} />
-      <Route path="/mod" element={<ModPage/>} />
+      <Route path="/mod" element={<ModPage />} />
+      <Route path="*" element={<ResourceNotFound />} />
     </Routes>
   ) : (
     <Routes>

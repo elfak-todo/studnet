@@ -1,106 +1,107 @@
 .profile-header {
-    padding: 0 !important;
-    position: relative;
+  padding: 0 !important;
+  position: relative;
 }
 .cover-img {
-    height: 20rem;
-    object-fit: cover;
+  height: 20rem;
+  object-fit: cover;
 }
 .profile-img {
-    width: 15rem;
-    position: absolute;
-    left: 0; 
-    right: 0;
-    bottom: -10rem;
-    margin-left: auto; 
-    margin-right: 70%; 
-    border: solid;
-    border-width: 5px;
-    border-color: #4e54c8;
+  height: 15rem !important;
+  width: 15rem !important;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -10rem;
+  margin-left: auto;
+  margin-right: 70%;
+  border: solid;
+  border-width: 5px;
+  border-color: #4e54c8;
+  aspect-ratio: 1 !important;
 }
 .header-desc {
-    margin-left: 25rem;
-    margin-bottom: 10px;
+  margin-left: 25rem;
+  margin-bottom: 10px;
 }
 .text-name {
-    font-weight: bold;
-    margin: 0;
+  font-weight: bold;
+  margin: 0;
 }
 .header-badges {
-    display: flex;
-    justify-content: left;
-    align-items: center;
+  display: flex;
+  justify-content: left;
+  align-items: center;
 }
 .badge-div {
-    display: flex;
-    align-items: center;
-    width: inherit;
-    height: 30px;
-    background-color: #4e54c8;
+  display: flex;
+  align-items: center;
+  width: inherit;
+  height: 30px;
+  background-color: #4e54c8;
 }
 .role-text {
-    margin-left: 25rem;
-    color: white;
-    font-weight: 700;
-    font-size: large;
+  margin-left: 25rem;
+  color: white;
+  font-weight: 700;
+  font-size: large;
 }
 
 @media only screen and (max-width: 1400px) {
-    .header-desc {
-        margin-left: 22rem;
-    }
-    .role-text {
-        margin-left: 22rem;
-    }
+  .header-desc {
+    margin-left: 22rem;
+  }
+  .role-text {
+    margin-left: 22rem;
+  }
 }
 
 @media only screen and (max-width: 1200px) {
-    .profile-img {
-        width: 12rem;
-        bottom: -8rem;
-        margin-left: auto; 
-        margin-right: 70%; 
-    }
-    .header-desc {
-        margin-left: 18rem;
-    }
-    .role-text {
-        margin-left: 18rem;
-    }
+  .profile-img {
+    bottom: -8rem;
+    margin-left: auto;
+    margin-right: 70%;
+  }
+  .header-desc {
+    margin-left: 18rem;
+  }
+  .role-text {
+    margin-left: 18rem;
+  }
 }
 @media only screen and (max-width: 994px) {
-    .profile-img {
-        width: 12rem;
-        bottom: -8rem;
-        margin-left: auto; 
-        margin-right: 60%; 
-    }
-    .header-desc {
-        margin-left: 18rem;
-    }
-    .role-text {
-        margin-left: 18rem;
-    }
+  .profile-img {
+    width: 12rem;
+    bottom: -8rem;
+    margin-left: auto;
+    margin-right: 60%;
+  }
+  .header-desc {
+    margin-left: 18rem;
+  }
+  .role-text {
+    margin-left: 18rem;
+  }
 }
 
-  @media only screen and (max-width: 768px) {
-    .profile-img {
-        width: 14rem;
-        bottom: -5rem;
-        margin-left: auto; 
-        margin-right: auto; 
-    }
-    .header-desc {
-        margin-left: 0;
-        margin-top: 5rem;
-        text-align: center;
-    }
-    .role-text {
-        margin: auto;
-    }
-    .header-badges {
-        justify-content: center;
-        align-items: center;
-    }
+@media only screen and (max-width: 768px) {
+  .profile-img {
+    width: 14rem !important;
+    height: 14rem !important;
+    bottom: -5rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .header-desc {
+    margin-left: 0 !important;
+    margin-top: 5rem !important;
+    text-align: center !important;
+  }
+  .role-text {
+    margin: auto !important;
+  }
+  .header-badges {
+    justify-content: center !important;
+    align-items: center !important;
+  }
 }
-  
