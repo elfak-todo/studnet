@@ -4,9 +4,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 
 import "./MyReservation.style.css";
+import axios from "axios";
 
 function MyReservation({
   reservation,
+  setReservation,
   showMyReservation,
   setDisabledInput,
   ticketNumRef,
@@ -22,7 +24,15 @@ function MyReservation({
   };
 
   const handleCancel = () => {
-    console.log("canceling");
+    axios
+      .patch(`Reservation/${reservation.id}/Cancel`)
+      .then((res) => {
+        console.log("canceled");
+        setReservation(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const mess = (tickets) => {
@@ -53,18 +63,22 @@ function MyReservation({
     >
       <Alert.Heading>
         {t("myRes")}
-        <FontAwesomeIcon
-          icon={faPen}
-          className="float-end edit-icon"
-          onClick={handleEdit}
-        />
+        {!reservation?.canceled && (
+          <FontAwesomeIcon
+            icon={faPen}
+            className="float-end edit-icon"
+            onClick={handleEdit}
+          />
+        )}
       </Alert.Heading>
-      {mess(numTicket)}
+      {reservation?.canceled ? t("yourResIsCanceled") : mess(numTicket)}
       <hr />
       <div className="d-flex justify-content-center">
-        <Button variant="outline-primary" onClick={handleCancel}>
-          {t("cancelRes")}
-        </Button>
+        {!reservation?.canceled && (
+          <Button variant="outline-primary" onClick={handleCancel}>
+            {t("cancelRes")}
+          </Button>
+        )}
       </div>
     </Alert>
   );

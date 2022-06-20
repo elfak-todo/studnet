@@ -79,7 +79,7 @@ function EventReserveForm({
         });
     }
   };
-  return (
+  return !reservation?.canceled ? (
     <Form noValidate onSubmit={handleReserve}>
       <div className="reserve-form-div">
         <FloatingLabel label={t("ticketsNum")} className="mb-2">
@@ -105,15 +105,28 @@ function EventReserveForm({
         </Button>
       </div>
       <hr />
-      <MyReservation
-        reservation={reservation}
-        showMyReservation={showMyReservation}
-        setDisabledInput={setDisabledInput}
-        ticketNumRef={ticketNumRef}
-        setEdit={setEdit}
-        numTicket={numTicket}
-      />
+      {reservation && (
+        <MyReservation
+          reservation={reservation}
+          setReservation={setReservation}
+          showMyReservation={showMyReservation}
+          setDisabledInput={setDisabledInput}
+          ticketNumRef={ticketNumRef}
+          setEdit={setEdit}
+          numTicket={numTicket}
+        />
+      )}
     </Form>
+  ) : (
+    <MyReservation
+      reservation={reservation}
+      setReservation={setReservation}
+      showMyReservation={showMyReservation}
+      setDisabledInput={setDisabledInput}
+      ticketNumRef={ticketNumRef}
+      setEdit={setEdit}
+      numTicket={numTicket}
+    />
   );
 }
 

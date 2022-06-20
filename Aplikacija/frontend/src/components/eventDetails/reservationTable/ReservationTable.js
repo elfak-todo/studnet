@@ -1,17 +1,23 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Button, Spinner, Table } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDownload, faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import {
+  faDownload,
+  faAngleDown,
+  faTrashCan,
+} from "@fortawesome/free-solid-svg-icons";
 import * as XLSX from "xlsx";
 
 import { parseDate } from "../../../helpers/DateParser.js";
+import StudentContext from "../../studentManager/StudentManager.js";
 import "./ReservationTable.style.css";
 
-function ReservationTable({ event }) {
+function ReservationTable({ event, reservation, setReservation }) {
   const { t, i18n } = useTranslation(["event"]);
 
+  const { student } = useContext(StudentContext);
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(false);
   const [students, setStudents] = useState(null);
@@ -39,6 +45,20 @@ function ReservationTable({ event }) {
         setLoading(false);
       });
   }, [event, pageNum]);
+
+  function handleDelete(resId) {
+    axios
+      .delete(`Reservation/${resId}`)
+      .then((res) => {
+        if (resId === reservation.id) setReservation(null);
+        setStudents((state) => {
+          state.filter((s) => {
+            return s.reservation.id !== res.data.id;
+          });
+        });
+      })
+      .catch((err) => console.log(err));
+  }
 
   const handleExport = () => {
     setFetching(true);
@@ -85,7 +105,7 @@ function ReservationTable({ event }) {
         </Button>
       </div>
       <Table striped hover responsive>
-        <thead className="student-thead">
+        <thead className="student-thead text-center">
           <tr>
             {[
               "",
@@ -94,20 +114,38 @@ function ReservationTable({ event }) {
               "faculty",
               "ticketsNum",
               "timeOfReservation",
+              "status",
             ].map((col) => (
               <th key={col}> {t(col)} </th>
             ))}
           </tr>
         </thead>
-        <tbody>
+        <tbody className="text-center">
           {students?.map((s, i) => (
-            <tr key={i}>
+            <tr
+              key={i}
+              style={{ backgroundColor: s.reservation?.canceled && "#ffcccc" }}
+            >
               <td> {i + 1} </td>
               <td>{s.author.firstName + " " + s.author.lastName}</td>
               <td> {s.author.username} </td>
               <td>{s.author.facultyName}</td>
               <td>{s.reservation.numberOfTickets}</td>
               <td>{parseDate(s.reservation.reservationTime, i18n.language)}</td>
+              <td>
+                {s.reservation.canceled === true ? t("canceled") : t("active")}
+              </td>
+              {student.role > 1 && (
+                <td>
+                  <Button
+                    variant="outline-primary"
+                    size="sm"
+                    onClick={() => handleDelete(s.reservation.id)}
+                  >
+                    <FontAwesomeIcon icon={faTrashCan} />
+                  </Button>
+                </td>
+              )}
             </tr>
           ))}
         </tbody>

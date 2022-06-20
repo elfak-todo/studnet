@@ -107,7 +107,12 @@ function EventDetails({ event }) {
             </div>
           )}
         {showTable && (
-          <ReservationTable event={event.ev} scrollRef={scrollRef} />
+          <ReservationTable
+            event={event.ev}
+            reservation={reservation}
+            setReservation={setReservation}
+            scrollRef={scrollRef}
+          />
         )}
       </Card>
       <ImagePreview
