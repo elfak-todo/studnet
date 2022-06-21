@@ -27,7 +27,7 @@
 }
 .ev-card-neki{
   width: inherit !important;
-  height: 100%;
+  height: 100% !important;
 }
 .ev-elements {
   display: flex;

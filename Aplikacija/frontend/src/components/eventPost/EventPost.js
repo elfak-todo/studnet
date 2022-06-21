@@ -52,7 +52,7 @@ function EventPost({
             )}
           </div>
           <Container className="m-0 p-0" fluid>
-            <Card className={"ev-card-neki" + (pinned && " pinned")}>
+            <Card className={"ev-card-neki " + (pinned && " pinned")}>
               <Card.Header>
                 <EventPostHeader
                   author={feedEl.author}

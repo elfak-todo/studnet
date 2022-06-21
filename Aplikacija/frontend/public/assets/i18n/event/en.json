@@ -62,6 +62,8 @@
   "active": "Active",
   "yourResIsCanceled": "You have canceled a reservation for this event.",
   "timeOfReservation": "Time of reservation",
+  "warning": "Warning",
+  "allTicketsRes": "All tickets for this event are reserved.",
   "seeResList": "See reservations",
   "hideResList": "Hide reservations",
   "download": "Download data",

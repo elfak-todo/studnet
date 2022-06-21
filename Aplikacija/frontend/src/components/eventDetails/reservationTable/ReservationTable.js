@@ -49,11 +49,11 @@ function ReservationTable({ event, reservation, setReservation }) {
   function handleDelete(resId) {
     axios
       .delete(`Reservation/${resId}`)
-      .then((res) => {
-        if (resId === reservation.id) setReservation(null);
+      .then(() => {
+        if (resId === reservation?.id) setReservation(null);
         setStudents((state) => {
-          state.filter((s) => {
-            return s.reservation.id !== res.data.id;
+          return state.filter((s) => {
+            return s.reservation.id !== resId;
           });
         });
       })
@@ -115,8 +115,9 @@ function ReservationTable({ event, reservation, setReservation }) {
               "ticketsNum",
               "timeOfReservation",
               "status",
-            ].map((col) => (
-              <th key={col}> {t(col)} </th>
+              "",
+            ].map((col, i) => (
+              <th key={i}> {t(col)} </th>
             ))}
           </tr>
         </thead>

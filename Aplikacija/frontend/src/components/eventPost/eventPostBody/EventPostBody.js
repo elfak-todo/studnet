@@ -2,15 +2,18 @@ import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTicket, faMapLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { Card, Badge, Button, Modal, CloseButton } from "react-bootstrap";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import "./EventPostBody.style.css";
 import EventTypes from "../EventTypes";
 import { justTime, justDate } from "../../../helpers/DateParser.js";
 import LocationMap from "../../locationMap/LocationMap";
+import StudentContext from "../../studentManager/StudentManager";
 
 function EventPostBody({ event, location, hideMapButton = false }) {
-  const { t, i18n } = useTranslation(["event"]);
+  const { t, i18n } = useTranslation(["event", "misc"]);
+
+  const { student } = useContext(StudentContext);
 
   const [mapShown, setMapShown] = useState(false);
 
@@ -52,12 +55,14 @@ function EventPostBody({ event, location, hideMapButton = false }) {
           </Badge>
           {event.paidEvent ? (
             <>
-              <Badge className="ms-2 p-2">
-                <FontAwesomeIcon icon={faTicket} className="me-1" />
-                {`${t("ticketsLeft")} ${
-                  event.numberOfTickets - event.ticketsReserved
-                }`}
-              </Badge>
+              {student.role > 0 && (
+                <Badge className="ms-2 p-2">
+                  <FontAwesomeIcon icon={faTicket} className="me-1" />
+                  {`${t("ticketsLeft")} ${
+                    event.numberOfTickets - event.ticketsReserved
+                  }`}
+                </Badge>
+              )}
               <Badge className="ms-2 p-2">
                 <FontAwesomeIcon icon={faTicket} className="me-1" />
                 {`${t("ticketPrice")} ${event.ticketPrice} RSD`}
@@ -87,7 +92,11 @@ function EventPostBody({ event, location, hideMapButton = false }) {
             <CloseButton onClick={() => setMapShown(false)} className="me-2" />
           </Modal.Header>
           <Modal.Body className="location-modal-body">
-            <LocationMap mapData={{ loc: [location] }} selectedMode />
+            {location ? (
+              <LocationMap mapData={{ loc: [location] }} selectedMode />
+            ) : (
+              <div className="text-center p-5"> {t("misc:resNotFound")} </div>
+            )}
           </Modal.Body>
         </Modal>
       )}
