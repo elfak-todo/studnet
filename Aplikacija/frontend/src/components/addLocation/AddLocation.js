@@ -23,15 +23,19 @@ function AddLocation({
   const { t } = useTranslation(["locations"]);
   const navigate = useNavigate();
 
+  const { student } = useContext(StudentContext);
+
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const [state, setState] = useState({ edit: false });
   const [location, setLocation] = useState(null);
+  const [inputStatus, setInputStatus] = useState({});
 
   const imageRef = useRef();
   const imageGalleryRef = useRef();
 
-  const { student } = useContext(StudentContext);
+  const webpageRegularExpression =
+    /[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)?/gi;
 
   useEffect(() => {
     if (initialLocation) {
@@ -47,7 +51,57 @@ function AddLocation({
 
   const submitHandler = (e) => {
     e.preventDefault();
-    if (!state.loading) {
+    if (state.loading) {
+      return;
+    }
+
+    let proceed = true;
+
+    if (!location.name || location.name === "" || location.name.length > 128) {
+      setInputStatus((s) => {
+        return { ...s, nameInvalid: true };
+      });
+      proceed = false;
+    }
+    if (
+      !location.address ||
+      location.address === "" ||
+      location.address.length > 256
+    ) {
+      setInputStatus((s) => {
+        return { ...s, addressInvalid: true };
+      });
+      proceed = false;
+    }
+    if (!location.type || location.type === -1) {
+      setInputStatus((s) => {
+        return { ...s, typeInvalid: true };
+      });
+      proceed = false;
+    }
+    if (
+      location.webpage &&
+      location.wepage !== "" &&
+      (location.webpage.length > 256 ||
+        !location.webpage.match(webpageRegularExpression))
+    ) {
+      setInputStatus((s) => {
+        return { ...s, webpageInvalid: true };
+      });
+      proceed = false;
+    }
+    if (
+      !location.description ||
+      location.description === "" ||
+      location.description.length > 2048
+    ) {
+      setInputStatus((s) => {
+        return { ...s, descriptionInvalid: true };
+      });
+      proceed = false;
+    }
+
+    if (proceed) {
       setState((s) => {
         return { ...s, loading: true };
       });
@@ -116,6 +170,8 @@ function AddLocation({
               imageRef={imageRef}
               imageGalleryRef={imageGalleryRef}
               displayTitle={displayTitle}
+              inputStatus={inputStatus}
+              setInputStatus={setInputStatus}
             />
             <AddLocationMap
               location={location}

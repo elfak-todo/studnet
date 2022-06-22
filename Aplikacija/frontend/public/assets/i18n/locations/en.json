@@ -53,5 +53,14 @@
   "delete": "Delete",
   "deleteLocationTitle": "Location deletion",
   "deleteLocationBody": "Are you sure you want to delete this location?",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "nameInvalid": "Please enter a valid name.",
+  "nameInvalidTooltip": "This field is required. Maximum length is 128 characters.",
+  "addressInvalid": "Please enter a valid address.",
+  "addressInvalidTooltip": "This field is required. Maximum length is 256 characters.",
+  "typeInvalid": "Please select a location type.",
+  "webpageInvalid": "Please enter a valid webpage.",
+  "webpageInvalidTooltip": "This filed is not required.",
+  "descriptionInvalid": "Please enter a valid description.",
+  "descriptionInvalidTooltip": "This field is required. Maximum length is 2048 characters."
 }
