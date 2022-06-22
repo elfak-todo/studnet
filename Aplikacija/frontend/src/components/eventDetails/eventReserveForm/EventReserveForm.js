@@ -55,7 +55,7 @@ function EventReserveForm({
         })
         .then((res) => {
           e.target.reset();
-          setReservation(res.data);
+          setReservation(res.data.reservation);
           setTicketsReserved((state) => (state += Number(ticketNum)));
           setDisabledInput(true);
           setShowMyReservation(true);
@@ -72,10 +72,10 @@ function EventReserveForm({
         })
         .then((res) => {
           e.target.reset();
-          setReservation(res.data);
+          setReservation(res.data.reservation);
           setTicketsReserved((prev) => {
             prev -= Number(reservation.numberOfTickets);
-            return (prev += Number(res.data.numberOfTickets));
+            return (prev += Number(res.data.reservation.numberOfTickets));
           });
           setDisabledInput(true);
           setEdit(false);
