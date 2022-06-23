@@ -23,12 +23,12 @@ function Post({ feedEl, innerRef, feed, setFeed, pinned, verified }) {
   const [loading, setLoading] = useState(false);
 
   const editTextInputRef = useRef();
-  console.log(post.text);
 
   function NewlineText(props) {
     const text = props;
-    return text.split('\n').map(str => <p>{str}</p>); 
+    return text.split('\n').map(str => <div>{str}</div>); 
   }
+
   const handleEdit = (e) => {
     e.preventDefault();
 
