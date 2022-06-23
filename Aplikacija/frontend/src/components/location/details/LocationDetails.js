@@ -45,10 +45,9 @@ function LocationDetails({ location, author }) {
       <p className="location-details-description">{location.description}</p>
       <h3 className="text-center mt-5">Autor</h3>
       <AuthorCard author={author} className="mb-5" />
-      <h6 className="text-center my-1">
+      <h6 className="text-center my-5">
         {parseDate(location.publicationTime, i18n.language)}
       </h6>
-      <div className="my-5"></div>
     </div>
   );
 }
