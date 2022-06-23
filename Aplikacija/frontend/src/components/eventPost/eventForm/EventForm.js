@@ -53,9 +53,6 @@ function EventForm({ feed, setFeed }) {
   const pinnedRef = useRef();
   const imageRef = useRef();
 
-  // console.log(new Date().toISOString().substring(0, 16));
-  // console.log(startDate);
-
   const onLocationAdded = (location) => {
     setSelectedLoc(location);
     setAddLocationShown(false);
