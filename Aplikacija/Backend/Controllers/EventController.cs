@@ -256,10 +256,10 @@ public class EventController : ControllerBase
         return Ok(await eventsSelected.ToListAsync());
     }
 
-    [Route("Edit")]
+    [Route("{eventId}")]
     [Authorize(Roles = "Student")]
-    [HttpPut]
-    public async Task<ActionResult> EditEvent([FromBody] Event ev)
+    [HttpPatch]
+    public async Task<ActionResult> EditEvent([FromForm] PostEventModel request, int eventId)
     {
         var user = _tokenManager.GetUserDetails(HttpContext.User);
 
@@ -268,38 +268,65 @@ public class EventController : ControllerBase
             return BadRequest("BadToken");
         }
 
-        var eventInDatabase = await _context.Events.FindAsync(ev.ID);
+        if (request.ev == null)
+        {
+            return BadRequest("NoEvent");
+        }
+
+        EventDetails? ev = JsonSerializer.Deserialize<EventDetails>(request.ev);
+
+        if (ev == null)
+        {
+            return BadRequest("EventDetailsDeserializationError");
+        }
+
+        var eventInDatabase = await _context.Events.FindAsync(eventId);
 
         if (eventInDatabase == null)
         {
             return BadRequest("EventNotFound");
         }
 
-        if (ev.OrganiserId == null || ev.OrganiserId != user.ID)
+        if (eventInDatabase.OrganiserId == null || eventInDatabase.OrganiserId != user.ID)
         {
             return Forbid("NotAuthor");
         }
 
-        eventInDatabase.Title = ev.Title;
-        eventInDatabase.Description = ev.Description;
-        eventInDatabase.TimeOfEvent = ev.TimeOfEvent;
-        eventInDatabase.Type = ev.Type;
-        eventInDatabase.EndTime = ev.EndTime;
-        eventInDatabase.ImagePath = ev.ImagePath;
-        eventInDatabase.PaidEvent = ev.PaidEvent;
-        eventInDatabase.NumberOfTickets = ev.NumberOfTickets;
-        eventInDatabase.TicketPrice = ev.TicketPrice;
-        eventInDatabase.Reservations = ev.Reservations;
+        eventInDatabase.Title = ev.title;
+        eventInDatabase.Description = ev.description;
+        eventInDatabase.TimeOfEvent = ev.timeOfEvent;
+        eventInDatabase.Type = ev.type;
+        eventInDatabase.EndTime = ev.endTime;
+        eventInDatabase.PaidEvent = ev.paidEvent;
+        eventInDatabase.NumberOfTickets = ev.numberOfTickets;
+        eventInDatabase.TicketPrice = ev.ticketPrice;
 
         if ((int)user.Role >= (int)Role.ParlamentMember)
         {
-            eventInDatabase.Verified = ev.Verified;
-            eventInDatabase.Pinned = ev.Pinned;
+            eventInDatabase.Verified = ev.verified;
+            eventInDatabase.Pinned = ev.pinned;
+        }
+
+        if (request.image != null)
+        {
+            var imagePath = await _imageManager.SaveImage(request.image, "/images/events/");
+
+            if (imagePath == "UnsupportedFileType")
+            {
+                return BadRequest("UnsupportedFileType");
+            }
+
+            if (eventInDatabase.ImagePath != null && eventInDatabase.ImagePath != "")
+            {
+                _imageManager.DeleteImage(eventInDatabase.ImagePath);
+            }
+
+            eventInDatabase.ImagePath = imagePath != null ? imagePath : "/";
         }
 
         await _context.SaveChangesAsync();
 
-        return Ok(eventInDatabase);
+        return await GetEvent(eventId);
     }
 
     [Route("Delete/{eventId}")]

@@ -29,7 +29,7 @@ function EventPage() {
 
   return event !== undefined ? (
     event != null && !event?.canceled ? (
-      <EventDetails event={event} />
+      <EventDetails event={event} setEvent={setEvent} />
     ) : (
       <ResourceNotFound text={t("eventNotFound")} />
     )

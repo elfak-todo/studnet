@@ -19,7 +19,15 @@ import AddLocation from "../../addLocation/AddLocation";
 import SelectLocation from "../../selectLocation/SelectLocation";
 import InfoTooltip from "../../infoTooltip/InfoTooltip";
 
-function EventFormEdit({ event, location, edit, setEdit, feed, setFeed }) {
+function EventFormEdit({
+  event,
+  setEvent,
+  location,
+  edit,
+  setEdit,
+  feed,
+  setFeed,
+}) {
   const { t } = useTranslation(["event", "info", "misc"]);
   const { student } = useContext(StudentContext);
 
@@ -107,7 +115,7 @@ function EventFormEdit({ event, location, edit, setEdit, feed, setFeed }) {
     if (proceed) {
       setLoading(true);
 
-      const event = {
+      const ev = {
         pinned,
         verified,
         title,
@@ -122,21 +130,34 @@ function EventFormEdit({ event, location, edit, setEdit, feed, setFeed }) {
       };
 
       const formData = new FormData();
-      formData.set("ev", JSON.stringify(event));
+      formData.set("ev", JSON.stringify(ev));
       if (imageRef.current.files.length > 0) {
         formData.set("image", imageRef.current.files[0]);
       }
 
-      //   TODO
       axios
-        .put("Event/Edit", formData, {
+        .patch(`Event/${event.id}`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         })
         .then((res) => {
-          feed !== null && setFeed([res.data, ...feed]);
+          if (feed) {
+            setFeed((f) => {
+              const newFeed = [...f];
+              const i = newFeed.findIndex((e) => e.id === res.data.id);
+              newFeed[i] = res.data;
+              return newFeed;
+            });
+          }
+          if (setEvent) {
+            setEvent(res.data);
+          }
           setEdit(false);
+        })
+        .catch((err) => {
+          if (err.response && err.response.data === "UnsupportedFileType") {
+          }
         })
         .finally(() => {
           setLoading(false);
@@ -317,6 +338,7 @@ function EventFormEdit({ event, location, edit, setEdit, feed, setFeed }) {
                   </Form.Label>
                   <Form.Control
                     type="file"
+                    accept="image/png, image/jpeg"
                     size="sm"
                     className="mb-2"
                     ref={imageRef}

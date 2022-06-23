@@ -197,7 +197,8 @@ public class StudentController : ControllerBase
                                             .Include(s => s.Parlament!)
                                             .ThenInclude(p => p.Faculty)
                                             .AsSplitQuery()
-                                            .Where(p => p.FirstName.Contains(arr[0]) && p.LastName.Contains(arr[1]))
+                                            .Where(p => p.FirstName.Contains(arr[0]) && p.LastName.Contains(arr[1]) 
+                                                     || p.FirstName.Contains(arr[1]) && p.LastName.Contains(arr[0]))
                                             .OrderByDescending(p => p.ID)
                                             .Take(studentNum);
             }
@@ -207,7 +208,8 @@ public class StudentController : ControllerBase
                                             .Include(s => s.Parlament!)
                                             .ThenInclude(p => p.Faculty)
                                             .AsSplitQuery()
-                                            .Where(p => p.FirstName.Contains(arr[0]) && p.LastName.Contains(arr[1]))
+                                            .Where(p => p.FirstName.Contains(arr[0]) && p.LastName.Contains(arr[1]) 
+                                                     || p.FirstName.Contains(arr[1]) && p.LastName.Contains(arr[0]))
                                             .OrderByDescending(p => p.ID)
                                             .Skip(page * studentNum)
                                             .Take(studentNum);
@@ -337,7 +339,8 @@ public class StudentController : ControllerBase
                                             .Include(s => s.Parlament!)
                                             .ThenInclude(p => p.Faculty)
                                             .AsSplitQuery()
-                                            .Where(p => p.FirstName.Contains(arr[0]) && p.LastName.Contains(arr[1]))
+                                            .Where(p => p.FirstName.Contains(arr[0]) && p.LastName.Contains(arr[1])
+                                                     || p.FirstName.Contains(arr[1]) && p.LastName.Contains(arr[0]))
                                             .OrderByDescending(p => p.ID)
                                             .Take(studentNum);
             }
@@ -347,7 +350,8 @@ public class StudentController : ControllerBase
                                             .Include(s => s.Parlament!)
                                             .ThenInclude(p => p.Faculty)
                                             .AsSplitQuery()
-                                            .Where(p => p.FirstName.Contains(arr[0]) && p.LastName.Contains(arr[1]))
+                                            .Where(p => p.FirstName.Contains(arr[0]) && p.LastName.Contains(arr[1])
+                                                     || p.FirstName.Contains(arr[1]) && p.LastName.Contains(arr[0]))
                                             .OrderByDescending(p => p.ID)
                                             .Skip(page * studentNum)
                                             .Take(studentNum);
@@ -499,22 +503,38 @@ public class StudentController : ControllerBase
     [Route("Register")]
     [AllowAnonymous]
     [HttpPost]
-    public async Task<ActionResult> Register([FromBody] Student student)
+    public async Task<ActionResult> Register([FromBody] RegistrationData regData)
     {
-        if (student.Password == null || student.ParlamentId == null || student.UniversityId == null)
+        if (regData.Password == String.Empty || regData.ParlamentId == -1 || regData.UniversityId == -1)
         {
             return BadRequest("FieldMissing");
         }
 
-        if ((await _context.Students.FirstOrDefaultAsync(s => s.Email == student.Email)) != null)
+        if ((await _context.Students.FirstOrDefaultAsync(s => s.Email == regData.Email)) != null)
         {
             return BadRequest("EmailTaken");
         }
 
-        if ((await _context.Students.FirstOrDefaultAsync(s => s.Username == student.Username)) != null)
+        if ((await _context.Students.FirstOrDefaultAsync(s => s.Username == regData.Username)) != null)
         {
             return BadRequest("UsernameTaken");
         }
+
+        Student student = new Student();
+
+        student.Username = regData.Username;
+        student.Email = regData.Email;
+        student.FirstName = regData.FirstName;
+        student.LastName = regData.LastName;
+        student.Gender = regData.Gender;
+        student.IsExchange = regData.IsExchange;
+        student.UniversityId = regData.UniversityId;
+        student.ParlamentId = regData.ParlamentId;
+
+        student.Password = _passwordManager.hashPassword(regData.Password);
+
+        student.ImagePath = "/";
+        student.Role = Role.Student;
 
         student.PublishedPosts = new List<Post>();
         student.PublishedEvents = new List<Event>();
@@ -526,8 +546,6 @@ public class StudentController : ControllerBase
         student.Grades = new List<Grade>();
         student.Reservations = new List<Reservation>();
         student.Locations = new List<Location>();
-
-        student.Password = _passwordManager.hashPassword(student.Password);
 
         await _context.AddAsync(student);
         await _context.SaveChangesAsync();
@@ -807,5 +825,50 @@ public class StudentController : ControllerBase
         await _context.SaveChangesAsync();
         return Ok(imagePath);
     }
+    
+    /*
+    [Route("Delete/{userId}")]
+    [Authorize(Roles = "Admin")]
+    [HttpDelete]
+    public async Task<ActionResult> BanUser(int studentId)
+    {
+        var user = _tokenManager.GetUserDetails(HttpContext.User);
+
+        if (user == null)
+        {
+            return BadRequest("BadToken");
+        }
+
+        if (user.Role < Role.AdminUni)
+        {
+            return Forbid("notAuthorized");
+        }
+
+        var student = _context.Get
+
+        var posts = _context.Posts.Include(p => p.Author!)
+                                .ThenInclude(a => a.Parlament!)
+                                .ThenInclude(p => p.Faculty)
+                                .Include(p => p.Comments!)
+                                .ThenInclude(c => c.LikedBy)
+                                .Include(p => p.LikedBy)
+                                .AsSplitQuery()
+                                .Where(p => p.AuthorId == studentId
+                                    && (!p.Anonymous || student.ID == studentId))
+                                .OrderByDescending(p => p.PublicationTime);
+
+        if (posts == null)
+        {
+            return BadRequest("PostNotFound");
+        }
+        
+        _context.Posts.Remove(posts);
+
+
+
+        await _context.SaveChangesAsync();
+        return Ok();
+    }
+    */
 }
 

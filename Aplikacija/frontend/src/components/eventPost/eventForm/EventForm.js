@@ -142,6 +142,10 @@ function EventForm({ feed, setFeed }) {
           e.target.reset();
           setSelectedLoc(null);
         })
+        .catch((err) => {
+          if (err.response && err.response.data === "UnsupportedFileType") {
+          }
+        })
         .finally(() => {
           setLoading(false);
         });
@@ -314,6 +318,7 @@ function EventForm({ feed, setFeed }) {
                   </Form.Label>
                   <Form.Control
                     type="file"
+                    accept="image/png, image/jpeg"
                     size="sm"
                     className="mb-2"
                     ref={imageRef}

@@ -55,8 +55,6 @@ function RegisterFormLayout() {
     const selectedFaculty = selectedFac;
     const selectedGender = selectedGend;
     const onExchange = onExchangeInputRef.current.checked;
-    const defaultRole = 0;
-    const defaultImagePath = "/";
 
     let proceed = true;
 
@@ -73,7 +71,7 @@ function RegisterFormLayout() {
       setEmailInvalid(true);
       proceed = false;
     } else {
-      const validRegex = /^([a-zA-Z0-9]+)@([a-zA-Z]+)\.([a-zA-Z]){2,8}/;
+      const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
       if (!validRegex.test(enteredEmail)) {
         setEmailInvalid(true);
@@ -116,11 +114,9 @@ function RegisterFormLayout() {
           username: enteredUsername,
           password: enteredPassword,
           email: enteredEmail,
-          imagePath: defaultImagePath,
           firstName: enteredFirstName,
           lastName: enteredLastName,
           gender: selectedGender,
-          role: defaultRole,
           isExchange: onExchange,
           universityId: selectedUniversity,
           parlamentId: selectedFaculty,
