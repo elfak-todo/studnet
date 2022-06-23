@@ -21,7 +21,7 @@ public class ReservationController : ControllerBase
         _tokenManager = tokenManager;
     }
 
-    [Route("event/{eventId}/{page}")]
+    [Route("Event/{eventId}/{page}")]
     [Authorize(Roles = "ParlamentMember")]
     [HttpGet]
     public async Task<ActionResult> GetEventReservations(int eventId, int page)
@@ -56,7 +56,7 @@ public class ReservationController : ControllerBase
         return Ok(await rSelected.ToListAsync());
     }
 
-    [Route("eventReservations/{eventId}")]
+    [Route("EventReservations/{eventId}")]
     [Authorize(Roles = "ParlamentMember")]
     [HttpGet]
     public async Task<ActionResult> ExportReservations(int eventId)
@@ -97,10 +97,26 @@ public class ReservationController : ControllerBase
             return BadRequest("EventRequired");
         }
 
+        var ev = await _context.Events
+                .Include(e => e.Reservations)
+                .FirstOrDefaultAsync(e => e.ID == res.EventId);
+
+        if (ev == null)
+        {
+            return BadRequest("EventNotFound");
+        }
+
         if (await _context.Reservations.FirstOrDefaultAsync(r => r.EventId
         == res.EventId && r.ReservedById == res.ReservedById) != null)
         {
             return BadRequest("ReservationAlreadyExists");
+        }
+
+        int ticketsLeft = ev.NumberOfTickets - ev.TicketsReserved;
+
+        if (res.NumberOfTickets > ticketsLeft)
+        {
+            return BadRequest("NotEnoughTicketsLeft");
         }
 
         res.ReservationTime = DateTime.Now;
@@ -108,7 +124,12 @@ public class ReservationController : ControllerBase
 
         _context.Reservations.Add(res);
         await _context.SaveChangesAsync();
-        return Ok(res);
+
+        return Ok(new
+        {
+            reservation = res,
+            spaceTaken = ev.SpaceTaken
+        });
     }
 
     [Route("Edit")]
@@ -130,10 +151,31 @@ public class ReservationController : ControllerBase
             return NotFound("ReservationNotFound");
         }
 
+        var ev = await _context.Events
+                .Include(e => e.Reservations)
+                .FirstOrDefaultAsync(e => e.ID == res.EventId);
+
+        if (ev == null)
+        {
+            return BadRequest("EventNotFound");
+        }
+
+        int ticketsLeft = ev.NumberOfTickets - ev.TicketsReserved;
+
+        if (res.NumberOfTickets > ticketsLeft)
+        {
+            return BadRequest("NotEnoughTicketsLeft");
+        }
+
         resInDatabase.NumberOfTickets = res.NumberOfTickets;
 
         await _context.SaveChangesAsync();
-        return Ok(res);
+
+        return Ok(new
+        {
+            reservation = res,
+            spaceTaken = ev.SpaceTaken
+        });
     }
 
     [Route("{resId}")]
@@ -184,9 +226,23 @@ public class ReservationController : ControllerBase
             return Forbid();
         }
 
+        var ev = await _context.Events
+                .Include(e => e.Reservations)
+                .FirstOrDefaultAsync(e => e.ID == res.EventId);
+
+        if (ev == null)
+        {
+            return BadRequest("EventNotFound");
+        }
+
         res.Canceled = true;
 
         await _context.SaveChangesAsync();
-        return Ok(res);
+
+        return Ok(new
+        {
+            reservation = res,
+            spaceTaken = ev.SpaceTaken
+        });
     }
 }

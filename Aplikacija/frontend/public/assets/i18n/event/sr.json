@@ -62,6 +62,8 @@
   "active": "Aktivno",
   "yourResIsCanceled": "Otkazali ste rezervaciju za ovaj događaj.",
   "timeOfReservation": "Vreme rezervacije",
+  "warning": "Upozorenje",
+  "allTicketsRes": "Sve karte za ovaj događaj su rezervisane.",
   "seeResList": "Vidi rezervacije",
   "hideResList": "Sakrij rezervacije",
   "download": "Preuzmi podatke",

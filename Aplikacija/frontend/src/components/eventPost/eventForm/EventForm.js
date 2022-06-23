@@ -67,7 +67,8 @@ function EventForm({ feed, setFeed }) {
     e.preventDefault();
 
     const title = titleRef.current.value;
-    const ticketNum = paidEv ? ticketNumRef.current.value : 0;
+    const ticketNum =
+      paidEv && student.role > 0 ? ticketNumRef.current.value : 0;
     const ticketPrice = paidEv ? ticketPriceRef.current.value : 0;
     const description = descRef.current.value;
     const pinned = student.role !== 0 ? pinnedRef.current.checked : false;

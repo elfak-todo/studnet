@@ -61,17 +61,18 @@ function EventDetailsHeader({
       </div>
       <div className="float-end end-buttons-div">
         <div>
-          <Button
+          {event.organisingParlamentId !== null && <Button
             className="mt-3"
             size="md"
             onClick={() => setShowReserveForm(true)}
           >
             {t("reserve")}
-          </Button>
+          </Button>}
         </div>
         {event.organisingParlamentId !== null &&
           event.verified &&
-          author.id === student.id && (
+          author.id === student.id &&
+          student.role > 0 && (
             <Button
               variant="outline-primary"
               size="sm"
@@ -96,7 +97,7 @@ function EventDetailsHeader({
       </h4>
       <h4>
         <strong className="me-2">{t("location")}</strong>
-        {location.name}
+        {location?.name}
       </h4>
       <EventFormEdit
         event={event}

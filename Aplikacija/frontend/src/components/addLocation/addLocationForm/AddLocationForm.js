@@ -1,10 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { Container, FloatingLabel, Form, Row, Col } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
 import "./AddLocationForm.style.css";
 import locationTypes from "../../locationMarker/LocationTypes";
 import StudentContext from "../../studentManager/StudentManager";
+import InfoTooltip from "../../infoTooltip/InfoTooltip";
 
 function AddLocationForm({
   location,
@@ -13,10 +14,10 @@ function AddLocationForm({
   imageRef,
   imageGalleryRef,
   displayTitle,
+  inputStatus,
+  setInputStatus,
 }) {
   const { t } = useTranslation(["locations"]);
-
-  const [inputStatus, setInputStatus] = useState({});
 
   const { student } = useContext(StudentContext);
 
@@ -45,7 +46,8 @@ function AddLocationForm({
               }}
             />
             <Form.Control.Feedback type="invalid">
-              {"t(enterFirstName)"}
+              {t("nameInvalid")}
+              <InfoTooltip text={t("nameInvalidTooltip")} />
             </Form.Control.Feedback>
           </FloatingLabel>
         </Col>
@@ -68,7 +70,8 @@ function AddLocationForm({
               }}
             />
             <Form.Control.Feedback type="invalid">
-              {"t(enterFirstName)"}
+              {t("addressInvalid")}
+              <InfoTooltip text={t("addressInvalidTooltip")} />
             </Form.Control.Feedback>
           </FloatingLabel>
         </Col>
@@ -107,7 +110,7 @@ function AddLocationForm({
                 })}
             </Form.Select>
             <Form.Control.Feedback type="invalid">
-              {t("selectFac")}
+              {t("typeInvalid")}
             </Form.Control.Feedback>
           </FloatingLabel>
         </Col>
@@ -146,7 +149,8 @@ function AddLocationForm({
               }}
             />
             <Form.Control.Feedback type="invalid">
-              {"t(enterFirstName)"}
+              {t("webpageInvalid")}
+              <InfoTooltip text={t("webpageInvalidTooltip")} />
             </Form.Control.Feedback>
           </FloatingLabel>
         </Col>
@@ -169,7 +173,8 @@ function AddLocationForm({
             }}
           />
           <Form.Control.Feedback type="invalid">
-            {"t(enterFirstName)"}
+            {t("descriptionInvalid")}
+            <InfoTooltip text={t("descriptionInvalidTooltip")} />
           </Form.Control.Feedback>
         </Col>
       </Row>

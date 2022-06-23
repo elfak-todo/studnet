@@ -27,8 +27,7 @@ function MyReservation({
     axios
       .patch(`Reservation/${reservation.id}/Cancel`)
       .then((res) => {
-        console.log("canceled");
-        setReservation(res.data);
+        setReservation(res.data.reservation);
       })
       .catch((err) => {
         console.log(err);

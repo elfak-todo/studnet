@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Container,
@@ -31,11 +31,16 @@ function EventDetails({ event }) {
   const [showReserveForm, setShowReserveForm] = useState(false);
   const [showFullImage, setShowFullImage] = useState(false);
   const [showTable, setShowTable] = useState(false);
-  const [ticketsReserved, setTicketsReserved] = useState(
-    event.ev.ticketsReserved
-  );
-  const [reservation, setReservation] = useState(event.reservation);
+  const [ticketsReserved, setTicketsReserved] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const [reservation, setReservation] = useState(null);
   const scrollRef = useRef();
+
+  useEffect(() => {
+    setTicketsReserved(event.ev.ticketsReserved);
+    setReservation(event.reservation);
+    setProgress(event.ev.spaceTaken);
+  }, [event]);
 
   return (
     <Container className="mb-3 mt-3 mx-auto px-0">
@@ -68,8 +73,8 @@ function EventDetails({ event }) {
                 {event.ev.organisingParlamentId !== null && (
                   <ProgressBar
                     variant="primary"
-                    now={event.ev.spaceTaken * 100}
-                    label={`${event.ev.spaceTaken * 100} % ${t("reserved")}`}
+                    now={progress * 100}
+                    label={`${progress * 100} % ${t("reserved")}`}
                     animated
                   />
                 )}
@@ -84,7 +89,9 @@ function EventDetails({ event }) {
           </Container>
         </div>
         <div className="p-2">
-          <LocationMap mapData={{ loc: [event.location] }} selectedMode />
+          {event.location && (
+            <LocationMap mapData={{ loc: [event.location] }} selectedMode />
+          )}
         </div>
         <div className="d-flex justify-content-center"></div>
         {event.ev.organisingParlamentId !== null &&
@@ -139,6 +146,7 @@ function EventDetails({ event }) {
               reservation={reservation}
               setReservation={setReservation}
               setTicketsReserved={setTicketsReserved}
+              setProgress={setProgress}
             />
           )}
         </Modal.Body>

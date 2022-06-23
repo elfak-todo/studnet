@@ -34,6 +34,7 @@ namespace Backend.Models
         [Key]
         public int ID { get; set; }
 
+        [MaxLength(128)]
         public string Name { get; set; } = String.Empty;
 
         [MaxLength(2048)]
@@ -83,6 +84,7 @@ namespace Backend.Models
             }
         }
 
+        [MaxLength(256)]
         public string Webpage { get; set; } = String.Empty;
 
         public bool Verified { get; set; } = false;

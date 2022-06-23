@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useRef, useState, useEffect } from "react";
-import { Button, FloatingLabel, Form } from "react-bootstrap";
+import { Alert, Button, FloatingLabel, Form } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import MyReservation from "../myReservation/MyReservation";
 
@@ -11,6 +11,7 @@ function EventReserveForm({
   reservation,
   setReservation,
   setTicketsReserved,
+  setProgress,
 }) {
   const { t } = useTranslation("event");
 
@@ -25,8 +26,10 @@ function EventReserveForm({
   useEffect(() => {
     setNumTicket(reservation === null ? 0 : reservation.numberOfTickets);
     setShowMyReservation(reservation !== null);
-    setDisabledInput(reservation !== null);
-  }, [reservation]);
+    setDisabledInput(
+      reservation !== null || event.numberOfTickets === event.ticketsReserved
+    );
+  }, [reservation, event]);
 
   const handleReserve = (e) => {
     e.preventDefault();
@@ -52,7 +55,7 @@ function EventReserveForm({
         })
         .then((res) => {
           e.target.reset();
-          setReservation(res.data);
+          setReservation(res.data.reservation);
           setTicketsReserved((state) => (state += Number(ticketNum)));
           setDisabledInput(true);
           setShowMyReservation(true);
@@ -69,7 +72,11 @@ function EventReserveForm({
         })
         .then((res) => {
           e.target.reset();
-          setReservation(res.data);
+          setReservation(res.data.reservation);
+          setTicketsReserved((prev) => {
+            prev -= Number(reservation.numberOfTickets);
+            return (prev += Number(res.data.reservation.numberOfTickets));
+          });
           setDisabledInput(true);
           setEdit(false);
           setNumTicket(ticketNum);
@@ -116,6 +123,17 @@ function EventReserveForm({
           numTicket={numTicket}
         />
       )}
+      <Alert
+        show={
+          reservation === null &&
+          event.numberOfTickets === event.ticketsReserved
+        }
+        variant="warning"
+        size="sm"
+      >
+        {" "}
+        <Alert.Heading> {t("warning")} </Alert.Heading> {t("allTicketsRes")}{" "}
+      </Alert>
     </Form>
   ) : (
     <MyReservation
