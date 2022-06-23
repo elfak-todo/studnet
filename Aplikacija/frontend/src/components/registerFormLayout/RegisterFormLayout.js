@@ -73,7 +73,7 @@ function RegisterFormLayout() {
       setEmailInvalid(true);
       proceed = false;
     } else {
-      const validRegex = /^([a-zA-Z0-9]+)@([a-zA-Z]+)\.([a-zA-Z]){2,8}/;
+      const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
       if (!validRegex.test(enteredEmail)) {
         setEmailInvalid(true);
