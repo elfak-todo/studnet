@@ -300,6 +300,7 @@ public class EventController : ControllerBase
         eventInDatabase.PaidEvent = ev.paidEvent;
         eventInDatabase.NumberOfTickets = ev.numberOfTickets;
         eventInDatabase.TicketPrice = ev.ticketPrice;
+        eventInDatabase.LocationId = ev.locationId;
 
         if ((int)user.Role >= (int)Role.ParlamentMember)
         {
