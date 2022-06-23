@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 import { useContext, useRef, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleCheck, faThumbTack } from "@fortawesome/free-solid-svg-icons";
 import { Container, Card, Form, Button, Image, Spinner } from "react-bootstrap";
 
 import StudentContext from "../../studentManager/StudentManager";
@@ -68,7 +70,7 @@ function PostForm({ feed, setFeed }) {
 
   return (
     <Container className="post-form-container">
-      <Card className="shadow-sm post-form-card">
+      <Card className="shadow-sm post-form-card" border="primary">
         <Card.Header>
           <div className="post-form-header">
             <Image
@@ -110,7 +112,16 @@ function PostForm({ feed, setFeed }) {
                   className="form-checks"
                   disabled={anonymous}
                   type="checkbox"
-                  label={t("verified")}
+                  label={
+                    <>
+                      <FontAwesomeIcon
+                        icon={faCircleCheck}
+                        style={{ color: "#5cb85c" }}
+                        className="me-1"
+                      />
+                      {t("verified")}
+                    </>
+                  }
                   ref={verifiedRef}
                   inline
                 />
@@ -118,7 +129,14 @@ function PostForm({ feed, setFeed }) {
                   className="form-checks"
                   disabled={anonymous}
                   type="checkbox"
-                  label={t("pinned")}
+                  label={<>
+                    <FontAwesomeIcon
+                      icon={faThumbTack}
+                      style={{ color: "#4e54c8" }}
+                      className="me-1"
+                    />
+                    {t("pinned")}
+                  </>}
                   ref={pinnedRef}
                   inline
                 />

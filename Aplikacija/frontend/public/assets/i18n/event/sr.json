@@ -71,5 +71,6 @@
   "myRes": "Moja rezervacija",
   "cancelRes": "Otkaži rezervaciju",
   "saveChanges": "Sačuvaj izmene",
-  "nothingToShow": "Ništa za prikaz"
+  "nothingToShow": "Ništa za prikaz",
+  "NotEnoughTicketsLeft": "Nije ostalo dovoljno karata."
 }

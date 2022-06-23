@@ -17,7 +17,7 @@ import StudentSettings from "../../../studentSettings/StudentSettings";
 import "./ProfileSectionHeader.style.css";
 
 function ProfileSectionHeader({ studentProp, setStudentProp }) {
-  const { t } = useTranslation(["profile", "misc"]);
+  const { t } = useTranslation(["profile", "misc", "register"]);
 
   const { student } = useContext(StudentContext);
 
@@ -68,7 +68,11 @@ function ProfileSectionHeader({ studentProp, setStudentProp }) {
           roundedCircle
         ></Image>
         <div className="badge-div">
-          <Card.Text className="role-text"> {displayRole()} </Card.Text>
+          <Card.Text className="role-text">
+            {studentProp?.isExchange
+              ? `${displayRole()} ${t("register:onExchange")}`
+              : displayRole()}
+          </Card.Text>
         </div>
       </Card.Header>
       <EditProfile

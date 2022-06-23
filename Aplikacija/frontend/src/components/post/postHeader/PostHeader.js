@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { useContext, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck, faThumbTack } from "@fortawesome/free-solid-svg-icons";
-import { Image, Card, OverlayTrigger, Popover } from "react-bootstrap";
+import { Image, Card, OverlayTrigger, Popover, Badge } from "react-bootstrap";
 
 import { parseDate } from "../../../helpers/DateParser.js";
 import defaultPic from "../../../images/defaultProfilePic.jpg";
@@ -22,7 +22,7 @@ function PostHeader({
   pinnedProp,
   verifiedProp,
 }) {
-  const { t, i18n } = useTranslation(["post"]);
+  const { t, i18n } = useTranslation(["post", "register"]);
 
   const { student } = useContext(StudentContext);
 
@@ -65,11 +65,18 @@ function PostHeader({
         />
       </OverlayTrigger>
       <div>
-        <Card.Text className="post-header-name">
-          {post.anonymous
-            ? t("anonymous")
-            : author.firstName + " " + author.lastName}
-        </Card.Text>
+        <div className="d-flex align-items-center">
+          <Card.Text className="post-header-name">
+            {post.anonymous
+              ? t("anonymous")
+              : author.firstName + " " + author.lastName}
+          </Card.Text>
+          {author?.isExchange && !post.anonymous && (
+            <Badge bg="primary" size="sm" className="ms-1">
+              {t("register:onExchange")}
+            </Badge>
+          )}
+        </div>
         <Card.Text className="post-header-faculty">
           {author !== null && !post.anonymous && author.facultyName}
         </Card.Text>
@@ -77,12 +84,17 @@ function PostHeader({
           {parseDate(post.publicationTime, i18n.language)}
         </Card.Text>
       </div>
-      {verified && (
-        <FontAwesomeIcon icon={faCircleCheck} className="post-header-verify" />
-      )}
-      {pinned && (
-        <FontAwesomeIcon icon={faThumbTack} className="post-header-pinned" />
-      )}
+      <div>
+        {verified && (
+          <FontAwesomeIcon
+            icon={faCircleCheck}
+            className="post-header-verify"
+          />
+        )}
+        {pinned && (
+          <FontAwesomeIcon icon={faThumbTack} className="post-header-pinned" />
+        )}
+      </div>
       {student.role === 3 ||
       (student !== null && author !== null && student.id === author.id) ? (
         <SettingsDropdown

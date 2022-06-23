@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEllipsisV,
@@ -14,6 +14,7 @@ import {
 import { NavDropdown } from "react-bootstrap";
 
 import StudentContext from "../studentManager/StudentManager";
+import ConfirmationDialog from "../confirmationDialog/ConfirmationDialog";
 
 function SettingsDropdown({
   postType,
@@ -37,9 +38,13 @@ function SettingsDropdown({
 
   const { student } = useContext(StudentContext);
 
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
+
   const navigate = useNavigate();
 
   const handleDelete = () => {
+    setShowDeleteConfirmation(true);
     axios
       .delete(`${postType}/Delete/${post.id}`)
       .then(() => {
@@ -151,7 +156,7 @@ function SettingsDropdown({
   const handleSelectedAction = (keyEvent) => {
     switch (keyEvent) {
       case "delete":
-        handleDelete();
+        setShowDeleteConfirmation(true);
         break;
       case "verify":
         handleVerify();
@@ -163,53 +168,87 @@ function SettingsDropdown({
         setEdit(true);
         break;
       case "cancel":
-        handleCancel();
+        setShowCancelConfirmation(true);
         break;
       default:
         break;
     }
   };
   return (
-    <NavDropdown
-      onSelect={handleSelectedAction}
-      className="ms-auto"
-      title={
-        <div>
-          <FontAwesomeIcon icon={faEllipsisV} className={className} />
-        </div>
-      }
-    >
-      {author?.id === student.id && !canceled && (
-        <NavDropdown.Item eventKey="edit">
-          <FontAwesomeIcon icon={faPen} style={{color: "#5bc0de"}} className="me-2" />
-          {t("edit")}
-        </NavDropdown.Item>
-      )}
-      {student.role !== 0 && (
-        <>
-          <NavDropdown.Item eventKey="verify">
-            <FontAwesomeIcon icon={faCircleCheck} style={{color: "#5cb85c"}} className="me-2" />
-            {!verified ? t("verify") : t("unverify")}
+    <>
+      <NavDropdown
+        onSelect={handleSelectedAction}
+        className="ms-auto"
+        title={
+          <div>
+            <FontAwesomeIcon icon={faEllipsisV} className={className} />
+          </div>
+        }
+      >
+        {author?.id === student.id && !canceled && (
+          <NavDropdown.Item eventKey="edit">
+            <FontAwesomeIcon
+              icon={faPen}
+              style={{ color: "#5bc0de" }}
+              className="me-2"
+            />
+            {t("edit")}
           </NavDropdown.Item>
-          <NavDropdown.Item eventKey="pinn">
-            <FontAwesomeIcon icon={faThumbTack} style={{color: "#4e54c8"}} className="me-2" />
-            {!pinned ? t("pin") : t("unpin")}
+        )}
+        {student.role !== 0 && (
+          <>
+            <NavDropdown.Item eventKey="verify">
+              <FontAwesomeIcon
+                icon={faCircleCheck}
+                style={{ color: "#5cb85c" }}
+                className="me-2"
+              />
+              {!verified ? t("verify") : t("unverify")}
+            </NavDropdown.Item>
+            <NavDropdown.Item eventKey="pinn">
+              <FontAwesomeIcon
+                icon={faThumbTack}
+                style={{ color: "#4e54c8" }}
+                className="me-2"
+              />
+              {!pinned ? t("pin") : t("unpin")}
+            </NavDropdown.Item>
+          </>
+        )}
+        {postType === "Event" &&
+        !canceled &&
+        (author.id === student.id || student.role === 3) ? (
+          <NavDropdown.Item eventKey="cancel">
+            <FontAwesomeIcon
+              icon={faBan}
+              style={{ color: "#d9534f" }}
+              className="me-2"
+            />
+            {t("event:cancel")}
           </NavDropdown.Item>
-        </>
-      )}
-      {postType === "Event" &&
-      !canceled &&
-      (author.id === student.id || student.role === 3) ? (
-        <NavDropdown.Item eventKey="cancel">
-          <FontAwesomeIcon icon={faBan} style={{color: "#d9534f"}} className="me-2" />
-          {t("event:cancel")}
+        ) : null}
+        <NavDropdown.Item eventKey="delete">
+          <FontAwesomeIcon
+            icon={faTrashCan}
+            style={{ color: "#d9534f" }}
+            className="me-2"
+          />
+          {t("delete")}
         </NavDropdown.Item>
-      ) : null}
-      <NavDropdown.Item eventKey="delete">
-        <FontAwesomeIcon icon={faTrashCan} style={{color: "#d9534f"}} className="me-2" />
-        {t("delete")}
-      </NavDropdown.Item>
-    </NavDropdown>
+      </NavDropdown>
+      <ConfirmationDialog
+        showConfirmation={showDeleteConfirmation}
+        setShowConfirmation={setShowDeleteConfirmation}
+        callback={handleDelete}
+        text={postType === "Post" ? "deletePost" : "deleteEvent"}
+      />
+      <ConfirmationDialog
+        showConfirmation={showCancelConfirmation}
+        setShowConfirmation={setShowCancelConfirmation}
+        callback={handleCancel}
+        text="cancelEvent"
+      />
+    </>
   );
 }
 

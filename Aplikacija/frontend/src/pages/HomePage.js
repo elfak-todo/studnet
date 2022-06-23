@@ -20,7 +20,7 @@ function HomePage() {
         navigateUrl="/location/"
         title={t("trendingLocations")}
       />
-      <h3 className="text-center m-5">Objave</h3>
+      <h3 className="text-center m-5">{t("posts")}</h3>
       <Feed url="Post/Feed" FeedCard={Post} AddElementForm={PostForm} />
     </div>
   );

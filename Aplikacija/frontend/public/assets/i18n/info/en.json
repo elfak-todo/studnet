@@ -6,5 +6,15 @@
     "ticketNum": "The maximum number of tickets is 5000.",
     "ticketPrice": "Ticket price in RSD. The ticket price must not exceed 5000 RSD.",
     "pic": "Supported image formats are JPEG and PNG",
-    "desc": "Description must not be longer than 2048 characters."
+    "desc": "Description must not be longer than 2048 characters.",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "deleteEvent": "Are you sure you want to delete this event?",
+    "deleteEventHeading": "Delete event",
+    "cancelEvent": "Are you sure you want to cancel this event?",
+    "cancelEventHeading": "Cancel event",
+    "deletePost": "Are you sure you want to delete this post?",
+    "deletePostHeading": "Delete post",
+    "deleteLocation": "Are you sure you want to delete this location?",
+    "deleteLocationHeading": "Delete location"
 }

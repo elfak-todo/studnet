@@ -116,6 +116,7 @@ public class PostController : ControllerBase
                 p.Author.LastName,
                 p.Author.Username,
                 p.Author.ImagePath,
+                p.Author.IsExchange,
                 facultyName = p.Author.Parlament!.Faculty!.Name,
                 facultyImagePath = p.Author.Parlament!.Faculty!.ImagePath
             },

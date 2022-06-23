@@ -43,7 +43,6 @@ function EditProfile({ profile, setProfile, showEditCover, setShowEditCover }) {
   const firstNameInputRef = useRef();
   const lastNameInputRef = useRef();
   const usernameInputRef = useRef();
-  const onExchangeInputRef = useRef();
 
   useEffect(() => {
     setSelectedFac(profile?.parlamentId + "");
@@ -60,7 +59,6 @@ function EditProfile({ profile, setProfile, showEditCover, setShowEditCover }) {
     const username = usernameInputRef.current.value;
     const facultyId = selectedFac;
     const gender = selectedGend;
-    const onExchange = onExchangeInputRef.current.checked;
 
     if (firstName === "") {
       setFirstNameInvalid(true);
@@ -74,7 +72,7 @@ function EditProfile({ profile, setProfile, showEditCover, setShowEditCover }) {
       setUsernameInvalid(true);
       proceed = false;
     }
-    if (facultyId === 0) {
+    if (facultyId === "0") {
       setFacultyInvalid(true);
       proceed = false;
     }
@@ -89,7 +87,6 @@ function EditProfile({ profile, setProfile, showEditCover, setShowEditCover }) {
         firstName: firstName,
         lastName: lastName,
         gender: gender,
-        isExchange: onExchange,
         parlamentId: Number(facultyId),
         email: "luka@elfak.rs",
       };
@@ -120,15 +117,9 @@ function EditProfile({ profile, setProfile, showEditCover, setShowEditCover }) {
         })
         .catch((err) => {
           setLoading(false);
-          switch (err.response.data) {
-            case "StudentRequired":
-              //TODO
-              break;
-            case "UsernameTaken":
-              //TODO
-              break;
-            default:
-              break;
+          if (err.response.data === "UsernameTaken") {
+            setUsernameInvalid(true);
+            setUsernameTaken(true);
           }
         });
     }
@@ -210,7 +201,11 @@ function EditProfile({ profile, setProfile, showEditCover, setShowEditCover }) {
             </Form.Control.Feedback>
           </FloatingLabel>
           <div className="password-button">
-            <Button siz="md" onClick={() => setShowPassModal(true)}>
+            <Button
+              size="md"
+              className="m-2"
+              onClick={() => setShowPassModal(true)}
+            >
               {t("changePass")}
             </Button>
           </div>
@@ -225,13 +220,6 @@ function EditProfile({ profile, setProfile, showEditCover, setShowEditCover }) {
           >
             {t("passSuccess")}
           </Alert>
-          <Form.Check
-            className="mb-2 form-switch"
-            defaultChecked={profile?.isExchange}
-            type="switch"
-            label={t("register:onExchange")}
-            ref={onExchangeInputRef}
-          ></Form.Check>
           <SelectFaculty
             selectedUni={profile?.universityId}
             selectedFac={selectedFac}

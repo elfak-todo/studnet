@@ -151,7 +151,7 @@ function EventForm({ feed, setFeed }) {
   return (
     <>
       <Container className="ev-form-cont p-3 mx-auto px-0">
-        <Card className="shadow-sm">
+        <Card className="shadow-sm" bg="primary-light" border="primary">
           <Card.Header>
             <Card.Title className="ev-form-title">{t("createEv")}</Card.Title>
           </Card.Header>

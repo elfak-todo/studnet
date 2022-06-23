@@ -95,10 +95,10 @@ function EventDetailsHeader({
         <strong className="me-2">{t("ends")}</strong>
         {parseDate(event.endTime, i18n.language)}
       </h4>
-      <h4>
+      {location && <h4>
         <strong className="me-2">{t("location")}</strong>
         {location?.name}
-      </h4>
+      </h4>}
       <EventFormEdit
         event={event}
         location={location}

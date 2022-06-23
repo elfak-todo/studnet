@@ -71,5 +71,6 @@
   "myRes": "My reservation",
   "cancelRes": "Cancel reservation",
   "saveChanges": "Save Changes",
-  "nothingToShow": "Nothing to show"
+  "nothingToShow": "Nothing to show", 
+  "NotEnoughTicketsLeft": "Not enough tickets left."
 }

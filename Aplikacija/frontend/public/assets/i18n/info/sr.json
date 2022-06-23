@@ -6,5 +6,15 @@
     "ticketNum": "Maksimalni broj karata je 5000.",
     "ticketPrice": "Cena karte u RSD (dinar). Cena karte ne sme biti veća od 5000 RSD.",
     "pic": "Podržani formati slike su JPEG i PNG.",
-    "desc": "Opis ne sme biti duži od 2048 karaktera."
+    "desc": "Opis ne sme biti duži od 2048 karaktera.",
+    "delete": "Obriši",
+    "cancel": "Odustani",
+    "deleteEvent": "Da li ste sigurni da želite da obrišete ovaj događaj?",
+    "deleteEventHeading": "Brisanje događaja",
+    "cancelEvent": "Da li ste sigurni da želite da otkažete ovaj događaj?",
+    "cancelEventHeading": "Otkazivanje događaja",
+    "deletePost": "Da li ste sigurni da želite da obrišete ovu objavu?",
+    "deletePostHeading": "Brisanje objave",
+    "deleteLocation": "Da li ste sigurni da želite da obrišete ovu lokaciju?",
+    "deleteLocationHeading": "Brisanje lokacije"
 }

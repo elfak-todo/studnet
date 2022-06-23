@@ -1,4 +1,5 @@
 .hot-card {
+  position: relative;
   width: auto;
   text-align: center;
   font-weight: bold;
@@ -11,6 +12,7 @@
 .hot-card:hover {
   transform: scale(1.08);
 }
+
 .hot-card-img {
   width: auto;
   aspect-ratio: 1;
@@ -18,6 +20,30 @@
   background-size: cover !important;
   background-position: center;
   border-radius: 0.6rem 0.6rem 0 0;
+}
+.hot-marker-icon {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom:0;
+  top:0;
+  width: 4rem;
+  height: 4rem;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 80%;
+}
+.hot-badge {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom:0;
+  top:0;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 92%;
+  font-weight: 600;
+  font-size: larger;
 }
 .hot-card-desc {
   padding: 0.5rem;

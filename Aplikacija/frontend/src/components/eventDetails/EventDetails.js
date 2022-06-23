@@ -74,7 +74,17 @@ function EventDetails({ event }) {
                   <ProgressBar
                     variant="primary"
                     now={progress * 100}
-                    label={`${progress * 100} % ${t("reserved")}`}
+                    label={`${Math.round(Number(progress * 100)).toFixed(
+                      0
+                    )} % ${t("reserved")}`}
+                    animated
+                  />
+                )}
+                {!event.ev.paidEvent && (
+                  <ProgressBar
+                    variant="success"
+                    now={100}
+                    label={`100 % ${t("NAF")}`}
                     animated
                   />
                 )}

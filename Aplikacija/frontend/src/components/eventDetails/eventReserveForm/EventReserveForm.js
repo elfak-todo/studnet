@@ -57,11 +57,17 @@ function EventReserveForm({
           e.target.reset();
           setReservation(res.data.reservation);
           setTicketsReserved((state) => (state += Number(ticketNum)));
+          setProgress(res.data.spaceTaken);
           setDisabledInput(true);
           setShowMyReservation(true);
         })
         .catch((err) => {
           console.log(err);
+          if (err.response.data === "NotEnoughTicketsLeft") {
+            setInvalid(true);
+            setErrMessage(t("NotEnoughTicketsLeft"));
+            return;
+          }
         });
     } else {
       axios
@@ -77,12 +83,18 @@ function EventReserveForm({
             prev -= Number(reservation.numberOfTickets);
             return (prev += Number(res.data.reservation.numberOfTickets));
           });
+          setProgress(res.data.spaceTaken);
           setDisabledInput(true);
           setEdit(false);
           setNumTicket(ticketNum);
         })
         .catch((err) => {
           console.log(err);
+          if (err.response.data === "NotEnoughTicketsLeft") {
+            setInvalid(true);
+            setErrMessage(t("NotEnoughTicketsLeft"));
+            return;
+          }
         });
     }
   };
@@ -114,6 +126,7 @@ function EventReserveForm({
       <hr />
       {reservation && (
         <MyReservation
+        event={event}
           reservation={reservation}
           setReservation={setReservation}
           showMyReservation={showMyReservation}
@@ -121,6 +134,8 @@ function EventReserveForm({
           ticketNumRef={ticketNumRef}
           setEdit={setEdit}
           numTicket={numTicket}
+          setTicketsReserved={setTicketsReserved}
+          setProgress={setProgress}
         />
       )}
       <Alert
@@ -131,7 +146,6 @@ function EventReserveForm({
         variant="warning"
         size="sm"
       >
-        {" "}
         <Alert.Heading> {t("warning")} </Alert.Heading> {t("allTicketsRes")}{" "}
       </Alert>
     </Form>

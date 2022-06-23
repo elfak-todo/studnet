@@ -15,7 +15,7 @@ function Post({ feedEl, innerRef, feed, setFeed, pinned, verified }) {
   const post = feedEl.post;
   const liked = feedEl.liked;
 
-  const { t } = useTranslation(["post", "misc"]);
+  const { t } = useTranslation(["post", "misc", "info"]);
 
   const [edit, setEdit] = useState(false);
 
@@ -63,7 +63,7 @@ function Post({ feedEl, innerRef, feed, setFeed, pinned, verified }) {
 
   return (
     <Container className="mb-3 mx-auto px-0" ref={innerRef}>
-      <Card className={"post shadow-sm rounded" + (pinned && " pinned")}>
+      <Card className={"post shadow-sm rounded " + (pinned && " pinned")}>
         <PostHeader
           author={author}
           post={post}
@@ -83,8 +83,8 @@ function Post({ feedEl, innerRef, feed, setFeed, pinned, verified }) {
                 defaultValue={post.text}
                 ref={editTextInputRef}
               ></Form.Control>
-              <div className="post-toolbar">
-                <Button variant="primary" type="submit" className="mt-2">
+              <div className="post-toolbar mt-2">
+                <Button variant="primary" size="sm" type="submit">
                   {loading && (
                     <Spinner
                       as="span"
@@ -95,6 +95,14 @@ function Post({ feedEl, innerRef, feed, setFeed, pinned, verified }) {
                     />
                   )}
                   {t("misc:saveChanges")}
+                </Button>
+                <Button
+                  variant="outline-primary"
+                  size="sm"
+                  className="ms-2"
+                  onClick={() => setEdit(false)}
+                >
+                  {t("info:cancel")}
                 </Button>
               </div>
             </Form>

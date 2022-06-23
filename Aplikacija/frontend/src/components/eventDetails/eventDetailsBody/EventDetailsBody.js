@@ -15,21 +15,23 @@ function EventDetailsBody({ event, ticketsReserved }) {
           <div>
             <p>{event.description}</p>
           </div>
-          <div className="tickets-txt-div">
-            <hr />
-            <div className="tickets-txt">
-              <div className="d-flex">
-                <strong className="mb-0">{`${t("ticketPrice")}:`}</strong>
-                <span className="ms-2">{`${event.ticketPrice} RSD`}</span>
-              </div>
-              <div className="d-flex">
-                <strong className="mb-0">{`${t("ticketsLeft")}: `}</strong>
-                <p className="mb-0 ms-2">
-                  {event.numberOfTickets - ticketsReserved}
-                </p>
+          {event.paidEvent && (
+            <div className="tickets-txt-div">
+              <hr />
+              <div className="tickets-txt">
+                <div className="d-flex">
+                  <strong className="mb-0">{`${t("ticketPrice")}:`}</strong>
+                  <span className="ms-2">{`${event.ticketPrice} RSD`}</span>
+                </div>
+                <div className="d-flex">
+                  <strong className="mb-0">{`${t("ticketsLeft")}: `}</strong>
+                  <p className="mb-0 ms-2">
+                    {event.numberOfTickets - ticketsReserved}
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </Card.Body>
     </Card>
