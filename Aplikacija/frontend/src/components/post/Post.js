@@ -23,7 +23,12 @@ function Post({ feedEl, innerRef, feed, setFeed, pinned, verified }) {
   const [loading, setLoading] = useState(false);
 
   const editTextInputRef = useRef();
+  console.log(post.text);
 
+  function NewlineText(props) {
+    const text = props;
+    return text.split('\n').map(str => <p>{str}</p>); 
+  }
   const handleEdit = (e) => {
     e.preventDefault();
 
@@ -107,7 +112,7 @@ function Post({ feedEl, innerRef, feed, setFeed, pinned, verified }) {
               </div>
             </Form>
           ) : (
-            <Card.Text> {post.text} </Card.Text>
+            <Card.Text> {NewlineText(post.text)} </Card.Text>
           )}
           {edited && (
             <Card.Text style={{ fontSize: "small" }}> {t("edited")} </Card.Text>
