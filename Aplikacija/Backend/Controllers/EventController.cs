@@ -296,6 +296,7 @@ public class EventController : ControllerBase
         eventInDatabase.Description = ev.description;
         eventInDatabase.TimeOfEvent = ev.timeOfEvent;
         eventInDatabase.Type = ev.type;
+        eventInDatabase.LocationId = ev.locationId;
         eventInDatabase.EndTime = ev.endTime;
         eventInDatabase.PaidEvent = ev.paidEvent;
         eventInDatabase.NumberOfTickets = ev.numberOfTickets;
