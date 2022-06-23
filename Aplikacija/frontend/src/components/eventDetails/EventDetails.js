@@ -23,7 +23,7 @@ import ReservationTable from "./reservationTable/ReservationTable";
 import LocationMap from "../locationMap/LocationMap";
 import "./EventDetails.style.css";
 
-function EventDetails({ event }) {
+function EventDetails({ event, setEvent }) {
   const { t } = useTranslation(["event"]);
 
   const { student } = useContext(StudentContext);
@@ -64,6 +64,7 @@ function EventDetails({ event }) {
               <Card.Header>
                 <EventDetailsHeader
                   event={event.ev}
+                  setEvent={setEvent}
                   location={event.location}
                   author={event.author}
                   scrollRef={scrollRef}

@@ -499,22 +499,38 @@ public class StudentController : ControllerBase
     [Route("Register")]
     [AllowAnonymous]
     [HttpPost]
-    public async Task<ActionResult> Register([FromBody] Student student)
+    public async Task<ActionResult> Register([FromBody] RegistrationData regData)
     {
-        if (student.Password == null || student.ParlamentId == null || student.UniversityId == null)
+        if (regData.Password == String.Empty || regData.ParlamentId == -1 || regData.UniversityId == -1)
         {
             return BadRequest("FieldMissing");
         }
 
-        if ((await _context.Students.FirstOrDefaultAsync(s => s.Email == student.Email)) != null)
+        if ((await _context.Students.FirstOrDefaultAsync(s => s.Email == regData.Email)) != null)
         {
             return BadRequest("EmailTaken");
         }
 
-        if ((await _context.Students.FirstOrDefaultAsync(s => s.Username == student.Username)) != null)
+        if ((await _context.Students.FirstOrDefaultAsync(s => s.Username == regData.Username)) != null)
         {
             return BadRequest("UsernameTaken");
         }
+
+        Student student = new Student();
+
+        student.Username = regData.Username;
+        student.Email = regData.Email;
+        student.FirstName = regData.FirstName;
+        student.LastName = regData.LastName;
+        student.Gender = regData.Gender;
+        student.IsExchange = regData.IsExchange;
+        student.UniversityId = regData.UniversityId;
+        student.ParlamentId = regData.ParlamentId;
+
+        student.Password = _passwordManager.hashPassword(regData.Password);
+
+        student.ImagePath = "/";
+        student.Role = Role.Student;
 
         student.PublishedPosts = new List<Post>();
         student.PublishedEvents = new List<Event>();
@@ -526,8 +542,6 @@ public class StudentController : ControllerBase
         student.Grades = new List<Grade>();
         student.Reservations = new List<Reservation>();
         student.Locations = new List<Location>();
-
-        student.Password = _passwordManager.hashPassword(student.Password);
 
         await _context.AddAsync(student);
         await _context.SaveChangesAsync();

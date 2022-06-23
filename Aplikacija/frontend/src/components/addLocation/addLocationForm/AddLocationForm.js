@@ -198,7 +198,7 @@ function AddLocationForm({
         <Col>
           <Form.Control
             type="file"
-            accept="image/*"
+            accept="image/png, image/jpeg"
             size="md"
             multiple
             ref={imageGalleryRef}

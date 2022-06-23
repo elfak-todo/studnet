@@ -13,6 +13,7 @@ import "./EventDetailsHeader.style.css";
 
 function EventDetailsHeader({
   event,
+  setEvent,
   author,
   location,
   scrollRef,
@@ -61,13 +62,15 @@ function EventDetailsHeader({
       </div>
       <div className="float-end end-buttons-div">
         <div>
-          {event.organisingParlamentId !== null && <Button
-            className="mt-3"
-            size="md"
-            onClick={() => setShowReserveForm(true)}
-          >
-            {t("reserve")}
-          </Button>}
+          {event.organisingParlamentId !== null && (
+            <Button
+              className="mt-3"
+              size="md"
+              onClick={() => setShowReserveForm(true)}
+            >
+              {t("reserve")}
+            </Button>
+          )}
         </div>
         {event.organisingParlamentId !== null &&
           event.verified &&
@@ -101,6 +104,7 @@ function EventDetailsHeader({
       </h4>
       <EventFormEdit
         event={event}
+        setEvent={setEvent}
         location={location}
         edit={edit}
         setEdit={setEdit}

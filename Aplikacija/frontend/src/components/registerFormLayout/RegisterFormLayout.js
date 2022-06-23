@@ -55,8 +55,6 @@ function RegisterFormLayout() {
     const selectedFaculty = selectedFac;
     const selectedGender = selectedGend;
     const onExchange = onExchangeInputRef.current.checked;
-    const defaultRole = 0;
-    const defaultImagePath = "/";
 
     let proceed = true;
 
@@ -116,11 +114,9 @@ function RegisterFormLayout() {
           username: enteredUsername,
           password: enteredPassword,
           email: enteredEmail,
-          imagePath: defaultImagePath,
           firstName: enteredFirstName,
           lastName: enteredLastName,
           gender: selectedGender,
-          role: defaultRole,
           isExchange: onExchange,
           universityId: selectedUniversity,
           parlamentId: selectedFaculty,
