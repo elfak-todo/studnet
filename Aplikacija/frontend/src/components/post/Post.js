@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useRef, useState } from "react";
 import { Card, Container, Form, Spinner, Button } from "react-bootstrap";
 
+import { newLineText } from "../../helpers/NewLineText";
 import PostHeader from "./postHeader/PostHeader";
 import PostFooter from "./postFooter/PostFooter";
 import CommentSection from "../comments/commentSection/CommentSection";
@@ -23,7 +24,7 @@ function Post({ feedEl, innerRef, feed, setFeed, pinned, verified }) {
   const [loading, setLoading] = useState(false);
 
   const editTextInputRef = useRef();
-
+  
   const handleEdit = (e) => {
     e.preventDefault();
 
@@ -107,7 +108,7 @@ function Post({ feedEl, innerRef, feed, setFeed, pinned, verified }) {
               </div>
             </Form>
           ) : (
-            <Card.Text> {post.text} </Card.Text>
+            <Card.Text> {newLineText(post.text)} </Card.Text>
           )}
           {edited && (
             <Card.Text style={{ fontSize: "small" }}> {t("edited")} </Card.Text>

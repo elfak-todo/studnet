@@ -232,10 +232,24 @@ function EventForm({ feed, setFeed }) {
                       <FloatingLabel label={t("date")} className="mb-2">
                         <Form.Control
                           type="datetime-local"
+                          value={startDate || ""}
+                          min={new Date().toISOString().substring(0, 16)}
                           isInvalid={startDateInvalid}
                           onChange={(v) => {
-                            setStartDate(v.target.value);
                             setStartDateInvalid(false);
+                            const newDate = Date.parse(v.target.value);
+
+                            if (newDate > Date.parse(endDate)) {
+                              setEndDate(v.target.value);
+                            }
+
+                            if (newDate >= Date.now()) {
+                              setStartDate(v.target.value);
+                            } else {
+                              setStartDate(
+                                new Date().toISOString().substring(0, 16)
+                              );
+                            }
                           }}
                         ></Form.Control>
                         <Form.Control.Feedback type="invalid">
@@ -247,11 +261,23 @@ function EventForm({ feed, setFeed }) {
                     <Col>
                       <FloatingLabel label={t("endDate")} className="mb-2">
                         <Form.Control
+                          value={endDate || ""}
                           type="datetime-local"
+                          min={
+                            startDate ||
+                            new Date().toISOString().substring(0, 16)
+                          }
                           isInvalid={endDateInvalid}
                           onChange={(v) => {
-                            setEndDate(v.target.value);
                             setEndDateInvalid(false);
+                            if (
+                              Date.parse(v.target.value) >=
+                              Date.parse(startDate)
+                            ) {
+                              setEndDate(v.target.value);
+                            } else {
+                              setEndDate(startDate);
+                            }
                           }}
                         ></Form.Control>
                         <Form.Control.Feedback type="invalid">

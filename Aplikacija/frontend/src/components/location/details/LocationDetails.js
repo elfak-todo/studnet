@@ -7,6 +7,7 @@ import "./LocationDetails.style.css";
 import { useTranslation } from "react-i18next";
 import { parseDate } from "../../../helpers/DateParser.js";
 import AuthorCard from "../../authorCard/AuthorCard.js";
+import { newLineText } from "../../../helpers/NewLineText";
 
 function LocationDetails({ location, author }) {
   const { t, i18n } = useTranslation(["locations, misc"]);
@@ -42,13 +43,14 @@ function LocationDetails({ location, author }) {
       )}
 
       <h3 className="text-center mt-5">Opis</h3>
-      <p className="location-details-description">{location.description}</p>
+      <p className="location-details-description">
+        {newLineText(location.description)}
+      </p>
       <h3 className="text-center mt-5">Autor</h3>
       <AuthorCard author={author} className="mb-5" />
-      <h6 className="text-center my-1">
+      <h6 className="text-center my-5">
         {parseDate(location.publicationTime, i18n.language)}
       </h6>
-      <div className="my-5"></div>
     </div>
   );
 }

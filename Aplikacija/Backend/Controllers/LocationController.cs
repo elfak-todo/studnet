@@ -65,7 +65,8 @@ public class LocationController : ControllerBase
                 firstName = location.Author.FirstName,
                 lastName = location.Author.LastName,
                 imagePath = location.Author.ImagePath,
-                facultyName = location.Author.Parlament!.Faculty!.Name
+                facultyName = location.Author.Parlament!.Faculty!.Name,
+                facultyImagePath = location.Author.Parlament.Faculty.ImagePath
             },
             eventCount = location.Events!.Count,
             gradeCount = location.Grades!.Count

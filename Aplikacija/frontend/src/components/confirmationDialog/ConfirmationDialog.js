@@ -9,7 +9,11 @@ function ConfirmationDialog({
 }) {
   const { t } = useTranslation(["info"]);
   return (
-    <Modal show={showConfirmation} size="md" centered backdrop="static">
+    <Modal
+      centered
+      show={showConfirmation}
+      onHide={() => setShowConfirmation(false)}
+    >
       <Modal.Header style={{ backgroundColor: "#4e54c8" }}>
         <Modal.Title style={{ color: "white" }}>
           {t(`${text}Heading`)}
@@ -19,29 +23,20 @@ function ConfirmationDialog({
           onClick={() => setShowConfirmation(false)}
         />
       </Modal.Header>
-      <Modal.Body>
-        <p className="text-center">{t(text)}</p>
-      </Modal.Body>
+      <Modal.Body>{t(text)}</Modal.Body>
       <Modal.Footer>
-        <div className="d-flex">
-          <Button
-            onClick={() => {
-              callback();
-              setShowConfirmation(false);
-            }}
-          >
-            {t("delete")}
-          </Button>
-          <Button
-            className="ms-2"
-            variant="outline-primary"
-            onClick={() => {
-              setShowConfirmation(false);
-            }}
-          >
-            {t("cancel")}
-          </Button>
-        </div>
+        <Button variant="secondary" onClick={() => setShowConfirmation(false)}>
+          {t("cancel")}
+        </Button>
+        <Button
+          variant="primary"
+          onClick={() => {
+            setShowConfirmation(false);
+            callback();
+          }}
+        >
+          {t("delete")}
+        </Button>
       </Modal.Footer>
     </Modal>
   );
