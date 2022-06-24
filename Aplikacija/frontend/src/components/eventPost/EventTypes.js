@@ -12,6 +12,9 @@ const eventTypes=[
         name:"concert",
     },
     {
+        name:"musicFestival"
+    },
+    {
         name:"job",
     },
     {
