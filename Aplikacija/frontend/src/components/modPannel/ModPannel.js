@@ -1,5 +1,4 @@
 import "./ModPannel.style.css";
-import StudentFilter from "../studentFilter/StudentFilter";
 import ModStudentSearch from "./modStudentSearch/ModStudentSearch";
 import ModStudentTable from "./modStudentTable/ModStudentTable";
 
@@ -14,7 +13,7 @@ function ModPannel() {
     const [students, setStudents] = useState(null);
     const [showSearchLabel, setShowSearchLabel] = useState(false);
     const [showFilterLabel, setShowFilterLabel] = useState(false);
-    // const [openedTab, setOpenedTab] = useState("mod");
+
 
     const onTabSelect = (e) => {
         if (e === "filter") {
@@ -42,12 +41,6 @@ function ModPannel() {
                 tabClassName="profile-feed-tab"
                 title={t("misc:filter")}
                 >
-                <StudentFilter
-                    setStudents={setStudents}
-                    setRefresh={setRefresh}
-                    showFilterLabel={showFilterLabel}
-                    setShowFilterLabel={setShowFilterLabel}
-                />
                 </Tab>
                 <Tab
                 eventKey="search"

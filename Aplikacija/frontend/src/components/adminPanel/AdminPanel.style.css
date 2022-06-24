@@ -1,0 +1,23 @@
+.admin-panel-div {
+    /* -70px for navbar */
+    height: calc(100vh - 70px)
+}
+.admin-panel-items {
+    height: 100% !important;
+    width: 100% !important;
+    display: flex;
+}
+.admin-panel-table {
+    padding: 20px;
+    width: 100% !important;
+    height: 100% !important;
+    overflow-y: scroll;
+}
+@media screen and (max-width: 1000px) {
+    .admin-panel-items {
+        flex-wrap: wrap;
+    }
+    .admin-panel-table {
+        overflow-y:auto;
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "studentTable": "Student Table",
+    "universityTable": "University Table",
+    "parlamentTable": "Parlament Table",
+    "addUniversity": "Add University",
+    "addParlament": "Add Parlament",
+    "universityName": "University Name",
+    "enterUniName": "Enter University name",
+    "uniInfo": "The university name must not be longer than 32 characters.",
+    "parlamentName": "Parlament Name",
+    "enterParName": "Enter Parlament name",
+    "parlamentNameInfo": "The parlament name must not be longer then 32 characters.",
+    "facultyName": "Faculty Name",
+    "enterFacName": "Enter Faculty name",
+    "facultyNameInfo": "The faculty name must not be longer than 32 characters.",
+    "name": "Name",
+    "regFaculties": "Number of registered faculties",
+    "regStudents": "Number of registered students"
+}

@@ -1,0 +1,49 @@
+.admin-menu {
+    width: 400px !important;
+    height: 100% !important;
+    background-color: #e3e5ff;
+}
+.admin-menu-items {
+    display: flex;
+    flex-direction: column;
+}
+.admin-menu-navs {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    cursor: pointer;
+    color: #4e54c8;
+    font-weight: 600;
+    font-size: medium;
+}
+.admin-menu-btn-div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+}
+.admin-menu-btn {
+    width: 100%!important;
+}
+@media screen and (max-width: 1000px) {
+    .admin-menu {
+        height: auto !important;
+        width: 100% !important;
+    }
+    .admin-menu-items {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .admin-menu {
+        height: auto !important;
+        width: 100% !important;
+    }
+    .admin-menu-items {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+}
+  
