@@ -70,6 +70,18 @@ function StudentTable({ students, setStudents, refresh, setRefresh }) {
             <td>{s.gender === "m" ? t("misc:male") : t("misc:female")} </td>
           </tr>
         ))}
+        {students?.map((s, i) => (
+          <tr key={s.id + 1} onClick={() => navigate("/student/" + s.id)}>
+            <td> {i + 1} </td>
+            <td>{s.firstName + " " + s.lastName}</td>
+            <td>{s.username}</td>
+            <td>{s.email}</td>
+            <td>{s.universityName}</td>
+            <td>{s.facultyName}</td>
+            <td>{getRole(s.role)}</td>
+            <td>{s.gender === "m" ? t("misc:male") : t("misc:female")} </td>
+          </tr>
+        ))}
       </tbody>
     </Table>
   );

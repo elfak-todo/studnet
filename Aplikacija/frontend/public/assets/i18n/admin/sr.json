@@ -1,0 +1,19 @@
+{
+    "studentTable": "Tabela Studenata",
+    "universityTable": "Tabela Univerziteta",
+    "parlamentTable": "Tabela Parlamenta",
+    "addUniversity": "Dodaj univerzitet",
+    "addParlament": "Dodaj parlament",
+    "universityName": "Naziv Univerziteta",
+    "enterUniName": "Unesite naziv Univerziteta",
+    "uniInfo": "Naziv univerziteta ne sme biti duži od 32 karaktera.",
+    "parlamentName": "Naziv Parlamenta",
+    "enterParName": "Unesite naziv Parlamenta",
+    "parlamentNameInfo": "Naziv parlamenta ne sme biti duži od 32 karaktera.",
+    "facultyName": "Naziv Fakulteta",
+    "enterFacName": "Unesite naziv Fakulteta",
+    "facultyNameInfo": "Naziv fakulteta ne sme biti duži od 32 karaktera.",
+    "name": "Naziv",
+    "regFaculties": "Broj registrovanih fakulteta",
+    "regStudents": "Broj registrovanih studenata"
+}
