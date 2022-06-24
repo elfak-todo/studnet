@@ -227,6 +227,7 @@ function SettingsDropdown({
             {t("event:cancel")}
           </NavDropdown.Item>
         ) : null}
+        {(author.id === student.id || student.role > 1) &&
         <NavDropdown.Item eventKey="delete">
           <FontAwesomeIcon
             icon={faTrashCan}
@@ -234,7 +235,7 @@ function SettingsDropdown({
             className="me-2"
           />
           {t("delete")}
-        </NavDropdown.Item>
+        </NavDropdown.Item>}
       </NavDropdown>
       <ConfirmationDialog
         showConfirmation={showDeleteConfirmation}
