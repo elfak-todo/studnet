@@ -43,6 +43,7 @@ public class PostController : ControllerBase
             return BadRequest("StudentNotFound");
         }
 
+
         post.PublicationTime = DateTime.Now;
         post.Author = student;
         post.Edited = false;
@@ -50,10 +51,14 @@ public class PostController : ControllerBase
         post.LikedBy = new List<Student>();
         post.UniversityId = student.UniversityId;
 
-        if ((int)student.Role < (int)Role.ParlamentMember)
+        if (student.Role < Role.ParlamentMember)
         {
             post.Verified = false;
             post.Pinned = false;
+        }
+        else
+        {
+            
         }
 
         _context.Posts.Add(post);
@@ -63,6 +68,8 @@ public class PostController : ControllerBase
         {
             id = post.ID,
             post,
+            verified = post.Verified,
+            pinned=post.Pinned,
             author = new
             {
                 post.Author.ID,

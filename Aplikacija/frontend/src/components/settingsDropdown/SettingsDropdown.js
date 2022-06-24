@@ -227,14 +227,16 @@ function SettingsDropdown({
             {t("event:cancel")}
           </NavDropdown.Item>
         ) : null}
-        <NavDropdown.Item eventKey="delete">
-          <FontAwesomeIcon
-            icon={faTrashCan}
-            style={{ color: "#d9534f" }}
-            className="me-2"
-          />
-          {t("delete")}
-        </NavDropdown.Item>
+        {author?.id === student.id || student.role > 1 ? (
+          <NavDropdown.Item eventKey="delete">
+            <FontAwesomeIcon
+              icon={faTrashCan}
+              style={{ color: "#d9534f" }}
+              className="me-2"
+            />
+            {t("delete")}
+          </NavDropdown.Item>
+        ) : null}
       </NavDropdown>
       <ConfirmationDialog
         showConfirmation={showDeleteConfirmation}
