@@ -24,7 +24,7 @@ function Post({ feedEl, innerRef, feed, setFeed, pinned, verified }) {
   const [loading, setLoading] = useState(false);
 
   const editTextInputRef = useRef();
-  
+
   const handleEdit = (e) => {
     e.preventDefault();
 
@@ -108,7 +108,7 @@ function Post({ feedEl, innerRef, feed, setFeed, pinned, verified }) {
               </div>
             </Form>
           ) : (
-            <Card.Text> {newLineText(post.text)} </Card.Text>
+            <div className="mb-2"> {newLineText(post.text)} </div>
           )}
           {edited && (
             <Card.Text style={{ fontSize: "small" }}> {t("edited")} </Card.Text>
