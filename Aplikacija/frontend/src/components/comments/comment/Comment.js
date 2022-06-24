@@ -189,7 +189,7 @@ function Comment({
         </div>
         <Container className="ms-0">
           <Card className="ms-0">
-            <Card.Body>
+            <Card.Body className="py-2">
               {edit ? (
                 <Form noValidate>
                   <Form.Control
