@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Button, Form, Modal, Spinner } from "react-bootstrap";
+import { Button, Form, Spinner } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,7 @@ import {
   faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ConfirmationDialog from "../confirmationDialog/ConfirmationDialog";
 
 function AddLocation({
   initialLocation,
@@ -216,26 +217,12 @@ function AddLocation({
             </Button>
           </div>
         </Form>
-        <Modal
-          show={showDeleteConfirm}
-          onHide={() => setShowDeleteConfirm(false)}
-        >
-          <Modal.Header closeButton>
-            <Modal.Title>{t("deleteLocationTitle")}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>{t("deleteLocationBody")}</Modal.Body>
-          <Modal.Footer>
-            <Button
-              variant="secondary"
-              onClick={() => setShowDeleteConfirm(false)}
-            >
-              {t("cancel")}
-            </Button>
-            <Button variant="primary" onClick={deleteHandler}>
-              {t("delete")}
-            </Button>
-          </Modal.Footer>
-        </Modal>
+        <ConfirmationDialog
+          showConfirmation={showDeleteConfirm}
+          setShowConfirmation={setShowDeleteConfirm}
+          callback={deleteHandler}
+          text="deleteLocation"
+        />
       </>
     )
   );

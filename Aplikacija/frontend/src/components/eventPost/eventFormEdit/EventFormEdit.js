@@ -45,11 +45,13 @@ function EventFormEdit({
   const [numTicketsInvalid, setNumTicketsInvalid] = useState(false);
   const [ticketPriceInvalid, setTicketPriceInvalid] = useState(false);
   const [descInvalid, setDescInvalid] = useState(false);
+  const [picInvalid, setPicInvalid] = useState(false);
 
   const [paidEv, setPaidEv] = useState(event.paidEvent);
   const [selectedType, setSelectedType] = useState(event.type + 1);
   const [startDate, setStartDate] = useState(event.timeOfEvent.slice(0, 16));
   const [endDate, setEndDate] = useState(event.endTime.slice(0, 16));
+
   const titleRef = useRef();
   const ticketNumRef = useRef();
   const ticketPriceRef = useRef();
@@ -156,8 +158,8 @@ function EventFormEdit({
           setEdit(false);
         })
         .catch((err) => {
-          if (err.response && err.response.data === "UnsupportedFileType") {
-          }
+          if (err.response && err.response.data === "UnsupportedFileType")
+            setPicInvalid(true);
         })
         .finally(() => {
           setLoading(false);
@@ -363,10 +365,15 @@ function EventFormEdit({
                   <Form.Control
                     type="file"
                     accept="image/png, image/jpeg"
+                    isInvalid={picInvalid}
                     size="sm"
                     className="mb-2"
                     ref={imageRef}
+                    onClick={() => setPicInvalid(false)}
                   ></Form.Control>
+                  <Form.Control.Feedback type="invalid">
+                    {t("info:pic")}
+                  </Form.Control.Feedback>
                   <Form.Control
                     as="textarea"
                     rows={10}
