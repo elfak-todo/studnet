@@ -236,6 +236,7 @@ public class ReservationController : ControllerBase
         }
 
         res.Canceled = true;
+        res.NumberOfTickets = 0;
 
         await _context.SaveChangesAsync();
 
