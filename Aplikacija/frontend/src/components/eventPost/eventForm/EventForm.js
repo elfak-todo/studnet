@@ -40,6 +40,7 @@ function EventForm({ feed, setFeed }) {
   const [numTicketsInvalid, setNumTicketsInvalid] = useState(false);
   const [ticketPriceInvalid, setTicketPriceInvalid] = useState(false);
   const [descInvalid, setDescInvalid] = useState(false);
+  const [picInvalid, setPicInvalid] = useState(false);
 
   const [paidEv, setPaidEv] = useState(false);
   const [selectedType, setSelectedType] = useState(null);
@@ -143,8 +144,8 @@ function EventForm({ feed, setFeed }) {
           setSelectedLoc(null);
         })
         .catch((err) => {
-          if (err.response && err.response.data === "UnsupportedFileType") {
-          }
+          if (err.response && err.response.data === "UnsupportedFileType")
+            setPicInvalid(true);
         })
         .finally(() => {
           setLoading(false);
@@ -283,7 +284,7 @@ function EventForm({ feed, setFeed }) {
                             onChange={() => setTicketPriceInvalid(false)}
                           />
                           <Form.Control.Feedback type="invalid">
-                            {t("etnerTickPrice")}{" "}
+                            {t("etnerTickPrice")}
                             <InfoTooltip text={t("info:ticketPrice")} />
                           </Form.Control.Feedback>
                         </FloatingLabel>
@@ -302,7 +303,7 @@ function EventForm({ feed, setFeed }) {
                               onChange={() => setNumTicketsInvalid(false)}
                             />
                             <Form.Control.Feedback type="invalid">
-                              {t("enterTickNum")}{" "}
+                              {t("enterTickNum")}
                               <InfoTooltip text={t("info:ticketNum")} />
                             </Form.Control.Feedback>
                           </FloatingLabel>
@@ -319,10 +320,15 @@ function EventForm({ feed, setFeed }) {
                   <Form.Control
                     type="file"
                     accept="image/png, image/jpeg"
+                    isInvalid={picInvalid}
                     size="sm"
                     className="mb-2"
                     ref={imageRef}
+                    onClick={() => setPicInvalid(false)}
                   ></Form.Control>
+                  <Form.Control.Feedback type="invalid">
+                    {t("info:pic")}
+                  </Form.Control.Feedback>
                   <Form.Control
                     as="textarea"
                     rows={10}

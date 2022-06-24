@@ -27,7 +27,7 @@ function EventPost({
 
   return (
     <Container className="mb-3 mt-3 mx-auto px-0" ref={innerRef}>
-      <Card className={"shadow" + (pinned && " pinned")}>
+      <Card className={"shadow ev-card-main " + (pinned && " pinned")}>
         {feedEl.ev.organisingParlamentId !== null && feedEl.ev.verified && (
           <div className="parlament-div">
             <span className="parlament-text ms-2">{t("orgByPar")}</span>
