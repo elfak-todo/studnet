@@ -20,6 +20,7 @@ function EventSelectType({ selectedType, setSelectedType, isInvalid, setInvalid 
           "fieldTrip",
           "sportEvent",
           "concert",
+          "musicFestival",
           "job",
           "play",
           "art",

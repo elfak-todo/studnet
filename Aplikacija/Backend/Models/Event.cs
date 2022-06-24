@@ -9,6 +9,7 @@ namespace Backend.Models
         Party = 0,
         Field_trip,
         Sporting_event,
+        Concert,
         Festival,
         Job_fair,
         Theatre_play,
@@ -87,7 +88,7 @@ namespace Backend.Models
             {
                 if (Reservations != null)
                 {
-                    return Reservations.Select(p => p.NumberOfTickets)
+                    return Reservations.Where(p => p.Canceled == false).Select(p => p.NumberOfTickets)
                             .Aggregate(0, (total, ticketNum) => total += ticketNum);
                 }
                 return 0;
