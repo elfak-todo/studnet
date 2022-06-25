@@ -14,6 +14,10 @@
     "enterFacName": "Enter Faculty name",
     "facultyNameInfo": "The faculty name must not be longer than 32 characters.",
     "name": "Name",
-    "regFaculties": "Number of registered faculties",
-    "regStudents": "Number of registered students"
+    "regFaculties": "Number of faculties",
+    "regStudents": "Number of students",
+    "postCount": "Post count",
+    "locationCount": "Location Count",
+    "eventCount": "Event Count",
+    "memberCount": "Member count"
 }

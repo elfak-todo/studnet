@@ -9,6 +9,7 @@ function SelectFaculty({
   setSelectedFac,
   invalid,
   setInvalid,
+  selectDisabled
 }) {
   const { t } = useTranslation(["register"]);
 
@@ -41,9 +42,9 @@ function SelectFaculty({
       <Form.Select
         isInvalid={invalid}
         value={selectedFac}
+        disabled={selectDisabled}
         onChange={(e) => {
           setSelectedFac(e.target.value);
-          console.log(e.target.value);
           setInvalid(false);
         }}
       >

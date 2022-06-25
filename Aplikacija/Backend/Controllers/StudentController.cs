@@ -90,7 +90,7 @@ public class StudentController : ControllerBase
                                                     [FromQuery] Role? role,
                                                     [FromQuery] bool? adminMode)
     {
-        const int studentNum = 20;
+        const int studentNum = 10;
 
         var student = await _tokenManager.GetStudent(HttpContext.User);
 
@@ -167,6 +167,25 @@ public class StudentController : ControllerBase
 
             return Ok(await selectedStudents.ToListAsync());
         }
+    }
+    [Route("InterestingData")]
+    [Authorize(Roles = "ParlamentMember")]
+    [HttpGet]
+    public async Task<ActionResult> InterestingData()
+    {
+        var students = await _context.Students.ToListAsync();
+        var posts = await _context.Posts.ToListAsync();
+        var events = await _context.Events.ToListAsync();
+        var locations = await _context.Locations.ToListAsync();
+
+        var counters = new
+        {
+            studentCounter = students != null ? students.Count() : 0,
+            postCounter = posts != null ? posts.Count() : 0,
+            eventCounter = events != null ? events.Count() : 0,
+            locationsCounter = locations != null ? locations.Count() : 0,
+        };
+        return Ok(counters);
     }
 
     [Route("Login")]

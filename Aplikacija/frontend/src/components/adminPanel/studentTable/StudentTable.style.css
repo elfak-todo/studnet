@@ -2,14 +2,19 @@
     background-color: #4e54c8 !important;
     color: white;
 }
-.forms {
-    display: flex;
-    justify-content: left;
-    align-items: flex-end;
+.student-row {
+    cursor: pointer;
 }
-
-@media screen and (max-width: 1200px) {
-    .forms {
-        flex-wrap: wrap;
-    }
+.student-icon-counter {
+    font-size: 35px;
+}
+.student-counter {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #4e54c8;
+    font-weight: 600;
+    font-size: larger;
+    text-align: center;
+    margin-left: 50px;
 }

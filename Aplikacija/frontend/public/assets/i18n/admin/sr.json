@@ -14,6 +14,10 @@
     "enterFacName": "Unesite naziv Fakulteta",
     "facultyNameInfo": "Naziv fakulteta ne sme biti duži od 32 karaktera.",
     "name": "Naziv",
-    "regFaculties": "Broj registrovanih fakulteta",
-    "regStudents": "Broj registrovanih studenata"
+    "regFaculties": "Broj fakulteta",
+    "regStudents": "Broj studenata",
+    "postCount": "Broj objava",
+    "locationCount": "Broj lokacija",
+    "eventCount": "Broj događaja",
+    "memberCount": "Broj članova"
 }

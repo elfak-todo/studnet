@@ -8,6 +8,7 @@ function SelectUniversity({
   setSelectedUni,
   invalid,
   setInvalid,
+  selectDisabled
 }) {
   const { t } = useTranslation(["register"]);
 
@@ -29,6 +30,7 @@ function SelectUniversity({
       <Form.Select
         isInvalid={invalid}
         value={selectedUni}
+        disabled={selectDisabled}
         onChange={(e) => {
           setSelectedUni(e.target.value);
           setInvalid(false);

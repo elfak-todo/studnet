@@ -1,18 +1,27 @@
+import axios from "axios";
 import { useTranslation } from "react-i18next";
-import { useRef, useState } from "react";
-import { Form, FormControl, Button, Alert, Spinner } from "react-bootstrap";
+import { useEffect, useRef, useState } from "react";
+import { Form, FormControl, Button, Alert } from "react-bootstrap";
 
 import SelectUniversity from "../../selectUniveristy/SelectUniveristy";
 import SelectFaculty from "../../selectFaculty/SelectFaculty";
 import "./StudentSearch.style.css";
-import axios from "axios";
 
-function StudentSearch({ setStudents }) {
+function StudentSearch({
+  setStudents,
+  pageNum,
+  setPageNum,
+  setHasMore,
+  setFetching,
+  searchDisabled,
+}) {
   const { t } = useTranslation(["misc"]);
 
-  const [loading /*setLoading*/] = useState(false);
-  const [searchInput /*setSearchInput*/] = useState();
+  const [refresh, setRefresh] = useState(false);
+  const [searchInput, setSearchInput] = useState();
   const [showSearchLabel, setShowSearchLabel] = useState(false);
+  const [queries, setQueries] = useState("");
+
   const [selectedUni, setSelectedUni] = useState("0");
   const [selectedFac, setSelectedFac] = useState("0");
   const [uniInvalid, setUniInvalid] = useState(false);
@@ -20,39 +29,74 @@ function StudentSearch({ setStudents }) {
 
   const inputRef = useRef();
 
+  useEffect(() => {
+    if (refresh) {
+      setRefresh(false);
+      setStudents(null);
+      setPageNum(0);
+      setQueries("");
+    }
+    setFetching(true);
+    axios
+      .get(`Student/List/${pageNum}?adminMode=true${queries}`)
+      .then((res) => {
+        if (pageNum === 0) setStudents(res.data.length === 0 ? null : res.data);
+        else {
+          setStudents((state) => {
+            if (state) return [...state, ...res.data];
+            else return res.data;
+          });
+        }
+        setHasMore(res.data.length > 0);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setFetching(false);
+      });
+  }, [
+    pageNum,
+    queries,
+    refresh,
+    setFetching,
+    setPageNum,
+    setStudents,
+    setHasMore,
+  ]);
+
   const handleSearch = (e) => {
     e.preventDefault();
     const input = inputRef.current.value;
 
     inputRef.current.value = "";
 
-    console.log(selectedUni);
-    console.log(selectedFac);
-    console.log(input);
-
-    //TODO PAGINACIJA
-    const page = 0;
-
-    let url = `Student/List/${page}?adminMode=true`;
+    let query = "";
 
     if (input && input !== "") {
-      url += `&q=${input}`;
+      query += `&q=${input}`;
     }
 
     if (selectedUni !== "0") {
-      url += `&uniId=${selectedUni}`;
+      query += `&uniId=${selectedUni}`;
     }
     if (selectedFac !== "0") {
-      url += `&parId=${selectedFac}`;
+      query += `&parId=${selectedFac}`;
     }
 
-    axios.get(url).then((res) => {
-      setStudents(res.data);
-    });
+    setQueries(query);
+    setPageNum(0);
+    setSearchInput(input);
+
+    if (input !== "") setShowSearchLabel(true);
   };
 
   const closeSearchLabel = () => {
     setShowSearchLabel(false);
+    setShowSearchLabel(false);
+    setRefresh(true);
+    setSelectedUni("0");
+    setSelectedFac("0");
   };
 
   return (
@@ -63,6 +107,7 @@ function StudentSearch({ setStudents }) {
           setSelectedUni={setSelectedUni}
           invalid={uniInvalid}
           setInvalid={setUniInvalid}
+          selectDisabled={searchDisabled}
         />
         <SelectFaculty
           selectedUni={selectedUni}
@@ -70,6 +115,7 @@ function StudentSearch({ setStudents }) {
           setSelectedFac={setSelectedFac}
           invalid={facInvalid}
           setInvalid={setFacInvalid}
+          selectDisabled={searchDisabled}
         />
       </div>
       <Form className="d-flex" noValidate onSubmit={handleSearch}>
@@ -77,18 +123,10 @@ function StudentSearch({ setStudents }) {
           type="search"
           placeholder={t("searchPlaceholder")}
           aria-label="Search"
+          disabled={searchDisabled}
           ref={inputRef}
         />
-        <Button type="submit" className="ms-3">
-          {loading && (
-            <Spinner
-              as="span"
-              animation="border"
-              size="sm"
-              role="status"
-              aria-hidden="true"
-            />
-          )}
+        <Button type="submit" className="ms-3" disabled={searchDisabled}>
           {t("search")}
         </Button>
       </Form>

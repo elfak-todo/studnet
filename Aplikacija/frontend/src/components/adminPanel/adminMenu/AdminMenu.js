@@ -6,24 +6,45 @@ import AddUniversity from "../addUniversity/AddUniversity";
 import AddParlament from "../addParlament/AddParlament";
 import "./AdminMenu.style.css";
 
-function AdminMenu({ showStudent, showUni, showPar, setStudents }) {
+function AdminMenu({
+  showStudent,
+  showUni,
+  showPar,
+  setStudents,
+  pageNum,
+  setPageNum,
+  setHasMore,
+  fetching,
+  setFetching,
+}) {
   const { t } = useTranslation(["admin"]);
 
   const [showAddUni, setShowAddUni] = useState(false);
   const [showAddPar, setShowAddPar] = useState(false);
+
+  const [searchDisabled, setSearchDisabled] = useState(false);
 
   return (
     <>
       <Card className="admin-menu" bg="primary-light">
         <Card.Body>
           <div className="admin-menu-items">
-            <StudentSearch setStudents={setStudents} />
+            <StudentSearch
+              setStudents={setStudents}
+              pageNum={pageNum}
+              setPageNum={setPageNum}
+              setHasMore={setHasMore}
+              fetching={fetching}
+              setFetching={setFetching}
+              searchDisabled={searchDisabled}
+            />
             <div className="admin-menu-navs">
               <p
                 onClick={() => {
                   showStudent(true);
                   showUni(false);
                   showPar(false);
+                  setSearchDisabled(false);
                 }}
               >
                 {t("studentTable")}
@@ -33,6 +54,7 @@ function AdminMenu({ showStudent, showUni, showPar, setStudents }) {
                   showStudent(false);
                   showUni(true);
                   showPar(false);
+                  setSearchDisabled(true);
                 }}
               >
                 {t("universityTable")}
@@ -42,6 +64,7 @@ function AdminMenu({ showStudent, showUni, showPar, setStudents }) {
                   showStudent(false);
                   showUni(false);
                   showPar(true);
+                  setSearchDisabled(true);
                 }}
               >
                 {t("parlamentTable")}

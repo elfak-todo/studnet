@@ -8,13 +8,16 @@ import AdminMenu from "./adminMenu/AdminMenu.js";
 import "./AdminPanel.style.css";
 
 function AdminPanel() {
-  const [refresh, setRefresh] = useState(true);
   const [students, setStudents] = useState(null);
 
   const [showStudentTable, setShowStudentTable] = useState(true);
   const [showUniTable, setUniStudentTable] = useState(false);
   const [showParTable, setParStudentTable] = useState(false);
 
+  const [fetching, setFetching] = useState(false);
+  const [pageNum, setPageNum] = useState(0);
+  const [hasMore, setHasMore] = useState(false);
+  
   return (
     <div className="admin-panel-div">
       <div className="admin-panel-items">
@@ -23,14 +26,18 @@ function AdminPanel() {
           showUni={setUniStudentTable}
           showPar={setParStudentTable}
           setStudents={setStudents}
+          pageNum={pageNum}
+          setPageNum={setPageNum}
+          setHasMore={setHasMore}
+          setFetching={setFetching}
         />
         {showStudentTable && (
           <div className="admin-panel-table">
             <StudentTable
               students={students}
-              setStudents={setStudents}
-              refresh={refresh}
-              setRefresh={setRefresh}
+              setPageNum={setPageNum}
+              hasMore={hasMore}
+              fetching={fetching}
             />
           </div>
         )}
