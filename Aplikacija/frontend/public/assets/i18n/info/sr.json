@@ -16,5 +16,7 @@
     "deletePost": "Da li ste sigurni da želite da obrišete ovu objavu?",
     "deletePostHeading": "Brisanje objave",
     "deleteLocation": "Da li ste sigurni da želite da obrišete ovu lokaciju?",
-    "deleteLocationHeading": "Brisanje lokacije"
+    "deleteLocationHeading": "Brisanje lokacije",
+    "deleteCommentHeading": "Brisanje komentara",
+    "deleteComment": "Da li ste sigurni da želite da obrišete ovaj komentar?"
 }

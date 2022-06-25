@@ -242,7 +242,7 @@ function SettingsDropdown({
         showConfirmation={showDeleteConfirmation}
         setShowConfirmation={setShowDeleteConfirmation}
         callback={handleDelete}
-        text={postType === "Post" ? "deletePost" : "deleteEvent"}
+        text={postType === "Post" ? "deletePost" : postType=== "Event" ? "deleteEvent" : "deleteComment"}
       />
       <ConfirmationDialog
         showConfirmation={showCancelConfirmation}

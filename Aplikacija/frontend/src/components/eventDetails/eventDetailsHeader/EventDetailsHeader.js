@@ -62,7 +62,7 @@ function EventDetailsHeader({
       </div>
       <div className="float-end end-buttons-div">
         <div>
-          {event.organisingParlamentId !== null && student.id != author.id && (
+          {event.organisingParlamentId !== null && student.id !== author.id && (
             <Button
               className="mt-3"
               size="md"

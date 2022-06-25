@@ -12,7 +12,7 @@ function ModPannel() {
     const [refresh, setRefresh] = useState(true);
     const [students, setStudents] = useState(null);
     const [showSearchLabel, setShowSearchLabel] = useState(false);
-    const [showFilterLabel, setShowFilterLabel] = useState(false);
+    const [/*showFilterLabel*/, setShowFilterLabel] = useState(false);
 
 
     const onTabSelect = (e) => {
