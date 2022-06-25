@@ -32,6 +32,8 @@ function StudentSearch({
   const [facInvalid, setFacInvalid] = useState(false);
 
   const inputRef = useRef();
+
+  const studentRef = useRef();
   const parMemberRef = useRef();
   const uniAdminRef = useRef();
   const adminRef = useRef();
@@ -82,6 +84,7 @@ function StudentSearch({
   const handleSearch = (e) => {
     e.preventDefault();
     const input = inputRef.current.value;
+    const stud = studentRef.current.checked;
     const parMember = parMemberRef.current.checked;
     const uniAdmin = student.role === 3 ? uniAdminRef.current.checked : false;
     const admin = student.role === 3 ? adminRef.current.checked : false;
@@ -99,6 +102,10 @@ function StudentSearch({
     }
     if (selectedFac !== "0" && student.role === 3) {
       query += `&parId=${selectedFac}`;
+    }
+
+    if (stud) {
+      query += "&role=0";
     }
 
     if (parMember) {
@@ -165,6 +172,20 @@ function StudentSearch({
               disabled={searchDisabled}
               className="mb-2"
               type="switch"
+              label="Student"
+              ref={studentRef}
+              onChange={() => {
+                parMemberRef.current.checked = false;
+                if (student.role > 1) {
+                  uniAdminRef.current.checked = false;
+                  adminRef.current.checked = false;
+                }
+              }}
+            ></Form.Check>
+            <Form.Check
+              disabled={searchDisabled}
+              className="mb-2"
+              type="switch"
               label={t("admin:parlamentMember")}
               ref={parMemberRef}
               onChange={() => {
@@ -172,6 +193,7 @@ function StudentSearch({
                   uniAdminRef.current.checked = false;
                   adminRef.current.checked = false;
                 }
+                studentRef.current.checked = false;
               }}
             ></Form.Check>
             {student.role === 3 && (
@@ -185,6 +207,7 @@ function StudentSearch({
                   onChange={() => {
                     parMemberRef.current.checked = false;
                     adminRef.current.checked = false;
+                    studentRef.current.checked = false;
                   }}
                 ></Form.Check>
                 <Form.Check
@@ -196,6 +219,7 @@ function StudentSearch({
                   onChange={() => {
                     parMemberRef.current.checked = false;
                     uniAdminRef.current.checked = false;
+                    studentRef.current.checked = false;
                   }}
                 ></Form.Check>
               </>
