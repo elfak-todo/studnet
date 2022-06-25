@@ -6,7 +6,7 @@ import AddUniversity from "../addUniversity/AddUniversity";
 import AddParlament from "../addParlament/AddParlament";
 import "./AdminMenu.style.css";
 
-function AdminMenu({ showStudent, showUni, showPar }) {
+function AdminMenu({ showStudent, showUni, showPar, setStudents }) {
   const { t } = useTranslation(["admin"]);
 
   const [showAddUni, setShowAddUni] = useState(false);
@@ -17,7 +17,7 @@ function AdminMenu({ showStudent, showUni, showPar }) {
       <Card className="admin-menu" bg="primary-light">
         <Card.Body>
           <div className="admin-menu-items">
-            <StudentSearch />
+            <StudentSearch setStudents={setStudents} />
             <div className="admin-menu-navs">
               <p
                 onClick={() => {

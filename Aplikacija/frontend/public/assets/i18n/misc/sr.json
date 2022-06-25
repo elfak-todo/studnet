@@ -19,9 +19,20 @@
   "female": "Ženski",
   "male": "Muški",
   "fieldsMissing": "Molimo popunite sva polja.",
-  "ban": "Banuj",
+  "ban": "Deaktiviraj nalog",
+  "unban": "Aktiviraj nalog",
   "promote": "Unapredi",
   "verified": "Verifikovano",
   "trendingLocations": "Lokacije u trendu",
-  "trendingEvents": "Događaji u trendu"
+  "trendingEvents": "Događaji u trendu",
+  "promoteToParlamentMember": "Promoviši u člana parlamenta",
+  "promoteToUniAdmin": "Promoviši u administratora univerziteta",
+  "promoteToAdmin": "Promoviši u administratora portala",
+  "delete": "Obriši korisnika",
+  "ok": "U redu",
+  "success": "Uspeh",
+  "studentPromoted": "Nalog je uspešno promovisan!",
+  "studentBanned": "Nalog je uspešno deaktiviran!",
+  "studentUnbanned": "Nalog je uspešno aktiviran!",
+  "studentDeleted": "Student je uspešno obrisan!"
 }

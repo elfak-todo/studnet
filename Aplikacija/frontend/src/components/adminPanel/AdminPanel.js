@@ -22,6 +22,7 @@ function AdminPanel() {
           showStudent={setShowStudentTable}
           showUni={setUniStudentTable}
           showPar={setParStudentTable}
+          setStudents={setStudents}
         />
         {showStudentTable && (
           <div className="admin-panel-table">
@@ -40,7 +41,7 @@ function AdminPanel() {
         )}
         {showParTable && (
           <div className="admin-panel-table">
-            <ParlamentTable/>
+            <ParlamentTable />
           </div>
         )}
       </div>

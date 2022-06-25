@@ -43,9 +43,9 @@ function LocationDetails({ location, author }) {
       )}
 
       <h3 className="text-center mt-5">Opis</h3>
-      <p className="location-details-description">
+      <div className="location-details-description">
         {newLineText(location.description)}
-      </p>
+      </div>
       <h3 className="text-center mt-5">Autor</h3>
       <AuthorCard author={author} className="mb-5" />
       <h6 className="text-center my-5">

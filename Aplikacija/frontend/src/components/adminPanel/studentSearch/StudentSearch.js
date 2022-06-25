@@ -5,6 +5,7 @@ import { Form, FormControl, Button, Alert, Spinner } from "react-bootstrap";
 import SelectUniversity from "../../selectUniveristy/SelectUniveristy";
 import SelectFaculty from "../../selectFaculty/SelectFaculty";
 import "./StudentSearch.style.css";
+import axios from "axios";
 
 function StudentSearch({ setStudents }) {
   const { t } = useTranslation(["misc"]);
@@ -23,10 +24,31 @@ function StudentSearch({ setStudents }) {
     e.preventDefault();
     const input = inputRef.current.value;
 
-    if (input === "") return;
     inputRef.current.value = "";
 
-    //TODO
+    console.log(selectedUni);
+    console.log(selectedFac);
+    console.log(input);
+
+    //TODO PAGINACIJA
+    const page = 0;
+
+    let url = `Student/List/${page}?adminMode=true`;
+
+    if (input && input !== "") {
+      url += `&q=${input}`;
+    }
+
+    if (selectedUni !== "0") {
+      url += `&uniId=${selectedUni}`;
+    }
+    if (selectedFac !== "0") {
+      url += `&parId=${selectedFac}`;
+    }
+
+    axios.get(url).then((res) => {
+      setStudents(res.data);
+    });
   };
 
   const closeSearchLabel = () => {

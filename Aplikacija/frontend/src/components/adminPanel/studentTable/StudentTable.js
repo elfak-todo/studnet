@@ -14,7 +14,7 @@ function StudentTable({ students, setStudents, refresh, setRefresh }) {
   useEffect(() => {
     if (!refresh) return;
     axios
-      .get("Student/GetAllStudents/0")
+      .get("Student/List/0?adminMode=true")
       .then((res) => {
         setStudents(res.data);
         setRefresh(false);
@@ -70,7 +70,7 @@ function StudentTable({ students, setStudents, refresh, setRefresh }) {
             <td>{s.gender === "m" ? t("misc:male") : t("misc:female")} </td>
           </tr>
         ))}
-        {students?.map((s, i) => (
+        {/* {students?.map((s, i) => (
           <tr key={s.id + 1} onClick={() => navigate("/student/" + s.id)}>
             <td> {i + 1} </td>
             <td>{s.firstName + " " + s.lastName}</td>
@@ -81,7 +81,7 @@ function StudentTable({ students, setStudents, refresh, setRefresh }) {
             <td>{getRole(s.role)}</td>
             <td>{s.gender === "m" ? t("misc:male") : t("misc:female")} </td>
           </tr>
-        ))}
+        ))} */}
       </tbody>
     </Table>
   );

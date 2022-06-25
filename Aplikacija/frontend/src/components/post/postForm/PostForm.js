@@ -101,6 +101,7 @@ function PostForm({ feed, setFeed }) {
           <Form noValidate onSubmit={submitHandler}>
             <Form.Control
               as="textarea"
+              style={{ resize: "none" }}
               rows={5}
               type="text"
               placeholder={t("postSome")}
@@ -129,14 +130,16 @@ function PostForm({ feed, setFeed }) {
                   className="form-checks"
                   disabled={anonymous}
                   type="checkbox"
-                  label={<>
-                    <FontAwesomeIcon
-                      icon={faThumbTack}
-                      style={{ color: "#4e54c8" }}
-                      className="me-1"
-                    />
-                    {t("pinned")}
-                  </>}
+                  label={
+                    <>
+                      <FontAwesomeIcon
+                        icon={faThumbTack}
+                        style={{ color: "#4e54c8" }}
+                        className="me-1"
+                      />
+                      {t("pinned")}
+                    </>
+                  }
                   ref={pinnedRef}
                   inline
                 />

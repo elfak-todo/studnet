@@ -7,7 +7,14 @@ import "./CommentForm.style.css";
 import defaultPic from "../../../images/defaultProfilePic.jpg";
 import StudentContext from "../../studentManager/StudentManager";
 
-function CommentForm({ postType, post, comments, setComments, setNoComments, setFeed }) {
+function CommentForm({
+  postType,
+  post,
+  comments,
+  setComments,
+  setNoComments,
+  setFeed,
+}) {
   const { t } = useTranslation(["post"]);
 
   const { student } = useContext(StudentContext);
@@ -61,7 +68,7 @@ function CommentForm({ postType, post, comments, setComments, setNoComments, set
   };
 
   return (
-    <Container className="mb-2 mt-2 ms-2">
+    <Container className="mb-2 mt-2 ms-0">
       <div className="leave-comm">
         <Image
           src={student.imagePath === "/" ? defaultPic : student.imagePath}

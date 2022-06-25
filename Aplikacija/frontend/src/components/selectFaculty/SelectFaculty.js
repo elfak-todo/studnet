@@ -43,6 +43,7 @@ function SelectFaculty({
         value={selectedFac}
         onChange={(e) => {
           setSelectedFac(e.target.value);
+          console.log(e.target.value);
           setInvalid(false);
         }}
       >
