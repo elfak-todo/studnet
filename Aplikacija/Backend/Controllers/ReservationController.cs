@@ -66,7 +66,7 @@ public class ReservationController : ControllerBase
                                 .Include(r => r.ReservedBy)
                                 .ThenInclude(s => s!.Parlament)
                                 .ThenInclude(p => p!.Faculty)
-                                .Where(r => r.EventId == eventId);
+                                .Where(r => r.EventId == eventId && !r.Canceled);
 
         var rSelected = reservations.Select(r => new
         {
@@ -74,7 +74,6 @@ public class ReservationController : ControllerBase
             Username = r.ReservedBy.Username,
             FacultyName = r.ReservedBy.Parlament!.Faculty!.Name,
             Tickets = r.NumberOfTickets,
-            Time = r.ReservationTime,
         });
 
         return Ok(await rSelected.ToListAsync());
