@@ -15,13 +15,12 @@ function HotCard({ element, navigateUrl }) {
   const onEventClicked = (e) => {
     navigate(navigateUrl + element.id);
   };
-
   return (
     element && (
       <div className="hot-card shadow-sm" onClick={onEventClicked}>
         <div
           className="hot-card-img"
-          style={{ backgroundImage: `url(${element.imagePath})` }}
+          style={{ backgroundImage: `url(${element.imagePath === "" || element.imagePath === "/" ? require("../../images/no-image.jpg") : element.imagePath})` }}
         ></div>
         {navigateUrl === "/location/" ? (
           <Image
