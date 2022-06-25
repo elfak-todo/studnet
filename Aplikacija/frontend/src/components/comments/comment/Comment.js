@@ -48,6 +48,8 @@ function Comment({
   const [edit, setEdit] = useState(false);
   const [edited, setEdited] = useState(comment.edited);
 
+  const [popupShown, setPopupShown] = useState(false);
+
   const editTextInputRef = useRef();
 
   const handleEdit = (e) => {
@@ -117,11 +119,14 @@ function Comment({
     <Container className="comment-header">
       <OverlayTrigger
         rootClose
-        trigger="click"
         placement="right"
+        show={popupShown}
         overlay={
           !post.anonymous ? (
-            <Popover>
+            <Popover
+              onMouseEnter={(e) => setPopupShown(true)}
+              onMouseLeave={(e) => setPopupShown(false)}
+            >
               <ProfileHoverCard studentProp={author} />
             </Popover>
           ) : (
@@ -138,6 +143,8 @@ function Comment({
               ? defaultPic
               : author.imagePath
           }
+          onMouseEnter={(e) => setPopupShown(true)}
+          onMouseLeave={(e) => setPopupShown(false)}
           alt="user-pic"
           className="comment-profile-pic"
           roundedCircle

@@ -21,6 +21,34 @@ public class ParlamentController : ControllerBase
         _tokenManager = tokenManager;
     }
 
+    [Route("List/{page}")]
+    [Authorize(Roles = "Admin")]
+    [HttpGet]
+    public async Task<ActionResult> ListParlaments(int page)
+    {
+        const int pageSize = 20;
+
+        var parlamentList = _context.Parlaments
+                                    .Include(p => p.Faculty)
+                                    .Include(p => p.Members)
+                                    .Include(p => p.Events)
+                                    .OrderBy(p => p.ID)
+                                    .Skip(page * pageSize)
+                                    .AsSplitQuery()
+                                    .Take(pageSize);
+
+        var parlamentListSelected = parlamentList.Select(p => new
+        {
+            id = p.ID,
+            name = p.Name,
+            facultyName = p.Faculty != null ? p.Faculty.Name : "",
+            memberCount = p.Members != null ? p.Members.Where(s => s.Role > Role.Student).Count() : 0,
+            eventCount = p.Events != null ? p.Events.Count() : 0,
+        });
+
+        return Ok(await parlamentListSelected.ToListAsync());
+    }
+
     [Route("GetByUniversity/{universityID}")]
     [AllowAnonymous]
     [HttpGet]

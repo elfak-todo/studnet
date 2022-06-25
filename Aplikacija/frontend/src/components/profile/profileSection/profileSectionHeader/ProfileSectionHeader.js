@@ -83,7 +83,10 @@ function ProfileSectionHeader({ studentProp, setStudentProp }) {
       />
       <Card.Body>
         <div className="float-end">
-          <StudentSettings studentProp={studentProp} />
+          <StudentSettings
+            studentProp={studentProp}
+            setStudentProp={setStudentProp}
+          />
         </div>
         <div>
           <div className="header-desc">

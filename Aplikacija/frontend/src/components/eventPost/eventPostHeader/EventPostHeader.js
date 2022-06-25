@@ -2,12 +2,7 @@ import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck, faThumbTack } from "@fortawesome/free-solid-svg-icons";
-import {
-  Image,
-  Card,
-  OverlayTrigger,
-  Popover,
-} from "react-bootstrap";
+import { Image, Card, OverlayTrigger, Popover } from "react-bootstrap";
 
 import "./EventPostHeader.style.css";
 import defaultPic from "../../../images/defaultProfilePic.jpg";
@@ -37,14 +32,19 @@ function EventPostHeader({
 
   const [edit, setEdit] = useState(false);
 
+  const [popupShown, setPopupShown] = useState(false);
+
   return (
     <div className="event-header">
       <OverlayTrigger
         rootClose
-        trigger="click"
+        show={popupShown}
         placement="right"
         overlay={
-          <Popover>
+          <Popover
+            onMouseEnter={(e) => setPopupShown(true)}
+            onMouseLeave={(e) => setPopupShown(false)}
+          >
             <ProfileHoverCard studentProp={author} />
           </Popover>
         }
@@ -54,6 +54,8 @@ function EventPostHeader({
           alt="author-pic"
           className="event-profile-pic"
           roundedCircle
+          onMouseEnter={(e) => setPopupShown(true)}
+          onMouseLeave={(e) => setPopupShown(false)}
         />
       </OverlayTrigger>
       <div className="ms-1">
@@ -88,7 +90,14 @@ function EventPostHeader({
           className="ev-settings"
         />
       ) : null}
-      <EventFormEdit event={event} location={location} edit={edit} setEdit={setEdit} feed={feed} setFeed={setFeed}/>
+      <EventFormEdit
+        event={event}
+        location={location}
+        edit={edit}
+        setEdit={setEdit}
+        feed={feed}
+        setFeed={setFeed}
+      />
     </div>
   );
 }

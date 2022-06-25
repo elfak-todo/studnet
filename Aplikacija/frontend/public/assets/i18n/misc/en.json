@@ -18,9 +18,20 @@
   "female": "Female",
   "male": "Male",
   "fieldsMissing": "Please fill in all the fields.",
-  "ban": "Ban",
+  "ban": "Ban user",
+  "unban": "Unban user",
   "promote": "Promote",
   "verified": "Verified",
   "trendingLocations": "Trending locations",
-  "trendingEvents": "Trending events"
+  "trendingEvents": "Trending events",
+  "promoteToParlamentMember": "Promote to parlament member",
+  "promoteToUniAdmin": "Promote to university admin",
+  "promoteToAdmin": "Promote to portal admin",
+  "delete": "Delete user",
+  "ok": "Ok",
+  "success": "Success",
+  "studentPromoted": "Student promoted successfully!",
+  "studentBanned": "Student banned successfully!",
+  "studentUnbanned": "Student unbanned successfully!",
+  "studentDeleted": "Student deleted successfully!"
 }

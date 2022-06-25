@@ -41,6 +41,8 @@ namespace Backend.Models
 
         public bool IsExchange { get; set; } = false;
 
+        public bool IsBanned { get; set; } = false;
+
         #endregion Props
 
         #region Relations

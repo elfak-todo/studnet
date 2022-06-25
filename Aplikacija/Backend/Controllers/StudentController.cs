@@ -20,7 +20,8 @@ public class StudentController : ControllerBase
     private IImageManager _imageManager;
 
     public StudentController(Context context, IConfiguration config,
-            IAccessTokenManager tokenManager, IPasswordManager passwordManager, IImageManager imageManager)
+            IAccessTokenManager tokenManager, IPasswordManager passwordManager,
+            IImageManager imageManager)
     {
         _context = context;
         _tokenManager = tokenManager;
@@ -28,376 +29,6 @@ public class StudentController : ControllerBase
         _config = config;
         _imageManager = imageManager;
     }
-
-    [Route("GetStudents/{universityId}/{parlamentId}/{page}")]
-    [Authorize(Roles = "ParlamentMember")]
-    [HttpGet]
-    public async Task<ActionResult> GetStudents(int page, int parlamentId, int universityId)
-    {
-
-        const int studentNum = 20;
-
-        var student = await _tokenManager.GetStudent(HttpContext.User);
-        if (student == null)
-        {
-            return BadRequest("UserNotFound");
-        }
-
-        if ((int)student.Role == 0)
-        {
-            return Unauthorized("BadCredentials");
-        }
-
-        var university = await _context.Universities
-                    .Where(p => p.ID == parlamentId)
-                    .Select(p =>
-                    new
-                    {
-                        name = p.Name
-                    }).FirstOrDefaultAsync();
-
-        if (university == null)
-        {
-            return BadRequest("UniversityNotFound");
-        }
-
-        var parlament = await _context.Parlaments
-                    .Include(p => p.Faculty)
-                    .Where(p => p.ID == parlamentId)
-                    .Select(p =>
-                    new
-                    {
-                        facultyName = p.Faculty!.Name
-                    }).FirstOrDefaultAsync();
-
-        if (parlament == null)
-        {
-            return BadRequest("ParlamentNotFound");
-        }
-
-        IQueryable<Student> students;
-
-        if (page == 0)
-        {
-            students = _context.Students.Include(p => p.Parlament)
-                                        .Include(p => p.University)
-                                        .Where(p => p.University!.ID == universityId && p.Parlament!.ID == parlamentId)
-                                        .OrderByDescending(p => p.ID)
-                                        .Take(studentNum);
-        }
-        else
-        {
-            students = _context.Students.Include(p => p.Parlament)
-                                        .Include(p => p.University)
-                                        .Where(p => p.University!.ID == universityId && p.Parlament!.ID == parlamentId)
-                                        .OrderByDescending(p => p.ID)
-                                        .Skip(page * studentNum)
-                                        .Take(studentNum);
-        }
-
-        var selectedStudents = await students.Select(p => new
-        {
-            id = p.ID,
-            username = p.Username,
-            firstName = p.FirstName,
-            lastName = p.LastName,
-            email = p.Email,
-            role = p.Role,
-            gender = p.Gender,
-            isExchange = p.IsExchange,
-            universityName = p.University!.Name,
-            facultyName = p.Parlament!.Faculty!.Name
-
-        }).ToListAsync();
-
-        return Ok(new { university, parlament, selectedStudents });
-    }
-
-    [Route("GetAllStudents/{page}")]
-    [Authorize(Roles = "Admin")]
-    [HttpGet]
-    public async Task<ActionResult> GetAllStudents(int page)
-    {
-
-        const int studentNum = 20;
-
-        var student = await _tokenManager.GetStudent(HttpContext.User);
-        if (student == null)
-        {
-            return BadRequest("UserNotFound");
-        }
-
-        if ((int)student.Role != 3)
-        {
-            return Unauthorized("BadCredentials");
-        }
-
-        IQueryable<Student> students;
-
-        if (page == 0)
-        {
-            students = _context.Students.Include(p => p.University)
-                                        .Include(p => p.Parlament)
-                                        .OrderByDescending(p => p.ID)
-                                        .Take(studentNum);
-        }
-        else
-        {
-            students = _context.Students.Include(p => p.University)
-                                        .Include(p => p.Parlament)
-                                        .OrderByDescending(p => p.ID)
-                                        .Skip(page * studentNum)
-                                        .Take(studentNum);
-        }
-
-        var selectedStudents = students.Select(p => new
-        {
-            id = p.ID,
-            username = p.Username,
-            firstName = p.FirstName,
-            lastName = p.LastName,
-            email = p.Email,
-            role = p.Role,
-            gender = p.Gender,
-            isExchange = p.IsExchange,
-            universityName = p.University!.Name,
-            facultyName = p.Parlament!.Faculty!.Name
-        });
-
-        return Ok(await selectedStudents.ToListAsync());
-    }
-
-    [Route("GetStudentByName/{page}/{input}")]
-    [Authorize(Roles = "ParlamentMember")]
-    [HttpGet]
-    public async Task<ActionResult> GetStudentByName(int page, string input)
-    {
-
-        const int studentNum = 20;
-        string[] arr = input.Split(' ');
-
-        var student = await _tokenManager.GetStudent(HttpContext.User);
-        if (student == null)
-        {
-            return BadRequest("UserNotFound");
-        }
-
-        if ((int)student.Role != 3)
-        {
-            return Unauthorized("BadCredentials");
-        }
-
-        IQueryable<Student> students;
-
-        if (arr.Count() > 1)
-        {
-            if (page == 0)
-            {
-                students = _context.Students.Include(p => p.University)
-                                            .Include(s => s.Parlament!)
-                                            .ThenInclude(p => p.Faculty)
-                                            .AsSplitQuery()
-                                            .Where(p => p.FirstName.Contains(arr[0]) && p.LastName.Contains(arr[1]) 
-                                                     || p.FirstName.Contains(arr[1]) && p.LastName.Contains(arr[0]))
-                                            .OrderByDescending(p => p.ID)
-                                            .Take(studentNum);
-            }
-            else
-            {
-                students = _context.Students.Include(p => p.University)
-                                            .Include(s => s.Parlament!)
-                                            .ThenInclude(p => p.Faculty)
-                                            .AsSplitQuery()
-                                            .Where(p => p.FirstName.Contains(arr[0]) && p.LastName.Contains(arr[1]) 
-                                                     || p.FirstName.Contains(arr[1]) && p.LastName.Contains(arr[0]))
-                                            .OrderByDescending(p => p.ID)
-                                            .Skip(page * studentNum)
-                                            .Take(studentNum);
-            }
-        }
-        else
-        {
-            if (page == 0)
-            {
-                students = _context.Students.Include(p => p.University)
-                                            .Include(s => s.Parlament!)
-                                            .ThenInclude(p => p.Faculty)
-                                            .AsSplitQuery()
-                                            .Where(p => p.FirstName.Contains(arr[0]) || p.LastName.Contains(arr[0]) || p.Username.Contains(arr[0]))
-                                            .OrderByDescending(p => p.ID)
-                                            .Take(studentNum);
-            }
-            else
-            {
-                students = _context.Students.Include(p => p.University)
-                                            .Include(s => s.Parlament!)
-                                            .ThenInclude(p => p.Faculty)
-                                            .AsSplitQuery()
-                                            .Where(p => p.FirstName.Contains(arr[0]) || p.LastName.Contains(arr[0]) || p.Username.Contains(arr[0]))
-                                            .OrderByDescending(p => p.ID)
-                                            .Skip(page * studentNum)
-                                            .Take(studentNum);
-            }
-        }
-
-        var selectedStudents = students.Select(p => new
-        {
-            id = p.ID,
-            username = p.Username,
-            firstName = p.FirstName,
-            lastName = p.LastName,
-            email = p.Email,
-            role = p.Role,
-            gender = p.Gender,
-            isExchange = p.IsExchange,
-            universityName = p.University!.Name,
-            facultyName = p.Parlament!.Faculty!.Name
-        });
-
-        return Ok(await selectedStudents.ToListAsync());
-    }
-
-    [Route("GetAllStudentsMod/{page}")]
-    [Authorize(Roles = "ParlamentMember")]
-    [HttpGet]
-    public async Task<ActionResult> GetAllStudentsMod(int page)
-    {
-        const int studentNum = 20;
-
-        var student = await _tokenManager.GetStudent(HttpContext.User);
-        if (student == null)
-        {
-            return BadRequest("UserNotFound");
-        }
-
-        if ((int)student.Role == 0)
-        {
-            return Unauthorized("BadCredentials");
-        }
-
-        IQueryable<Student> students;
-
-        if (page == 0)
-        {
-            students = _context.Students.Include(p => p.University)
-                                        .Include(p => p.Parlament)
-                                        .OrderByDescending(p => p.ID)
-                                        .Take(studentNum);
-        }
-        else
-        {
-            students = _context.Students.Include(p => p.University)
-                                        .Include(p => p.Parlament)
-                                        .OrderByDescending(p => p.ID)
-                                        .Skip(page * studentNum)
-                                        .Take(studentNum);
-        }
-
-        var selectedStudents = students.Select(p => new
-        {
-            id = p.ID,
-            username = p.Username,
-            firstName = p.FirstName,
-            lastName = p.LastName,
-            role = p.Role,
-            gender = p.Gender,
-            isExchange = p.IsExchange,
-            universityName = p.University!.Name,
-            facultyName = p.Parlament!.Faculty!.Name
-        });
-
-        return Ok(await selectedStudents.ToListAsync());
-    }
-
-    [Route("GetStudentByNameMod/{page}/{input}")]
-    [Authorize(Roles = "ParlamentMember")]
-    [HttpGet]
-    public async Task<ActionResult> GetStudentByNameMod(int page, string input)
-    {
-
-        const int studentNum = 20;
-        string[] arr = input.Split(' ');
-
-        var student = await _tokenManager.GetStudent(HttpContext.User);
-        if (student == null)
-        {
-            return BadRequest("UserNotFound");
-        }
-
-        if ((int)student.Role == 0)
-        {
-            return Unauthorized("BadCredentials");
-        }
-
-        IQueryable<Student> students;
-
-        if (arr.Count() > 1)
-        {
-            if (page == 0)
-            {
-                students = _context.Students.Include(p => p.University)
-                                            .Include(s => s.Parlament!)
-                                            .ThenInclude(p => p.Faculty)
-                                            .AsSplitQuery()
-                                            .Where(p => p.FirstName.Contains(arr[0]) && p.LastName.Contains(arr[1])
-                                                     || p.FirstName.Contains(arr[1]) && p.LastName.Contains(arr[0]))
-                                            .OrderByDescending(p => p.ID)
-                                            .Take(studentNum);
-            }
-            else
-            {
-                students = _context.Students.Include(p => p.University)
-                                            .Include(s => s.Parlament!)
-                                            .ThenInclude(p => p.Faculty)
-                                            .AsSplitQuery()
-                                            .Where(p => p.FirstName.Contains(arr[0]) && p.LastName.Contains(arr[1])
-                                                     || p.FirstName.Contains(arr[1]) && p.LastName.Contains(arr[0]))
-                                            .OrderByDescending(p => p.ID)
-                                            .Skip(page * studentNum)
-                                            .Take(studentNum);
-            }
-        }
-        else
-        {
-            if (page == 0)
-            {
-                students = _context.Students.Include(p => p.University)
-                                            .Include(s => s.Parlament!)
-                                            .ThenInclude(p => p.Faculty)
-                                            .AsSplitQuery()
-                                            .Where(p => p.FirstName.Contains(arr[0]) || p.LastName.Contains(arr[0]) || p.Username.Contains(arr[0]))
-                                            .OrderByDescending(p => p.ID)
-                                            .Take(studentNum);
-            }
-            else
-            {
-                students = _context.Students.Include(p => p.University)
-                                            .Include(s => s.Parlament!)
-                                            .ThenInclude(p => p.Faculty)
-                                            .AsSplitQuery()
-                                            .Where(p => p.FirstName.Contains(arr[0]) || p.LastName.Contains(arr[0]) || p.Username.Contains(arr[0]))
-                                            .OrderByDescending(p => p.ID)
-                                            .Skip(page * studentNum)
-                                            .Take(studentNum);
-            }
-        }
-
-        var selectedStudents = students.Select(p => new
-        {
-            id = p.ID,
-            username = p.Username,
-            firstName = p.FirstName,
-            lastName = p.LastName,
-            role = p.Role,
-            gender = p.Gender,
-            isExchange = p.IsExchange,
-            universityName = p.University!.Name,
-            facultyName = p.Parlament!.Faculty!.Name
-        });
-
-        return Ok(await selectedStudents.ToListAsync());
-    }
-
 
     [Route("{studentId}")]
     [Authorize(Roles = "Student")]
@@ -442,9 +73,100 @@ public class StudentController : ControllerBase
                 parlamentId = student.Parlament!.ID,
                 postCount = student.PublishedPosts!.Count(),
                 locationCount = student.Locations!.Count(),
-                eventCount = student.PublishedEvents!.Count()
+                eventCount = student.PublishedEvents!.Count(),
+                isBanned = student.IsBanned
             }
         );
+    }
+
+    [Route("List/{page}")]
+    [Authorize(Roles = "ParlamentMember")]
+    [HttpGet]
+    public async Task<ActionResult> SearchStudents(int page,
+                                                    [FromQuery] int? uniId,
+                                                    [FromQuery] int? parId,
+                                                    [FromQuery] string? q,
+                                                    [FromQuery] bool? isPMember,
+                                                    [FromQuery] Role? role,
+                                                    [FromQuery] bool? adminMode)
+    {
+        const int studentNum = 20;
+
+        var student = await _tokenManager.GetStudent(HttpContext.User);
+
+        if (student == null)
+        {
+            return Unauthorized();
+        }
+
+        if (adminMode == true && student.Role < Role.AdminUni)
+        {
+            return Forbid();
+        }
+
+        if (adminMode == false)
+        {
+            parId = student.ParlamentId;
+            uniId = student.UniversityId;
+        }
+
+        List<string>? toks = null;
+
+        if (q != null)
+        {
+            toks = new List<string>(q.Split(' '));
+        }
+
+        var students = _context.Students
+            .Include(p => p.University)
+            .Include(p => p.Parlament)
+            .Where(p => (uniId == null || p.UniversityId == uniId)
+                && (parId == null || p.ParlamentId == parId)
+                && (toks == null
+                    || p.FirstName.Contains(toks[0]) || (toks.Count() > 1 && p.FirstName.Contains(toks[1]))
+                    || p.LastName.Contains(toks[0]) || (toks.Count() > 1 && p.LastName.Contains(toks[1]))
+                    || p.Username.Contains(toks[0]) || (toks.Count() > 1 && p.Username.Contains(toks[1])))
+                && (isPMember == null || p.Role > Role.Student)
+                && (role == null || p.Role == role))
+            .AsSplitQuery()
+            .OrderByDescending(p => p.ID)
+            .Skip(page * studentNum)
+            .Take(studentNum);
+
+        if (adminMode == true)
+        {
+            var selectedStudents = students.Select(p => new
+            {
+                id = p.ID,
+                username = p.Username,
+                firstName = p.FirstName,
+                lastName = p.LastName,
+                email = p.Email,
+                role = p.Role,
+                gender = p.Gender,
+                isExchange = p.IsExchange,
+                universityName = p.University!.Name,
+                facultyName = p.Parlament!.Faculty!.Name,
+                isBanned = p.IsBanned
+            });
+
+            return Ok(await selectedStudents.ToListAsync());
+        }
+        else
+        {
+            var selectedStudents = students.Select(p => new
+            {
+                id = p.ID,
+                username = p.Username,
+                firstName = p.FirstName,
+                lastName = p.LastName,
+                role = p.Role,
+                gender = p.Gender,
+                isExchange = p.IsExchange,
+            });
+
+            return Ok(await selectedStudents.ToListAsync());
+        }
     }
 
     [Route("Login")]
@@ -472,6 +194,11 @@ public class StudentController : ControllerBase
         if (student == null || !_passwordManager.verifyPassword(creds.Password, student.Password))
         {
             return Unauthorized("BadCredentials");
+        }
+
+        if (student.IsBanned)
+        {
+            return Forbid("StudentBanned");
         }
 
         if (student.University == null)
@@ -825,50 +552,123 @@ public class StudentController : ControllerBase
         await _context.SaveChangesAsync();
         return Ok(imagePath);
     }
-    
-    /*
-    [Route("Delete/{userId}")]
-    [Authorize(Roles = "Admin")]
-    [HttpDelete]
-    public async Task<ActionResult> BanUser(int studentId)
+
+    [Route("{studentId}/Ban/{banned}")]
+    [Authorize(Roles = "AdminUni")]
+    [HttpPatch]
+    public async Task<ActionResult> SetBannedStudent(int studentId, bool banned)
     {
-        var user = _tokenManager.GetUserDetails(HttpContext.User);
+        var student = await _context.Students.FindAsync(studentId);
 
-        if (user == null)
+        if (student == null)
         {
-            return BadRequest("BadToken");
+            return NotFound("StudentNotFound");
         }
 
-        if (user.Role < Role.AdminUni)
+        student.IsBanned = banned;
+        await _context.SaveChangesAsync();
+        return Ok(banned);
+    }
+
+    [Route("{studentId}/Role/{role}")]
+    [Authorize(Roles = "AdminUni")]
+    [HttpPatch]
+    public async Task<ActionResult> ChangeStudentRole(int studentId, Role role)
+    {
+        var userDetails = _tokenManager.GetUserDetails(HttpContext.User);
+
+        if (userDetails == null)
         {
-            return Forbid("notAuthorized");
+            return Unauthorized();
         }
 
-        var student = _context.Get
-
-        var posts = _context.Posts.Include(p => p.Author!)
-                                .ThenInclude(a => a.Parlament!)
-                                .ThenInclude(p => p.Faculty)
-                                .Include(p => p.Comments!)
-                                .ThenInclude(c => c.LikedBy)
-                                .Include(p => p.LikedBy)
-                                .AsSplitQuery()
-                                .Where(p => p.AuthorId == studentId
-                                    && (!p.Anonymous || student.ID == studentId))
-                                .OrderByDescending(p => p.PublicationTime);
-
-        if (posts == null)
+        if (role > userDetails.Role)
         {
-            return BadRequest("PostNotFound");
+            return Forbid();
         }
-        
-        _context.Posts.Remove(posts);
 
+        var student = await _context.Students.FindAsync(studentId);
 
+        if (student == null)
+        {
+            return NotFound("StudentNotFound");
+        }
 
+        student.Role = role;
+        await _context.SaveChangesAsync();
+        return Ok(student.Role);
+    }
+
+    [Route("{studentId}")]
+    [Authorize(Roles = "Student")]
+    [HttpDelete]
+    public async Task<ActionResult> DeleteUser(int studentId)
+    {
+        var userDetails = _tokenManager.GetUserDetails(HttpContext.User);
+
+        if (userDetails == null)
+        {
+            return Unauthorized();
+        }
+
+        if (userDetails.Role < Role.AdminUni && userDetails.ID != studentId)
+        {
+            return Forbid("NotAuthorized");
+        }
+
+        var student = await _context.Students
+                        .Include(s => s.PublishedPosts!)
+                        .ThenInclude(p => p.Comments)
+                        .Include(s => s.PublishedEvents!)
+                        .ThenInclude(p => p.Comments)
+                        .Include(s => s.PublishedEvents!)
+                        .ThenInclude(e => e.Reservations)
+                        .Include(s => s.PublishedComments)
+                        .Include(s => s.Locations!)
+                        .ThenInclude(l => l.Grades)
+                        .Include(s => s.Reservations)
+                        .AsSplitQuery()
+                        .FirstOrDefaultAsync(s => s.ID == studentId);
+
+        if (student == null)
+        {
+            return NotFound("StudentNotFound");
+        }
+
+        var posts = _context.Posts
+                        .Include(p => p.Comments)
+                        .Where(p => p.AuthorId == studentId);
+
+        var events = _context.Events
+                        .Include(e => e.Comments)
+                        .Include(e => e.Reservations)
+                        .Where(e => e.OrganiserId == studentId);
+
+        var reservations = _context.Reservations
+                        .Where(r => r.ReservedById == studentId);
+
+        var comments = _context.Comments
+                        .Where(c => c.AuthorId == studentId);
+
+        var locations = _context.Locations
+                        .Include(l => l.Grades)
+                        .Include(l => l.Events!)
+                        .ThenInclude(e => e.Comments)
+                        .AsSplitQuery()
+                        .Where(l => l.AuthorId == studentId);
+
+        var grades = _context.Grades
+                        .Where(g => g.GradedById == studentId);
+
+        _context.Students.Remove(student);
+        _context.Posts.RemoveRange(posts);
+        _context.Events.RemoveRange(events);
+        _context.Reservations.RemoveRange(reservations);
+        _context.Comments.RemoveRange(comments);
+        _context.Locations.RemoveRange(locations);
+        _context.Grades.RemoveRange(grades);
         await _context.SaveChangesAsync();
         return Ok();
     }
-    */
 }
 

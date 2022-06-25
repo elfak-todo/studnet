@@ -41,7 +41,7 @@ function ProfileHoverCard({ studentProp }) {
       <p className="mb-1"> {student.university} </p>
       <p> {studentProp.facultyName} </p>
       <Button
-        className="mt-3"
+        className="mt-2 mb-1"
         size="sm"
         onClick={() => navigate("/student/" + studentProp.id)}
       >
