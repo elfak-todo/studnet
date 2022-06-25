@@ -169,7 +169,7 @@ public class StudentController : ControllerBase
         }
     }
     [Route("InterestingData")]
-    [Authorize(Roles = "ParlamentMember")]
+    [Authorize(Roles = "Admin")]
     [HttpGet]
     public async Task<ActionResult> InterestingData()
     {

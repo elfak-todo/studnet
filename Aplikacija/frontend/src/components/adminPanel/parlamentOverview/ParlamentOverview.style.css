@@ -1,0 +1,31 @@
+.par-mod-cont {
+    height: calc(100vh - 70px) !important;
+    width: 100% !important;
+    overflow-y: scroll;
+}
+.par-mod-items-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+.par-mod-pic-div {
+    margin: 10px;
+    width: 60rem !important;
+    height: 30rem !important;
+}
+.par-mod-pic {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+@media only screen and (max-width: 1300px) {
+    .par-mod-pic-div {
+        width: auto !important;
+        height: auto !important;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+}

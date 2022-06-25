@@ -3,7 +3,11 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { NavDropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faRightFromBracket, faGears } from "@fortawesome/free-solid-svg-icons";
+import {
+  faUser,
+  faRightFromBracket,
+  faGears,
+} from "@fortawesome/free-solid-svg-icons";
 
 import defaultPic from "../../../images/defaultProfilePic.jpg";
 import StudentContext from "../../studentManager/StudentManager.js";
@@ -42,17 +46,19 @@ function ProfileDropdown() {
     >
       <NavDropdown.Item onClick={() => navigate("/student/" + student.id)}>
         <FontAwesomeIcon icon={faUser} className="comment-like-icon-sm" />
-         {t("profile")}
+        {t("profile")}
       </NavDropdown.Item>
       {student?.role === 3 && (
         <NavDropdown.Item onClick={() => navigate("/admin")}>
-          <FontAwesomeIcon icon={faGears} className="comment-like-icon-sm" />{t("admin")}
+          <FontAwesomeIcon icon={faGears} className="comment-like-icon-sm" />
+          {t("admin")}
         </NavDropdown.Item>
       )}
       {(student?.role === 1 || student?.role === 2) && (
-        <NavDropdown.Item onClick={() => navigate("/mod")}>
-        <FontAwesomeIcon icon={faGears} className="comment-like-icon-sm" />{t("moderate")}
-      </NavDropdown.Item>
+        <NavDropdown.Item onClick={() => navigate("/admin")}>
+          <FontAwesomeIcon icon={faGears} className="comment-like-icon-sm" />
+          {t("parlament")}
+        </NavDropdown.Item>
       )}
       <NavDropdown.Divider />
       <NavDropdown.Item onClick={logout}>

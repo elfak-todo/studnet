@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { Tabs, Tab } from "react-bootstrap";
 
 import Post from "../../post/Post.js";
-import EventPost from "../../eventPost/EventPost.js"
+import EventPost from "../../eventPost/EventPost.js";
 import "./ProfileFeed.style.css";
 import Feed from "../../feed/Feed.js";
 import StudentContext from "../../studentManager/StudentManager.js";
@@ -12,7 +12,7 @@ import StudentContext from "../../studentManager/StudentManager.js";
 import ProfilePostForm from "../profilePostForm/ProfilePostForm.js";
 import LocationTrendingCard from "../../locationTrendingCard/LocationTrendingCard.js";
 
-function ProfileFeed({ studentProp }) {
+function ProfileFeed({ studentProp, parlamentFeed }) {
   const { t } = useTranslation(["profile", "misc"]);
 
   const { student } = useContext(StudentContext);
@@ -24,8 +24,10 @@ function ProfileFeed({ studentProp }) {
   useEffect(() => {
     if (studentProp) {
       setUrl(`Student/${studentProp.id}`);
+    } else if (parlamentFeed) {
+      setUrl(`Parlament`);
     }
-  }, [studentProp]);
+  }, [studentProp, parlamentFeed]);
 
   return (
     <Tabs
@@ -40,11 +42,8 @@ function ProfileFeed({ studentProp }) {
         tabClassName="profile-feed-tab"
         title={t("misc:events")}
       >
-        {openedTab === "events" && studentProp && url && (
-          <Feed
-            url={url + "/Events"}
-            FeedCard={EventPost}
-          />
+        {openedTab === "events" && (studentProp || ProfileFeed) && url && (
+          <Feed url={url + "/Events"} FeedCard={EventPost} />
         )}
       </Tab>
       <Tab
@@ -53,7 +52,7 @@ function ProfileFeed({ studentProp }) {
         tabClassName="profile-feed-tab"
         title={t("misc:posts")}
       >
-        {openedTab === "posts" && studentProp && url && (
+        {openedTab === "posts" && (studentProp || ProfileFeed) && url && (
           <Feed
             url={url + "/Posts"}
             FeedCard={Post}
@@ -68,7 +67,7 @@ function ProfileFeed({ studentProp }) {
         tabClassName="profile-feed-tab"
         title={t("misc:locations")}
       >
-        {openedTab === "locations" && studentProp && url && (
+        {openedTab === "locations" && (studentProp || ProfileFeed) && url && (
           <>
             <div className="my-3"></div>
             <Feed url={url + "/Locations"} FeedCard={LocationTrendingCard} />

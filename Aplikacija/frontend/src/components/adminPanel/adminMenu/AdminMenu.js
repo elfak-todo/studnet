@@ -1,15 +1,17 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Card, Button } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import StudentSearch from "../studentSearch/StudentSearch";
 import AddUniversity from "../addUniversity/AddUniversity";
 import AddParlament from "../addParlament/AddParlament";
+import StudentContext from "../../studentManager/StudentManager";
 import "./AdminMenu.style.css";
 
 function AdminMenu({
   showStudent,
   showUni,
   showPar,
+  setShowParOverview,
   setStudents,
   pageNum,
   setPageNum,
@@ -18,6 +20,8 @@ function AdminMenu({
   setFetching,
 }) {
   const { t } = useTranslation(["admin"]);
+
+  const { student } = useContext(StudentContext);
 
   const [showAddUni, setShowAddUni] = useState(false);
   const [showAddPar, setShowAddPar] = useState(false);
@@ -39,51 +43,69 @@ function AdminMenu({
               searchDisabled={searchDisabled}
             />
             <div className="admin-menu-navs">
+              {student.role === 1 && (
+                <p
+                  onClick={() => {
+                    showStudent(false);
+                    setSearchDisabled(true);
+                    setShowParOverview(true);
+                  }}
+                >
+                  {t("parlamentTable")}
+                </p>
+              )}
               <p
                 onClick={() => {
                   showStudent(true);
                   showUni(false);
                   showPar(false);
                   setSearchDisabled(false);
+                  setShowParOverview(false);
                 }}
               >
                 {t("studentTable")}
               </p>
-              <p
-                onClick={() => {
-                  showStudent(false);
-                  showUni(true);
-                  showPar(false);
-                  setSearchDisabled(true);
-                }}
-              >
-                {t("universityTable")}
-              </p>
-              <p
-                onClick={() => {
-                  showStudent(false);
-                  showUni(false);
-                  showPar(true);
-                  setSearchDisabled(true);
-                }}
-              >
-                {t("parlamentTable")}
-              </p>
+              {student.role === 3 && (
+                <p
+                  onClick={() => {
+                    showStudent(false);
+                    showUni(true);
+                    showPar(false);
+                    setSearchDisabled(true);
+                  }}
+                >
+                  {t("universityTable")}
+                </p>
+              )}
+              {student.role === 3 && (
+                <p
+                  onClick={() => {
+                    showStudent(false);
+                    showUni(false);
+                    showPar(true);
+                    setSearchDisabled(true);
+                  }}
+                >
+                  {t("parlamentTable")}
+                </p>
+              )}
             </div>
-            <div className="admin-menu-btn-div">
-              <Button
-                className="admin-menu-btn"
-                onClick={() => setShowAddUni(true)}
-              >
-                {t("addUniversity")}
-              </Button>
-              <Button
-                className="mt-2 admin-menu-btn"
-                onClick={() => setShowAddPar(true)}
-              >
-                {t("addParlament")}
-              </Button>
-            </div>
+            {student.role === 3 && (
+              <div className="admin-menu-btn-div">
+                <Button
+                  className="admin-menu-btn"
+                  onClick={() => setShowAddUni(true)}
+                >
+                  {t("addUniversity")}
+                </Button>
+                <Button
+                  className="mt-2 admin-menu-btn"
+                  onClick={() => setShowAddPar(true)}
+                >
+                  {t("addParlament")}
+                </Button>
+              </div>
+            )}
           </div>
         </Card.Body>
       </Card>

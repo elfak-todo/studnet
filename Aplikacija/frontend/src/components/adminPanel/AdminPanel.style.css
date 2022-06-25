@@ -1,5 +1,4 @@
 .admin-panel-div {
-    /* -70px for navbar */
     height: calc(100vh - 70px)
 }
 .admin-panel-items {

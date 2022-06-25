@@ -1,7 +1,8 @@
 {
-    "studentTable": "Tabela Studenata",
-    "universityTable": "Tabela Univerziteta",
-    "parlamentTable": "Tabela Parlamenta",
+    "studentTable": "Pregled Studenata",
+    "universityTable": "Pregled Univerziteta",
+    "parlamentTable": "Pregled Parlamenta",
+    "InformationOverview": "Pregled Informacija",
     "addUniversity": "Dodaj univerzitet",
     "addParlament": "Dodaj parlament",
     "universityName": "Naziv Univerziteta",
@@ -19,5 +20,8 @@
     "postCount": "Broj objava",
     "locationCount": "Broj lokacija",
     "eventCount": "Broj događaja",
-    "memberCount": "Broj članova"
+    "memberCount": "Broj članova",
+    "parlamentMember": "Član parlamenta",
+    "uniAdmin": "Administrator univerziteta",
+    "admin": "Administrator"
 }

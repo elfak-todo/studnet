@@ -11,21 +11,45 @@ import {
   faCalendarCheck,
 } from "@fortawesome/free-solid-svg-icons";
 
-import "./StudentTable.style.css";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import CountUp from "../../countUp/CountUp";
+import StudentContext from "../../studentManager/StudentManager";
+
+import "./StudentTable.style.css";
 
 function StudentTable({ students, hasMore, setPageNum, fetching }) {
   const { t } = useTranslation(["register", "misc", "event"]);
 
   const navigate = useNavigate();
+  const { student } = useContext(StudentContext);
+
   const [counters, setCounters] = useState([]);
 
+  const theadAdmin = [
+    "",
+    "name",
+    "username",
+    "email",
+    "university",
+    "faculty",
+    "role",
+    "gender",
+  ];
+  const theadParlament = ["", "name", "username", "role", "gender"];
+  const theadToMap =
+    student.role === 3
+      ? theadAdmin
+      : student.role === 1
+      ? theadParlament
+      : null;
+
   useEffect(() => {
+    if (student.role < 3) return;
     axios.get("Student/InterestingData").then((res) => {
       setCounters(res.data);
     });
-  }, []);
+  }, [student.role]);
+
   const getRole = (role) => {
     switch (role) {
       case 0:
@@ -49,53 +73,46 @@ function StudentTable({ students, hasMore, setPageNum, fetching }) {
 
   return (
     <>
-      <div className="d-flex justify-content-center">
-        <div className="student-counter">
-          <FontAwesomeIcon
-            icon={faUserGraduate}
-            className="student-icon-counter"
-          />
-          <p className="m-0">{t("misc:students")}</p>
-          <CountUp end={counters.studentCounter} />
+      {student.role === 3 && (
+        <div className="d-flex justify-content-center">
+          <div className="student-counter">
+            <FontAwesomeIcon
+              icon={faUserGraduate}
+              className="student-icon-counter"
+            />
+            <p className="m-0">{t("misc:students")}</p>
+            <CountUp end={counters.studentCounter} />
+          </div>
+          <div className="student-counter">
+            <FontAwesomeIcon
+              icon={faClipboard}
+              className="student-icon-counter"
+            />
+            <p className="m-0">{t("misc:posts")}</p>
+            <CountUp end={counters.postCounter} />
+          </div>
+          <div className="student-counter">
+            <FontAwesomeIcon
+              icon={faCalendarCheck}
+              className="student-icon-counter"
+            />
+            <p className="m-0">{t("misc:events")}</p>
+            <CountUp end={counters.eventCounter} />
+          </div>
+          <div className="student-counter">
+            <FontAwesomeIcon
+              icon={faLocationDot}
+              className="student-icon-counter"
+            />
+            <p className="m-0">{t("misc:locations")}</p>
+            <CountUp end={counters.locationsCounter} />
+          </div>
         </div>
-        <div className="student-counter">
-          <FontAwesomeIcon
-            icon={faClipboard}
-            className="student-icon-counter"
-          />
-          <p className="m-0">{t("misc:posts")}</p>
-          <CountUp end={counters.postCounter} />
-        </div>
-        <div className="student-counter">
-          <FontAwesomeIcon
-            icon={faCalendarCheck}
-            className="student-icon-counter"
-          />
-          <p className="m-0">{t("misc:events")}</p>
-          <CountUp end={counters.eventCounter} />
-        </div>
-        <div className="student-counter">
-          <FontAwesomeIcon
-            icon={faLocationDot}
-            className="student-icon-counter"
-          />
-          <p className="m-0">{t("misc:locations")}</p>
-          <CountUp end={counters.locationsCounter} />
-        </div>
-      </div>
+      )}
       <Table striped hover responsive className="shadow mt-2">
         <thead className="student-thead">
           <tr>
-            {[
-              "",
-              "name",
-              "username",
-              "email",
-              "university",
-              "faculty",
-              "role",
-              "gender",
-            ].map((col) => (
+            {theadToMap.map((col) => (
               <th key={col}> {t(`register:${col}`)} </th>
             ))}
           </tr>
@@ -110,9 +127,13 @@ function StudentTable({ students, hasMore, setPageNum, fetching }) {
               <td> {i + 1} </td>
               <td>{s.firstName + " " + s.lastName}</td>
               <td>{s.username}</td>
-              <td>{s.email}</td>
-              <td>{s.universityName}</td>
-              <td>{s.facultyName}</td>
+              {student.role === 3 && (
+                <>
+                  <td>{s.email}</td>
+                  <td>{s.universityName}</td>
+                  <td>{s.facultyName}</td>
+                </>
+              )}
               <td>{getRole(s.role)}</td>
               <td>{s.gender === "m" ? t("misc:male") : t("misc:female")} </td>
             </tr>
