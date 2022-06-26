@@ -42,7 +42,7 @@ function ParlamentTable() {
   return (
     <>
       <Table striped hover responsive className="shadow">
-        <thead className="student-thead">
+        <thead className="student-thead text-center">
           <tr>
             {[
               "",
@@ -55,7 +55,7 @@ function ParlamentTable() {
             ))}
           </tr>
         </thead>
-        <tbody>
+        <tbody className="text-center">
           {parlaments?.map((p, i) => (
             <tr
               key={p.id}

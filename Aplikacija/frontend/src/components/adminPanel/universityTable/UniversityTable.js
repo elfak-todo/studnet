@@ -39,7 +39,7 @@ function UniversityTable() {
   return (
     <>
       <Table striped hover responsive className="shadow">
-        <thead className="student-thead">
+        <thead className="student-thead text-center">
           <tr>
             {[
               "",
@@ -54,7 +54,7 @@ function UniversityTable() {
             ))}
           </tr>
         </thead>
-        <tbody>
+        <tbody className="text-center">
           {universites?.map((u, i) => (
             <tr key={u.id}>
               <td> {i + 1} </td>

@@ -119,14 +119,14 @@ function StudentTable({ students, hasMore, setPageNum, fetching }) {
         </div>
       )}
       <Table striped hover responsive className="shadow mt-2">
-        <thead className="student-thead">
+        <thead className="student-thead text-center">
           <tr>
             {theadToMap.map((col) => (
               <th key={col}> {t(`register:${col}`)} </th>
             ))}
           </tr>
         </thead>
-        <tbody>
+        <tbody className="text-center">
           {students?.map((s, i) => (
             <tr
               key={s.id}
