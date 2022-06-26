@@ -2,40 +2,41 @@ import { Button, CloseButton, Modal } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
 function ConfirmationDialog({
-  showConfirmation,
-  setShowConfirmation,
+  shown,
+  setConfDialog,
   callback,
   text,
+  confirmBtnText,
 }) {
   const { t } = useTranslation(["info"]);
+
   return (
-    <Modal
-      centered
-      show={showConfirmation}
-      onHide={() => setShowConfirmation(false)}
-    >
+    <Modal centered show={shown} onHide={() => setConfDialog({ shown: false })}>
       <Modal.Header style={{ backgroundColor: "#4e54c8" }}>
         <Modal.Title style={{ color: "white" }}>
-          {t(`${text}Heading`)}
+          {t("confirmAction")}
         </Modal.Title>
         <CloseButton
           variant="white"
-          onClick={() => setShowConfirmation(false)}
+          onClick={() => setConfDialog({ shown: false })}
         />
       </Modal.Header>
       <Modal.Body>{t(text)}</Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={() => setShowConfirmation(false)}>
+        <Button
+          variant="secondary"
+          onClick={() => setConfDialog({ shown: false })}
+        >
           {t("cancel")}
         </Button>
         <Button
           variant="primary"
           onClick={() => {
-            setShowConfirmation(false);
+            setConfDialog({ shown: false });
             callback();
           }}
         >
-          {t("delete")}
+          {t(confirmBtnText)}
         </Button>
       </Modal.Footer>
     </Modal>

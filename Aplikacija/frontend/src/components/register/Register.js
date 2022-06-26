@@ -9,7 +9,7 @@ function Register() {
   return (
     <Container fluid className="register">
       <RegisterForm />
-      <SelectLanguage />
+      <SelectLanguage onNavbar={false}/>
     </Container>
   );
 }

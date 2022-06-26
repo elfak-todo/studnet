@@ -1,4 +1,5 @@
 {
+    "confirmAction": "Confirm Action",
     "title": "The title must not be longer than 128 characters.",
     "location": "Choose a location or create a new one.",
     "startDate": "Enter the start time of the event.",
@@ -8,6 +9,10 @@
     "pic": "Supported image formats are JPEG and PNG.",
     "desc": "Description must not be longer than 2048 characters.",
     "delete": "Delete",
+    "confirm" : "Confirm",
+    "ban": "Ban",
+    "promote": "Promote",
+    "unban": "Unban",
     "cancel": "Cancel",
     "deleteEvent": "Are you sure you want to delete this event?",
     "deleteEventHeading": "Delete event",
@@ -18,5 +23,13 @@
     "deleteLocation": "Are you sure you want to delete this location?",
     "deleteLocationHeading": "Delete location",
     "deleteCommentHeading": "Delete comment",
-    "deleteComment": "Are you sure you want to delete this comment?"
+    "deleteComment": "Are you sure you want to delete this comment?",
+    "banStudent": "Are you sure you want to ban this student?",
+    "unbanStudent": "Are you sure you want to unban this student?",
+    "promoteToAdmin": "Are you sure you want to promote this student to admin?",
+    "promoteToUniAdmin": "Are you sure you want to promote this student to university admin?",
+    "promoteToParMember": "Are you sure you want to promote this student to parlament member?",
+    "deleteStudent": "Are you sure you want to delete this student's account?",
+    "cancelResConf": "Are you sure you want to cancel your reservation for this event? This action is irreversible, you will not be able to reserve tickets for this event again."
+    
 }

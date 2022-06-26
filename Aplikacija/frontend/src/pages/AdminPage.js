@@ -12,7 +12,7 @@ function AdminPage() {
 
   return (
     <>
-      {student.role > 0 ? (
+      {student.role === 3 ? (
         <AdminPanel />
       ) : (
         <ResourceNotFound text={t("resNotFound")} />

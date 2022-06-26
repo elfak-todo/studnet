@@ -1,4 +1,5 @@
 {
+    "confirmAction": "Potvrdi akciju",
     "title": "Naslov ne sme biti duži od 128 karaktera.",
     "location": "Izaberite lokaciju ili kreirajte novu.",
     "startDate": "Unesite datum i vreme početka događaja.",
@@ -8,6 +9,10 @@
     "pic": "Podržani formati slike su JPEG i PNG.",
     "desc": "Opis ne sme biti duži od 2048 karaktera.",
     "delete": "Obriši",
+    "confirm" : "Potvrdi",
+    "ban": "Deaktiviraj",
+    "promote": "Promoviši",
+    "unban": "Aktiviraj",
     "cancel": "Odustani",
     "deleteEvent": "Da li ste sigurni da želite da obrišete ovaj događaj?",
     "deleteEventHeading": "Brisanje događaja",
@@ -18,5 +23,12 @@
     "deleteLocation": "Da li ste sigurni da želite da obrišete ovu lokaciju?",
     "deleteLocationHeading": "Brisanje lokacije",
     "deleteCommentHeading": "Brisanje komentara",
-    "deleteComment": "Da li ste sigurni da želite da obrišete ovaj komentar?"
+    "deleteComment": "Da li ste sigurni da želite da obrišete ovaj komentar?",
+    "banStudent": "Da li ste sigurni da želite da deaktivirate nalog ovog studenta?",
+    "unbanStudent": "Da li ste sigurni da želite da aktivirate nalog ovog studenta?",
+    "promoteToAdmin": "Da li ste sigurni da želite da promovišete nalog ovog studenta u administratora?",
+    "promoteToUniAdmin": "Da li ste sigurni da želite da promovišete nalog ovog studenta u administratora univerziteta?",
+    "promoteToParMember": "Da li ste sigurni da želite da promovišete nalog ovog studenta u člana parlamenta?",
+    "deleteStudent": "Da li ste sigurni da želite da obrišete nalog ovog studenta?",
+    "cancelResConf": "Da li ste sigurni da želite da otkažete rezervaciju za ovaj događaj? Ova akcija je nepovratna, nećete biti u mogućnosti da ponovo rezervišete karte za ovaj događaj."
 }
