@@ -612,6 +612,11 @@ public class StudentController : ControllerBase
         {
             return NotFound("StudentNotFound");
         }
+        
+        if (student.IsExchange)
+        {
+            return Forbid();
+        }
 
         student.Role = role;
         await _context.SaveChangesAsync();

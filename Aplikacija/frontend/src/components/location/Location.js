@@ -24,8 +24,9 @@ function Location({ location, setLocation, author }) {
 
   const { student } = useContext(StudentContext);
 
-  const handleEditLocation = () => {
-    navigate("/location/edit/" + location.id);
+  const handleEditLocation = () => { 
+    if (student.role >= 2 || student.id === author.id)
+      navigate("/location/edit/" + location.id);
   };
 
   return (
@@ -42,7 +43,7 @@ function Location({ location, setLocation, author }) {
         >
           <h1 className="text-center pt-5 pb-1 location-cover-image-text">
             {location.name}
-            {(student.role >= 2 || student.Id === author.Id) && (
+            {(student.role >= 2 || student.id === author.id) && (
               <Button
                 variant="primary"
                 size="sm"

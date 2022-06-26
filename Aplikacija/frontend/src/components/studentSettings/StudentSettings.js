@@ -99,7 +99,8 @@ function StudentSettings({ studentProp, setStudentProp }) {
         title={<FontAwesomeIcon icon={faGear} className="settings-icon" />}
         className="ms-auto"
       >
-        {studentProp.role === 0 && (
+        
+        {studentProp.role === 0 && studentProp.isExchange(
           <NavDropdown.Item
             onClick={() => {
               changeStudentRole(1);
