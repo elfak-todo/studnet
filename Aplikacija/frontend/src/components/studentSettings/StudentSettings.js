@@ -107,8 +107,7 @@ function StudentSettings({ studentProp, setStudentProp }) {
         title={<FontAwesomeIcon icon={faGear} className="settings-icon" />}
         className="ms-auto"
       >
-        
-        {studentProp.role === 0 && !studentProp.isExchange &&(
+        {studentProp.role === 0 && !studentProp.isExchange && (
           <NavDropdown.Item
           onClick={() =>
             setConfDialog({
@@ -127,7 +126,7 @@ function StudentSettings({ studentProp, setStudentProp }) {
             {t("promoteToParlamentMember")}
           </NavDropdown.Item>
         )}
-        {student.role > 1 && studentProp.role <= 1 && (
+        {student.role > 1 && studentProp.role <= 1 && !studentProp.isExchange && (
           <>
             <NavDropdown.Item
               onClick={() =>
@@ -146,7 +145,7 @@ function StudentSettings({ studentProp, setStudentProp }) {
               />
               {t("promoteToUniAdmin")}
             </NavDropdown.Item>
-            {student.role > 2 && studentProp.role <= 2 && (
+            {student.role > 2 && studentProp.role <= 2 && !studentProp.isExchange && (
               <NavDropdown.Item
                 onClick={() =>
                   setConfDialog({
