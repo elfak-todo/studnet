@@ -108,7 +108,7 @@ function StudentSettings({ studentProp, setStudentProp }) {
         className="ms-auto"
       >
         
-        {studentProp.role === 0 && studentProp.isExchange(
+        {studentProp.role === 0(
           <NavDropdown.Item
           onClick={() =>
             setConfDialog({
