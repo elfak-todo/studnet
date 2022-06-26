@@ -13,9 +13,11 @@ import axios from "axios";
 import StudentContext from "../studentManager/StudentManager";
 import { useTranslation } from "react-i18next";
 import ConfirmationDialog from "../confirmationDialog/ConfirmationDialog";
+import { useNavigate } from "react-router-dom";
 
 function StudentSettings({ studentProp, setStudentProp }) {
   const { t } = useTranslation(["misc"]);
+  const navigate = useNavigate();
 
   const { student } = useContext(StudentContext);
 
@@ -72,6 +74,9 @@ function StudentSettings({ studentProp, setStudentProp }) {
         .then((res) => {
           setSuccessModal({
             shown: true,
+            callback: () => {
+              navigate(-1, { replace: true });
+            },
             text: t("studentDeleted"),
           });
         })
@@ -109,14 +114,14 @@ function StudentSettings({ studentProp, setStudentProp }) {
       >
         {studentProp.role === 0 && !studentProp.isExchange && (
           <NavDropdown.Item
-          onClick={() =>
-            setConfDialog({
-              shown: true,
-              callback: function(){ return changeStudentRole(1);},
-              text: "promoteToParMember",
-              btnText: "promote",
-            })
-          }
+            onClick={() =>
+              setConfDialog({
+                shown: true,
+                callback: () => changeStudentRole(1),
+                text: "promoteToParMember",
+                btnText: "promote",
+              })
+            }
           >
             <FontAwesomeIcon
               icon={faCircleArrowUp}
@@ -126,32 +131,15 @@ function StudentSettings({ studentProp, setStudentProp }) {
             {t("promoteToParlamentMember")}
           </NavDropdown.Item>
         )}
-        {student.role > 1 && studentProp.role <= 1 && !studentProp.isExchange && (
+        {student.role > 1 && (
           <>
-            <NavDropdown.Item
-              onClick={() =>
-                setConfDialog({
-                  shown: true,
-                  callback: function(){ return changeStudentRole(2);},
-                  text: "promoteToUniAdmin",
-                  btnText: "promote",
-                })
-              }
-            >
-              <FontAwesomeIcon
-                icon={faCircleArrowUp}
-                className="me-2"
-                style={{ color: "#5cb85c" }}
-              />
-              {t("promoteToUniAdmin")}
-            </NavDropdown.Item>
-            {student.role > 2 && studentProp.role <= 2 && !studentProp.isExchange && (
+            {studentProp.role <= 1 && !studentProp.isExchange && (
               <NavDropdown.Item
                 onClick={() =>
                   setConfDialog({
                     shown: true,
-                    callback: function(){ return changeStudentRole(3);},
-                    text: "promoteToAdmin",
+                    callback: () => changeStudentRole(2),
+                    text: "promoteToUniAdmin",
                     btnText: "promote",
                   })
                 }
@@ -161,9 +149,30 @@ function StudentSettings({ studentProp, setStudentProp }) {
                   className="me-2"
                   style={{ color: "#5cb85c" }}
                 />
-                {t("promoteToAdmin")}
+                {t("promoteToUniAdmin")}
               </NavDropdown.Item>
             )}
+            {student.role > 2 &&
+              studentProp.role <= 2 &&
+              !studentProp.isExchange && (
+                <NavDropdown.Item
+                  onClick={() =>
+                    setConfDialog({
+                      shown: true,
+                      callback: () => changeStudentRole(3),
+                      text: "promoteToAdmin",
+                      btnText: "promote",
+                    })
+                  }
+                >
+                  <FontAwesomeIcon
+                    icon={faCircleArrowUp}
+                    className="me-2"
+                    style={{ color: "#5cb85c" }}
+                  />
+                  {t("promoteToAdmin")}
+                </NavDropdown.Item>
+              )}
 
             <NavDropdown.Item
               onClick={() =>
@@ -195,15 +204,16 @@ function StudentSettings({ studentProp, setStudentProp }) {
                 </>
               )}
             </NavDropdown.Item>
-
-            <NavDropdown.Item onClick={() =>
+            <NavDropdown.Item
+              onClick={() =>
                 setConfDialog({
                   shown: true,
                   callback: deleteStudent,
                   text: "deleteStudent",
                   btnText: "delete",
                 })
-              }>
+              }
+            >
               <FontAwesomeIcon
                 icon={faTrashCan}
                 className="me-2"
@@ -227,7 +237,12 @@ function StudentSettings({ studentProp, setStudentProp }) {
         <Modal.Footer>
           <Button
             variant="primary"
-            onClick={() => setSuccessModal({ shown: false })}
+            onClick={() => {
+              if (succesModal.callback) {
+                succesModal.callback();
+              }
+              setSuccessModal({ shown: false });
+            }}
           >
             {t("ok")}
           </Button>

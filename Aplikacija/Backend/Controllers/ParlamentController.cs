@@ -56,6 +56,7 @@ public class ParlamentController : ControllerBase
 
         return Ok(await parlamentListSelected.ToListAsync());
     }
+
     [Route("{parId}")]
     [Authorize(Roles = "ParlamentMember")]
     [HttpGet]

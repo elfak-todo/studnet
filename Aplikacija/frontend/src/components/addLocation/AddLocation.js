@@ -74,7 +74,11 @@ function AddLocation({
       });
       proceed = false;
     }
-    if (!location.type || location.type === -1) {
+    if (
+      location.type === null ||
+      location.type === undefined ||
+      location.type === -1
+    ) {
       setInputStatus((s) => {
         return { ...s, typeInvalid: true };
       });
