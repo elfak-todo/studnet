@@ -5,6 +5,7 @@ import StudentSearch from "../studentSearch/StudentSearch";
 import AddUniversity from "../addUniversity/AddUniversity";
 import AddParlament from "../addParlament/AddParlament";
 import StudentContext from "../../studentManager/StudentManager";
+
 import "./AdminMenu.style.css";
 
 function AdminMenu({
@@ -18,6 +19,8 @@ function AdminMenu({
   setHasMore,
   fetching,
   setFetching,
+  setShowEdit,
+  setParId,
 }) {
   const { t } = useTranslation(["admin"]);
 
@@ -32,6 +35,13 @@ function AdminMenu({
     <>
       <Card className="admin-menu" bg="primary-light">
         <Card.Body>
+          <p style={{ color: "#4e54c8", fontWeight: "600" }} className="mb-0">
+            {student.role === 3
+              ? t("adminPanel")
+              : student.role === 2
+              ? t("uniAdminPanel")
+              : student.role === 1 && t("parlamentPanel")}
+          </p>
           <div className="admin-menu-items">
             <StudentSearch
               setStudents={setStudents}
@@ -90,22 +100,35 @@ function AdminMenu({
                 </p>
               )}
             </div>
-            {student.role === 3 && (
-              <div className="admin-menu-btn-div">
-                <Button
-                  className="admin-menu-btn"
-                  onClick={() => setShowAddUni(true)}
-                >
-                  {t("addUniversity")}
-                </Button>
+            <div className="admin-menu-btn-div">
+              {student.role === 3 && (
+                <>
+                  <Button
+                    className="admin-menu-btn"
+                    onClick={() => setShowAddUni(true)}
+                  >
+                    {t("addUniversity")}
+                  </Button>
+                  <Button
+                    className="mt-2 admin-menu-btn"
+                    onClick={() => setShowAddPar(true)}
+                  >
+                    {t("addParlament")}
+                  </Button>
+                </>
+              )}
+              {student.role === 1 && (
                 <Button
                   className="mt-2 admin-menu-btn"
-                  onClick={() => setShowAddPar(true)}
+                  onClick={() => {
+                    setShowEdit(true);
+                    setParId(0);
+                  }}
                 >
-                  {t("addParlament")}
+                  {t("editParlament")}
                 </Button>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </Card.Body>
       </Card>

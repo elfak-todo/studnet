@@ -48,10 +48,10 @@ public class ParlamentController : ControllerBase
 
         return Ok(await parlamentListSelected.ToListAsync());
     }
-    [Route("")]
+    [Route("{parId}")]
     [Authorize(Roles = "ParlamentMember")]
     [HttpGet]
-    public async Task<ActionResult> GetParlament()
+    public async Task<ActionResult> GetParlament(int parId)
     {
         var student = await _tokenManager.GetStudent(HttpContext.User);
 
@@ -59,11 +59,10 @@ public class ParlamentController : ControllerBase
         {
             return Unauthorized();
         }
-
         var parlament = _context.Parlaments
             .Include(p => p.Faculty)
             .Include(p => p.University)
-            .Where(p => p.ID == student.ParlamentId);
+            .Where(p => parId == 0 ? p.ID == student.ParlamentId : p.ID == parId);
 
         var selectedPar = parlament.Select(p => new
         {
@@ -163,7 +162,7 @@ public class ParlamentController : ControllerBase
                                 .Include(e => e.LikedBy)
                                 .Include(e => e.Location)
                                 .AsSplitQuery()
-                                .Where(e => e.OrganisingParlament == student.Parlament)
+                                .Where(e => e.OrganisingParlamentId == student.ParlamentId && e.Verified)
                                 .OrderByDescending(e => e.PublicationTime)
                                 .Skip(page * pageSize)
                                 .Take(pageSize);

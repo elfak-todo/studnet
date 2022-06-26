@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Spinner, Table } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import EditParlament from "../editParlament/EditParlament";
 
 function ParlamentTable() {
   const { t } = useTranslation(["admin", "event", "misc"]);
@@ -11,6 +12,9 @@ function ParlamentTable() {
   const [loading, setLoading] = useState(false);
   const [pageNum, setPageNum] = useState(0);
   const [hasMore, setHasMore] = useState(false);
+
+  const [showEdit, setShowEdit] = useState(false);
+  const [parId, setParId] = useState(null);
 
   const [parlaments, setParlaments] = useState([]);
 
@@ -53,7 +57,11 @@ function ParlamentTable() {
         </thead>
         <tbody>
           {parlaments?.map((p, i) => (
-            <tr key={p.id}>
+            <tr
+              key={p.id}
+              onClick={() => {setShowEdit(true); setParId(p.id);}}
+              className="student-row"
+            >
               <td> {i + 1} </td>
               <td>{p.name}</td>
               <td>{p.facultyName}</td>
@@ -87,6 +95,12 @@ function ParlamentTable() {
           )
         )}
       </div>
+      <EditParlament
+        parlamentProp={null}
+        parId={parId}
+        showEdit={showEdit}
+        setShowEdit={setShowEdit}
+      />
     </>
   );
 }

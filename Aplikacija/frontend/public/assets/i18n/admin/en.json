@@ -1,15 +1,21 @@
 {
+    "adminPanel": "Admin Panel",
+    "parlamentPanel": "Parlament Panel",
+    "uniAdminPanel": "University Admin Panel",
     "studentTable": "Student Overview",
     "universityTable": "University Overview",
     "parlamentTable": "Parlament Overview",
     "InformationOverview": "Information Overview",
     "addUniversity": "Add University",
     "addParlament": "Add Parlament",
+    "saveChanges": "Save changes",
+    "editParlament": "Edit parlament",
     "universityName": "University Name",
     "enterUniName": "Enter University name",
     "uniInfo": "The university name must not be longer than 32 characters.",
     "parlamentName": "Parlament Name",
     "enterParName": "Enter Parlament name",
+    "parlamentPic": "Change parlament picture",
     "parlamentNameInfo": "The parlament name must not be longer then 32 characters.",
     "facultyName": "Faculty Name",
     "enterFacName": "Enter Faculty name",
@@ -23,5 +29,7 @@
     "memberCount": "Member count",
     "parlamentMember": "Parlament member",
     "uniAdmin": "University admin",
-    "admin": "Admin"
+    "admin": "Admin",
+    "yes": "Yes",
+    "no": "No"
 }

@@ -29,6 +29,7 @@
     "chooseGender": "Choose gender.",
     "passwordLength": "Password must be at least 6 characters long.",
     "emailTaken": "Email already registered!",
-    "usernameTaken": "Username already exist!"
+    "usernameTaken": "Username already exist!",
+    "banned": "Banned"
 
 }

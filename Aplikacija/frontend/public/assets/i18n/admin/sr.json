@@ -1,15 +1,21 @@
 {
+    "adminPanel": "Panel Administracije",
+    "parlamentPanel": "Panel Parlamenta",
+    "uniAdminPanel": "Panel Administratora Univerziteta",
     "studentTable": "Pregled Studenata",
     "universityTable": "Pregled Univerziteta",
     "parlamentTable": "Pregled Parlamenta",
     "InformationOverview": "Pregled Informacija",
     "addUniversity": "Dodaj univerzitet",
     "addParlament": "Dodaj parlament",
+    "editParlament": "Izmeni parlament",
+    "saveChanges": "Sačuvaj izmene",
     "universityName": "Naziv Univerziteta",
     "enterUniName": "Unesite naziv Univerziteta",
     "uniInfo": "Naziv univerziteta ne sme biti duži od 32 karaktera.",
     "parlamentName": "Naziv Parlamenta",
-    "enterParName": "Unesite naziv Parlamenta",
+    "enterParName": "Unesite naziv parlamenta",
+    "parlamentPic": "Promeni sliku parlamenta",
     "parlamentNameInfo": "Naziv parlamenta ne sme biti duži od 32 karaktera.",
     "facultyName": "Naziv Fakulteta",
     "enterFacName": "Unesite naziv Fakulteta",
@@ -23,5 +29,7 @@
     "memberCount": "Broj članova",
     "parlamentMember": "Član parlamenta",
     "uniAdmin": "Administrator univerziteta",
-    "admin": "Administrator"
+    "admin": "Administrator",
+    "yes": "Da",
+    "no": "Ne"
 }

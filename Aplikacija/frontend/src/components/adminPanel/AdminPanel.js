@@ -8,16 +8,19 @@ import StudentContext from "../studentManager/StudentManager.js";
 
 import "./AdminPanel.style.css";
 import ParlamentOverview from "./parlamentOverview/ParlamentOverview.js";
+import EditParlament from "./editParlament/EditParlament.js";
 
 function AdminPanel() {
   const { student } = useContext(StudentContext);
 
   const [students, setStudents] = useState(null);
+  const [parId, setParId] = useState(null);
 
   const [showStudentTable, setShowStudentTable] = useState(true);
   const [showUniTable, setUniStudentTable] = useState(false);
   const [showParTable, setParStudentTable] = useState(false);
   const [showParOverview, setShowParOverview] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
 
   const [fetching, setFetching] = useState(false);
   const [pageNum, setPageNum] = useState(0);
@@ -36,6 +39,8 @@ function AdminPanel() {
           setPageNum={setPageNum}
           setHasMore={setHasMore}
           setFetching={setFetching}
+          setShowEdit={setShowEdit}
+          setParId={setParId}
         />
         {showStudentTable && student.role > 0 && (
           <div className="admin-panel-table">
@@ -57,7 +62,14 @@ function AdminPanel() {
             <ParlamentTable />
           </div>
         )}
-        {student.role === 1 && showParOverview && <ParlamentOverview />}
+        {student.role === 1 && showParOverview && (
+          <ParlamentOverview showEdit={showEdit} setShowEdit={setShowEdit} />
+        )}
+        <EditParlament
+          parId={parId}
+          showEdit={showEdit}
+          setShowEdit={setShowEdit}
+        />
       </div>
     </div>
   );

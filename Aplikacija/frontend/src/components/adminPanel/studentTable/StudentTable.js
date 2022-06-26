@@ -18,7 +18,7 @@ import StudentContext from "../../studentManager/StudentManager";
 import "./StudentTable.style.css";
 
 function StudentTable({ students, hasMore, setPageNum, fetching }) {
-  const { t } = useTranslation(["register", "misc", "event"]);
+  const { t } = useTranslation(["register", "misc", "event", "admin"]);
 
   const navigate = useNavigate();
   const { student } = useContext(StudentContext);
@@ -34,8 +34,17 @@ function StudentTable({ students, hasMore, setPageNum, fetching }) {
     "faculty",
     "role",
     "gender",
+    "onExchange",
+    "banned",
   ];
-  const theadParlament = ["", "name", "username", "role", "gender"];
+  const theadParlament = [
+    "",
+    "name",
+    "username",
+    "role",
+    "gender",
+    "onExchange",
+  ];
   const theadToMap =
     student.role === 3
       ? theadAdmin
@@ -123,6 +132,7 @@ function StudentTable({ students, hasMore, setPageNum, fetching }) {
               key={s.id}
               onClick={() => navigate("/student/" + s.id)}
               className="student-row"
+              style={{ backgroundColor: s.isBanned && "#ffcccc" }}
             >
               <td> {i + 1} </td>
               <td>{s.firstName + " " + s.lastName}</td>
@@ -136,6 +146,10 @@ function StudentTable({ students, hasMore, setPageNum, fetching }) {
               )}
               <td>{getRole(s.role)}</td>
               <td>{s.gender === "m" ? t("misc:male") : t("misc:female")} </td>
+              <td>{s.isExchange ? t("admin:yes") : t("admin:no")}</td>
+              {student.role === 3 && (
+                <td>{s.isBanned ? t("admin:yes") : t("admin:no")}</td>
+              )}
             </tr>
           ))}
         </tbody>

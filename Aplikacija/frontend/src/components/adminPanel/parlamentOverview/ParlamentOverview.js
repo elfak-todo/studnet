@@ -1,8 +1,6 @@
-import { faPen } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Container, Image, Button } from "react-bootstrap";
+import { Container, Image } from "react-bootstrap";
 
 import noPic from "../../../images/no-image.jpg";
 import ProfileFeed from "../../profile/profileFeed/ProfileFeed";
@@ -13,7 +11,7 @@ function ParlamentOverview() {
 
   useEffect(() => {
     axios
-      .get(`Parlament`)
+      .get(`Parlament/0`)
       .then((res) => {
         setParlament(res.data);
       })
@@ -34,14 +32,7 @@ function ParlamentOverview() {
             className="par-mod-pic"
           />
         </div>
-        <div className="d-flex align-items-center">
           <h1>{parlament?.parlamentName}</h1>
-          <div className="mb-1 ms-2">
-            <Button size="sm">
-              <FontAwesomeIcon icon={faPen} />
-            </Button>
-          </div>
-        </div>
         <h3>{parlament?.uniName}</h3>
         <h4>{parlament?.facName}</h4>
       </div>
