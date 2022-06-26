@@ -26,7 +26,7 @@ function AddLocation({
 
   const { student } = useContext(StudentContext);
 
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [deleteConfirm, setDeleteConfirm] = useState({ show: false });
 
   const [state, setState] = useState({ edit: false });
   const [location, setLocation] = useState(null);
@@ -192,7 +192,7 @@ function AddLocation({
                   type="button"
                   size="md"
                   className="me-2"
-                  onClick={() => setShowDeleteConfirm(true)}
+                  onClick={() => setDeleteConfirm({ show: true })}
                 >
                   <FontAwesomeIcon icon={faTrashCan} />
                 </Button>
@@ -222,10 +222,11 @@ function AddLocation({
           </div>
         </Form>
         <ConfirmationDialog
-          showConfirmation={showDeleteConfirm}
-          setShowConfirmation={setShowDeleteConfirm}
+          shown={deleteConfirm?.show}
+          setConfDialog={setDeleteConfirm}
           callback={deleteHandler}
           text="deleteLocation"
+          confirmBtnText="delete"
         />
       </>
     )
