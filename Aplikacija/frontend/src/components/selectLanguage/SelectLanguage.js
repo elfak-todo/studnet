@@ -1,11 +1,12 @@
 import { useTranslation } from "react-i18next";
 import { NavDropdown } from "react-bootstrap";
 
-function SelectLanguage() {
+function SelectLanguage({ onNavbar, setExpanded }) {
   const { t, i18n } = useTranslation(["navbar"]);
 
   const handleLanguageChange = (e) => {
     i18n.changeLanguage(e);
+    if (onNavbar) setExpanded(false);
   };
 
   return (

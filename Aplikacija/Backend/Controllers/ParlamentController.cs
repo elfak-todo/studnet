@@ -22,16 +22,24 @@ public class ParlamentController : ControllerBase
     }
 
     [Route("List/{page}")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "AdminUni")]
     [HttpGet]
     public async Task<ActionResult> ListParlaments(int page)
     {
         const int pageSize = 20;
 
+        var student = await _tokenManager.GetStudent(HttpContext.User);
+
+        if (student == null)
+        {
+            return Unauthorized();
+        }
+
         var parlamentList = _context.Parlaments
                                     .Include(p => p.Faculty)
                                     .Include(p => p.Members)
                                     .Include(p => p.Events)
+                                    .Where(p => (int)student.Role == 3 || p.UniversityId == student.UniversityId)
                                     .OrderBy(p => p.ID)
                                     .Skip(page * pageSize)
                                     .AsSplitQuery()

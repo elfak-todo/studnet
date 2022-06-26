@@ -40,10 +40,10 @@ function StudentSearch({
 
   useEffect(() => {
     const url =
-      student.role === 1
+      student.role === 1 || student.role === 2
         ? `Student/List/${pageNum}?adminMode=false${queries}`
-        : `Student/List/${pageNum}?adminMode=true${queries}`;
-
+        : student.role === 3 &&
+          `Student/List/${pageNum}?adminMode=true${queries}`;
     if (refresh) {
       setRefresh(false);
       setStudents(null);
@@ -80,14 +80,13 @@ function StudentSearch({
     setHasMore,
     student.role,
   ]);
-
   const handleSearch = (e) => {
     e.preventDefault();
     const input = inputRef.current.value;
     const stud = studentRef.current.checked;
     const parMember = parMemberRef.current.checked;
-    const uniAdmin = student.role === 3 ? uniAdminRef.current.checked : false;
-    const admin = student.role === 3 ? adminRef.current.checked : false;
+    const uniAdmin = student.role > 1 ? uniAdminRef.current.checked : false;
+    const admin = student.role > 1 ? adminRef.current.checked : false;
 
     inputRef.current.value = "";
 
@@ -100,7 +99,8 @@ function StudentSearch({
     if (selectedUni !== "0" && student.role === 3) {
       query += `&uniId=${selectedUni}`;
     }
-    if (selectedFac !== "0" && student.role === 3) {
+
+    if (selectedFac !== "0" && student.role > 1) {
       query += `&parId=${selectedFac}`;
     }
 
@@ -146,17 +146,21 @@ function StudentSearch({
 
   return (
     <div className="mt-2 mb-2 student-search">
-      {student.role === 3 && (
+      {student.role > 1 && (
         <div className="student-filter-div">
-          <SelectUniversity
-            selectedUni={selectedUni}
-            setSelectedUni={setSelectedUni}
-            invalid={uniInvalid}
-            setInvalid={setUniInvalid}
-            selectDisabled={searchDisabled}
-          />
+          {student.role === 3 && (
+            <SelectUniversity
+              selectedUni={selectedUni}
+              setSelectedUni={setSelectedUni}
+              invalid={uniInvalid}
+              setInvalid={setUniInvalid}
+              selectDisabled={searchDisabled}
+            />
+          )}
           <SelectFaculty
-            selectedUni={selectedUni}
+            selectedUni={
+              student.role === 2 ? student.universityId : selectedUni
+            }
             selectedFac={selectedFac}
             setSelectedFac={setSelectedFac}
             invalid={facInvalid}
@@ -196,7 +200,7 @@ function StudentSearch({
                 studentRef.current.checked = false;
               }}
             ></Form.Check>
-            {student.role === 3 && (
+            {student.role > 1 && (
               <>
                 <Form.Check
                   disabled={searchDisabled}
@@ -210,18 +214,18 @@ function StudentSearch({
                     studentRef.current.checked = false;
                   }}
                 ></Form.Check>
-                <Form.Check
-                  disabled={searchDisabled}
-                  className="mb-2"
-                  type="switch"
-                  label={t("admin:admin")}
-                  ref={adminRef}
-                  onChange={() => {
-                    parMemberRef.current.checked = false;
-                    uniAdminRef.current.checked = false;
-                    studentRef.current.checked = false;
-                  }}
-                ></Form.Check>
+                  <Form.Check
+                    disabled={searchDisabled}
+                    className="mb-2"
+                    type="switch"
+                    label={t("admin:admin")}
+                    ref={adminRef}
+                    onChange={() => {
+                      parMemberRef.current.checked = false;
+                      uniAdminRef.current.checked = false;
+                      studentRef.current.checked = false;
+                    }}
+                  ></Form.Check>
               </>
             )}
           </div>

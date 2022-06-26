@@ -37,6 +37,17 @@ function StudentTable({ students, hasMore, setPageNum, fetching }) {
     "onExchange",
     "banned",
   ];
+  const theadUniAdmin = [
+    "",
+    "name",
+    "username",
+    "email",
+    "faculty",
+    "role",
+    "gender",
+    "onExchange",
+    "banned",
+  ];
   const theadParlament = [
     "",
     "name",
@@ -45,12 +56,20 @@ function StudentTable({ students, hasMore, setPageNum, fetching }) {
     "gender",
     "onExchange",
   ];
-  const theadToMap =
-    student.role === 3
-      ? theadAdmin
-      : student.role === 1
-      ? theadParlament
-      : null;
+  let theadToMap = [];
+  switch (student.role) {
+    case 1:
+      theadToMap = theadParlament;
+      break;
+    case 2:
+      theadToMap = theadUniAdmin;
+      break;
+    case 3:
+      theadToMap = theadAdmin;
+      break;
+    default:
+      break;
+  }
 
   useEffect(() => {
     if (student.role < 3) return;
@@ -137,17 +156,17 @@ function StudentTable({ students, hasMore, setPageNum, fetching }) {
               <td> {i + 1} </td>
               <td>{s.firstName + " " + s.lastName}</td>
               <td>{s.username}</td>
-              {student.role === 3 && (
+              {student.role > 1 && (
                 <>
                   <td>{s.email}</td>
-                  <td>{s.universityName}</td>
+                  {student.role === 3 && <td>{s.universityName}</td>}
                   <td>{s.facultyName}</td>
                 </>
               )}
               <td>{getRole(s.role)}</td>
               <td>{s.gender === "m" ? t("misc:male") : t("misc:female")} </td>
               <td>{s.isExchange ? t("admin:yes") : t("admin:no")}</td>
-              {student.role === 3 && (
+              {student.role > 1 && (
                 <td>{s.isBanned ? t("admin:yes") : t("admin:no")}</td>
               )}
             </tr>

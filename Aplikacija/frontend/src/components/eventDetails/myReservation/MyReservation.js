@@ -1,10 +1,12 @@
+import axios from "axios";
 import { useTranslation } from "react-i18next";
+import { useState } from "react";
 import { Alert, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 
 import "./MyReservation.style.css";
-import axios from "axios";
+import ConfirmationDialog from "../../confirmationDialog/ConfirmationDialog";
 
 function MyReservation({
   reservation,
@@ -18,6 +20,8 @@ function MyReservation({
   setProgress,
 }) {
   const { t, i18n } = useTranslation(["event"]);
+
+  const [confDialog, setConfDialog] = useState({ shown: false });
 
   const handleEdit = () => {
     setDisabledInput(false);
@@ -60,32 +64,53 @@ function MyReservation({
   };
 
   return (
-    <Alert
-      show={showMyReservation}
-      variant="primary"
-      transition
-      className="m-2"
-    >
-      <Alert.Heading>
-        {t("myRes")}
-        {!reservation?.canceled && (
-          <FontAwesomeIcon
-            icon={faPen}
-            className="float-end edit-icon"
-            onClick={handleEdit}
-          />
-        )}
-      </Alert.Heading>
-      {reservation?.canceled ? t("yourResIsCanceled") : mess(numTicket)}
-      <hr />
-      <div className="d-flex justify-content-center">
-        {!reservation?.canceled && (
-          <Button variant="outline-primary" onClick={handleCancel}>
-            {t("cancelRes")}
-          </Button>
-        )}
-      </div>
-    </Alert>
+    <>
+      <Alert
+        show={showMyReservation}
+        variant="primary"
+        transition
+        className="m-2"
+      >
+        <Alert.Heading>
+          {t("myRes")}
+          {!reservation?.canceled && (
+            <FontAwesomeIcon
+              icon={faPen}
+              className="float-end edit-icon"
+              onClick={handleEdit}
+            />
+          )}
+        </Alert.Heading>
+        {reservation?.canceled ? t("yourResIsCanceled") : mess(numTicket)}
+        <hr />
+        <div className="d-flex justify-content-center">
+          {!reservation?.canceled && (
+            <Button
+              variant="outline-primary"
+              onClick={() =>
+                setConfDialog({
+                  shown: true,
+                  callback: handleCancel,
+                  text: "cancelResConf",
+                  btnText: "confirm",
+                })
+              }
+            >
+              {t("cancelRes")}
+            </Button>
+          )}
+        </div>
+      </Alert>
+      {confDialog.shown && (
+        <ConfirmationDialog
+          setConfDialog={setConfDialog}
+          shown={confDialog.shown}
+          callback={confDialog.callback}
+          text={confDialog.text}
+          confirmBtnText={confDialog.btnText}
+        />
+      )}
+    </>
   );
 }
 

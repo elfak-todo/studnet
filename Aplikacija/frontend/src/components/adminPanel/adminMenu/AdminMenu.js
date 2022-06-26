@@ -87,7 +87,7 @@ function AdminMenu({
                   {t("universityTable")}
                 </p>
               )}
-              {student.role === 3 && (
+              {student.role > 1 && (
                 <p
                   onClick={() => {
                     showStudent(false);
@@ -101,14 +101,14 @@ function AdminMenu({
               )}
             </div>
             <div className="admin-menu-btn-div">
-              {student.role === 3 && (
+              {student.role > 1 && (
                 <>
-                  <Button
+                  {student.role === 3 && <Button
                     className="admin-menu-btn"
                     onClick={() => setShowAddUni(true)}
                   >
                     {t("addUniversity")}
-                  </Button>
+                  </Button>}
                   <Button
                     className="mt-2 admin-menu-btn"
                     onClick={() => setShowAddPar(true)}
@@ -126,6 +126,13 @@ function AdminMenu({
                   }}
                 >
                   {t("editParlament")}
+                </Button>
+              )}
+              {student.role === 2 && (
+                <Button
+                  className="mt-2 admin-menu-btn"
+                >
+                  {t("editUniversity")}
                 </Button>
               )}
             </div>

@@ -1,12 +1,18 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGear } from "@fortawesome/free-solid-svg-icons";
+import {
+  faGear,
+  faCircleArrowUp,
+  faTrashCan,
+  faUserCheck,
+  faUserXmark,
+} from "@fortawesome/free-solid-svg-icons";
 import { useContext, useState } from "react";
 import { Button, Modal, NavDropdown, Spinner } from "react-bootstrap";
 import axios from "axios";
 
 import StudentContext from "../studentManager/StudentManager";
 import { useTranslation } from "react-i18next";
-//import ConfirmationDialog from "../confirmationDialog/ConfirmationDialog";
+import ConfirmationDialog from "../confirmationDialog/ConfirmationDialog";
 
 function StudentSettings({ studentProp, setStudentProp }) {
   const { t } = useTranslation(["misc"]);
@@ -15,6 +21,7 @@ function StudentSettings({ studentProp, setStudentProp }) {
 
   const [loading, setLoading] = useState(false);
   const [succesModal, setSuccessModal] = useState({ shown: false });
+  const [confDialog, setConfDialog] = useState({ shown: false });
 
   const changeStudentRole = (role) => {
     if (!loading) {
@@ -49,6 +56,7 @@ function StudentSettings({ studentProp, setStudentProp }) {
           setStudentProp((student) => {
             return { ...student, isBanned: res.data };
           });
+          setConfDialog({ shown: false });
         })
         .finally(() => {
           setLoading(false);
@@ -102,37 +110,106 @@ function StudentSettings({ studentProp, setStudentProp }) {
         
         {studentProp.role === 0 && studentProp.isExchange(
           <NavDropdown.Item
-            onClick={() => {
-              changeStudentRole(1);
-            }}
+          onClick={() =>
+            setConfDialog({
+              shown: true,
+              callback: function(){ return changeStudentRole(1);},
+              text: "promoteToParMember",
+              btnText: "promote",
+            })
+          }
           >
+            <FontAwesomeIcon
+              icon={faCircleArrowUp}
+              className="me-2"
+              style={{ color: "#5cb85c" }}
+            />
             {t("promoteToParlamentMember")}
           </NavDropdown.Item>
         )}
         {student.role > 1 && studentProp.role <= 1 && (
           <>
             <NavDropdown.Item
-              onClick={() => {
-                changeStudentRole(2);
-              }}
+              onClick={() =>
+                setConfDialog({
+                  shown: true,
+                  callback: function(){ return changeStudentRole(2);},
+                  text: "promoteToUniAdmin",
+                  btnText: "promote",
+                })
+              }
             >
+              <FontAwesomeIcon
+                icon={faCircleArrowUp}
+                className="me-2"
+                style={{ color: "#5cb85c" }}
+              />
               {t("promoteToUniAdmin")}
             </NavDropdown.Item>
             {student.role > 2 && studentProp.role <= 2 && (
               <NavDropdown.Item
-                onClick={() => {
-                  changeStudentRole(3);
-                }}
+                onClick={() =>
+                  setConfDialog({
+                    shown: true,
+                    callback: function(){ return changeStudentRole(3);},
+                    text: "promoteToAdmin",
+                    btnText: "promote",
+                  })
+                }
               >
+                <FontAwesomeIcon
+                  icon={faCircleArrowUp}
+                  className="me-2"
+                  style={{ color: "#5cb85c" }}
+                />
                 {t("promoteToAdmin")}
               </NavDropdown.Item>
             )}
 
-            <NavDropdown.Item onClick={toggleStudentBanned}>
-              {studentProp.isBanned ? t("unban") : t("ban")}
+            <NavDropdown.Item
+              onClick={() =>
+                setConfDialog({
+                  shown: true,
+                  callback: toggleStudentBanned,
+                  text: studentProp.isBanned ? "unbanStudent" : "banStudent",
+                  btnText: studentProp.isBanned ? "unban" : "ban",
+                })
+              }
+            >
+              {studentProp.isBanned ? (
+                <>
+                  <FontAwesomeIcon
+                    icon={faUserCheck}
+                    className="me-2"
+                    style={{ color: "#5cb85c" }}
+                  />
+                  {t("unban")}
+                </>
+              ) : (
+                <>
+                  <FontAwesomeIcon
+                    icon={faUserXmark}
+                    className="me-2"
+                    style={{ color: "#d9534f" }}
+                  />
+                  {t("ban")}
+                </>
+              )}
             </NavDropdown.Item>
 
-            <NavDropdown.Item onClick={deleteStudent}>
+            <NavDropdown.Item onClick={() =>
+                setConfDialog({
+                  shown: true,
+                  callback: deleteStudent,
+                  text: "deleteStudent",
+                  btnText: "delete",
+                })
+              }>
+              <FontAwesomeIcon
+                icon={faTrashCan}
+                className="me-2"
+                style={{ color: "#d9534f" }}
+              />
               {t("delete")}
             </NavDropdown.Item>
           </>
@@ -157,7 +234,15 @@ function StudentSettings({ studentProp, setStudentProp }) {
           </Button>
         </Modal.Footer>
       </Modal>
-      {/* TODO {<ConfirmationDialog />} */}
+      {confDialog.shown && (
+        <ConfirmationDialog
+          setConfDialog={setConfDialog}
+          shown={confDialog.shown}
+          callback={confDialog.callback}
+          text={confDialog.text}
+          confirmBtnText={confDialog.btnText}
+        />
+      )}
     </>
   );
 }

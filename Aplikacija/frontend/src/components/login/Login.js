@@ -10,7 +10,7 @@ function Login() {
       <LoginDescription />
       <LoginForm />
       <div className="mx-auto my-3">
-        <SelectLanguage style={{ textColor: "white" }} />
+        <SelectLanguage style={{ textColor: "white" }} onNavbar={false}/>
       </div>
     </div>
   );

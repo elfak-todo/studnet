@@ -14,7 +14,7 @@ import StudentContext from "../../studentManager/StudentManager.js";
 
 import "./ProfileDropdown.style.css";
 
-function ProfileDropdown() {
+function ProfileDropdown({ setExpanded }) {
   const { t } = useTranslation(["navbar"]);
 
   const navigate = useNavigate();
@@ -44,20 +44,62 @@ function ProfileDropdown() {
         </span>
       }
     >
-      <NavDropdown.Item onClick={() => navigate("/student/" + student.id)}>
-        <FontAwesomeIcon icon={faUser} className="comment-like-icon-sm" />
+      <NavDropdown.Item
+        onClick={() => {
+          navigate("/student/" + student.id);
+          setExpanded(false);
+        }}
+      >
+        <FontAwesomeIcon
+          icon={faUser}
+          className="comment-like-icon-sm"
+          style={{ color: "#4e54c8" }}
+        />
         {t("profile")}
       </NavDropdown.Item>
       {student?.role === 3 && (
-        <NavDropdown.Item onClick={() => navigate("/admin")}>
-          <FontAwesomeIcon icon={faGears} className="comment-like-icon-sm" />
+        <NavDropdown.Item
+          onClick={() => {
+            navigate("/admin");
+            setExpanded(false);
+          }}
+        >
+          <FontAwesomeIcon
+            icon={faGears}
+            className="comment-like-icon-sm"
+            style={{ color: "#4e54c8" }}
+          />
           {t("admin")}
         </NavDropdown.Item>
       )}
-      {(student?.role === 1 || student?.role === 2) && (
-        <NavDropdown.Item onClick={() => navigate("/admin")}>
-          <FontAwesomeIcon icon={faGears} className="comment-like-icon-sm" />
+      {student?.role === 1 && (
+        <NavDropdown.Item
+          onClick={() => {
+            navigate("/parlament");
+            setExpanded(false);
+          }}
+        >
+          <FontAwesomeIcon
+            icon={faGears}
+            className="comment-like-icon-sm"
+            style={{ color: "#4e54c8" }}
+          />
           {t("parlament")}
+        </NavDropdown.Item>
+      )}
+      {student?.role === 2 && (
+        <NavDropdown.Item
+          onClick={() => {
+            navigate("/university");
+            setExpanded(false);
+          }}
+        >
+          <FontAwesomeIcon
+            icon={faGears}
+            className="comment-like-icon-sm"
+            style={{ color: "#4e54c8" }}
+          />
+          {t("university")}
         </NavDropdown.Item>
       )}
       <NavDropdown.Divider />
@@ -65,6 +107,7 @@ function ProfileDropdown() {
         <FontAwesomeIcon
           icon={faRightFromBracket}
           className="comment-like-icon-sm"
+          style={{ color: "#4e54c8" }}
         />
         {t("logout")}
       </NavDropdown.Item>

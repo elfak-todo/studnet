@@ -106,7 +106,10 @@ public class StudentController : ControllerBase
 
         if (adminMode == false)
         {
-            parId = student.ParlamentId;
+            if ((int)student.Role == 1)
+            {
+                parId = student.ParlamentId;
+            }
             uniId = student.UniversityId;
         }
 
@@ -152,7 +155,7 @@ public class StudentController : ControllerBase
 
             return Ok(await selectedStudents.ToListAsync());
         }
-        else
+        else if ((int)student.Role == 1)
         {
             var selectedStudents = students.Select(p => new
             {
@@ -167,6 +170,25 @@ public class StudentController : ControllerBase
 
             return Ok(await selectedStudents.ToListAsync());
         }
+        else if ((int)student.Role == 2)
+        {
+            var selectedStudents = students.Select(p => new
+            {
+                id = p.ID,
+                username = p.Username,
+                firstName = p.FirstName,
+                lastName = p.LastName,
+                email = p.Email,
+                role = p.Role,
+                gender = p.Gender,
+                isExchange = p.IsExchange,
+                facultyName = p.Parlament!.Faculty!.Name,
+                isBanned = p.IsBanned
+            });
+
+            return Ok(await selectedStudents.ToListAsync());
+        }
+        else return Forbid();
     }
     [Route("InterestingData")]
     [Authorize(Roles = "Admin")]

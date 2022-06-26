@@ -10,7 +10,8 @@ import LocationCreationPage from "./pages/LocationCreationPage.js";
 import LocationPage from "./pages/LocationPage.js";
 import LocationsPage from "./pages/LocationsPage";
 import LoginPage from "./pages/LoginPage";
-import ParlamentPage from "./pages/ParlamentPage.js";
+import ParlamentMemberPage from "./pages/ParlamentMemberPage.js";
+import UniAdminPage from "./pages/UniAdminPage.js";
 import RegisterPage from "./pages/RegisterPage";
 import StudentPage from "./pages/StudentPage.js";
 import LocationEditPage from "./pages/LocationEditPage.js";
@@ -31,7 +32,8 @@ function AppRoutes() {
       <Route path="/location/create" element={<LocationCreationPage />} />
       <Route path="/location/edit/:locationId" element={<LocationEditPage />} />
       <Route path="/student/:studentId" element={<StudentPage />} />
-      <Route path="/parlament/:parlamentId" element={<ParlamentPage />} />
+      <Route path="/parlament" element={<ParlamentMemberPage />} />
+      <Route path="/university" element={<UniAdminPage />} />
       <Route path="/admin" element={<AdminPage />} />
       <Route path="*" element={<ResourceNotFound />} />
     </Routes>

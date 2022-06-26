@@ -57,7 +57,7 @@ function AdminPanel() {
             <UniversityTable />
           </div>
         )}
-        {showParTable && student.role === 3 && (
+        {showParTable && student.role > 1 && (
           <div className="admin-panel-table">
             <ParlamentTable />
           </div>
