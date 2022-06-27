@@ -25,7 +25,14 @@ function NavigationBar() {
       variant="dark"
     >
       <Container fluid className="p-1">
-        <Navbar.Brand as={Link} to="/home" onClick={() => setExpanded(false)}>
+        <Navbar.Brand
+          as={Link}
+          to="/home"
+          onClick={() => {
+            setExpanded(false);
+            window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+          }}
+        >
           <img
             src={logoSmall}
             className="logo d-inline-block align-top"
@@ -42,7 +49,10 @@ function NavigationBar() {
               as={Link}
               to="/events"
               className="text-light"
-              onClick={() => setExpanded(false)}
+              onClick={() => {
+                setExpanded(false);
+                window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+              }}
             >
               {t("events")}
             </Nav.Link>
@@ -50,16 +60,19 @@ function NavigationBar() {
               as={Link}
               to="/locations"
               className="text-light"
-              onClick={() => setExpanded(false)}
+              onClick={() => {
+                setExpanded(false);
+                window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+              }}
             >
               {t("locations")}
             </Nav.Link>
           </Nav>
           <Nav>
-            <SelectLanguage onNavbar={true} setExpanded={setExpanded}/>
+            <SelectLanguage onNavbar={true} setExpanded={setExpanded} />
           </Nav>
           <Nav className="me-5">
-            <ProfileDropdown setExpanded={setExpanded}/>
+            <ProfileDropdown setExpanded={setExpanded} />
           </Nav>
         </Navbar.Collapse>
       </Container>
