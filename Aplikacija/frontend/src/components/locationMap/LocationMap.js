@@ -3,7 +3,7 @@ import { MapContainer, TileLayer } from "react-leaflet";
 import "./LocationMap.style.css";
 import LocationMarker from "../locationMarker/LocationMarker.js";
 import LocationUniversity from "../locationMarker/LocationUniversity.js";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import LocationCard from "../locationCard/LocationCard.js";
 
 function LocationMap({

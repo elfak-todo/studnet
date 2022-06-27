@@ -370,14 +370,12 @@ function EventForm({ feed, setFeed }) {
                   {student.role > 0 && (
                     <div className="d-flex justify-content-end">
                       <Form.Check
-                        className="form-checks"
                         type="checkbox"
                         label={t("verified")}
                         ref={verifiedRef}
                         inline
                       />
                       <Form.Check
-                        className="form-checks"
                         type="checkbox"
                         label={t("pinned")}
                         ref={pinnedRef}

@@ -390,7 +390,6 @@ function EventFormEdit({
                   {student.role > 0 && (
                     <div className="d-flex justify-content-end">
                       <Form.Check
-                        className="form-checks"
                         type="checkbox"
                         label={t("verified")}
                         defaultChecked={event.verified}
@@ -398,7 +397,6 @@ function EventFormEdit({
                         inline
                       />
                       <Form.Check
-                        className="form-checks"
                         type="checkbox"
                         label={t("pinned")}
                         defaultChecked={event.pinned}

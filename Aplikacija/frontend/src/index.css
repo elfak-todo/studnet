@@ -19,3 +19,8 @@ code {
 textarea {
   resize: none !important;
 }
+
+input[type="checkbox"]:checked {
+  background-color: #4e54c8 !important;
+  border-color: #4e54c8 !important;
+}

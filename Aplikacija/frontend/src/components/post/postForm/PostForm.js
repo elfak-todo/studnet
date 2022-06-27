@@ -110,7 +110,6 @@ function PostForm({ feed, setFeed }) {
             {student.role > 0 && (
               <div className="post-toolbar mt-1">
                 <Form.Check
-                  className="form-checks"
                   disabled={anonymous}
                   type="checkbox"
                   label={
@@ -127,7 +126,6 @@ function PostForm({ feed, setFeed }) {
                   inline
                 />
                 <Form.Check
-                  className="form-checks"
                   disabled={anonymous}
                   type="checkbox"
                   label={

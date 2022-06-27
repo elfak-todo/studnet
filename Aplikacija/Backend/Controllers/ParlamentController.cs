@@ -36,14 +36,14 @@ public class ParlamentController : ControllerBase
         }
 
         var parlamentList = _context.Parlaments
-                                    .Include(p => p.Faculty)
-                                    .Include(p => p.Members)
-                                    .Include(p => p.Events)
-                                    .Where(p => (int)student.Role == 3 || p.UniversityId == student.UniversityId)
-                                    .OrderBy(p => p.ID)
-                                    .Skip(page * pageSize)
-                                    .AsSplitQuery()
-                                    .Take(pageSize);
+            .Include(p => p.Faculty)
+            .Include(p => p.Members)
+            .Include(p => p.Events)
+            .Where(p => (int)student.Role == 3 || p.UniversityId == student.UniversityId)
+            .OrderBy(p => p.ID)
+            .Skip(page * pageSize)
+            .AsSplitQuery()
+            .Take(pageSize);
 
         var parlamentListSelected = parlamentList.Select(p => new
         {
@@ -68,6 +68,7 @@ public class ParlamentController : ControllerBase
         {
             return Unauthorized();
         }
+
         var parlament = _context.Parlaments
             .Include(p => p.Faculty)
             .Include(p => p.University)
@@ -98,17 +99,16 @@ public class ParlamentController : ControllerBase
         }
 
         var posts = _context.Posts.Include(p => p.Author!)
-                                .ThenInclude(a => a.Parlament!)
-                                .ThenInclude(p => p.Faculty)
-                                .Include(p => p.Comments!)
-                                .ThenInclude(c => c.LikedBy)
-                                .Include(p => p.LikedBy)
-                                .AsSplitQuery()
-                                .Where(p => p.Author!.ParlamentId == student.ParlamentId && p.Verified)
-                                .OrderByDescending(p => p.PublicationTime)
-                                .Skip(page * pageSize)
-                                .Take(pageSize);
-
+            .ThenInclude(a => a.Parlament!)
+            .ThenInclude(p => p.Faculty)
+            .Include(p => p.Comments!)
+            .ThenInclude(c => c.LikedBy)
+            .Include(p => p.LikedBy)
+            .AsSplitQuery()
+            .Where(p => p.Author!.ParlamentId == student.ParlamentId && p.Verified)
+            .OrderByDescending(p => p.PublicationTime)
+            .Skip(page * pageSize)
+            .Take(pageSize);
 
         var postsSelected = posts.Select(p => new
         {
@@ -163,18 +163,19 @@ public class ParlamentController : ControllerBase
             return BadRequest("UserNotFound");
         }
 
-        var events = _context.Events.Include(e => e.Organiser!)
-                                .ThenInclude(o => o.Parlament!)
-                                .ThenInclude(p => p.Faculty)
-                                .Include(e => e.Comments!)
-                                .ThenInclude(c => c.LikedBy)
-                                .Include(e => e.LikedBy)
-                                .Include(e => e.Location)
-                                .AsSplitQuery()
-                                .Where(e => e.OrganisingParlamentId == student.ParlamentId && e.Verified)
-                                .OrderByDescending(e => e.PublicationTime)
-                                .Skip(page * pageSize)
-                                .Take(pageSize);
+        var events = _context.Events
+            .Include(e => e.Organiser!)
+            .ThenInclude(o => o.Parlament!)
+            .ThenInclude(p => p.Faculty)
+            .Include(e => e.Comments!)
+            .ThenInclude(c => c.LikedBy)
+            .Include(e => e.LikedBy)
+            .Include(e => e.Location)
+            .AsSplitQuery()
+            .Where(e => e.OrganisingParlamentId == student.ParlamentId && e.Verified)
+            .OrderByDescending(e => e.PublicationTime)
+            .Skip(page * pageSize)
+            .Take(pageSize);
 
         var eventsSelected = events.Select(p => new
         {
@@ -220,14 +221,14 @@ public class ParlamentController : ControllerBase
         }
 
         var locations = await _context.Locations
-                            .Include(l => l.Grades!.OrderByDescending(g => g.PublicationTime))
-                            .ThenInclude(g => g.GradedBy)
-                            .AsSplitQuery()
-                            .Where(l => l.Author!.ParlamentId == student.ParlamentId && l.Verified)
-                            .OrderByDescending(l => l.Grades!.Count())
-                            .Skip(page * pageSize)
-                            .Take(10)
-                            .ToListAsync();
+            .Include(l => l.Grades!.OrderByDescending(g => g.PublicationTime))
+            .ThenInclude(g => g.GradedBy)
+            .AsSplitQuery()
+            .Where(l => l.Author!.ParlamentId == student.ParlamentId && l.Verified)
+            .OrderByDescending(l => l.Grades!.Count())
+            .Skip(page * pageSize)
+            .Take(10)
+            .ToListAsync();
 
         locations.ForEach(l =>
         {
@@ -237,7 +238,6 @@ public class ParlamentController : ControllerBase
 
         return Ok(locations);
     }
-
 
     [Route("GetByUniversity/{universityID}")]
     [AllowAnonymous]

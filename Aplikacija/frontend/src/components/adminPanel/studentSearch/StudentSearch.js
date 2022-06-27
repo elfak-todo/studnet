@@ -39,11 +39,8 @@ function StudentSearch({
   const adminRef = useRef();
 
   useEffect(() => {
-    const url =
-      student.role === 1 || student.role === 2
-        ? `Student/List/${pageNum}?adminMode=false${queries}`
-        : student.role === 3 &&
-          `Student/List/${pageNum}?adminMode=true${queries}`;
+    const url = `Student/List/${pageNum}?${queries}`;
+
     if (refresh) {
       setRefresh(false);
       setStudents(null);
@@ -80,6 +77,7 @@ function StudentSearch({
     setHasMore,
     student.role,
   ]);
+
   const handleSearch = (e) => {
     e.preventDefault();
     const input = inputRef.current.value;
@@ -172,60 +170,74 @@ function StudentSearch({
       <Form className="d-flex" noValidate onSubmit={handleSearch}>
         <div style={{ width: "100%" }}>
           <div>
-            <Form.Check
-              disabled={searchDisabled}
-              className="mb-2"
-              type="switch"
-              label="Student"
-              ref={studentRef}
-              onChange={() => {
-                parMemberRef.current.checked = false;
-                if (student.role > 1) {
-                  uniAdminRef.current.checked = false;
-                  adminRef.current.checked = false;
-                }
-              }}
-            ></Form.Check>
-            <Form.Check
-              disabled={searchDisabled}
-              className="mb-2"
-              type="switch"
-              label={t("admin:parlamentMember")}
-              ref={parMemberRef}
-              onChange={() => {
-                if (student.role > 1) {
-                  uniAdminRef.current.checked = false;
-                  adminRef.current.checked = false;
-                }
-                studentRef.current.checked = false;
-              }}
-            ></Form.Check>
+            <Form.Check className="mb-2">
+              <Form.Check.Input
+                disabled={searchDisabled}
+                type="checkbox"
+                ref={studentRef}
+                id="ss-student"
+                onChange={() => {
+                  parMemberRef.current.checked = false;
+                  if (student.role > 1) {
+                    uniAdminRef.current.checked = false;
+                    adminRef.current.checked = false;
+                  }
+                }}
+              />
+              <Form.Check.Label for="ss-student">Student</Form.Check.Label>
+            </Form.Check>
+            <Form.Check className="mb-2">
+              <Form.Check.Input
+                disabled={searchDisabled}
+                type="checkbox"
+                ref={parMemberRef}
+                id="ss-parlament-member"
+                onChange={() => {
+                  if (student.role > 1) {
+                    uniAdminRef.current.checked = false;
+                    adminRef.current.checked = false;
+                  }
+                  studentRef.current.checked = false;
+                }}
+              />
+              <Form.Check.Label for="ss-parlament-member">
+                {t("admin:parlamentMember")}
+              </Form.Check.Label>
+            </Form.Check>
             {student.role > 1 && (
               <>
-                <Form.Check
-                  disabled={searchDisabled}
-                  className="mb-2"
-                  type="switch"
-                  label={t("admin:uniAdmin")}
-                  ref={uniAdminRef}
-                  onChange={() => {
-                    parMemberRef.current.checked = false;
-                    adminRef.current.checked = false;
-                    studentRef.current.checked = false;
-                  }}
-                ></Form.Check>
-                  <Form.Check
+                <Form.Check className="mb-2">
+                  <Form.Check.Input
                     disabled={searchDisabled}
-                    className="mb-2"
-                    type="switch"
-                    label={t("admin:admin")}
+                    type="checkbox"
+                    ref={uniAdminRef}
+                    id="ss-uni-admin"
+                    onChange={() => {
+                      parMemberRef.current.checked = false;
+                      adminRef.current.checked = false;
+                      studentRef.current.checked = false;
+                    }}
+                  />
+                  <Form.Check.Label for="ss-uni-admin">
+                    {t("admin:uniAdmin")}
+                  </Form.Check.Label>
+                </Form.Check>
+                <Form.Check className="mb-2">
+                  <Form.Check.Input
+                    disabled={searchDisabled}
+                    type="checkbox"
                     ref={adminRef}
+                    id="ss-admin"
                     onChange={() => {
                       parMemberRef.current.checked = false;
                       uniAdminRef.current.checked = false;
                       studentRef.current.checked = false;
                     }}
-                  ></Form.Check>
+                  />
+                  <Form.Check.Label for="ss-admin">
+                    {t("admin:admin")}
+                  </Form.Check.Label>
+                </Form.Check>
               </>
             )}
           </div>

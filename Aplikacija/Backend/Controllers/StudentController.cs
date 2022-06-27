@@ -87,8 +87,7 @@ public class StudentController : ControllerBase
                                                     [FromQuery] int? parId,
                                                     [FromQuery] string? q,
                                                     [FromQuery] bool? isPMember,
-                                                    [FromQuery] Role? role,
-                                                    [FromQuery] bool? adminMode)
+                                                    [FromQuery] Role? role)
     {
         const int studentNum = 10;
 
@@ -99,14 +98,9 @@ public class StudentController : ControllerBase
             return Unauthorized();
         }
 
-        if (adminMode == true && student.Role < Role.AdminUni)
+        if (student.Role < Role.AdminUni)
         {
-            return Forbid();
-        }
-
-        if (adminMode == false)
-        {
-            if ((int)student.Role == 1)
+            if (student.Role == Role.ParlamentMember)
             {
                 parId = student.ParlamentId;
             }
@@ -136,7 +130,7 @@ public class StudentController : ControllerBase
             .Skip(page * studentNum)
             .Take(studentNum);
 
-        if (adminMode == true)
+        if (student.Role == Role.Admin)
         {
             var selectedStudents = students.Select(p => new
             {
@@ -155,22 +149,7 @@ public class StudentController : ControllerBase
 
             return Ok(await selectedStudents.ToListAsync());
         }
-        else if ((int)student.Role == 1)
-        {
-            var selectedStudents = students.Select(p => new
-            {
-                id = p.ID,
-                username = p.Username,
-                firstName = p.FirstName,
-                lastName = p.LastName,
-                role = p.Role,
-                gender = p.Gender,
-                isExchange = p.IsExchange,
-            });
-
-            return Ok(await selectedStudents.ToListAsync());
-        }
-        else if ((int)student.Role == 2)
+        else if (student.Role == Role.AdminUni)
         {
             var selectedStudents = students.Select(p => new
             {
@@ -188,24 +167,34 @@ public class StudentController : ControllerBase
 
             return Ok(await selectedStudents.ToListAsync());
         }
-        else return Forbid();
+        else
+        {
+            var selectedStudents = students.Select(p => new
+            {
+                id = p.ID,
+                username = p.Username,
+                firstName = p.FirstName,
+                lastName = p.LastName,
+                role = p.Role,
+                gender = p.Gender,
+                isExchange = p.IsExchange,
+            });
+
+            return Ok(await selectedStudents.ToListAsync());
+        }
     }
+
     [Route("InterestingData")]
     [Authorize(Roles = "Admin")]
     [HttpGet]
     public async Task<ActionResult> InterestingData()
     {
-        var students = await _context.Students.ToListAsync();
-        var posts = await _context.Posts.ToListAsync();
-        var events = await _context.Events.ToListAsync();
-        var locations = await _context.Locations.ToListAsync();
-
         var counters = new
         {
-            studentCounter = students != null ? students.Count() : 0,
-            postCounter = posts != null ? posts.Count() : 0,
-            eventCounter = events != null ? events.Count() : 0,
-            locationsCounter = locations != null ? locations.Count() : 0,
+            studentCounter = await _context.Students.CountAsync(),
+            postCounter = await _context.Posts.CountAsync(),
+            eventCounter = await _context.Events.CountAsync(),
+            locationsCounter = await _context.Locations.CountAsync(),
         };
         return Ok(counters);
     }
@@ -634,7 +623,7 @@ public class StudentController : ControllerBase
         {
             return NotFound("StudentNotFound");
         }
-        
+
         if (student.IsExchange)
         {
             return Forbid();
