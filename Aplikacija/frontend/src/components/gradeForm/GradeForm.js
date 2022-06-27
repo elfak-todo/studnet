@@ -31,7 +31,7 @@ function GradeForm({ metadata }) {
 
   const { t, i18n } = useTranslation(["locations, misc"]);
 
-  const [myGrade, setMyGrade] = useState({});
+  const [myGrade, setMyGrade] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [loading, setLoading] = useState(false);
   const [hasGraded, setHasGraded] = useState(false);
@@ -94,13 +94,15 @@ function GradeForm({ metadata }) {
         setMyGrade(res.data.myGrade);
         setHasGraded(true);
         setEditMode(false);
-        setLocation((l) => {
-          return {
-            ...l,
-            gradeCount: res.data.gradeCount,
-            averageGrade: res.data.averageGrade,
-          };
-        });
+        if (setLocation) {
+          setLocation((l) => {
+            return {
+              ...l,
+              gradeCount: res.data.gradeCount,
+              averageGrade: res.data.averageGrade,
+            };
+          });
+        }
         setAlert({
           text: t("locations:gradingSuccessful"),
           variant: "success",
@@ -126,13 +128,15 @@ function GradeForm({ metadata }) {
         setHasGraded(false);
         commentTextRef.current.value = "";
         setCurrentGrade(0);
-        setLocation((l) => {
-          return {
-            ...l,
-            gradeCount: res.data.gradeCount,
-            averageGrade: res.data.averageGrade,
-          };
-        });
+        if (setLocation) {
+          setLocation((l) => {
+            return {
+              ...l,
+              gradeCount: res.data.gradeCount,
+              averageGrade: res.data.averageGrade,
+            };
+          });
+        }
         setAlert({
           text: t("locations:gradeDeleteSuccesful"),
           variant: "success",
@@ -154,6 +158,18 @@ function GradeForm({ metadata }) {
     setEditMode(false);
     setCurrentGrade(myGrade.value);
   };
+
+  if (!myGrade) {
+    return (
+      <Spinner
+        as="span"
+        animation="border"
+        size="md"
+        role="status"
+        className="mx-auto my-5"
+      />
+    );
+  }
 
   return (
     <div className="grade-form mb-4">

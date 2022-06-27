@@ -12,6 +12,7 @@ import {
   FloatingLabel,
   Button,
   Spinner,
+  Modal,
 } from "react-bootstrap";
 
 function RegisterFormLayout() {
@@ -31,6 +32,8 @@ function RegisterFormLayout() {
   const [universityInvalid, setUniversityInvalid] = useState(false);
   const [facultyInvalid, setFacultyInvalid] = useState(false);
   const [genderInvalid, setGenderInvalid] = useState(false);
+
+  const [regSuccessful, setRegSuccessful] = useState(false);
 
   const [selectedUni, setSelectedUni] = useState();
   const [selectedFac, setSelectedFac] = useState();
@@ -71,7 +74,8 @@ function RegisterFormLayout() {
       setEmailInvalid(true);
       proceed = false;
     } else {
-      const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+      const validRegex =
+        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
       if (!validRegex.test(enteredEmail)) {
         setEmailInvalid(true);
@@ -121,13 +125,13 @@ function RegisterFormLayout() {
           universityId: selectedUniversity,
           parlamentId: selectedFaculty,
         })
-        .then(function (response) {
+        .then((response) => {
           setIsLoading(false);
           if (response.data === "RegistrationSuccessful") {
-            navigate("/", { replace: true });
+            setRegSuccessful(true);
           }
         })
-        .catch(function (error) {
+        .catch((error) => {
           setIsLoading(false);
           if (error.response.data === "EmailTaken") {
             setEmailInvalid(true);
@@ -143,133 +147,149 @@ function RegisterFormLayout() {
     }
   };
   return (
-    <Form noValidate onSubmit={submitHandler}>
-      <Row>
-        <Col>
-          <FloatingLabel label={t("firstName")} className="mb-2">
-            <Form.Control
-              type="input"
-              placeholder={"Enter first name"}
-              isInvalid={firstNameInvalid}
-              ref={firstNameInputRef}
-              onChange={() => {
-                setFirstNameInvalid(false);
-              }}
-            />
-            <Form.Control.Feedback type="invalid">
-              {t("enterFirstName")}
-            </Form.Control.Feedback>
-          </FloatingLabel>
-        </Col>
-        <Col>
-          <FloatingLabel label={t("lastName")} className="mb-2">
-            <Form.Control
-              type="input"
-              placeholder={"Enter last name"}
-              isInvalid={lastNameInvalid}
-              ref={lastNameInputRef}
-              onChange={() => {
-                setlastNameInvalid(false);
-              }}
-            />
-            <Form.Control.Feedback type="invalid">
-              {t("enterLastName")}
-            </Form.Control.Feedback>
-          </FloatingLabel>
-        </Col>
-      </Row>
-      <FloatingLabel label={t("email")} className="mb-2">
-        <Form.Control
-          type="email"
-          placeholder={"name@example.com"}
-          isInvalid={emailInvalid}
-          ref={emailInputRef}
-          onChange={() => {
-            setEmailInvalid(false);
-            setEmailTaken(false);
-          }}
+    <>
+      <Form noValidate onSubmit={submitHandler}>
+        <Row>
+          <Col>
+            <FloatingLabel label={t("firstName")} className="mb-2">
+              <Form.Control
+                type="input"
+                placeholder={"Enter first name"}
+                isInvalid={firstNameInvalid}
+                ref={firstNameInputRef}
+                onChange={() => {
+                  setFirstNameInvalid(false);
+                }}
+              />
+              <Form.Control.Feedback type="invalid">
+                {t("enterFirstName")}
+              </Form.Control.Feedback>
+            </FloatingLabel>
+          </Col>
+          <Col>
+            <FloatingLabel label={t("lastName")} className="mb-2">
+              <Form.Control
+                type="input"
+                placeholder={"Enter last name"}
+                isInvalid={lastNameInvalid}
+                ref={lastNameInputRef}
+                onChange={() => {
+                  setlastNameInvalid(false);
+                }}
+              />
+              <Form.Control.Feedback type="invalid">
+                {t("enterLastName")}
+              </Form.Control.Feedback>
+            </FloatingLabel>
+          </Col>
+        </Row>
+        <FloatingLabel label={t("email")} className="mb-2">
+          <Form.Control
+            type="email"
+            placeholder={"name@example.com"}
+            isInvalid={emailInvalid}
+            ref={emailInputRef}
+            onChange={() => {
+              setEmailInvalid(false);
+              setEmailTaken(false);
+            }}
+          />
+          <Form.Control.Feedback type="invalid">
+            {emailTaken ? t("emailTaken") : t("enterEmail")}
+          </Form.Control.Feedback>
+        </FloatingLabel>
+        <FloatingLabel label={t("username")} className="mb-2">
+          <Form.Control
+            type="text"
+            placeholder={"Username"}
+            isInvalid={usernameInvalid}
+            ref={usernameInputRef}
+            onChange={() => {
+              setUsernameInvalid(false);
+              setUsernameTaken(false);
+            }}
+          />
+          <Form.Control.Feedback type="invalid">
+            {usernameTaken ? t("usernameTaken") : t("enterUsername")}
+          </Form.Control.Feedback>
+        </FloatingLabel>
+        <FloatingLabel label={t("password")} className="mb-2">
+          <Form.Control
+            type="password"
+            placeholder={"Password"}
+            isInvalid={passwordInvalid}
+            ref={passwordInputRef}
+            onChange={() => {
+              setPasswordInvalid(false);
+              setPasswordShortInvalid(false);
+            }}
+          />
+          <Form.Control.Feedback type="invalid">
+            {passwordShortInvalid ? t("passwordLength") : t("enterPassword")}
+          </Form.Control.Feedback>
+        </FloatingLabel>
+        <Form.Check
+          inline
+          className="mb-2"
+          type="switch"
+          label={t("onExchange")}
+          ref={onExchangeInputRef}
+        ></Form.Check>
+        <SelectUniversity
+          selectedUni={selectedUni}
+          setSelectedUni={setSelectedUni}
+          invalid={universityInvalid}
+          setInvalid={setUniversityInvalid}
         />
-        <Form.Control.Feedback type="invalid">
-          {emailTaken ? t("emailTaken") : t("enterEmail")}
-        </Form.Control.Feedback>
-      </FloatingLabel>
-      <FloatingLabel label={t("username")} className="mb-2">
-        <Form.Control
-          type="text"
-          placeholder={"Username"}
-          isInvalid={usernameInvalid}
-          ref={usernameInputRef}
-          onChange={() => {
-            setUsernameInvalid(false);
-            setUsernameTaken(false);
-          }}
+        <SelectFaculty
+          selectedUni={selectedUni}
+          selectedFac={selectedFac}
+          setSelectedFac={setSelectedFac}
+          invalid={facultyInvalid}
+          setInvalid={setFacultyInvalid}
         />
-        <Form.Control.Feedback type="invalid">
-          {usernameTaken ? t("usernameTaken") : t("enterUsername")}
-        </Form.Control.Feedback>
-      </FloatingLabel>
-      <FloatingLabel label={t("password")} className="mb-2">
-        <Form.Control
-          type="password"
-          placeholder={"Password"}
-          isInvalid={passwordInvalid}
-          ref={passwordInputRef}
-          onChange={() => {
-            setPasswordInvalid(false);
-            setPasswordShortInvalid(false);
-          }}
+        <SelectGender
+          selectedGender={(value) => setSelectedGend(value)}
+          invalid={genderInvalid}
+          setInvalid={(value) => setGenderInvalid(value)}
         />
-        <Form.Control.Feedback type="invalid">
-          {passwordShortInvalid ? t("passwordLength") : t("enterPassword")}
-        </Form.Control.Feedback>
-      </FloatingLabel>
-      <Form.Check
-        inline
-        className="mb-2"
-        type="switch"
-        label={t("onExchange")}
-        ref={onExchangeInputRef}
-      ></Form.Check>
-      <SelectUniversity
-        selectedUni={selectedUni}
-        setSelectedUni={setSelectedUni}
-        invalid={universityInvalid}
-        setInvalid={setUniversityInvalid}
-      />
-      <SelectFaculty
-        selectedUni={selectedUni}
-        selectedFac={selectedFac}
-        setSelectedFac={setSelectedFac}
-        invalid={facultyInvalid}
-        setInvalid={setFacultyInvalid}
-      />
-      <SelectGender
-        selectedGender={(value) => setSelectedGend(value)}
-        invalid={genderInvalid}
-        setInvalid={(value) => setGenderInvalid(value)}
-      />
-      <Row className="p-3">
-        <Button
-          variant="primary"
-          type="submit"
-          size="md"
-          onClick={() => {
-            setIsLoading(true);
-          }}
-        >
-          {isLoading && (
-            <Spinner
-              as="span"
-              animation="border"
-              size="sm"
-              role="status"
-              aria-hidden="true"
-            />
-          )}
-          {t("signUp")}
-        </Button>
-      </Row>
-    </Form>
+        <Row className="p-3">
+          <Button
+            variant="primary"
+            type="submit"
+            size="md"
+            onClick={() => {
+              setIsLoading(true);
+            }}
+          >
+            {isLoading && (
+              <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+              />
+            )}
+            {t("signUp")}
+          </Button>
+        </Row>
+      </Form>
+      <Modal centered show={regSuccessful}>
+        <Modal.Header>
+          <Modal.Title>{t("congrats")}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{t("registrationSuccessful")}</Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="primary"
+            onClick={() => navigate("/", { replace: true })}
+          >
+            {t("ok")}
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
   );
 }
 

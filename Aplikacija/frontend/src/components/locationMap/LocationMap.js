@@ -3,7 +3,7 @@ import { MapContainer, TileLayer } from "react-leaflet";
 import "./LocationMap.style.css";
 import LocationMarker from "../locationMarker/LocationMarker.js";
 import LocationUniversity from "../locationMarker/LocationUniversity.js";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LocationCard from "../locationCard/LocationCard.js";
 
 function LocationMap({
@@ -27,6 +27,7 @@ function LocationMap({
           }
           zoom={13}
           scrollWheelZoom={false}
+          placeholder={<div className="map"></div>}
         >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

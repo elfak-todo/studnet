@@ -1,6 +1,6 @@
 .grade-form {
-  margin-left: auto;
-  margin-right: auto;
+  width: auto;
+  margin: 0 0.5rem;
 }
 .grade-form-card {
   background: var(--bs-primary-light) !important;
@@ -18,8 +18,7 @@
 
 @media only screen and (min-width: 768px) {
   .grade-form {
-    max-width: 75%;
-    width: 75%;
+    max-width: 100%;
   }
   .grade-form-body {
     flex-direction: row;

@@ -5,6 +5,8 @@ import Feed from "../../feed/Feed";
 import GradeCard from "../../gradeCard/GradeCard";
 import GradeForm from "../../gradeForm/GradeForm";
 
+import "./LocationGrades.style.css";
+
 function LocationGrades({ location, setLocation }) {
   const { t } = useTranslation(["locations"]);
 
@@ -18,12 +20,14 @@ function LocationGrades({ location, setLocation }) {
           </h4>
           <h5>{t("gradeCount") + location.gradeCount}</h5>
         </div>
-        <Feed
-          url={`Grade/${location.id}`}
-          FeedCard={GradeCard}
-          AddElementForm={GradeForm}
-          metadata={{ location, setLocation }}
-        />
+        <div className="grade-feed-container">
+          <Feed
+            url={`Grade/${location.id}`}
+            FeedCard={GradeCard}
+            AddElementForm={GradeForm}
+            metadata={{ location, setLocation }}
+          />
+        </div>
       </>
     )
   );

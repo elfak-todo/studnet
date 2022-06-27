@@ -100,7 +100,9 @@ function AddLocationForm({
                 {t("chooseType")}
               </option>
               {locationTypes
-                .filter((l) => student.role >= l.minRole)
+                .filter(
+                  (l) => l.shownInAddLocations && student.role >= l.minRole
+                )
                 .map((o, i) => {
                   return (
                     <option key={i} value={i}>

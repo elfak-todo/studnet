@@ -23,7 +23,8 @@ namespace Backend.Models
         Confectionery,
         Shop,
         SkatePark,
-        University
+        University,
+        Field
     }
 
     [Table("Location")]
