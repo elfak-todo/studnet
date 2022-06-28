@@ -73,8 +73,6 @@ function AddParlamentBody({
       return;
     }
 
-    console.log("skfdoafkdofko");
-
     let proceed = true;
 
     if (
@@ -140,8 +138,6 @@ function AddParlamentBody({
     parlament.uniId = Number(selectedUni);
 
     if (proceed) {
-      console.log("DJFIDJIJFDI");
-
       setState((s) => {
         return { ...s, loading: true };
       });
