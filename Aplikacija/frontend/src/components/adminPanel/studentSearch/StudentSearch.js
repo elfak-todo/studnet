@@ -184,7 +184,7 @@ function StudentSearch({
                   }
                 }}
               />
-              <Form.Check.Label for="ss-student">Student</Form.Check.Label>
+              <Form.Check.Label htmlFor="ss-student">Student</Form.Check.Label>
             </Form.Check>
             <Form.Check className="mb-2">
               <Form.Check.Input
@@ -200,7 +200,7 @@ function StudentSearch({
                   studentRef.current.checked = false;
                 }}
               />
-              <Form.Check.Label for="ss-parlament-member">
+              <Form.Check.Label htmlFor="ss-parlament-member">
                 {t("admin:parlamentMember")}
               </Form.Check.Label>
             </Form.Check>
@@ -218,7 +218,7 @@ function StudentSearch({
                       studentRef.current.checked = false;
                     }}
                   />
-                  <Form.Check.Label for="ss-uni-admin">
+                  <Form.Check.Label htmlFor="ss-uni-admin">
                     {t("admin:uniAdmin")}
                   </Form.Check.Label>
                 </Form.Check>
@@ -234,7 +234,7 @@ function StudentSearch({
                       studentRef.current.checked = false;
                     }}
                   />
-                  <Form.Check.Label for="ss-admin">
+                  <Form.Check.Label htmlFor="ss-admin">
                     {t("admin:admin")}
                   </Form.Check.Label>
                 </Form.Check>

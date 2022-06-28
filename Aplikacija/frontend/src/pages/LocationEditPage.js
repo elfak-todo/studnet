@@ -10,7 +10,7 @@ import StudentContext from "../components/studentManager/StudentManager";
 function LocationEditPage() {
   const { locationId } = useParams();
   const [initialLocation, setInitialLocation] = useState();
-  const {student} = useContext(StudentContext);
+  const { student } = useContext(StudentContext);
 
   useEffect(() => {
     axios
@@ -29,7 +29,10 @@ function LocationEditPage() {
       });
   }, [locationId]);
 
-  return (initialLocation !== null && student.role>=2) ? (
+  return initialLocation !== null &&
+    initialLocation?.type !== 8 &&
+    initialLocation?.type !== 16 &&
+    (initialLocation?.authorId === student.id || student.role > 1) ? (
     initialLocation !== undefined ? (
       <AddLocation initialLocation={initialLocation} />
     ) : (

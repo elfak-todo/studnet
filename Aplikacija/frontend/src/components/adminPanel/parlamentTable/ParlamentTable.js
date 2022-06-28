@@ -59,7 +59,10 @@ function ParlamentTable() {
           {parlaments?.map((p, i) => (
             <tr
               key={p.id}
-              onClick={() => {setShowEdit(true); setParId(p.id);}}
+              onClick={() => {
+                setShowEdit(true);
+                setParId(p.id);
+              }}
               className="student-row"
             >
               <td> {i + 1} </td>
@@ -96,10 +99,10 @@ function ParlamentTable() {
         )}
       </div>
       <EditParlament
-        parlamentProp={null}
         parId={parId}
         showEdit={showEdit}
         setShowEdit={setShowEdit}
+        setParlaments={setParlaments}
       />
     </>
   );

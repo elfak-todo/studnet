@@ -16,7 +16,6 @@ public class LocationController : ControllerBase
 {
     private Context _context;
     private IAccessTokenManager _tokenManager;
-
     private IImageManager _imageManager;
 
     public LocationController(Context context, IAccessTokenManager tokenManager,

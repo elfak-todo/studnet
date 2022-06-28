@@ -38,7 +38,7 @@ function ProfileDropdown({ setExpanded }) {
             alt="user-pic"
             className="avatar"
           ></img>
-          <span className="text-light">
+          <span className="text-light m-0 p-0">
             {student && student.firstName + " " + student.lastName}
           </span>
         </span>
