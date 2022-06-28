@@ -25,7 +25,7 @@ function LocationMap({
               ? [mapData.loc[0].latitude, mapData.loc[0].longitude]
               : [mapData.uni.latitude, mapData.uni.longitude]
           }
-          zoom={13}
+          zoom={14}
           scrollWheelZoom={false}
           placeholder={<div className="map"></div>}
         >
