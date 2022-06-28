@@ -3,6 +3,8 @@
   height: 30px !important;
   border-radius: 50%;
   margin-right: 5px;
+  object-fit: cover;
+  background-size: cover;
 }
 
 .navbar-profile {

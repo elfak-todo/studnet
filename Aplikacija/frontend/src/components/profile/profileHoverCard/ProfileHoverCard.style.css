@@ -21,6 +21,8 @@
   border: solid;
   border-width: 5px;
   border-color: #4e54c8;
+  object-fit: cover;
+  background-size: cover;
 }
 .parent-pic-div {
   width: inherit;
