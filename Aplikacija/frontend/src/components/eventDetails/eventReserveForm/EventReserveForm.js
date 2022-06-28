@@ -62,7 +62,6 @@ function EventReserveForm({
           setShowMyReservation(true);
         })
         .catch((err) => {
-          console.log(err);
           if (err.response.data === "NotEnoughTicketsLeft") {
             setInvalid(true);
             setErrMessage(t("NotEnoughTicketsLeft"));
@@ -89,7 +88,6 @@ function EventReserveForm({
           setNumTicket(ticketNum);
         })
         .catch((err) => {
-          console.log(err);
           if (err.response.data === "NotEnoughTicketsLeft") {
             setInvalid(true);
             setErrMessage(t("NotEnoughTicketsLeft"));
@@ -126,7 +124,7 @@ function EventReserveForm({
       <hr />
       {reservation && (
         <MyReservation
-        event={event}
+          event={event}
           reservation={reservation}
           setReservation={setReservation}
           showMyReservation={showMyReservation}

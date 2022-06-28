@@ -61,9 +61,6 @@ function StudentSearch({
         }
         setHasMore(res.data.length > 0);
       })
-      .catch((err) => {
-        console.log(err);
-      })
       .finally(() => {
         setFetching(false);
       });

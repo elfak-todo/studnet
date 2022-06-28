@@ -55,7 +55,6 @@ function Post({ feedEl, innerRef, feed, setFeed, pinned, verified }) {
         });
       })
       .catch((err) => {
-        console.log(err.response.data);
         setLoading(false);
       });
 

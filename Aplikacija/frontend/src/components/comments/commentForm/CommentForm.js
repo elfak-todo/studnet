@@ -45,25 +45,20 @@ function CommentForm({
       if (postType === "post") comm = postComment;
       else if (postType === "event") comm = eventComment;
 
-      axios
-        .post("Comment/Post/", comm)
-        .then((res) => {
-          setComments([...comments, res.data]);
-          setNoComments(false);
-          setFeed((prevState) => {
-            return prevState.map((p) => {
-              if (p.id === post.id) {
-                if (postType === "event")
-                  p.ev.commentCount = p.ev.commentCount + 1;
-                else p.post.commentCount = p.post.commentCount + 1;
-                return p;
-              } else return p;
-            });
+      axios.post("Comment/Post/", comm).then((res) => {
+        setComments([...comments, res.data]);
+        setNoComments(false);
+        setFeed((prevState) => {
+          return prevState.map((p) => {
+            if (p.id === post.id) {
+              if (postType === "event")
+                p.ev.commentCount = p.ev.commentCount + 1;
+              else p.post.commentCount = p.post.commentCount + 1;
+              return p;
+            } else return p;
           });
-        })
-        .catch((error) => {
-          console.log(error);
         });
+      });
     }
   };
 

@@ -9,7 +9,7 @@ function SelectFaculty({
   setSelectedFac,
   invalid,
   setInvalid,
-  selectDisabled
+  selectDisabled,
 }) {
   const { t } = useTranslation(["register"]);
 
@@ -18,15 +18,10 @@ function SelectFaculty({
 
   useEffect(() => {
     if (selectedUni !== undefined && selectedUni !== "0") {
-      axios
-        .get("Parlament/GetByUniversity/" + selectedUni)
-        .then((result) => {
-          setOptions(result.data);
-          setClearSelect(false);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      axios.get("Parlament/GetByUniversity/" + selectedUni).then((result) => {
+        setOptions(result.data);
+        setClearSelect(false);
+      });
     }
   }, [selectedUni]);
 

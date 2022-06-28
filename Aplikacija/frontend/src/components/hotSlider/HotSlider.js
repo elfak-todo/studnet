@@ -13,14 +13,9 @@ function HotSlider({ url, navigateUrl, title }) {
   const [feed, setFeed] = useState([]);
 
   useEffect(() => {
-    axios
-      .get(url)
-      .then((res) => {
-        setFeed(res.data);
-      })
-      .catch((err) => {
-        console.log(err.response.data);
-      });
+    axios.get(url).then((res) => {
+      setFeed(res.data);
+    });
   }, [url]);
 
   return (

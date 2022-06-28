@@ -25,28 +25,23 @@ function EventPostFooter({ event, isLiked, feed, setFeed, canceled }) {
 
     setLoading(true);
 
-    axios
-      .put(`Event/SetLiked/${event.id}/${!liked}`)
-      .then((res) => {
-        setLiked(res.data);
-        setFeed(
-          feed.map((p) => {
-            if (p.id === event.id) {
-              if (res.data) {
-                p.ev.likeCount = p.ev.likeCount + 1;
-              } else {
-                if (p.ev.likeCount > 0) p.ev.likeCount = p.ev.likeCount - 1;
-              }
-              return p;
-            } else return p;
-          })
-        );
+    axios.put(`Event/SetLiked/${event.id}/${!liked}`).then((res) => {
+      setLiked(res.data);
+      setFeed(
+        feed.map((p) => {
+          if (p.id === event.id) {
+            if (res.data) {
+              p.ev.likeCount = p.ev.likeCount + 1;
+            } else {
+              if (p.ev.likeCount > 0) p.ev.likeCount = p.ev.likeCount - 1;
+            }
+            return p;
+          } else return p;
+        })
+      );
 
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      setLoading(false);
+    });
   };
 
   return (

@@ -10,12 +10,9 @@ function ParlamentOverview() {
   const [parlament, setParlament] = useState(null);
 
   useEffect(() => {
-    axios
-      .get(`Parlament/0`)
-      .then((res) => {
-        setParlament(res.data);
-      })
-      .catch((err) => console.log(err));
+    axios.get(`Parlament/0`).then((res) => {
+      setParlament(res.data);
+    });
   }, []);
 
   return (

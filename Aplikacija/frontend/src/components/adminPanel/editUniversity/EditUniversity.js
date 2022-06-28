@@ -14,7 +14,6 @@ function EditParlament({ uniId, showEdit, setShowEdit, setUniversities }) {
     if (uniId !== undefined && uniId !== null) {
       axios.get(`University/${uniId}`).then((res) => {
         setInitialUniversity(res.data);
-        console.log(res.data);
       });
     }
   }, [uniId]);

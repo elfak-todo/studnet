@@ -77,10 +77,8 @@ function Comment({
               } else return c;
             });
           });
-        })
-        .catch((err) => {
-          console.log(err.response.data);
         });
+
       setEdit(false);
     }
   };
@@ -106,11 +104,8 @@ function Comment({
             } else return c;
           })
         );
-
-        setLoading(false);
       })
-      .catch((err) => {
-        console.log(err.response.data);
+      .finally(() => {
         setLoading(false);
       });
   };
