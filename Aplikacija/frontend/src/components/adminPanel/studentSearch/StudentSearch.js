@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useTranslation } from "react-i18next";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { Form, FormControl, Button, Alert } from "react-bootstrap";
 
 import SelectUniversity from "../../selectUniveristy/SelectUniveristy";
@@ -78,8 +78,7 @@ function StudentSearch({
     student.role,
   ]);
 
-  const handleSearch = (e) => {
-    e.preventDefault();
+  const handleSearch = useCallback(() => {
     const input = inputRef.current.value;
     const stud = studentRef.current.checked;
     const parMember = parMemberRef.current.checked;
@@ -127,6 +126,15 @@ function StudentSearch({
     setSearchInput(input);
 
     if (input !== "") setShowSearchLabel(true);
+  }, [selectedFac, selectedUni, setPageNum, student.role]);
+
+  useEffect(() => {
+    handleSearch();
+  }, [selectedFac, selectedUni, handleSearch]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleSearch();
   };
 
   const closeSearchLabel = () => {
@@ -135,11 +143,12 @@ function StudentSearch({
     setRefresh(true);
     setSelectedUni("0");
     setSelectedFac("0");
-    parMemberRef.current.checked = false;
-    if (student.role === 3) {
+    studentRef.current.checked = false;
+    if (student.role > 1) {
       uniAdminRef.current.checked = false;
       adminRef.current.checked = false;
     }
+    parMemberRef.current.checked = false;
   };
 
   return (
@@ -167,7 +176,7 @@ function StudentSearch({
           />
         </div>
       )}
-      <Form className="d-flex" noValidate onSubmit={handleSearch}>
+      <Form className="d-flex" noValidate onSubmit={handleSubmit}>
         <div style={{ width: "100%" }}>
           <div>
             <Form.Check className="mb-2">
@@ -182,9 +191,10 @@ function StudentSearch({
                     uniAdminRef.current.checked = false;
                     adminRef.current.checked = false;
                   }
+                  handleSearch();
                 }}
               />
-              <Form.Check.Label for="ss-student">Student</Form.Check.Label>
+              <Form.Check.Label htmlFor="ss-student">Student</Form.Check.Label>
             </Form.Check>
             <Form.Check className="mb-2">
               <Form.Check.Input
@@ -198,9 +208,10 @@ function StudentSearch({
                     adminRef.current.checked = false;
                   }
                   studentRef.current.checked = false;
+                  handleSearch();
                 }}
               />
-              <Form.Check.Label for="ss-parlament-member">
+              <Form.Check.Label htmlFor="ss-parlament-member">
                 {t("admin:parlamentMember")}
               </Form.Check.Label>
             </Form.Check>
@@ -216,9 +227,10 @@ function StudentSearch({
                       parMemberRef.current.checked = false;
                       adminRef.current.checked = false;
                       studentRef.current.checked = false;
+                      handleSearch();
                     }}
                   />
-                  <Form.Check.Label for="ss-uni-admin">
+                  <Form.Check.Label htmlFor="ss-uni-admin">
                     {t("admin:uniAdmin")}
                   </Form.Check.Label>
                 </Form.Check>
@@ -232,9 +244,10 @@ function StudentSearch({
                       parMemberRef.current.checked = false;
                       uniAdminRef.current.checked = false;
                       studentRef.current.checked = false;
+                      handleSearch();
                     }}
                   />
-                  <Form.Check.Label for="ss-admin">
+                  <Form.Check.Label htmlFor="ss-admin">
                     {t("admin:admin")}
                   </Form.Check.Label>
                 </Form.Check>

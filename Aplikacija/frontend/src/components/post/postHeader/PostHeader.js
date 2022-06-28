@@ -23,7 +23,6 @@ function PostHeader({
   verifiedProp,
 }) {
   const { t, i18n } = useTranslation(["post", "register"]);
-
   const { student } = useContext(StudentContext);
 
   const [popupShown, setPopupShown] = useState(false);
