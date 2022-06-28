@@ -71,6 +71,7 @@ if (app.Environment.IsDevelopment())
     app.Urls.Add("http://localhost:5000");
     app.Urls.Add("http://192.168.1.35:5000");
     app.Urls.Add("https://192.168.1.35:7246");
+    //app.Urls.Add("https://studnet.azurewebsites.net/");
     //app.Urls.Add("http://192.168.100.2:5000");
     //app.Urls.Add("https://192.168.100.2:7246");
     //  app.Urls.Add("http://192.168.1.101:5000");

@@ -50,6 +50,7 @@ function LoginForm() {
           setShowWrongPassLabel(false);
         })
         .catch((error) => {
+          console.log(error);
           if (error.response.data === "BadCredentials") {
             setIsLoading(false);
             setShowWrongPassLabel(true);
