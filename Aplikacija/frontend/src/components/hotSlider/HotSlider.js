@@ -69,7 +69,7 @@ function HotSlider({ url, navigateUrl, title, placeholder }) {
               className="my-5"
               as="span"
               animation="border"
-              size="sm"
+              size="md"
               role="status"
               aria-hidden="true"
             />

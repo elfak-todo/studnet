@@ -109,6 +109,9 @@ function AddUniversityBody({
               newList[i] = res.data;
               return newList;
             });
+            setState((s) => {
+              return { ...s, loading: false };
+            });
             setShowSuccessModal(true);
           });
       } else {
@@ -122,6 +125,9 @@ function AddUniversityBody({
           .then((res) => {
             setUniversities((p) => {
               return [...p, res.data];
+            });
+            setState((s) => {
+              return { ...s, loading: false };
             });
             setShowSuccessModal(true);
           });
