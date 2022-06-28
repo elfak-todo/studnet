@@ -22,6 +22,7 @@ function LoginForm() {
 
   const [validated, setValidated] = useState(false);
   const [showWrongPassLabel, setShowWrongPassLabel] = useState(false);
+  const [showStudentBannedLabel, setShowStudentBannedLabel] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const usernameOrEmailInputRef = useRef();
@@ -55,6 +56,10 @@ function LoginForm() {
             setIsLoading(false);
             setShowWrongPassLabel(true);
           }
+          if (error.response.data === "StudentBanned") {
+            setIsLoading(false);
+            setShowStudentBannedLabel(true);
+          }
         });
     } else {
       event.stopPropagation();
@@ -80,6 +85,7 @@ function LoginForm() {
               ref={usernameOrEmailInputRef}
               onChange={() => {
                 setShowWrongPassLabel(false);
+                setShowStudentBannedLabel(false);
               }}
             />
             <Form.Control.Feedback type="invalid">
@@ -95,6 +101,7 @@ function LoginForm() {
               ref={passwordInputRef}
               onChange={() => {
                 setShowWrongPassLabel(false);
+                setShowStudentBannedLabel(false);
               }}
             />
             <Form.Control.Feedback type="invalid">
@@ -105,6 +112,11 @@ function LoginForm() {
             {showWrongPassLabel && (
               <Alert variant="danger" className="text-center">
                 {t("noMatch")}
+              </Alert>
+            )}
+            {showStudentBannedLabel && (
+              <Alert variant="danger" className="text-center">
+                {t("studentBanned")}
               </Alert>
             )}
             <Button

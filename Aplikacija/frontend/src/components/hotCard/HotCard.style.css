@@ -8,6 +8,8 @@
   cursor: pointer;
   margin: 1.2rem 0.5rem;
   transition: transform 450ms;
+  max-height: 30rem;
+  max-width: 18rem;
 }
 .hot-card:hover {
   transform: scale(1.08);
@@ -25,8 +27,8 @@
   position: absolute;
   left: 0;
   right: 0;
-  bottom:0;
-  top:0;
+  bottom: 0;
+  top: 0;
   width: 4rem;
   height: 4rem;
   margin-left: auto;
@@ -37,8 +39,8 @@
   position: absolute;
   left: 0;
   right: 0;
-  bottom:0;
-  top:0;
+  bottom: 0;
+  top: 0;
   margin-left: auto;
   margin-right: auto;
   margin-top: 92%;

@@ -14,11 +14,13 @@ function HomePage() {
         url="Event/Hot"
         navigateUrl="/event/"
         title={t("trendingEvents")}
+        placeholder={t("trendingEventsPlaceholder")}
       />
       <HotSlider
         url="Location/Trending/0"
         navigateUrl="/location/"
         title={t("trendingLocations")}
+        placeholder={t("trendingLocationsPlaceholder")}
       />
       <h3 className="text-center m-5">{t("posts")}</h3>
       <Feed url="Post/Feed" FeedCard={Post} AddElementForm={PostForm} />

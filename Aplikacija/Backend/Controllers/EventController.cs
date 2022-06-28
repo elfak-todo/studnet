@@ -194,12 +194,20 @@ public class EventController : ControllerBase
     [HttpGet]
     public async Task<ActionResult> GetHotEvents()
     {
+        var userDetails = _tokenManager.GetUserDetails(HttpContext.User);
+
+        if (userDetails == null)
+        {
+            return BadRequest("BadToken");
+        }
+
         IQueryable<Event> events;
 
         events = _context.Events.Include(events => events.Organiser)
                                            .Include(e => e.Comments)
                                            .AsSplitQuery()
-                                           .Where(e => (e.Pinned || e.Verified) && e.EndTime > DateTime.Now)
+                                           .Where(e => ((e.Pinned || e.Verified) && e.EndTime > DateTime.Now)
+                                                && e.UniversityId == userDetails.UniversityId)
                                            .OrderBy(e => e.TimeOfEvent)
                                            .ThenBy(e => e.PublicationTime)
                                            .Take(15);

@@ -36,5 +36,7 @@
   "studentPromoted": "Nalog je uspešno promovisan!",
   "studentBanned": "Nalog je uspešno deaktiviran!",
   "studentUnbanned": "Nalog je uspešno aktiviran!",
-  "studentDeleted": "Student je uspešno obrisan!"
+  "studentDeleted": "Student je uspešno obrisan!",
+  "trendingEventsPlaceholder": "Nema događaja za prikaz. Kada neki događaj bude u trendu, on će biti prikazan ovde.",
+  "trendingLocationsPlaceholder": "Nema lokacija za prikaz. Kada neki događaj bude u trendu, on će biti prikazan ovde."
 }
