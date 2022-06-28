@@ -34,6 +34,7 @@ function CommentSection({
           setLoading(false);
           setLessComments(true);
         } else {
+          console.log(res.data);
           setComments(res.data);
           setLoading(false);
           setLessComments(true);
