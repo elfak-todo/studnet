@@ -142,6 +142,8 @@ function EventForm({ feed, setFeed }) {
           setFeed([res.data, ...feed]);
           e.target.reset();
           setSelectedLoc(null);
+          setStartDate(null);
+          setEndDate(null);
         })
         .catch((err) => {
           if (err.response && err.response.data === "UnsupportedFileType")

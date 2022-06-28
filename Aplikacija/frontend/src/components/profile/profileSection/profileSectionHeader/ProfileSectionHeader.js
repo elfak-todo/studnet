@@ -9,6 +9,7 @@ import {
   faMap,
 } from "@fortawesome/free-regular-svg-icons";
 
+import noPic from "../../../../images/no-image.jpg";
 import defaultPic from "../../../../images/defaultProfilePic.jpg";
 import EditProfile from "../../editProfile/EditProfile";
 import StudentContext from "../../../studentManager/StudentManager";
@@ -42,7 +43,13 @@ function ProfileSectionHeader({ studentProp, setStudentProp }) {
       <Card.Header className="profile-header">
         <Card.Img
           variant="top"
-          src={studentProp?.facultyImagePath}
+          src={
+            studentProp?.facultyImagePath === "/" ||
+            studentProp?.facultyImagePath === "" ||
+            studentProp?.facultyImagePath === null
+              ? noPic
+              : studentProp?.facultyImagePath
+          }
           className="cover-img"
         />
         <Card.ImgOverlay>

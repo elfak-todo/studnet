@@ -128,7 +128,7 @@ function AddParlamentBody({
       proceed = false;
     }
 
-    if (selectedUni === "0") {
+    if (!state.edit && selectedUni === "0") {
       setInputStatus((s) => {
         return { ...s, selectedUniInvalid: true };
       });
@@ -168,6 +168,9 @@ function AddParlamentBody({
               newList[i] = res.data;
               return newList;
             });
+            setState((s) => {
+              return { ...s, loading: false };
+            });
             setShowSuccessModal(true);
           });
       } else {
@@ -180,6 +183,9 @@ function AddParlamentBody({
           .then((res) => {
             setParlaments((p) => {
               return [...p, res.data];
+            });
+            setState((s) => {
+              return { ...s, loading: false };
             });
             setShowSuccessModal(true);
           });

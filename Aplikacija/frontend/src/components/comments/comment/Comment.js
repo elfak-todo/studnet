@@ -169,7 +169,7 @@ function Comment({
               />
             )}
           </div>
-          {student.role === 1 ||
+          {student.role > 1 ||
           (student !== null && author !== null && student.id === author.id) ? (
             <SettingsDropdown
               postType="Comment"
