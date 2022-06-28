@@ -19,6 +19,7 @@ import fieldIcon from "../../images/locationMarkers/field.png";
 
 const locationTypes = [
   {
+    id: 0,
     name: "cafe",
     icon: {
       iconUrl: cafeIcon,
@@ -28,6 +29,7 @@ const locationTypes = [
     shownInAddLocations: true,
   },
   {
+    id: 1,
     name: "club",
     icon: {
       iconUrl: clubIcon,
@@ -37,6 +39,7 @@ const locationTypes = [
     shownInAddLocations: true,
   },
   {
+    id: 2,
     name: "brewery",
     icon: {
       iconUrl: breweryIcon,
@@ -46,6 +49,7 @@ const locationTypes = [
     shownInAddLocations: true,
   },
   {
+    id: 3,
     name: "bar",
     icon: {
       iconUrl: barIcon,
@@ -55,6 +59,7 @@ const locationTypes = [
     shownInAddLocations: true,
   },
   {
+    id: 4,
     name: "restoraunt",
     icon: {
       iconUrl: restorauntIcon,
@@ -64,6 +69,7 @@ const locationTypes = [
     shownInAddLocations: true,
   },
   {
+    id: 5,
     name: "tavern",
     icon: {
       iconUrl: tavernIcon,
@@ -73,6 +79,7 @@ const locationTypes = [
     shownInAddLocations: true,
   },
   {
+    id: 6,
     name: "gym",
     icon: {
       iconUrl: gymIcon,
@@ -82,6 +89,7 @@ const locationTypes = [
     shownInAddLocations: true,
   },
   {
+    id: 7,
     name: "library",
     icon: {
       iconUrl: libraryIcon,
@@ -91,6 +99,7 @@ const locationTypes = [
     shownInAddLocations: true,
   },
   {
+    id: 8,
     name: "faculty",
     icon: {
       iconUrl: facultyIcon,
@@ -100,6 +109,7 @@ const locationTypes = [
     shownInAddLocations: false,
   },
   {
+    id: 9,
     name: "basketballCourt",
     icon: {
       iconUrl: basketballCourtIcon,
@@ -109,6 +119,7 @@ const locationTypes = [
     shownInAddLocations: true,
   },
   {
+    id: 10,
     name: "footballField",
     icon: {
       iconUrl: footballFieldIcon,
@@ -118,6 +129,7 @@ const locationTypes = [
     shownInAddLocations: true,
   },
   {
+    id: 11,
     name: "bowlingAlley",
     icon: {
       iconUrl: bowlingAlleyIcon,
@@ -127,6 +139,7 @@ const locationTypes = [
     shownInAddLocations: true,
   },
   {
+    id: 12,
     name: "doctor",
     icon: {
       iconUrl: doctorIcon,
@@ -136,6 +149,7 @@ const locationTypes = [
     shownInAddLocations: true,
   },
   {
+    id: 13,
     name: "confectionery",
     icon: {
       iconUrl: confectioneryIcon,
@@ -145,6 +159,7 @@ const locationTypes = [
     shownInAddLocations: true,
   },
   {
+    id: 14,
     name: "shop",
     icon: {
       iconUrl: shopIcon,
@@ -154,6 +169,7 @@ const locationTypes = [
     shownInAddLocations: true,
   },
   {
+    id: 15,
     name: "skatePark",
     icon: {
       iconUrl: skateParkIcon,
@@ -163,6 +179,7 @@ const locationTypes = [
     shownInAddLocations: true,
   },
   {
+    id: 16,
     name: "university",
     icon: {
       iconUrl: uniIcon,
@@ -172,6 +189,7 @@ const locationTypes = [
     shownInAddLocations: false,
   },
   {
+    id: 17,
     name: "field",
     icon: {
       iconUrl: fieldIcon,

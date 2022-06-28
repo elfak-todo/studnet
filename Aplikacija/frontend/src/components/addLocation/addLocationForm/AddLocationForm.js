@@ -16,6 +16,8 @@ function AddLocationForm({
   displayTitle,
   inputStatus,
   setInputStatus,
+  typeHidden,
+  verifiedHidden,
 }) {
   const { t } = useTranslation(["locations"]);
 
@@ -76,63 +78,67 @@ function AddLocationForm({
           </FloatingLabel>
         </Col>
       </Row>
-      <Row className="mb-2">
-        <Col>
-          <FloatingLabel label={t("type")}>
-            <Form.Select
-              isInvalid={inputStatus.typeInvalid}
-              placeholder="Type"
-              value={
-                location.type !== undefined && location.type !== null
-                  ? location.type
-                  : -1
-              }
-              onChange={(e) => {
-                setInputStatus((s) => {
-                  return { ...s, typeInvalid: false };
-                });
-                setLocation((l) => {
-                  return { ...l, type: Number(e.target.value) };
-                });
-              }}
-            >
-              <option key={-1} value={-1}>
-                {t("chooseType")}
-              </option>
-              {locationTypes
-                .filter(
-                  (l) => l.shownInAddLocations && student.role >= l.minRole
-                )
-                .map((o, i) => {
-                  return (
-                    <option key={i} value={i}>
-                      {t(o.name)}
-                    </option>
-                  );
-                })}
-            </Form.Select>
-            <Form.Control.Feedback type="invalid">
-              {t("typeInvalid")}
-            </Form.Control.Feedback>
-          </FloatingLabel>
-        </Col>
-        {student.role > 0 ? (
-          <Col>
-            <Form.Check
-              inline
-              checked={location.verified || false}
-              className="my-3"
-              type="switch"
-              label={t("verified")}
-              onChange={(e) => {
-                setLocation((l) => {
-                  return { ...l, verified: e.target.checked };
-                });
-              }}
-            ></Form.Check>
-          </Col>
-        ) : null}
-      </Row>
+      {(!verifiedHidden || !typeHidden) && (
+        <Row className="mb-2">
+          {!verifiedHidden && (
+            <Col>
+              <FloatingLabel label={t("type")}>
+                <Form.Select
+                  isInvalid={inputStatus.typeInvalid}
+                  placeholder="Type"
+                  value={
+                    location.type !== undefined && location.type !== null
+                      ? location.type
+                      : -1
+                  }
+                  onChange={(e) => {
+                    setInputStatus((s) => {
+                      return { ...s, typeInvalid: false };
+                    });
+                    setLocation((l) => {
+                      return { ...l, type: Number(e.target.value) };
+                    });
+                  }}
+                >
+                  <option key={-1} value={-1}>
+                    {t("chooseType")}
+                  </option>
+                  {locationTypes
+                    .filter(
+                      (l) => l.shownInAddLocations && student.role >= l.minRole
+                    )
+                    .map((o, i) => {
+                      return (
+                        <option key={o.id} value={o.id}>
+                          {t(o.name)}
+                        </option>
+                      );
+                    })}
+                </Form.Select>
+                <Form.Control.Feedback type="invalid">
+                  {t("typeInvalid")}
+                </Form.Control.Feedback>
+              </FloatingLabel>
+            </Col>
+          )}
+          {!verifiedHidden && student.role > 0 ? (
+            <Col>
+              <Form.Check
+                inline
+                checked={location.verified || false}
+                className="my-3"
+                type="switch"
+                label={t("verified")}
+                onChange={(e) => {
+                  setLocation((l) => {
+                    return { ...l, verified: e.target.checked };
+                  });
+                }}
+              ></Form.Check>
+            </Col>
+          ) : null}
+        </Row>
+      )}
       <Row className="mb-2">
         <Col>
           <FloatingLabel label={t("webpage")}>

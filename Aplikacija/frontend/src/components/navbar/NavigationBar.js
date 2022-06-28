@@ -68,7 +68,7 @@ function NavigationBar() {
               {t("locations")}
             </Nav.Link>
           </Nav>
-          <Nav>
+          <Nav className="select-lang">
             <SelectLanguage onNavbar={true} setExpanded={setExpanded} />
           </Nav>
           <Nav className="me-5">

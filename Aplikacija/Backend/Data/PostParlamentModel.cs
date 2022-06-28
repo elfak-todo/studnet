@@ -2,10 +2,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Data
 {
-    public class PostLocationModel
+    public class PostParlamentModel
     {
-        [FromForm(Name = "location")]
-        public string? location { get; set; }
+        [FromForm(Name = "parlament")]
+        public string? parlament { get; set; }
 
         [FromForm(Name = "image")]
         public IFormFile? image { get; set; }

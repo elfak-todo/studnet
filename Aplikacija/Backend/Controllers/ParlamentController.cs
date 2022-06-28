@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 using Backend.Models;
 using Backend.Services;
+using Backend.Data;
+using System.Text.Json;
 
 namespace Backend.Controllers;
 
@@ -14,11 +16,14 @@ public class ParlamentController : ControllerBase
 {
     private Context _context;
     private IAccessTokenManager _tokenManager;
+    private IImageManager _imageManager;
 
-    public ParlamentController(Context context, IAccessTokenManager tokenManager)
+    public ParlamentController(Context context, IAccessTokenManager tokenManager,
+                    IImageManager imageManager)
     {
         _context = context;
         _tokenManager = tokenManager;
+        _imageManager = imageManager;
     }
 
     [Route("List/{page}")]
@@ -69,20 +74,22 @@ public class ParlamentController : ControllerBase
             return Unauthorized();
         }
 
-        var parlament = _context.Parlaments
+        var parlament = await _context.Parlaments
             .Include(p => p.Faculty)
             .Include(p => p.University)
-            .Where(p => parId == 0 ? p.ID == student.ParlamentId : p.ID == parId);
+            .FirstOrDefaultAsync(p => parId == 0 ? p.ID == student.ParlamentId : p.ID == parId);
 
-        var selectedPar = parlament.Select(p => new
+        if (parlament == null)
         {
-            parlamentName = p.Name,
-            uniName = p.University!.Name,
-            facName = p.Faculty!.Name,
-            facultyImagePath = p.Faculty.ImagePath,
-        }).FirstOrDefault();
+            return StatusCode(404);
+        }
 
-        return Ok(selectedPar);
+        return Ok(new
+        {
+            id = parlament.ID,
+            location = parlament.Faculty,
+            name = parlament.Name
+        });
     }
 
     [Route("Posts/{page}")]
@@ -268,5 +275,194 @@ public class ParlamentController : ControllerBase
         {
             return StatusCode(500);
         }
+    }
+
+    [Route("")]
+    [Authorize(Roles = "AdminUni")]
+    [HttpPost]
+    public async Task<ActionResult> CreateParlament(
+                            [FromForm] PostParlamentModel request)
+    {
+        var user = _tokenManager.GetUserDetails(HttpContext.User);
+
+        if (user == null)
+        {
+            return StatusCode(500);
+        }
+
+        if (request.parlament == null)
+        {
+            return StatusCode(500, "NoParlament");
+        }
+
+        ParlamentDetails? addParlament = JsonSerializer.Deserialize<ParlamentDetails>(request.parlament);
+
+        if (addParlament == null)
+        {
+            return BadRequest("ParlamentNotValid");
+        }
+
+        if (addParlament.location == null)
+        {
+            return BadRequest("LocationRequired");
+        }
+
+        Location location = new Location();
+
+        location.Address = addParlament.location.address!;
+        location.Description = addParlament.location.description!;
+        location.Latitude = addParlament.location.latitude!;
+        location.Longitude = addParlament.location.longitude!;
+        location.Name = addParlament.location.name!;
+        location.Type = LocationType.Faculty;
+        location.Webpage = addParlament.location.webpage!;
+
+        location.AuthorId = user.ID;
+        location.UniversityId = user.UniversityId;
+        location.Events = new List<Event>();
+        location.Grades = new List<Grade>();
+        location.PublicationTime = DateTime.Now;
+        location.Verified = true;
+
+        Parlament parlament = new Parlament();
+        parlament.Faculty = location;
+        parlament.UniversityId = user.UniversityId;
+        parlament.Name = addParlament.name!;
+
+        if (request.image != null)
+        {
+            location.ImagePath =
+                await _imageManager.SaveImage(request.image, "/images/locations/");
+        }
+
+        if (request.imageGallery != null && request.imageGallery.Count > 0)
+        {
+            foreach (IFormFile img in request.imageGallery)
+            {
+                var imagePath = await _imageManager.SaveImage(img, "/images/locationGallery/");
+                if (imagePath != null)
+                {
+                    location.ImageGallery.Add(imagePath);
+                }
+            }
+        }
+
+        _context.Add(parlament);
+        await _context.SaveChangesAsync();
+        return Ok(new
+        {
+            id = parlament.ID,
+            name = parlament.Name,
+            facultyName = parlament.Faculty != null ? parlament.Faculty.Name : "",
+            memberCount = parlament.Members != null ? parlament.Members.Where(s => s.Role > Role.Student).Count() : 0,
+            eventCount = parlament.Events != null ? parlament.Events.Count() : 0,
+        });
+    }
+
+    [Route("{parlamentId}")]
+    [Authorize(Roles = "ParlamentMember")]
+    [HttpPatch]
+    public async Task<ActionResult> EditParlament(
+                            [FromForm] PostParlamentModel request, int parlamentId)
+    {
+        var student = await _tokenManager.GetStudent(HttpContext.User);
+
+        if (student == null)
+        {
+            return StatusCode(500);
+        }
+
+        if (request.parlament == null)
+        {
+            return StatusCode(500, "NoParlament");
+        }
+
+        ParlamentDetails? addParlament = JsonSerializer.Deserialize<ParlamentDetails>(request.parlament);
+
+        if (addParlament == null)
+        {
+            return BadRequest("ParlamentNotValid");
+        }
+
+        var parlament = await _context.Parlaments
+            .Include(p => p.Faculty)
+            .FirstOrDefaultAsync(p => parlamentId == p.ID);
+
+        if (parlament == null)
+        {
+            return BadRequest("ParlamentNotFound");
+        }
+
+        if (student.Role < Role.AdminUni && parlament.ID != student.ParlamentId)
+        {
+            return Forbid("NotAuthor");
+        }
+
+        if (addParlament.location == null)
+        {
+            return BadRequest("LocationRequired");
+        }
+
+        parlament.Faculty!.Address = addParlament.location.address!;
+        parlament.Faculty.Description = addParlament.location.description!;
+        parlament.Faculty.Latitude = addParlament.location.latitude!;
+        parlament.Faculty.Longitude = addParlament.location.longitude!;
+        parlament.Faculty.Name = addParlament.location.name!;
+        parlament.Faculty.Webpage = addParlament.location.webpage!;
+
+        parlament.Name = addParlament.name!;
+
+        if (request.image != null)
+        {
+            var imagePath = await _imageManager.SaveImage(request.image, "/images/locations/");
+
+            if (imagePath == "UnsupportedFileType")
+            {
+                return BadRequest("UnsupportedFileType");
+            }
+
+            if (parlament.Faculty.ImagePath != null && parlament.Faculty.ImagePath != "")
+            {
+                _imageManager.DeleteImage(parlament.Faculty.ImagePath);
+            }
+
+            parlament.Faculty.ImagePath = imagePath;
+        }
+
+        if (request.imageGallery != null && request.imageGallery.Count > 0)
+        {
+            var images = new List<String>();
+
+            foreach (var img in request.imageGallery)
+            {
+                var imagePath = await _imageManager.SaveImage(img, "/images/locationGallery/");
+
+                if (imagePath == "UnsupportedFileType")
+                {
+                    return BadRequest("UnsupportedFileType");
+                }
+
+                if (imagePath != null)
+                {
+                    images.Add(imagePath);
+                }
+            }
+
+            foreach (var s in parlament.Faculty.ImageGallery)
+            {
+                _imageManager.DeleteImage(s);
+            }
+
+            parlament.Faculty.ImageGallery = images;
+        }
+        await _context.SaveChangesAsync();
+        return Ok(new
+        {
+            id = parlament.ID,
+            name = parlament.Name,
+            facultyName = parlament.Faculty != null ? parlament.Faculty.Name : "",
+            memberCount = parlament.Members != null ? parlament.Members.Where(s => s.Role > Role.Student).Count() : 0,
+            eventCount = parlament.Events != null ? parlament.Events.Count() : 0,
+        });
     }
 }

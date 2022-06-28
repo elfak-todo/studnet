@@ -7,7 +7,7 @@ import locationTypes from "../../locationMarker/LocationTypes";
 import addLocationIcon from "../../../images/locationMarkers/add-location.png";
 import shadowIcon from "../../../images/locationMarkers/shadow.png";
 
-function AddLocationMap({ location, setLocation, state }) {
+function AddLocationMap({ location, setLocation, state, wideMode = false }) {
   const markerRef = useRef(null);
   const [icon, setIcon] = useState(null);
 
@@ -57,7 +57,7 @@ function AddLocationMap({ location, setLocation, state }) {
       <MapContainer
         className="add-location-map"
         center={[location.latitude, location.longitude]}
-        zoom={13}
+        zoom={wideMode ? 9 : 13}
         scrollWheelZoom={false}
       >
         <TileLayer

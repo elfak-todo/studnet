@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import ParlamentTable from "./parlamentTable/ParlamentTable.js";
 import StudentTable from "./studentTable/StudentTable.js";
@@ -16,7 +16,7 @@ function AdminPanel() {
   const [students, setStudents] = useState(null);
   const [parId, setParId] = useState(null);
 
-  const [showStudentTable, setShowStudentTable] = useState(true);
+  const [showStudentTable, setShowStudentTable] = useState(false);
   const [showUniTable, setUniStudentTable] = useState(false);
   const [showParTable, setParStudentTable] = useState(false);
   const [showParOverview, setShowParOverview] = useState(false);
@@ -25,6 +25,14 @@ function AdminPanel() {
   const [fetching, setFetching] = useState(false);
   const [pageNum, setPageNum] = useState(0);
   const [hasMore, setHasMore] = useState(false);
+
+  useEffect(() => {
+    if (student.role === 1) {
+      setShowParOverview(true);
+    } else {
+      setShowStudentTable(true);
+    }
+  }, [student]);
 
   return (
     <div className="admin-panel-div">

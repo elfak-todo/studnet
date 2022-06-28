@@ -24,7 +24,7 @@ function Location({ location, setLocation, author }) {
 
   const { student } = useContext(StudentContext);
 
-  const handleEditLocation = () => { 
+  const handleEditLocation = () => {
     if (student.role >= 2 || student.id === author.id)
       navigate("/location/edit/" + location.id);
   };
@@ -43,16 +43,18 @@ function Location({ location, setLocation, author }) {
         >
           <h1 className="text-center pt-5 pb-1 location-cover-image-text">
             {location.name}
-            {(student.role >= 2 || student.id === author.id) && (
-              <Button
-                variant="primary"
-                size="sm"
-                className="ms-2"
-                onClick={handleEditLocation}
-              >
-                <FontAwesomeIcon icon={faPen} />
-              </Button>
-            )}
+            {(student.role >= 2 || student.id === author.id) &&
+              location.type !== 8 &&
+              location.type !== 16 && (
+                <Button
+                  variant="primary"
+                  size="sm"
+                  className="ms-2"
+                  onClick={handleEditLocation}
+                >
+                  <FontAwesomeIcon icon={faPen} />
+                </Button>
+              )}
           </h1>
           <h5 className="text-center pb-5 location-cover-image-text">
             {location.address}

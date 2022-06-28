@@ -24,17 +24,16 @@ function ParlamentOverview() {
         <div className="par-mod-pic-div">
           <Image
             src={
-              parlament?.facultyImagePath === ""
+              parlament?.location?.imagePath === ""
                 ? noPic
-                : parlament?.facultyImagePath
+                : parlament?.location?.imagePath
             }
             alt="par-pic"
             className="par-mod-pic"
           />
         </div>
-          <h1>{parlament?.parlamentName}</h1>
-        <h3>{parlament?.uniName}</h3>
-        <h4>{parlament?.facName}</h4>
+        <h1>{parlament?.name}</h1>
+        <h3>{parlament?.location?.name}</h3>
       </div>
       <ProfileFeed parlamentFeed={true} />
     </Container>

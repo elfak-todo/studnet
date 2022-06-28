@@ -1,0 +1,10 @@
+.add-parlament-form {
+  flex-grow: 1;
+  flex-basis: 50rem;
+  margin: 0;
+  padding: 0;
+}
+
+.add-parlament-name {
+  padding: 0.75rem;
+}
