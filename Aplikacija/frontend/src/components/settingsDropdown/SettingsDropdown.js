@@ -38,13 +38,11 @@ function SettingsDropdown({
 
   const { student } = useContext(StudentContext);
 
-  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
-  const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
+  const [confDialog, setConfDialog] = useState({ shown: false });
 
   const navigate = useNavigate();
 
   const handleDelete = () => {
-    setShowDeleteConfirmation(true);
     axios
       .delete(`${postType}/Delete/${post.id}`)
       .then(() => {
@@ -156,7 +154,17 @@ function SettingsDropdown({
   const handleSelectedAction = (keyEvent) => {
     switch (keyEvent) {
       case "delete":
-        setShowDeleteConfirmation(true);
+        setConfDialog({
+          shown: true,
+          callback: handleDelete,
+          text:
+            postType === "Post"
+              ? "deletePost"
+              : postType === "Event"
+              ? "deleteEvent"
+              : "deleteComment",
+          btnText: "delete",
+        });
         break;
       case "verify":
         handleVerify();
@@ -168,7 +176,12 @@ function SettingsDropdown({
         setEdit(true);
         break;
       case "cancel":
-        setShowCancelConfirmation(true);
+        setConfDialog({
+          shown: true,
+          callback: handleCancel,
+          text: "cancelEvent",
+          btnText: "confirm",
+        });
         break;
       default:
         break;
@@ -238,18 +251,15 @@ function SettingsDropdown({
           </NavDropdown.Item>
         ) : null}
       </NavDropdown>
-      <ConfirmationDialog
-        showConfirmation={showDeleteConfirmation}
-        setShowConfirmation={setShowDeleteConfirmation}
-        callback={handleDelete}
-        text={postType === "Post" ? "deletePost" : postType=== "Event" ? "deleteEvent" : "deleteComment"}
-      />
-      <ConfirmationDialog
-        showConfirmation={showCancelConfirmation}
-        setShowConfirmation={setShowCancelConfirmation}
-        callback={handleCancel}
-        text="cancelEvent"
-      />
+      {confDialog.shown && (
+        <ConfirmationDialog
+          setConfDialog={setConfDialog}
+          shown={confDialog.shown}
+          callback={confDialog.callback}
+          text={confDialog.text}
+          confirmBtnText={confDialog.btnText}
+        />
+      )}
     </>
   );
 }
