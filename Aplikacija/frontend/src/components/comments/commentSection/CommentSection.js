@@ -34,7 +34,6 @@ function CommentSection({
           setLoading(false);
           setLessComments(true);
         } else {
-          console.log(res.data);
           setComments(res.data);
           setLoading(false);
           setLessComments(true);
@@ -49,9 +48,9 @@ function CommentSection({
     const l = [];
     comments?.forEach((c) => {
       if (topComments !== null) {
-          topComments.forEach((e) => {
-            if (e.comment.id === c.comment.id) l.push(e);
-          });
+        topComments.forEach((e) => {
+          if (e.comment.id === c.comment.id) l.push(e);
+        });
       }
     });
     setComments(l);

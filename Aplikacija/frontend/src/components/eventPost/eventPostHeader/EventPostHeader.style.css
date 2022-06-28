@@ -1,28 +1,30 @@
 .event-header {
-    display: flex;
-    justify-content: left;
-    align-items: center;
+  display: flex;
+  justify-content: left;
+  align-items: center;
 }
 .event-profile-pic {
-    width: 60px !important;
-    height: 60px !important;
+  width: 60px !important;
+  height: 60px !important;
+  object-fit: cover;
+  background-size: cover;
 }
 .author-name {
-    font-size: larger;
-    margin: 0;
-    padding: 0;
+  font-size: larger;
+  margin: 0;
+  padding: 0;
 }
-.author-fac{
-    margin: 0;
-    padding: 0;
+.author-fac {
+  margin: 0;
+  padding: 0;
 }
 .date-time-txt {
-    font-size: small;
-    margin: 0;
-    padding: 0;
+  font-size: small;
+  margin: 0;
+  padding: 0;
 }
-.ev-settings{
-    font-size: 20px;
-    color: #4e54c8;
-    cursor: pointer;
+.ev-settings {
+  font-size: 20px;
+  color: #4e54c8;
+  cursor: pointer;
 }

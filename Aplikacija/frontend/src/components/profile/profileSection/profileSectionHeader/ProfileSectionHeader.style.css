@@ -19,6 +19,8 @@
   border-width: 5px;
   border-color: #4e54c8;
   aspect-ratio: 1 !important;
+  object-fit: cover;
+  background-size: cover;
 }
 .header-desc {
   margin-left: 25rem;

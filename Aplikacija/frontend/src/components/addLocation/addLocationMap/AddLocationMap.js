@@ -21,8 +21,6 @@ function AddLocationMap({
   const [center, setCenter] = useState(null);
   const [zoom, setZoom] = useState(null);
 
-  const mapRef = useRef();
-
   useEffect(() => {
     setZoom(wideMode ? 9 : 13);
   }, [wideMode]);
@@ -52,7 +50,6 @@ function AddLocationMap({
       })
     );
 
-    console.log(mapRef);
     setCenter([location.latitude, location.longitude]);
   }, [location, setCenter]);
 
