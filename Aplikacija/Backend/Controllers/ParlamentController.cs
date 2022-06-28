@@ -318,7 +318,7 @@ public class ParlamentController : ControllerBase
         location.Webpage = addParlament.location.webpage!;
 
         location.AuthorId = user.ID;
-        location.UniversityId = user.UniversityId;
+        location.UniversityId = addParlament.uniId;
         location.Events = new List<Event>();
         location.Grades = new List<Grade>();
         location.PublicationTime = DateTime.Now;
@@ -326,7 +326,7 @@ public class ParlamentController : ControllerBase
 
         Parlament parlament = new Parlament();
         parlament.Faculty = location;
-        parlament.UniversityId = user.UniversityId;
+        parlament.UniversityId = addParlament.uniId;
         parlament.Name = addParlament.name!;
 
         if (request.image != null)

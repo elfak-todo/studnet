@@ -14,7 +14,6 @@ function EditParlament({ parId, showEdit, setShowEdit, setParlaments }) {
     if (parId !== undefined && parId !== null) {
       axios.get(`Parlament/${parId}`).then((res) => {
         setInitialParlament(res.data);
-        console.log(res.data);
       });
     }
   }, [parId]);

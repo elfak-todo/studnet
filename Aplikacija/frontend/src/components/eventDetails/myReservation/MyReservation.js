@@ -30,18 +30,13 @@ function MyReservation({
   };
 
   const handleCancel = () => {
-    axios
-      .patch(`Reservation/${reservation.id}/Cancel`)
-      .then((res) => {
-        setTicketsReserved(
-          (prev) => (prev -= Number(reservation.numberOfTickets))
-        );
-        setProgress(res.data.spaceTaken);
-        setReservation(res.data.reservation);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    axios.patch(`Reservation/${reservation.id}/Cancel`).then((res) => {
+      setTicketsReserved(
+        (prev) => (prev -= Number(reservation.numberOfTickets))
+      );
+      setProgress(res.data.spaceTaken);
+      setReservation(res.data.reservation);
+    });
   };
 
   const mess = (tickets) => {

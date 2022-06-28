@@ -35,5 +35,7 @@
   "studentPromoted": "Student promoted successfully!",
   "studentBanned": "Student banned successfully!",
   "studentUnbanned": "Student unbanned successfully!",
-  "studentDeleted": "Student deleted successfully!"
+  "studentDeleted": "Student deleted successfully!",
+  "trendingEventsPlaceholder": "No events to show.",
+  "trendingLocationsPlaceholder": "No locations to show."
 }

@@ -228,7 +228,7 @@ public class StudentController : ControllerBase
 
         if (student.IsBanned)
         {
-            return Forbid("StudentBanned");
+            return BadRequest("StudentBanned");
         }
 
         if (student.University == null)

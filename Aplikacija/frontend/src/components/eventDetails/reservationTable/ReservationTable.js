@@ -38,26 +38,20 @@ function ReservationTable({ event, reservation, setReservation }) {
         }
         setHasMore(res.data.length > 0);
       })
-      .catch((err) => {
-        console.log(err);
-      })
       .finally(() => {
         setLoading(false);
       });
   }, [event, pageNum]);
 
   function handleDelete(resId) {
-    axios
-      .delete(`Reservation/${resId}`)
-      .then(() => {
-        if (resId === reservation?.id) setReservation(null);
-        setStudents((state) => {
-          return state.filter((s) => {
-            return s.reservation.id !== resId;
-          });
+    axios.delete(`Reservation/${resId}`).then(() => {
+      if (resId === reservation?.id) setReservation(null);
+      setStudents((state) => {
+        return state.filter((s) => {
+          return s.reservation.id !== resId;
         });
-      })
-      .catch((err) => console.log(err));
+      });
+    });
   }
 
   const handleExport = () => {
@@ -69,9 +63,6 @@ function ReservationTable({ event, reservation, setReservation }) {
         const ws = XLSX.utils.json_to_sheet(res.data);
         XLSX.utils.book_append_sheet(wb, ws, "Reservations");
         XLSX.writeFile(wb, "Reservations.xlsx");
-      })
-      .catch((err) => {
-        console.log(err);
       })
       .finally(() => {
         setFetching(false);

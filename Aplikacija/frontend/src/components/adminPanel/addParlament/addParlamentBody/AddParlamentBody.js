@@ -18,6 +18,7 @@ import StudentContext from "../../../studentManager/StudentManager";
 import { faClockRotateLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import InfoTooltip from "../../../infoTooltip/InfoTooltip";
+import SelectUniversity from "../../../selectUniveristy/SelectUniveristy";
 
 function AddParlamentBody({
   initialParlament,
@@ -35,6 +36,7 @@ function AddParlamentBody({
   const [inputStatus, setInputStatus] = useState({});
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
+  const [selectedUni, setSelectedUni] = useState("0");
   const [parlament, setParlament] = useState(null);
 
   const imageRef = useRef();
@@ -58,6 +60,12 @@ function AddParlamentBody({
       });
     }
   }, [initialParlament, student]);
+
+  const setSelectedUniInvalid = (invalid) => {
+    setInputStatus((s) => {
+      return { ...s, selectedUniInvalid: invalid };
+    });
+  };
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -119,6 +127,15 @@ function AddParlamentBody({
       });
       proceed = false;
     }
+
+    if (selectedUni === "0") {
+      setInputStatus((s) => {
+        return { ...s, selectedUniInvalid: true };
+      });
+      proceed = false;
+    }
+
+    parlament.uniId = Number(selectedUni);
 
     if (proceed) {
       setState((s) => {
@@ -190,6 +207,7 @@ function AddParlamentBody({
                 <Col>
                   <FloatingLabel label={t("parlamentName")}>
                     <Form.Control
+                      className="mb-2"
                       type="input"
                       placeholder="Parlament name"
                       value={parlament.name || ""}
@@ -208,6 +226,14 @@ function AddParlamentBody({
                       <InfoTooltip text={t("parlamentNameInvalidTooltip")} />
                     </Form.Control.Feedback>
                   </FloatingLabel>
+                  {!state.edit && (
+                    <SelectUniversity
+                      selectedUni={selectedUni}
+                      setSelectedUni={setSelectedUni}
+                      invalid={inputStatus.selectedUniInvalid}
+                      setInvalid={setSelectedUniInvalid}
+                    />
+                  )}
                 </Col>
               </Row>
               <h5 className="text-center my-1">{t("facultyDetails")}</h5>

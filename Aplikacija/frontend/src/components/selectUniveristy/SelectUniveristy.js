@@ -8,21 +8,16 @@ function SelectUniversity({
   setSelectedUni,
   invalid,
   setInvalid,
-  selectDisabled
+  selectDisabled,
 }) {
   const { t } = useTranslation(["register"]);
 
   const [options, setOptions] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("University/GetAll")
-      .then((result) => {
-        setOptions(result.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    axios.get("University/GetAll").then((result) => {
+      setOptions(result.data);
+    });
   }, []);
 
   return (

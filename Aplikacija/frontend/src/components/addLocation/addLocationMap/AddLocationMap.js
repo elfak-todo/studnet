@@ -6,6 +6,7 @@ import "./AddLocationMap.style.css";
 import locationTypes from "../../locationMarker/LocationTypes";
 import addLocationIcon from "../../../images/locationMarkers/add-location.png";
 import shadowIcon from "../../../images/locationMarkers/shadow.png";
+import ChangeView from "./ChangeView";
 
 function AddLocationMap({
   location,
@@ -16,6 +17,15 @@ function AddLocationMap({
 }) {
   const markerRef = useRef(null);
   const [icon, setIcon] = useState(null);
+
+  const [center, setCenter] = useState(null);
+  const [zoom, setZoom] = useState(null);
+
+  const mapRef = useRef();
+
+  useEffect(() => {
+    setZoom(wideMode ? 9 : 13);
+  }, [wideMode]);
 
   useEffect(() => {
     const i =
@@ -41,7 +51,10 @@ function AddLocationMap({
         className: "map-location-icon",
       })
     );
-  }, [location]);
+
+    console.log(mapRef);
+    setCenter([location.latitude, location.longitude]);
+  }, [location, setCenter]);
 
   const eventHandlers = useMemo(
     () => ({
@@ -59,30 +72,36 @@ function AddLocationMap({
   );
 
   return (
-    <div
-      className={`add-location-map-container ${smallHeight ? "map-small" : ""}`}
-    >
-      <MapContainer
-        className="add-location-map"
-        center={[location.latitude, location.longitude]}
-        zoom={wideMode ? 9 : 13}
-        scrollWheelZoom={false}
+    location &&
+    center && (
+      <div
+        className={`add-location-map-container ${
+          smallHeight ? "map-small" : ""
+        }`}
       >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        {icon && (
-          <Marker
-            draggable={true}
-            eventHandlers={eventHandlers}
-            position={[location.latitude, location.longitude]}
-            ref={markerRef}
-            icon={icon}
+        <MapContainer
+          className="add-location-map"
+          center={center}
+          zoom={zoom}
+          scrollWheelZoom={false}
+        >
+          <ChangeView center={center} zoom={zoom} />
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-        )}
-      </MapContainer>
-    </div>
+          {icon && (
+            <Marker
+              draggable={true}
+              eventHandlers={eventHandlers}
+              position={[location.latitude, location.longitude]}
+              ref={markerRef}
+              icon={icon}
+            />
+          )}
+        </MapContainer>
+      </div>
+    )
   );
 }
 

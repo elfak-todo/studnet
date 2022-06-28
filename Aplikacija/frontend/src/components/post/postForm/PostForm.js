@@ -58,7 +58,6 @@ function PostForm({ feed, setFeed }) {
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err.response.data);
         setLoading(false);
       });
   };

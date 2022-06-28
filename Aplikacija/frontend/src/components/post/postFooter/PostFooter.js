@@ -22,29 +22,23 @@ function PostFooter({ post, isLiked, feed, setFeed }) {
 
     setLoading(true);
 
-    axios
-      .put("Post/SetLiked/" + post.id + "/" + !liked)
-      .then((res) => {
-        setLiked(res.data);
-        setFeed(
-          feed.map((p) => {
-            if (p.post.id === post.id) {
-              if (res.data) {
-                p.post.likeCount = p.post.likeCount + 1;
-              } else {
-                if (p.post.likeCount > 0)
-                  p.post.likeCount = p.post.likeCount - 1;
-              }
-              return p;
-            } else return p;
-          })
-        );
+    axios.put("Post/SetLiked/" + post.id + "/" + !liked).then((res) => {
+      setLiked(res.data);
+      setFeed(
+        feed.map((p) => {
+          if (p.post.id === post.id) {
+            if (res.data) {
+              p.post.likeCount = p.post.likeCount + 1;
+            } else {
+              if (p.post.likeCount > 0) p.post.likeCount = p.post.likeCount - 1;
+            }
+            return p;
+          } else return p;
+        })
+      );
 
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err.response.data);
-      });
+      setLoading(false);
+    });
   };
 
   return (

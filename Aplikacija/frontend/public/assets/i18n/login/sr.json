@@ -13,5 +13,6 @@
   "enterEmail": "Unesite email adresu.",
   "enterPassword": "Unesite lozinku.",
   "userNotRegistered": "Korisnik nije registrovan!",
-  "noMatch": "Korisničko ime ili lozinka nisu validne!"
+  "noMatch": "Korisničko ime ili lozinka nisu validne!",
+  "studentBanned": "Vaš nalog je deaktiviran."
 }

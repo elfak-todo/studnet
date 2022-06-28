@@ -14,7 +14,6 @@ function EditParlament({ uniId, showEdit, setShowEdit, setUniversities }) {
     if (uniId !== undefined && uniId !== null) {
       axios.get(`University/${uniId}`).then((res) => {
         setInitialUniversity(res.data);
-        console.log(res.data);
       });
     }
   }, [uniId]);
@@ -24,7 +23,7 @@ function EditParlament({ uniId, showEdit, setShowEdit, setUniversities }) {
       <Modal
         show={showEdit}
         centered
-        dialogClassName="location-modal"
+        dialogClassName="university-modal"
         onHide={() => setShowEdit(false)}
       >
         <Modal.Header style={{ backgroundColor: "#4e54c8", color: "white" }}>
