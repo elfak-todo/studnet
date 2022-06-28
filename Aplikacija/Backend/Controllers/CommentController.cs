@@ -69,7 +69,8 @@ public class CommentController : ControllerBase
                                 c.Author.LastName,
                                 c.Author.Username,
                                 c.Author.ImagePath,
-                                facultyName = c.Author.Parlament!.Faculty!.Name
+                                facultyName = c.Author.Parlament!.Faculty!.Name,
+                                facultyImagePath = c.Author.Parlament!.Faculty!.ImagePath
                             }
                         }));
     }
@@ -172,7 +173,8 @@ public class CommentController : ControllerBase
                 comment.Author.LastName,
                 comment.Author.Username,
                 comment.Author.ImagePath,
-                facultyName = comment.Author.Parlament!.Faculty!.Name
+                facultyName = comment.Author.Parlament!.Faculty!.Name,
+                facultyImagePath = comment.Author.Parlament!.Faculty!.ImagePath
             }
         });
     }
