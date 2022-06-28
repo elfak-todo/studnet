@@ -24,7 +24,7 @@ function EditParlament({ uniId, showEdit, setShowEdit, setUniversities }) {
       <Modal
         show={showEdit}
         centered
-        dialogClassName="location-modal"
+        dialogClassName="university-modal"
         onHide={() => setShowEdit(false)}
       >
         <Modal.Header style={{ backgroundColor: "#4e54c8", color: "white" }}>
