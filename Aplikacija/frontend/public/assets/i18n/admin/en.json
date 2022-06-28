@@ -36,5 +36,15 @@
   "no": "No",
   "facultyDetails": "Faculty details:",
   "parlamentNameInvalid": "Please enter a valid parlament name.",
-  "parlamentNameInvalidTooltip": "This field is required. Maximum length is 128 characters."
+  "parlamentNameInvalidTooltip": "This field is required. Maximum length is 128 characters.",
+  "universityCityInvalid": "Please enter a valid city name.",
+  "universityCityInvalidTooltip": "This field is required. Maximum length is 128 characters.",
+  "universityCity": "City name",
+  "universityNameInvalid": "Please enter a valid university name.",
+  "universityNameInvalidTooltip": "This field is required. Maximum length is 128 characters.",
+  "uniEditedSuccessfuly": "University is edited successfuly!",
+  "uniAddedSuccessfuly": "University is added successfuly!",
+  "parEditedSuccessfuly": "Parlament is edited successfuly!",
+  "parAddedSuccessfuly": "Parlament is added successfuly!",
+  "success": "Success!"
 }

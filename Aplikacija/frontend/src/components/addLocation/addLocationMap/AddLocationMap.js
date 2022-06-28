@@ -7,7 +7,13 @@ import locationTypes from "../../locationMarker/LocationTypes";
 import addLocationIcon from "../../../images/locationMarkers/add-location.png";
 import shadowIcon from "../../../images/locationMarkers/shadow.png";
 
-function AddLocationMap({ location, setLocation, state, wideMode = false }) {
+function AddLocationMap({
+  location,
+  setLocation,
+  state,
+  wideMode = false,
+  smallHeight = false,
+}) {
   const markerRef = useRef(null);
   const [icon, setIcon] = useState(null);
 
@@ -53,7 +59,9 @@ function AddLocationMap({ location, setLocation, state, wideMode = false }) {
   );
 
   return (
-    <div className="add-location-map-container">
+    <div
+      className={`add-location-map-container ${smallHeight ? "map-small" : ""}`}
+    >
       <MapContainer
         className="add-location-map"
         center={[location.latitude, location.longitude]}

@@ -6,7 +6,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import EditParlament from "../editParlament/EditParlament";
 
-function ParlamentTable() {
+function ParlamentTable({
+  parlaments,
+  setParlaments,
+  showAddPar,
+  setShowAddPar,
+}) {
   const { t } = useTranslation(["admin", "event", "misc"]);
 
   const [loading, setLoading] = useState(false);
@@ -15,8 +20,6 @@ function ParlamentTable() {
 
   const [showEdit, setShowEdit] = useState(false);
   const [parId, setParId] = useState(null);
-
-  const [parlaments, setParlaments] = useState([]);
 
   useEffect(() => {
     setLoading(true);
@@ -31,7 +34,7 @@ function ParlamentTable() {
       setHasMore(res.data.length > 0);
       setLoading(false);
     });
-  }, [pageNum]);
+  }, [pageNum, setParlaments]);
 
   const loadMore = () => {
     if (loading) return;

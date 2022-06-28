@@ -4,15 +4,17 @@ import { Spinner, Table } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import EditUniversity from "../editUniversity/EditUniversity";
 
-function UniversityTable() {
+function UniversityTable({ universites, setUniversities }) {
   const { t } = useTranslation(["admin", "event", "misc"]);
 
   const [loading, setLoading] = useState(false);
   const [pageNum, setPageNum] = useState(0);
   const [hasMore, setHasMore] = useState(false);
 
-  const [universites, setUniversities] = useState([]);
+  const [showEdit, setShowEdit] = useState(false);
+  const [uniId, setUniId] = useState(null);
 
   useEffect(() => {
     setLoading(true);
@@ -28,7 +30,7 @@ function UniversityTable() {
       setHasMore(res.data.length > 0);
       setLoading(false);
     });
-  }, [pageNum]);
+  }, [pageNum, setUniversities]);
 
   const loadMore = () => {
     if (loading) return;
@@ -56,7 +58,13 @@ function UniversityTable() {
         </thead>
         <tbody className="text-center">
           {universites?.map((u, i) => (
-            <tr key={u.id}>
+            <tr
+              key={u.id}
+              onClick={() => {
+                setShowEdit(true);
+                setUniId(u.id);
+              }}
+            >
               <td> {i + 1} </td>
               <td>{u.name}</td>
               <td>{u.parlamentCount}</td>
@@ -92,6 +100,12 @@ function UniversityTable() {
           )
         )}
       </div>
+      <EditUniversity
+        uniId={uniId}
+        showEdit={showEdit}
+        setShowEdit={setShowEdit}
+        setUniversities={setUniversities}
+      />
     </>
   );
 }

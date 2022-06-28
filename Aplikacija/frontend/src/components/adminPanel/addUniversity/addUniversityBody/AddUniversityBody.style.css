@@ -1,0 +1,14 @@
+.add-university-form {
+  flex-grow: 1;
+  flex-basis: 50rem;
+  margin: 0;
+  padding: 0;
+}
+
+.add-university-name {
+  padding: 0.75rem;
+}
+
+.add-university-body {
+  padding: 0 0.75rem;
+}

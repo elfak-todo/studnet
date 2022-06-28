@@ -35,6 +35,16 @@
   "yes": "Da",
   "no": "Ne",
   "facultyDetails": "Podaci o fakultetu:",
-  "parlamentNameInvalid": "Molimo unesite validno ime parlamenta",
-  "parlamentNameInvalidTooltip": "Ovo polje je obavezno. Maksimalni dozvoljeni broj karaktera je 128."
+  "parlamentNameInvalid": "Molimo unesite validno ime parlamenta.",
+  "parlamentNameInvalidTooltip": "Ovo polje je obavezno. Maksimalni dozvoljeni broj karaktera je 128.",
+  "universityCityInvalid": "Molimo unesite validan naziv grada.",
+  "universityCityInvalidTooltip": "Ovo polje je obavezno. Maksimalni dozvoljeni broj karaktera je 128.",
+  "universityCity": "Naziv grada",
+  "universityNameInvalid": "Molimo unesite validan naziv univerziteta.",
+  "universityNameInvalidTooltip": "Ovo polje je obavezno. Maksimalni dozvoljeni broj karaktera je 128.",
+  "uniEditedSuccessfuly": "Univerzitet je uspešno izmenjen!",
+  "uniAddedSuccessfuly": "Univerzitet je uspešno dodat!",
+  "parEditedSuccessfuly": "Parlament je uspešno izmenjen!",
+  "parAddedSuccessfuly": "Parlament is uspešno dodat!",
+  "success": "Uspeh!"
 }

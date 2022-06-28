@@ -4,6 +4,7 @@ import {
   Col,
   FloatingLabel,
   Form,
+  Modal,
   Row,
   Spinner,
 } from "react-bootstrap";
@@ -11,12 +12,12 @@ import { useTranslation } from "react-i18next";
 import axios from "axios";
 
 import "./AddParlamentBody.style.css";
-import AddLocationForm from "../../addLocation/addLocationForm/AddLocationForm";
-import AddLocationMap from "../../addLocation/addLocationMap/AddLocationMap";
-import StudentContext from "../../studentManager/StudentManager";
+import AddLocationForm from "../../../addLocation/addLocationForm/AddLocationForm";
+import AddLocationMap from "../../../addLocation/addLocationMap/AddLocationMap";
+import StudentContext from "../../../studentManager/StudentManager";
 import { faClockRotateLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import InfoTooltip from "../../infoTooltip/InfoTooltip";
+import InfoTooltip from "../../../infoTooltip/InfoTooltip";
 
 function AddParlamentBody({
   initialParlament,
@@ -24,6 +25,7 @@ function AddParlamentBody({
   displayTitle = true,
   onParlamentAdded,
   setParlaments,
+  setShowAddParlament,
 }) {
   const { t } = useTranslation(["admin"]);
 
@@ -31,6 +33,7 @@ function AddParlamentBody({
 
   const [state, setState] = useState({ edit: false });
   const [inputStatus, setInputStatus] = useState({});
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const [parlament, setParlament] = useState(null);
 
@@ -148,6 +151,7 @@ function AddParlamentBody({
               newList[i] = res.data;
               return newList;
             });
+            setShowSuccessModal(true);
           });
       } else {
         axios
@@ -160,6 +164,7 @@ function AddParlamentBody({
             setParlaments((p) => {
               return [...p, res.data];
             });
+            setShowSuccessModal(true);
           });
       }
     }
@@ -251,6 +256,33 @@ function AddParlamentBody({
             </Button>
           </div>
         </Form>
+        <Modal
+          centered
+          show={showSuccessModal}
+          onHide={() => setShowSuccessModal(false)}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>{t("success")}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p>
+              {state.edit
+                ? t("parEditedSuccessfuly")
+                : t("parAddedSuccessfuly")}
+            </p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              variant="primary"
+              onClick={() => {
+                setShowSuccessModal(false);
+                setShowAddParlament(false);
+              }}
+            >
+              {t("ok")}
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </>
     )
   );

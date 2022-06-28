@@ -1,9 +1,13 @@
 import { useTranslation } from "react-i18next";
 import { Modal, CloseButton } from "react-bootstrap";
 
-import AddParlamentBody from "./AddParlamentBody";
+import AddParlamentBody from "./addParlamentBody/AddParlamentBody";
 
-function AddParlament({ showAddParlament, setShowAddParlament }) {
+function AddParlament({
+  showAddParlament,
+  setShowAddParlament,
+  setParlaments,
+}) {
   const { t } = useTranslation(["admin"]);
 
   return (
@@ -21,7 +25,10 @@ function AddParlament({ showAddParlament, setShowAddParlament }) {
         />
       </Modal.Header>
       <Modal.Body className="p-0">
-        <AddParlamentBody />
+        <AddParlamentBody
+          setParlaments={setParlaments}
+          setShowAddParlament={setShowAddParlament}
+        />
       </Modal.Body>
     </Modal>
   );

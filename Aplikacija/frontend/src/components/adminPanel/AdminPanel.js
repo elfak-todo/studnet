@@ -14,7 +14,13 @@ function AdminPanel() {
   const { student } = useContext(StudentContext);
 
   const [students, setStudents] = useState(null);
+  const [universites, setUniversities] = useState([]);
+  const [parlaments, setParlaments] = useState([]);
+
   const [parId, setParId] = useState(null);
+
+  const [showAddUni, setShowAddUni] = useState(false);
+  const [showAddPar, setShowAddPar] = useState(false);
 
   const [showStudentTable, setShowStudentTable] = useState(false);
   const [showUniTable, setUniStudentTable] = useState(false);
@@ -49,6 +55,14 @@ function AdminPanel() {
           setFetching={setFetching}
           setShowEdit={setShowEdit}
           setParId={setParId}
+          universites={universites}
+          setUniversities={setUniversities}
+          parlaments={parlaments}
+          setParlaments={setParlaments}
+          setShowAddUni={setShowAddUni}
+          showAddUni={showAddUni}
+          setShowAddPar={setShowAddPar}
+          showAddPar={showAddPar}
         />
         {showStudentTable && student.role > 0 && (
           <div className="admin-panel-table">
@@ -62,12 +76,20 @@ function AdminPanel() {
         )}
         {showUniTable && student.role === 3 && (
           <div className="admin-panel-table">
-            <UniversityTable />
+            <UniversityTable
+              universites={universites}
+              setUniversities={setUniversities}
+              setShowAddUni={setShowAddUni}
+            />
           </div>
         )}
         {showParTable && student.role > 1 && (
           <div className="admin-panel-table">
-            <ParlamentTable />
+            <ParlamentTable
+              parlaments={parlaments}
+              setParlaments={setParlaments}
+              setShowAddPar={setShowAddPar}
+            />
           </div>
         )}
         {student.role === 1 && showParOverview && (
@@ -77,6 +99,7 @@ function AdminPanel() {
           parId={parId}
           showEdit={showEdit}
           setShowEdit={setShowEdit}
+          setParlaments={setParlaments}
         />
       </div>
     </div>

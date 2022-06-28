@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 using Backend.Models;
 using Backend.Services;
+using Backend.Data;
+using System.Text.Json;
 
 namespace Backend.Controllers;
 
@@ -19,6 +21,15 @@ public class UniversityController : ControllerBase
     {
         _context = context;
         _tokenManager = tokenManager;
+    }
+
+    [Route("{uniId}")]
+    [Authorize(Roles = "Admin")]
+    [HttpGet]
+    public async Task<ActionResult> GetUniversity(int uniId)
+    {
+        var uni = await _context.Universities.FindAsync(uniId);
+        return Ok(uni);
     }
 
     [Route("List/{page}")]
@@ -74,5 +85,96 @@ public class UniversityController : ControllerBase
         {
             return BadRequest("Error: " + exc.Message);
         }
+    }
+
+    [Route("")]
+    [Authorize(Roles = "Admin")]
+    [HttpPost]
+    public async Task<ActionResult> CreateParlament(
+                        [FromBody] UniversityDetails uniDetails)
+    {
+        var student = await _tokenManager.GetStudent(HttpContext.User);
+
+        if (student == null)
+        {
+            return StatusCode(500);
+        }
+
+        University university = new University();
+
+        university.Name = uniDetails.name!;
+        university.City = uniDetails.city!;
+        university.Latitude = uniDetails.latitude;
+        university.Longitude = uniDetails.longitude;
+
+        _context.Universities.Add(university);
+
+        await _context.SaveChangesAsync();
+
+        return Ok(new
+        {
+            id = university.ID,
+            name = university.Name,
+            userCount = university.Users != null
+                ? university.Users.Count() : 0,
+            parlamentCount = university.Parlaments != null
+                ? university.Parlaments.Count() : 0,
+            postCount = university.Posts != null
+                ? university.Posts.Count() : 0,
+            locationCount = university.Locations != null
+                ? university.Locations.Count() : 0,
+            eventCount = university.Events != null
+                ? university.Events.Count() : 0,
+        });
+    }
+
+    [Route("{uniId}")]
+    [Authorize(Roles = "AdminUni")]
+    [HttpPatch]
+    public async Task<ActionResult> EditUniversity(
+                            [FromBody] UniversityDetails uni, int uniId)
+    {
+        var student = await _tokenManager.GetStudent(HttpContext.User);
+
+        if (student == null)
+        {
+            return StatusCode(500);
+        }
+
+        var uniInDatabase = await _context.Universities
+            .FirstOrDefaultAsync(u => uniId == u.ID);
+
+        if (uniInDatabase == null)
+        {
+            return BadRequest("UniversityNotFound");
+        }
+
+        if (student.Role < Role.Admin && uniInDatabase.ID != student.UniversityId)
+        {
+            return Forbid("NotAuthor");
+        }
+
+        uniInDatabase.Name = uni.name!;
+        uniInDatabase.City = uni.city!;
+        uniInDatabase.Latitude = uni.latitude;
+        uniInDatabase.Longitude = uni.longitude;
+
+        await _context.SaveChangesAsync();
+
+        return Ok(new
+        {
+            id = uniInDatabase.ID,
+            name = uniInDatabase.Name,
+            userCount = uniInDatabase.Users != null
+                ? uniInDatabase.Users.Count() : 0,
+            parlamentCount = uniInDatabase.Parlaments != null
+                ? uniInDatabase.Parlaments.Count() : 0,
+            postCount = uniInDatabase.Posts != null
+                ? uniInDatabase.Posts.Count() : 0,
+            locationCount = uniInDatabase.Locations != null
+                ? uniInDatabase.Locations.Count() : 0,
+            eventCount = uniInDatabase.Events != null
+                ? uniInDatabase.Events.Count() : 0,
+        });
     }
 }

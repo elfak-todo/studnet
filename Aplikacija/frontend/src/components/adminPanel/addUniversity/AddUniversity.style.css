@@ -1,0 +1,13 @@
+.university-modal {
+  width: 98vw !important;
+  min-width: 98vw !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+@media only screen and (min-width: 768px) {
+  .university-modal {
+    width: 70vw !important;
+    min-width: 70vw !important;
+  }
+}

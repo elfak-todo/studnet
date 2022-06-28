@@ -21,13 +21,18 @@ function AdminMenu({
   setFetching,
   setShowEdit,
   setParId,
+  parlaments,
+  setParlaments,
+  universities,
+  setUniversities,
+  setShowAddUni,
+  showAddUni,
+  setShowAddPar,
+  showAddPar,
 }) {
   const { t } = useTranslation(["admin"]);
 
   const { student } = useContext(StudentContext);
-
-  const [showAddUni, setShowAddUni] = useState(false);
-  const [showAddPar, setShowAddPar] = useState(false);
 
   const [searchDisabled, setSearchDisabled] = useState(false);
 
@@ -103,53 +108,6 @@ function AdminMenu({
                 </ListGroup.Item>
               )}
             </ListGroup>
-
-            {/* {student.role === 1 && (
-              <p
-                onClick={() => {
-                  showStudent(false);
-                  setSearchDisabled(true);
-                  setShowParOverview(true);
-                }}
-              >
-                {t("parlamentTable")}
-              </p>
-            )}
-            <p
-              onClick={() => {
-                showStudent(true);
-                showUni(false);
-                showPar(false);
-                setSearchDisabled(false);
-                setShowParOverview(false);
-              }}
-            >
-              {t("studentTable")}
-            </p>
-            {student.role === 3 && (
-              <p
-                onClick={() => {
-                  showStudent(false);
-                  showUni(true);
-                  showPar(false);
-                  setSearchDisabled(true);
-                }}
-              >
-                {t("universityTable")}
-              </p>
-            )}
-            {student.role > 1 && (
-              <p
-                onClick={() => {
-                  showStudent(false);
-                  showUni(false);
-                  showPar(true);
-                  setSearchDisabled(true);
-                }}
-              >
-                {t("parlamentTable")}
-              </p>
-            )} */}
           </div>
           <hr />
           <div className="admin-menu-items">
@@ -201,10 +159,15 @@ function AdminMenu({
           </div>
         </Card.Body>
       </Card>
-      <AddUniversity showAddUni={showAddUni} setShowAddUni={setShowAddUni} />
+      <AddUniversity
+        showAddUni={showAddUni}
+        setShowAddUni={setShowAddUni}
+        setUniversities={setUniversities}
+      />
       <AddParlament
         showAddParlament={showAddPar}
         setShowAddParlament={setShowAddPar}
+        setParlaments={setParlaments}
       />
     </>
   );

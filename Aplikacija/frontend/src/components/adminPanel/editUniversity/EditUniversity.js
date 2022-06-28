@@ -1,26 +1,26 @@
 import { useTranslation } from "react-i18next";
 import { Modal, CloseButton } from "react-bootstrap";
 
-import AddParlamentBody from "../addParlament/addParlamentBody/AddParlamentBody";
+import AddUniversityBody from "../addUniversity/addUniversityBody/AddUniversityBody";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-function EditParlament({ parId, showEdit, setShowEdit, setParlaments }) {
+function EditParlament({ uniId, showEdit, setShowEdit, setUniversities }) {
   const { t } = useTranslation(["admin"]);
 
-  const [initialParlament, setInitialParlament] = useState(null);
+  const [initialUniversity, setInitialUniversity] = useState(null);
 
   useEffect(() => {
-    if (parId !== undefined && parId !== null) {
-      axios.get(`Parlament/${parId}`).then((res) => {
-        setInitialParlament(res.data);
+    if (uniId !== undefined && uniId !== null) {
+      axios.get(`University/${uniId}`).then((res) => {
+        setInitialUniversity(res.data);
         console.log(res.data);
       });
     }
-  }, [parId]);
+  }, [uniId]);
 
   return (
-    initialParlament && (
+    initialUniversity && (
       <Modal
         show={showEdit}
         centered
@@ -28,14 +28,14 @@ function EditParlament({ parId, showEdit, setShowEdit, setParlaments }) {
         onHide={() => setShowEdit(false)}
       >
         <Modal.Header style={{ backgroundColor: "#4e54c8", color: "white" }}>
-          <Modal.Title>{t("editParlament")}</Modal.Title>
+          <Modal.Title>{t("editUniversity")}</Modal.Title>
           <CloseButton variant="white" onClick={() => setShowEdit(false)} />
         </Modal.Header>
         <Modal.Body className="p-0">
-          <AddParlamentBody
-            initialParlament={initialParlament}
-            setParlaments={setParlaments}
-            setShowAddParlament={setShowEdit}
+          <AddUniversityBody
+            initialUniversity={initialUniversity}
+            setUniversities={setUniversities}
+            setShowAddUni={setShowEdit}
           />
         </Modal.Body>
       </Modal>
