@@ -350,6 +350,12 @@ public class LocationController : ControllerBase
             return Forbid("NotAuthor");
         }
 
+        var events = _context.Events
+            .Include(e => e.Comments)
+            .Include(e => e.Reservations)
+            .Where(e => e.LocationId == locationId);
+
+        _context.Events.RemoveRange(events);
         _context.Locations.Remove(location);
         await _context.SaveChangesAsync();
         return Ok();
