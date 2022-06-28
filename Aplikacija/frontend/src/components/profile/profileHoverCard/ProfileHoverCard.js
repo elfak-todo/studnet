@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useContext } from "react";
 import { Container, Image, Button } from "react-bootstrap";
 
+import noPic from "../../../images/no-image.jpg";
 import defaultPic from "../../../images/defaultProfilePic.jpg";
 import StudentContext from "../../studentManager/StudentManager";
 import "./ProfileHoverCard.style.css";
@@ -18,7 +19,13 @@ function ProfileHoverCard({ studentProp }) {
     <Container className="profile-hover-cont">
       <div className="parent-pic-div">
         <Image
-          src={studentProp?.facultyImagePath}
+          src={
+            studentProp?.facultyImagePath === "/" ||
+            studentProp?.facultyImagePath === "" ||
+            studentProp?.facultyImagePath === null
+              ? noPic
+              : studentProp?.facultyImagePath
+          }
           alt="faculty-pic"
           className="bg-picture"
         ></Image>
