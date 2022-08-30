@@ -6,8 +6,6 @@ import { useTranslation } from "react-i18next";
 import locationTypes from "./LocationTypes.js";
 import shadowIcon from "../../images/locationMarkers/shadow.png";
 
-import "./LocationMarker.style.css";
-
 function LocationMarker({ location, setOpenedLocation }) {
   const { t } = useTranslation(["locations"]);
 
@@ -20,7 +18,6 @@ function LocationMarker({ location, setOpenedLocation }) {
     shadowUrl: shadowIcon,
     shadowSize: [38, 38],
     shadowAnchor: [16, 37],
-    className: "map-location-icon",
   });
 
   return (
