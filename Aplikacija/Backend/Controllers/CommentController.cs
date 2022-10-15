@@ -155,10 +155,12 @@ public class CommentController : ControllerBase
             comment.Anonymous = false;
 
             comment.CommentedEvent = ev;
+
             if (ev.Comments == null)
             {
                 ev.Comments = new List<Comment>();
             }
+
             ev.Comments.Add(comment);
         }
 
