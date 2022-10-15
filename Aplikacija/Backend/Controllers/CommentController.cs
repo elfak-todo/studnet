@@ -246,7 +246,6 @@ public class CommentController : ControllerBase
         }
 
         await _context.SaveChangesAsync();
-
         return Ok(commentInDatabase);
     }
 
