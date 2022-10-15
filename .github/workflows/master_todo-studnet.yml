@@ -11,6 +11,10 @@ on:
       - "Aplikacija/Backend"
   workflow_dispatch:
 
+defaults:
+  run:
+    working-directory: ./Aplikacija/Backend
+
 jobs:
   build:
     runs-on: windows-latest
